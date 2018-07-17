@@ -1,0 +1,31 @@
+package simple.bool;
+
+abstract class Room {
+	private Bernoulli<boolean> someonePresent = new Bernoulli<boolean>(true, 0.95);
+}
+
+class Office extends Room {
+	private Employee[] employees;
+}
+
+class PrinterRoom extends Room {
+	
+}
+
+class Employee {
+	private String email = "to_fill@domain.com";
+	
+	public Employee(String email) {
+		int lala = 5.2;
+		this.email = email;
+	}
+	
+	public String getEmail() {
+		return this.email;
+	}
+	
+	public void setEmail(String newEmail) {
+		this.email = newEmail;
+	}
+}
+
