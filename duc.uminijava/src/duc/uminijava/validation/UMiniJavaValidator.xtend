@@ -10,6 +10,8 @@ import duc.uminijava.uMiniJava.UMiniJavaPackage
 import duc.uminijava.typing.UMiniJavaTypeComputer
 import duc.uminijava.uMiniJava.NewUObject
 import com.google.inject.Inject
+import org.tetrabox.minijava.xtext.miniJava.Expression
+import duc.uminijava.typing.UMiniJavaTypeConformance
 
 /**
  * This class contains custom validation rules. 
@@ -20,6 +22,9 @@ class UMiniJavaValidator extends AbstractUMiniJavaValidator {
 	
 	@Inject 
 	extension UMiniJavaTypeComputer
+	
+	@Inject
+	extension UMiniJavaTypeConformance
 	
 	@Check
 	def checkNewUType(NewUObject objCreation) {
@@ -37,6 +42,18 @@ class UMiniJavaValidator extends AbstractUMiniJavaValidator {
 				error("Second argument should be a int expression.", UMiniJavaPackage.eINSTANCE.newUObject_Args, 1)
 			}
 			
+		}
+	}
+	
+	@Check override void checkConformance(Expression exp) {
+		val actualType = exp.typeFor
+		val expectedType = exp.expectedType
+				
+		if (expectedType === null || actualType === null)
+			return; // nothing to check
+		if (!actualType.isConformant(expectedType)) {
+			error("Incompatible types. Expected '" + expectedType.name + "' but was '" + actualType.name + "'", null,
+				INCOMPATIBLE_TYPES);
 		}
 	}
 	

@@ -44,6 +44,7 @@ import static extension org.eclipse.xtext.EcoreUtil2.*
 import duc.uminijava.uMiniJava.GaussianRef
 import duc.uminijava.uMiniJava.BernoulliRef
 import duc.uminijava.uMiniJava.NewUObject
+import org.tetrabox.minijava.xtext.miniJava.Field
 
 class UMiniJavaTypeComputer {
 	static val factory = MiniJavaFactory.eINSTANCE
@@ -70,7 +71,6 @@ class UMiniJavaTypeComputer {
 	}
 
 	def dispatch TypeDeclaration typeFor(Expression e) {
-		println('''Type? «e»''')
 		switch (e) {
 			SymbolRef:
 				e.symbol.typeRef.type
@@ -88,10 +88,8 @@ class UMiniJavaTypeComputer {
 				NULL_TYPE
 			StringConstant:
 				STRING_TYPE
-			IntConstant: {
-				println("return int")
-				return INT_TYPE
-			}
+			IntConstant:
+				INT_TYPE
 			BoolConstant:
 				BOOLEAN_TYPE
 			Not:
@@ -121,12 +119,7 @@ class UMiniJavaTypeComputer {
 			NewArray:
 				getType(e.type)
 			NewUObject:
-				getType(e.type)
-			default: {
-				println("Default")
-				null
-			}
-				
+				getType(e.type)				
 		}
 	}
 	
@@ -148,6 +141,7 @@ class UMiniJavaTypeComputer {
 	def TypeDeclaration expectedType(Expression e) {
 		val c = e.eContainer
 		val f = e.eContainingFeature
+				
 		switch (c) {
 			VariableDeclaration:
 				c.typeRef.type
@@ -170,6 +164,9 @@ class UMiniJavaTypeComputer {
 			}
 			NewObject case f == ep.newObject_Args: {
 				c.type.members.filter(Method).findFirst[it.name === null && it.params.size === c.args.size].params.get(c.args.indexOf(e)).typeRef.type
+			}
+			Field: {
+				c.typeRef.type
 			}
 		}
 	}
