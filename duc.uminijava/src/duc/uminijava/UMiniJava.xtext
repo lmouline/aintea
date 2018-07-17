@@ -21,6 +21,12 @@ GaussianRef:
 ;
 
 BernoulliRef:
-	{BernoulliRef} 'Bernoulli'
+	{BernoulliRef} ('Bernoulli' '<' genericType=SingleTypeRef '>')
+;
+
+@Override
+TerminalExpression returns miniJava::Expression:
+	super |
+	{NewUObject} ('new' type=UTypeRef =>'(' (args+=Expression (',' args+=Expression)*)? ')')
 ;
 
