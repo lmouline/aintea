@@ -32,6 +32,8 @@ Workflow {
 		language = StandardLanguage {
 			name = "duc.uminijava.UMiniJava"
 			fileExtensions = "uminijava"
+			
+			referencedResource = "platform:/resource/org.tetrabox.minijava.xtext/model/generated/MiniJava.genmodel"
 
 			serializer = {
 				generateStub = false

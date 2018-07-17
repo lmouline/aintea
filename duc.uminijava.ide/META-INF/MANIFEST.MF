@@ -8,5 +8,10 @@ Bundle-SymbolicName: duc.uminijava.ide; singleton:=true
 Bundle-ActivationPolicy: lazy
 Require-Bundle: duc.uminijava,
  org.eclipse.xtext.ide,
- org.eclipse.xtext.xbase.ide
+ org.eclipse.xtext.xbase.ide,
+ org.antlr.runtime,
+ org.tetrabox.minijava.xtext;bundle-version="1.0.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Export-Package: duc.uminijava.ide.contentassist.antlr.internal,
+ duc.uminijava.ide.contentassist.antlr
+

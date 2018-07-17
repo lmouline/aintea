@@ -1,9 +1,26 @@
-grammar duc.uminijava.UMiniJava with org.eclipse.xtext.common.Terminals
+grammar duc.uminijava.UMiniJava with org.tetrabox.minijava.xtext.MiniJava
 
 generate uMiniJava "http://www.uminijava.duc/UMiniJava"
+import "http://www.example.org/minijava/MiniJava" as miniJava
 
-Model:
-	greetings+=Greeting*;
-	
-Greeting:
-	'Hello' name=ID '!';
+
+UProgram returns Program:
+	{UProgram} prog=Program
+;
+
+@Override
+TypeRef returns miniJava::SingleTypeRef:
+	(SingleTypeRef | UTypeRef) ({ArrayTypeRef.typeRef=current} '[' ']')?;
+
+UTypeRef:
+	GaussianRef | BernoulliRef 
+;
+
+GaussianRef:
+	{GaussianRef} ('Gaussian' '<' genericType=SingleTypeRef '>')
+;
+
+BernoulliRef:
+	{BernoulliRef} 'Bernoulli'
+;
+
