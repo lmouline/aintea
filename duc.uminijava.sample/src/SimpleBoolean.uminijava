@@ -2,30 +2,33 @@ package simple.bool;
 
 abstract class Room {
 	private Bernoulli<boolean> someonePresent = new Bernoulli<boolean>(true, 0.95);
+//	private Bernoulli<boolean> someonePresent = true;
+//	private Bernoulli<boolean> someonePresent = 5.3;
+//	private int aTest = new boolean[57];
 }
 
-class Office extends Room {
-	private Employee[] employees;
-}
+//class Office extends Room {
+//	private Employee[] employees;
+//}
+//
+//class PrinterRoom extends Room {
+//	
+//}
 
-class PrinterRoom extends Room {
-	
-}
-
-class Employee {
-	private String email = "to_fill@domain.com";
-	
-	public Employee(String email) {
-		int lala = 5.2;
-		this.email = email;
-	}
-	
-	public String getEmail() {
-		return this.email;
-	}
-	
-	public void setEmail(String newEmail) {
-		this.email = newEmail;
-	}
-}
+//class Employee {
+//	private String email = "to_fill@domain.com";
+//	
+//	public Employee(String email) {
+//		int lala = 5.2;
+//		this.email = email;
+//	}
+//	
+//	public String getEmail() {
+//		return this.email;
+//	}
+//	
+//	public void setEmail(String newEmail) {
+//		this.email = newEmail;
+//	}
+//}
 
