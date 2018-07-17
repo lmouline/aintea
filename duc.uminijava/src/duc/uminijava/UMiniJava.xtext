@@ -1,0 +1,9 @@
+grammar duc.uminijava.UMiniJava with org.eclipse.xtext.common.Terminals
+
+generate uMiniJava "http://www.uminijava.duc/UMiniJava"
+
+Model:
+	greetings+=Greeting*;
+	
+Greeting:
+	'Hello' name=ID '!';
