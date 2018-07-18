@@ -1,34 +1,69 @@
 package simple.bool;
 
-abstract class Room {
-	private Bernoulli<boolean> someonePresent = new Bernoulli<boolean>(true, 0.95);
-//	private Bernoulli<boolean> someonePresent = true;
-//	private Bernoulli<boolean> someonePresent = 5.3;
-//	private int aTest = new boolean[57];
+class Building {
+	private Room[] rooms;
+	private Bernoulli<boolean> heatingSystem;
+	
+	public Bernoulli<boolean> heatingWithOpenWindow() {
+		Bernoulli<boolean> oneWindowOpen = false;
+		
+		for(int i=0;i<this.rooms.length; i=i+1) {
+			Room r = this.rooms[i];
+			if(oneWindowOpen[5]) {
+				oneWindowOpen = oneWindowOpen || r.windowOpen;
+			}
+	
+//			if((r.windowOpen == true)[0.95]) {}
+//			if((!(r.windowOpen == false))[0.95]) {}
+//			if((!r.windowOpen)[0.95]) {}
+
+		}
+		
+		return this.heatingSystem && oneWindowOpen;
+	}
+	
+	
+	public Bernoulli<boolean> heatingWithOpenWindowAndSomeone() {
+		for(int i=0;i<this.rooms.length; i=i+1) {
+			Room r = this.rooms[i];
+			Bernoulli<boolean> riseAlarm = r.windowOpen && r.someonePresent && this.heatingSystem;
+			
+			if(riseAlarm[0.7]) {
+	        	//send email
+	        }
+		}
+		
+		return null;
+	}
 }
 
-//class Office extends Room {
-//	private Employee[] employees;
-//}
-//
-//class PrinterRoom extends Room {
-//	
-//}
+abstract class Room {
+	public Bernoulli<boolean> someonePresent = new Bernoulli<boolean>(true, 0.95);
+	public Bernoulli<boolean> windowOpen = new Bernoulli<boolean>(true, 0.95);
+}
 
-//class Employee {
-//	private String email = "to_fill@domain.com";
-//	
-//	public Employee(String email) {
-//		int lala = 5.2;
-//		this.email = email;
-//	}
-//	
-//	public String getEmail() {
-//		return this.email;
-//	}
-//	
-//	public void setEmail(String newEmail) {
-//		this.email = newEmail;
-//	}
-//}
+class Office extends Room {
+	private Employee[] employees;
+}
+
+class PrinterRoom extends Room {
+	
+}
+
+class Employee {
+	private String email = "to_fill@domain.com";
+	
+	public Employee(String email) {
+		int lala = 5.2;
+		this.email = email;
+	}
+	
+	public String getEmail() {
+		return this.email;
+	}
+	
+	public void setEmail(String newEmail) {
+		this.email = newEmail;
+	}
+}
 

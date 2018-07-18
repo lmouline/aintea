@@ -12,6 +12,13 @@ import duc.uminijava.uMiniJava.NewUObject
 import com.google.inject.Inject
 import org.tetrabox.minijava.xtext.miniJava.Expression
 import duc.uminijava.typing.UMiniJavaTypeConformance
+import org.tetrabox.minijava.xtext.miniJava.Or
+import org.eclipse.emf.ecore.EReference
+import org.tetrabox.minijava.xtext.miniJava.MiniJavaPackage
+import org.tetrabox.minijava.xtext.miniJava.And
+import org.tetrabox.minijava.xtext.miniJava.Not
+import org.tetrabox.minijava.xtext.miniJava.ArrayAccess
+import org.tetrabox.minijava.xtext.miniJava.TypeDeclaration
 
 /**
  * This class contains custom validation rules. 
@@ -48,6 +55,12 @@ class UMiniJavaValidator extends AbstractUMiniJavaValidator {
 	@Check override void checkConformance(Expression exp) {
 		val actualType = exp.typeFor
 		val expectedType = exp.expectedType
+		
+		println('''For «exp»
+		   «exp.eContainer»
+		   «actualType»
+		   «expectedType»
+		''')
 				
 		if (expectedType === null || actualType === null)
 			return; // nothing to check
@@ -56,5 +69,38 @@ class UMiniJavaValidator extends AbstractUMiniJavaValidator {
 				INCOMPATIBLE_TYPES);
 		}
 	}
+
+	@Check
+	override dispatch checkType(Or or) {
+		checkBooleanOrUBoolen(or.left, MiniJavaPackage.eINSTANCE.or_Left)
+		checkBooleanOrUBoolen(or.right, MiniJavaPackage.eINSTANCE.or_Right)
+	}
+	
+	@Check
+	override dispatch checkType(And and) {
+		checkBooleanOrUBoolen(and.left, MiniJavaPackage.eINSTANCE.and_Left)
+		checkBooleanOrUBoolen(and.right, MiniJavaPackage.eINSTANCE.and_Right)
+	}
+	
+	@Check
+	override dispatch checkType(Not not) {
+		checkBooleanOrUBoolen(not.expression, MiniJavaPackage.eINSTANCE.and_Left)
+	}
+	
+	def private checkBooleanOrUBoolen(Expression exp, EReference ref) {
+		if(exp.typeFor !== UMiniJavaTypeComputer.BOOLEAN_TYPE && exp.typeFor !== UMiniJavaTypeComputer.BERNOULLI_TYPE) {
+			error("Should be boolean or Bernoulli", ref, INCOMPATIBLE_TYPES)
+		}
+	}
+	
+	@Check
+	override dispatch checkType(ArrayAccess arrayAccess) {
+		val TypeDeclaration objectType = arrayAccess.object.typeFor
+		if(!objectType.isArray && objectType !== UMiniJavaTypeComputer.BERNOULLI_TYPE) {
+			error('''Should be an array or a Bernoulli type. Actual type: «objectType.name»''', MiniJavaPackage.eINSTANCE.arrayAccess_Object, INCOMPATIBLE_TYPES)
+		}
+	}
+	
+	
 	
 }
