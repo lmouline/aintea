@@ -1,0 +1,5 @@
+package simple.real;
+
+class Room {
+	private Gaussian<double> temperature = new Gaussian<float>(5, 6);
+}

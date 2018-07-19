@@ -17,15 +17,48 @@ import org.tetrabox.minijava.xtext.miniJava.And
 import org.tetrabox.minijava.xtext.miniJava.Not
 import org.tetrabox.minijava.xtext.miniJava.Equality
 import org.tetrabox.minijava.xtext.miniJava.Inequality
+import org.tetrabox.minijava.xtext.miniJava.LongTypeRef
+import org.tetrabox.minijava.xtext.miniJava.ShortTypeRef
+import org.tetrabox.minijava.xtext.miniJava.ByteTypeRef
+import org.tetrabox.minijava.xtext.miniJava.DoubleTypeRef
+import org.tetrabox.minijava.xtext.miniJava.FloatTypeRef
 
 class UMiniJavaTypeComputer extends MiniJavaTypeComputer{
 
 	public static val BERNOULLI_TYPE = factory.createClass => [name = 'bernoulliType']
-	public static val GAUSSIAN_TYPE = factory.createClass => [name = 'gaussianType']
+	
+	public static val GAUSSIAN_LONG_TYPE = factory.createClass => [name = 'gaussianLongType']
+	public static val GAUSSIAN_INT_TYPE = factory.createClass => [
+		name = 'gaussianIntType'
+		superClass = GAUSSIAN_LONG_TYPE
+	]
+	public static val GAUSSIAN_SHORT_TYPE = factory.createClass => [
+		name = 'gaussianShortType'
+		superClass = GAUSSIAN_INT_TYPE
+	]
+	public static val GAUSSIAN_BYTE_TYPE = factory.createClass => [
+		name = 'gaussianByteType'
+		superClass = GAUSSIAN_SHORT_TYPE
+	]
+	
+	public static val GAUSSIAN_DOUBLE_TYPE = factory.createClass => [name = 'gaussianDoubleType']
+	public static val GAUSSIAN_FLOAT_TYPE = factory.createClass => [
+		name = 'gaussianFloatType'
+		superClass = GAUSSIAN_DOUBLE_TYPE
+	]
 
 	override TypeDeclaration getType(TypeRef r) {
 		switch r {
-			GaussianRef: GAUSSIAN_TYPE
+			GaussianRef: {
+				switch r.genericType {
+					LongTypeRef: GAUSSIAN_LONG_TYPE
+					IntegerTypeRef: GAUSSIAN_INT_TYPE
+					ShortTypeRef: GAUSSIAN_SHORT_TYPE
+					ByteTypeRef: GAUSSIAN_BYTE_TYPE
+					DoubleTypeRef: GAUSSIAN_DOUBLE_TYPE
+					FloatTypeRef: GAUSSIAN_FLOAT_TYPE
+				}
+			}
 			BernoulliRef: BERNOULLI_TYPE
 			ArrayTypeRef: switch(r.typeRef) {
 					IntegerTypeRef: INT_ARRAY_TYPE

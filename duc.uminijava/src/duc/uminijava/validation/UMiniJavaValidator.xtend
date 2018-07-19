@@ -21,6 +21,8 @@ import org.tetrabox.minijava.xtext.miniJava.ArrayAccess
 import org.tetrabox.minijava.xtext.miniJava.TypeDeclaration
 import duc.uminijava.uMiniJava.GaussianRef
 import org.tetrabox.minijava.xtext.miniJava.DoubleConstant
+import org.tetrabox.minijava.xtext.miniJava.BooleanTypeRef
+import org.tetrabox.minijava.xtext.miniJava.TypedDeclaration
 
 /**
  * This class contains custom validation rules. 
@@ -38,6 +40,8 @@ class UMiniJavaValidator extends AbstractUMiniJavaValidator {
 	@Check
 	def checkNewUType(NewUObject objCreation) {
 		if(objCreation.type instanceof BernoulliRef) {
+			checkBernoulliRef(objCreation.type as BernoulliRef, UMiniJavaPackage.eINSTANCE.newUObject_Type)
+			
 			if(objCreation.args.length != 2) {
 				error("Creation of Bernoulli required two arguments.", UMiniJavaPackage.eINSTANCE.newUObject_Args)
 				return
@@ -58,14 +62,24 @@ class UMiniJavaValidator extends AbstractUMiniJavaValidator {
 				}
 			}
 		} else if(objCreation.type instanceof GaussianRef) {
-			if(objCreation.args.length > 2) {
+			checkGaussianRef(objCreation.type as GaussianRef, MiniJavaPackage.eINSTANCE.typedDeclaration_TypeRef)
+			
+			if(objCreation.args.length != 1 && objCreation.args.length != 2) {
 				error("Creation of Gaussian required one or two arguments.", UMiniJavaPackage.eINSTANCE.newUObject_Args)
 				return
 			}
 			
-			for(var i=0; i<objCreation.args.length; i++) {
+			if(objCreation.args.length == 1) {
+				if(!objCreation.args.get(0).typeFor.isConformant(UMiniJavaTypeComputer.DOUBLE_TYPE)) {
+					error('''Argument should be a double type. Actual: «objCreation.args.get(0).typeFor.name»''', UMiniJavaPackage.eINSTANCE.newUObject_Args,0)
+				}
+			} else {
+				val genericType = objCreation.type.genericType.type
+				if(!objCreation.args.get(0).typeFor.isConformant(genericType)) {
+					error('''Argument type should be compatible with «genericType.name». Actual: «objCreation.args.get(0).typeFor.name»''', UMiniJavaPackage.eINSTANCE.newUObject_Args,0)
+				}
 				if(!objCreation.args.get(1).typeFor.isConformant(UMiniJavaTypeComputer.DOUBLE_TYPE)) {
-					error('''Argument should be a float or double expression. Actual: «objCreation.args.get(i).typeFor.name»''', UMiniJavaPackage.eINSTANCE.newUObject_Args,i)
+					error('''Argument should be a double type. Actual: «objCreation.args.get(1).typeFor.name»''', UMiniJavaPackage.eINSTANCE.newUObject_Args,0)
 				}
 			}
 			
@@ -76,6 +90,18 @@ class UMiniJavaValidator extends AbstractUMiniJavaValidator {
 				}
 			}
 			
+		}
+	}
+		
+	def checkBernoulliRef(BernoulliRef ref, EReference eRef) {
+		if(!(ref.genericType instanceof BooleanTypeRef)) {
+			error('''Currently, only boolean type is supported for Bernoulli. Actual: «ref.genericType.type»''', eRef)
+		}
+	}
+	
+	def checkGaussianRef(GaussianRef ref, EReference eRef) {
+		if(!(ref.genericType.type.isConformant(UMiniJavaTypeComputer.LONG_TYPE) || ref.genericType.type.isConformant(UMiniJavaTypeComputer.DOUBLE_TYPE))) {
+			error('''Currently, only numerical types are supported by Gaussian. Actual: «ref.genericType.type»''', eRef)
 		}
 	}
 	
@@ -97,6 +123,20 @@ class UMiniJavaValidator extends AbstractUMiniJavaValidator {
 	override dispatch checkType(Or or) {
 		checkBooleanOrUBoolen(or.left, MiniJavaPackage.eINSTANCE.or_Left)
 		checkBooleanOrUBoolen(or.right, MiniJavaPackage.eINSTANCE.or_Right)
+	}
+	
+	
+	@Check
+	def checkFunctionType(TypedDeclaration typedDcl) {
+		if(typedDcl.typeRef instanceof BernoulliRef) {
+			checkBernoulliRef(typedDcl.typeRef as BernoulliRef, MiniJavaPackage.eINSTANCE.typedDeclaration_TypeRef)
+			return
+		} 
+		
+		if(typedDcl.typeRef instanceof GaussianRef) {
+			checkGaussianRef(typedDcl.typeRef as GaussianRef, MiniJavaPackage.eINSTANCE.typedDeclaration_TypeRef)
+			return
+		}
 	}
 	
 	@Check
