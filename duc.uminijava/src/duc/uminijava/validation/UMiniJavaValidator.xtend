@@ -19,6 +19,8 @@ import org.tetrabox.minijava.xtext.miniJava.And
 import org.tetrabox.minijava.xtext.miniJava.Not
 import org.tetrabox.minijava.xtext.miniJava.ArrayAccess
 import org.tetrabox.minijava.xtext.miniJava.TypeDeclaration
+import duc.uminijava.uMiniJava.GaussianRef
+import org.tetrabox.minijava.xtext.miniJava.DoubleConstant
 
 /**
  * This class contains custom validation rules. 
@@ -42,26 +44,47 @@ class UMiniJavaValidator extends AbstractUMiniJavaValidator {
 			}
 			
 			if(objCreation.args.get(0).typeFor !== UMiniJavaTypeComputer.BOOLEAN_TYPE) {
-				error("First argument should be a boolean expression.", UMiniJavaPackage.eINSTANCE.newUObject_Args,0)
+				error('''First argument should be a boolean expression. Actual: «objCreation.args.get(0).typeFor.name»''', UMiniJavaPackage.eINSTANCE.newUObject_Args,0)
 			} 
 			
-			if(objCreation.args.get(1).typeFor !== UMiniJavaTypeComputer.INT_TYPE) {
-				error("Second argument should be a int expression.", UMiniJavaPackage.eINSTANCE.newUObject_Args, 1)
+			if(!objCreation.args.get(1).typeFor.isConformant(UMiniJavaTypeComputer.DOUBLE_TYPE)) {
+				error('''Second argument should be a float or double expression. Actual: «objCreation.args.get(1).typeFor.name»''', UMiniJavaPackage.eINSTANCE.newUObject_Args, 1)
+			}
+			
+			if(objCreation.args.get(1) instanceof DoubleConstant) {
+				val doubleVal = (objCreation.args.get(1) as DoubleConstant).value
+				if(doubleVal < 0 || doubleVal > 1) {
+					warning("Confidence value should be in [0;1] range.", UMiniJavaPackage.eINSTANCE.newUObject_Args, 1)
+				}
+			}
+		} else if(objCreation.type instanceof GaussianRef) {
+			if(objCreation.args.length > 2) {
+				error("Creation of Gaussian required one or two arguments.", UMiniJavaPackage.eINSTANCE.newUObject_Args)
+				return
+			}
+			
+			for(var i=0; i<objCreation.args.length; i++) {
+				if(!objCreation.args.get(1).typeFor.isConformant(UMiniJavaTypeComputer.DOUBLE_TYPE)) {
+					error('''Argument should be a float or double expression. Actual: «objCreation.args.get(i).typeFor.name»''', UMiniJavaPackage.eINSTANCE.newUObject_Args,i)
+				}
+			}
+			
+			if(objCreation.args.get(objCreation.args.length - 1) instanceof DoubleConstant) {
+				val doubleVal = (objCreation.args.get(objCreation.args.length - 1) as DoubleConstant).value
+				if(doubleVal < 0 || doubleVal > 1) {
+					warning("Confidence value should be in [0;1] range", UMiniJavaPackage.eINSTANCE.newUObject_Args, 1)
+				}
 			}
 			
 		}
 	}
 	
+
+	
 	@Check override void checkConformance(Expression exp) {
 		val actualType = exp.typeFor
 		val expectedType = exp.expectedType
-		
-		println('''For «exp»
-		   «exp.eContainer»
-		   «actualType»
-		   «expectedType»
-		''')
-				
+						
 		if (expectedType === null || actualType === null)
 			return; // nothing to check
 		if (!actualType.isConformant(expectedType)) {
@@ -99,6 +122,15 @@ class UMiniJavaValidator extends AbstractUMiniJavaValidator {
 		if(!objectType.isArray && objectType !== UMiniJavaTypeComputer.BERNOULLI_TYPE) {
 			error('''Should be an array or a Bernoulli type. Actual type: «objectType.name»''', MiniJavaPackage.eINSTANCE.arrayAccess_Object, INCOMPATIBLE_TYPES)
 		}
+		
+		if(objectType.isArray && !arrayAccess.index.typeFor.isConformant(UMiniJavaTypeComputer.INT_TYPE)) {
+			error('''Should be an int expression. Actual type: «arrayAccess.index.typeFor.name»''', MiniJavaPackage.eINSTANCE.arrayAccess_Index)
+		}
+		
+		if(objectType === UMiniJavaTypeComputer.BERNOULLI_TYPE && !arrayAccess.index.typeFor.isConformant(UMiniJavaTypeComputer.DOUBLE_TYPE)) {
+			error('''Should be an int or a double expression. Actual type: «arrayAccess.index.typeFor.name»''', MiniJavaPackage.eINSTANCE.arrayAccess_Index)
+		}
+		
 	}
 	
 	
