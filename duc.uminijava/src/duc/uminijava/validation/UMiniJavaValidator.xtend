@@ -23,6 +23,8 @@ import duc.uminijava.uMiniJava.GaussianRef
 import org.tetrabox.minijava.xtext.miniJava.DoubleConstant
 import org.tetrabox.minijava.xtext.miniJava.BooleanTypeRef
 import org.tetrabox.minijava.xtext.miniJava.TypedDeclaration
+import duc.uminijava.uMiniJava.ExistExpr
+import org.tetrabox.minijava.xtext.miniJava.Plus
 
 /**
  * This class contains custom validation rules. 
@@ -152,7 +154,7 @@ class UMiniJavaValidator extends AbstractUMiniJavaValidator {
 	
 	def private checkBooleanOrUBoolen(Expression exp, EReference ref) {
 		if(exp.typeFor !== UMiniJavaTypeComputer.BOOLEAN_TYPE && exp.typeFor !== UMiniJavaTypeComputer.BERNOULLI_TYPE) {
-			error("Should be boolean or Bernoulli", ref, INCOMPATIBLE_TYPES)
+			error('''Should be boolean or Bernoulli. Actual: «exp.typeFor.name»''', ref, INCOMPATIBLE_TYPES)
 		}
 	}
 	
@@ -172,6 +174,26 @@ class UMiniJavaValidator extends AbstractUMiniJavaValidator {
 		}
 		
 	}
+	
+	@Check 
+	def dispatch checkType(ExistExpr existExp) {
+		if(!existExp.expr.typeFor.isUncertainType) {
+			error('''Should have an uncertain type. Actual: «existExp.typeFor.name»''', UMiniJavaPackage.eINSTANCE.existExpr_Expr)
+		}
+		
+		if(!existExp.confidence.typeFor.isConformant(UMiniJavaTypeComputer.DOUBLE_TYPE)) {
+			error('''Should have a double type. Actual: «existExp.typeFor.name»''', UMiniJavaPackage.eINSTANCE.existExpr_Confidence)
+		}
+		
+	}
+	
+	override protected checkNumber(Expression exp, EReference ref) {
+		if(!(exp.typeFor.isNumber || exp.typeFor.isConformant(UMiniJavaTypeComputer.GAUSSIAN_TYPE))) {
+			error('''Should be a numeric expression. Actual type: «exp.typeFor.name»''', ref, INCOMPATIBLE_TYPES)
+		}
+	}
+		
+	
 	
 	
 	

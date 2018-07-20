@@ -22,12 +22,35 @@ import org.tetrabox.minijava.xtext.miniJava.ShortTypeRef
 import org.tetrabox.minijava.xtext.miniJava.ByteTypeRef
 import org.tetrabox.minijava.xtext.miniJava.DoubleTypeRef
 import org.tetrabox.minijava.xtext.miniJava.FloatTypeRef
+import com.google.inject.Inject
+import org.tetrabox.minijava.xtext.miniJava.SuperiorOrEqual
+import org.tetrabox.minijava.xtext.miniJava.InferiorOrEqual
+import org.tetrabox.minijava.xtext.miniJava.Superior
+import org.tetrabox.minijava.xtext.miniJava.Inferior
+import duc.uminijava.uMiniJava.ExistExpr
+import org.tetrabox.minijava.xtext.miniJava.Plus
 
 class UMiniJavaTypeComputer extends MiniJavaTypeComputer{
-
-	public static val BERNOULLI_TYPE = factory.createClass => [name = 'bernoulliType']
 	
-	public static val GAUSSIAN_LONG_TYPE = factory.createClass => [name = 'gaussianLongType']
+	@Inject
+	extension UMiniJavaTypeConformance
+	
+	public static val UNCERTAIN_TYPE = factory.createClass => [name = 'bernoulliType']
+
+	public static val BERNOULLI_TYPE = factory.createClass => [
+		name = 'bernoulliType'
+		superClass = UNCERTAIN_TYPE
+	]
+	
+	public static val GAUSSIAN_TYPE = factory.createClass => [
+		name = 'gaussianType'
+		superClass = UNCERTAIN_TYPE
+	]
+	
+	public static val GAUSSIAN_LONG_TYPE = factory.createClass => [
+		name = 'gaussianLongType'
+		superClass = GAUSSIAN_TYPE
+	]
 	public static val GAUSSIAN_INT_TYPE = factory.createClass => [
 		name = 'gaussianIntType'
 		superClass = GAUSSIAN_LONG_TYPE
@@ -41,7 +64,10 @@ class UMiniJavaTypeComputer extends MiniJavaTypeComputer{
 		superClass = GAUSSIAN_SHORT_TYPE
 	]
 	
-	public static val GAUSSIAN_DOUBLE_TYPE = factory.createClass => [name = 'gaussianDoubleType']
+	public static val GAUSSIAN_DOUBLE_TYPE = factory.createClass => [
+		name = 'gaussianDoubleType'
+		superClass = GAUSSIAN_TYPE
+	]
 	public static val GAUSSIAN_FLOAT_TYPE = factory.createClass => [
 		name = 'gaussianFloatType'
 		superClass = GAUSSIAN_DOUBLE_TYPE
@@ -92,6 +118,11 @@ class UMiniJavaTypeComputer extends MiniJavaTypeComputer{
 		if(eq.left.typeFor === BERNOULLI_TYPE || eq.right.typeFor === BERNOULLI_TYPE) {
 			return BERNOULLI_TYPE
 		}
+		
+		if(eq.left.typeFor.isSubclassOf(GAUSSIAN_TYPE) || eq.right.typeFor.isSubclassOf(GAUSSIAN_TYPE)) {
+			return BERNOULLI_TYPE
+		}
+		
 		BOOLEAN_TYPE
 	}
 	
@@ -99,6 +130,59 @@ class UMiniJavaTypeComputer extends MiniJavaTypeComputer{
 		if(ineq.left.typeFor === BERNOULLI_TYPE || ineq.right.typeFor === BERNOULLI_TYPE) {
 			return BERNOULLI_TYPE
 		}
+		
+		if(ineq.left.typeFor.isSubclassOf(GAUSSIAN_TYPE) || ineq.right.typeFor.isSubclassOf(GAUSSIAN_TYPE)) {
+			return BERNOULLI_TYPE
+		}
+			
+		BOOLEAN_TYPE
+	}
+	
+	def dispatch TypeDeclaration typeFor(SuperiorOrEqual supEq) {		
+		if(supEq.left.typeFor.isSubclassOf(GAUSSIAN_TYPE) || supEq.right.typeFor.isSubclassOf(GAUSSIAN_TYPE)) {
+			return BERNOULLI_TYPE
+		}
+		
+		if(supEq.left.typeFor.isSubclassOf(GAUSSIAN_TYPE) || supEq.right.typeFor.isSubclassOf(GAUSSIAN_TYPE)) {
+			return BERNOULLI_TYPE
+		}
+		
+		BOOLEAN_TYPE
+	}
+	
+	def dispatch TypeDeclaration typeFor(InferiorOrEqual infEq) {		
+		if(infEq.left.typeFor.isSubclassOf(GAUSSIAN_TYPE) || infEq.right.typeFor.isSubclassOf(GAUSSIAN_TYPE)) {
+			return BERNOULLI_TYPE
+		}
+		
+		if(infEq.left.typeFor.isSubclassOf(GAUSSIAN_TYPE) || infEq.right.typeFor.isSubclassOf(GAUSSIAN_TYPE)) {
+			return BERNOULLI_TYPE
+		}
+		
+		BOOLEAN_TYPE
+	}
+	
+	def dispatch TypeDeclaration typeFor(Superior sup) {		
+		if(sup.left.typeFor.isSubclassOf(GAUSSIAN_TYPE) || sup.right.typeFor.isSubclassOf(GAUSSIAN_TYPE)) {
+			return BERNOULLI_TYPE
+		}
+		
+		if(sup.left.typeFor.isSubclassOf(GAUSSIAN_TYPE) || sup.right.typeFor.isSubclassOf(GAUSSIAN_TYPE)) {
+			return BERNOULLI_TYPE
+		}
+		
+		BOOLEAN_TYPE
+	}
+	
+	def dispatch TypeDeclaration typeFor(Inferior inf) {		
+		if(inf.left.typeFor.isSubclassOf(GAUSSIAN_TYPE) || inf.right.typeFor.isSubclassOf(GAUSSIAN_TYPE)) {
+			return BERNOULLI_TYPE
+		}
+		
+		if(inf.left.typeFor.isSubclassOf(GAUSSIAN_TYPE) || inf.right.typeFor.isSubclassOf(GAUSSIAN_TYPE)) {
+			return BERNOULLI_TYPE
+		}
+			
 		BOOLEAN_TYPE
 	}
 	
@@ -107,6 +191,69 @@ class UMiniJavaTypeComputer extends MiniJavaTypeComputer{
 			return BERNOULLI_TYPE
 		}
 		BOOLEAN_TYPE
+	}
+	
+	def dispatch TypeDeclaration typeFor(ExistExpr existExpr) {
+		BOOLEAN_TYPE
+	}
+	
+	def boolean getIsUncertainType(TypeDeclaration declaration) {
+		declaration.isSubclassOf(UNCERTAIN_TYPE)
+	}
+	
+	override dispatch typeFor(Plus plus) {
+		val leftType = plus.left.typeFor
+		val rightType = plus.right.typeFor
+		
+		if(leftType === GAUSSIAN_DOUBLE_TYPE || rightType === GAUSSIAN_DOUBLE_TYPE) {
+			return GAUSSIAN_DOUBLE_TYPE
+		}
+		
+		if(leftType === GAUSSIAN_FLOAT_TYPE || rightType === GAUSSIAN_FLOAT_TYPE) {
+			return GAUSSIAN_FLOAT_TYPE
+		}
+		
+		if(leftType === GAUSSIAN_LONG_TYPE || rightType === GAUSSIAN_LONG_TYPE) {
+			return GAUSSIAN_LONG_TYPE
+		}
+		
+		if(leftType === GAUSSIAN_INT_TYPE || rightType === GAUSSIAN_INT_TYPE) {
+			return GAUSSIAN_DOUBLE_TYPE
+		}
+		
+		if(leftType === GAUSSIAN_SHORT_TYPE || rightType === GAUSSIAN_SHORT_TYPE) {
+			return GAUSSIAN_SHORT_TYPE
+		}
+		
+		if(leftType === GAUSSIAN_BYTE_TYPE || rightType === GAUSSIAN_BYTE_TYPE) {
+			return GAUSSIAN_DOUBLE_TYPE
+		}
+		
+		if(leftType === STRING_TYPE || rightType === STRING_TYPE) {
+			return STRING_TYPE
+		} 
+			
+		if(leftType === DOUBLE_TYPE || rightType === DOUBLE_TYPE) {
+			return DOUBLE_TYPE
+		}
+		
+		if(leftType === FLOAT_TYPE || rightType === FLOAT_TYPE) {
+			return FLOAT_TYPE
+		}
+		
+		if(leftType === LONG_TYPE || rightType === LONG_TYPE) {
+			return LONG_TYPE
+		}
+		
+		if(leftType === INT_TYPE || rightType === INT_TYPE) {
+			return INT_TYPE
+		}
+		
+		if(leftType === SHORT_TYPE || rightType === SHORT_TYPE) {
+			return SHORT_TYPE
+		}
+		
+		return BYTE_TYPE
 	}
 		
 }

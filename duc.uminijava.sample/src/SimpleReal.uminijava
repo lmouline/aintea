@@ -1,5 +1,50 @@
 package simple.real;
 
-class Room {
-	private Gaussian<double> temperature = new Gaussian<float>(5, 6);
+class Building {
+	private Room[] rooms;
+	
+	public Gaussian<double> avgTemp() {
+		Gaussian<double> sum = 0;
+		
+		for(int i=0;i<this.rooms.length; i= i+1) {
+			Room r = this.rooms[i];
+			sum = sum + r.temperature;
+		}
+			
+		return sum / this.rooms.length;
+	}
+	
+	public Gaussian<double> avgTempWithConfidenceFilter() {
+		Gaussian<double> sum = 0;
+		int nbValues = 0;
+		
+		for(int i=0;i<this.rooms.length; i= i+1) {
+			Room r = this.rooms[i];
+			if(exists(r.temperature, 0.9)) {
+				nbValues = nbValues + 1;
+			}
+		}
+		
+		if(nbValues >= 0.9 * this.rooms.length) {
+			return sum / nbValues;
+		}
+				
+		return -273.15;
+	}
+	
+	
+	public void checkPanicAlarm() {
+        Gaussian<double> avgTemp = this.avgTemp();
+
+        if((avgTemp != -273.15)[0.9]) {
+            if((avgTemp < 0)[0.9] || (avgTemp > 35)[0.9]) {
+//                //panicAlarm();
+            }
+        }
+
+     }
 }
+
+class Room {
+	public Gaussian<double> temperature = new Gaussian<double>(.6);
+} 

@@ -27,6 +27,7 @@ BernoulliRef:
 @Override
 TerminalExpression returns miniJava::Expression:
 	super |
-	{NewUObject} ('new' type=UTypeRef =>'(' (args+=Expression (',' args+=Expression)*)? ')')
+	{NewUObject} ('new' type=UTypeRef =>'(' (args+=Expression (',' args+=Expression)*)? ')') |
+	{ExistExpr} 'exists' '(' expr=Expression',' confidence=Expression ')'
 ;
 
