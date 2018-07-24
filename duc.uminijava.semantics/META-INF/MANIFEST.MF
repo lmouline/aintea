@@ -1,5 +1,6 @@
 Manifest-Version: 1.0
 Bundle-SymbolicName: duc.uminijava.semantics; singleton:=true
+Export-Package: duc.uminijava.semantics
 Bundle-Name: duc.uminijava.semantics
 Bundle-Version: 1.0.0
 Bundle-ClassPath: .
@@ -10,7 +11,7 @@ Require-Bundle: fr.inria.diverse.k3.al.annotationprocessor.plugin;bundle-version
  org.eclipse.emf.ecore.xmi;bundle-version="2.8.0";visibility:=reexport,
  org.eclipse.emf.ecore;bundle-version="2.8.0";visibility:=reexport,
  org.eclipse.emf.common;bundle-version="2.8.0";visibility:=reexport,
- org.tetrabox.minijava.semantics;bundle-version="1.0.0",
- duc.uminijava;bundle-version="1.0.0"
+ duc.uminijava;bundle-version="1.0.0",
+ org.tetrabox.minijava.semantics.modelstate;bundle-version="0.1.0"
 Bundle-ManifestVersion: 2
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
