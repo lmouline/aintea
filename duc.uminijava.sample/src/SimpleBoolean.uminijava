@@ -66,3 +66,10 @@ class Employee {
 	}
 }
 
+class TestRunner {
+	public static void main(String[] args) {
+		int lala = 5 + 8;
+		System.out.println(lala);
+	}
+}
+

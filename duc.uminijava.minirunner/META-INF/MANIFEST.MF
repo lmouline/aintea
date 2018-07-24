@@ -9,5 +9,4 @@ Require-Bundle: com.google.inject;bundle-version="3.0.0",
  org.eclipse.xtext;bundle-version="2.14.0",
  duc.uminijava;bundle-version="1.0.0",
  duc.uminijava.semantics;bundle-version="1.0.0",
- org.tetrabox.minijava.semantics.modelstate;bundle-version="0.1.0",
- org.tetrabox.minijava.semantics;bundle-version="1.0.0"
+ org.tetrabox.minijava.semantics.modelstate;bundle-version="0.1.0"
