@@ -22,6 +22,9 @@ import org.tetrabox.minijava.xtext.miniJava.Symbol
 
 import static extension duc.uminijava.semantics.ContextAspect.*
 import static extension duc.uminijava.semantics.FrameAspect.*
+import uMiniJavaDynamicData.UBooleanValue
+import uMiniJavaDynamicData.UMiniJavaDynamicDataFactory
+import org.tetrabox.minijava.xtext.miniJava.Assignment
 
 @Aspect(className=Context)
 class ContextAspect {
@@ -165,6 +168,17 @@ class BooleanValueAspect extends ValueAspect {
 	}
 }
 
+@Aspect(className=UBooleanValue)
+class UBooleanValueAspect extends BooleanValueAspect {
+	@OverrideAspectMethod
+	def Value copy() {
+		return UMiniJavaDynamicDataFactory::eINSTANCE.createUBooleanValue => [
+			value = _self.value
+			confidence = _self.confidence
+		]
+	}
+}
+
 @Aspect(className=StringValue)
 class StringValueAspect extends ValueAspect {
 	@OverrideAspectMethod
@@ -197,3 +211,4 @@ class NullValueAspect extends ValueAspect {
 		return MinijavadynamicdataFactory::eINSTANCE.createNullValue
 	}
 }
+

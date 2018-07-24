@@ -30,7 +30,7 @@ import static extension duc.uminijava.semantics.ContextAspect.*
 import static extension duc.uminijava.semantics.ExpressionAspect.*
 import static extension duc.uminijava.semantics.StateAspect.*
 import static extension duc.uminijava.semantics.ValueToStringAspect.*
-
+import static extension duc.uminijava.semantics.ImplicitConversionUtil.*
 
 @Aspect(className=Statement)
 class StatementAspect {
@@ -75,8 +75,9 @@ class AssigmentAspect extends StatementAspect {
 	@Step
 	def void evaluateStatement(State state) {
 		val context = state.findCurrentContext
-		val right = _self.value.evaluateExpression(state)
 		val assignee = _self.assignee
+		val right = _self.value.evaluateExpression(state).convert(assignee)
+					
 		switch (assignee) {
 			SymbolRef: {
 				val existingBinding = context.findBinding(assignee.symbol)

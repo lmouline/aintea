@@ -17,15 +17,16 @@ Require-Bundle: org.eclipse.xtext,
  org.eclipse.emf.ecore,
  org.eclipse.emf.common
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Export-Package: duc.uminijava.services,
- duc.uminijava.serializer,
- duc.uminijava,
- duc.uminijava.parser.antlr.internal,
- duc.uminijava.parser.antlr,
+Export-Package: duc.uminijava,
  duc.uminijava.generator,
+ duc.uminijava.parser.antlr,
+ duc.uminijava.parser.antlr.internal,
  duc.uminijava.scoping,
- duc.uminijava.validation,
- duc.uminijava.uMiniJava.util,
+ duc.uminijava.serializer,
+ duc.uminijava.services,
+ duc.uminijava.typing,
  duc.uminijava.uMiniJava,
- duc.uminijava.uMiniJava.impl
+ duc.uminijava.uMiniJava.impl,
+ duc.uminijava.uMiniJava.util,
+ duc.uminijava.validation
 Import-Package: org.apache.log4j

@@ -61,6 +61,13 @@ import org.tetrabox.minijava.dynamic.minijavadynamicdata.NullValue
 import java.util.Map
 import java.util.HashMap
 import org.tetrabox.minijava.dynamic.minijavadynamicdata.MinijavadynamicdataFactory
+import duc.uminijava.uMiniJava.NewUObject
+import uMiniJavaDynamicData.UMiniJavaDynamicDataFactory
+import uMiniJavaDynamicData.UObjectInstance
+import duc.uminijava.uMiniJava.BernoulliRef
+import org.tetrabox.minijava.xtext.miniJava.DoubleConstant
+import org.tetrabox.minijava.dynamic.minijavadynamicdata.DoubleValue
+import uMiniJavaDynamicData.UBooleanValue
 
 @Aspect(className=Expression)
 class ExpressionAspect {
@@ -144,14 +151,82 @@ class OrAspect extends ExpressionAspect {
 	def Value evaluateExpression(State state) {
 		val left = _self.left.evaluateExpression(state)
 		val right = _self.right.evaluateExpression(state)
-		if (left instanceof BooleanValue) {
-			if (right instanceof BooleanValue) {
+		
+		if(left instanceof UBooleanValue) {
+			if(right instanceof UBooleanValue) {
+				return UMiniJavaDynamicDataFactory.eINSTANCE.createUBooleanValue => [
+					val castedLeft = left as UBooleanValue
+					val castedRight = right as UBooleanValue
+					
+					if(castedLeft.value == true && castedRight.value == true) {
+						value = true
+						confidence = castedLeft.confidence + castedRight.confidence - castedLeft.confidence * castedRight.confidence
+					} else if(castedLeft.value == false && castedRight.value == true) {
+						value = false
+						val confidenceTrue = (1-castedLeft.confidence)+ castedRight.confidence - (1-castedLeft.confidence)*castedRight.confidence
+						confidence = 1- confidenceTrue
+						
+					} else if(castedLeft.value == true && castedRight.value == false) {
+						value = false
+						val confidenceTrue = (1-castedRight.confidence)+ castedLeft.confidence - (1-castedRight.confidence)*castedLeft.confidence
+						confidence = 1- confidenceTrue
+					} else if(castedLeft.value == false && castedRight.value == false) {
+						value = false
+						val confidenceTrue = 2-castedRight.confidence-castedLeft.confidence - (1-castedRight.confidence)*(1-castedLeft.confidence)
+						confidence = 1- confidenceTrue
+					}
+				]
+			} else {
+				return UMiniJavaDynamicDataFactory.eINSTANCE.createUBooleanValue => [
+					val castedLeft = left as UBooleanValue
+					val castedRight = right as BooleanValue
+					
+					if(castedLeft.value == true && castedRight.value == true) {
+						value = true
+						confidence = 1
+					} else if(castedLeft.value == false && castedRight.value == true) {
+						value = false
+						confidence = 0
+					} else if(castedLeft.value == true && castedRight.value == false) {
+						value = false
+						confidence = 1-castedLeft.confidence
+					} else if(castedLeft.value == false && castedRight.value == false) {
+						value = false
+						confidence = castedLeft.confidence
+					}
+					
+				]
+			}
+			
+		} else { //left -> BooleanValue
+			if(right instanceof UBooleanValue) {
+				return UMiniJavaDynamicDataFactory.eINSTANCE.createUBooleanValue => [
+					val castedLeft = left as BooleanValue
+					val castedRight = right as UBooleanValue
+					
+					if(castedLeft.value == true && castedRight.value == true) {
+						value = true
+						confidence = 1
+					} else if(castedLeft.value == false && castedRight.value == true) {
+						value = false
+						confidence = 1-castedRight.confidence
+					} else if(castedLeft.value == true && castedRight.value == false) {
+						value = false
+						confidence = 0
+					} else if(castedLeft.value == false && castedRight.value == false) {
+						value = false
+						confidence = castedRight.confidence
+					}
+					
+				]
+			} else {//right -> BooleanValue
 				return MinijavadynamicdataFactory::eINSTANCE.createBooleanValue => [
-					value = left.value || right.value
+					value = (left as BooleanValue).value || (right as BooleanValue).value
 				]
 			}
 		}
-		throw new RuntimeException('''Unsupported or operands: «left» || «right».''')
+		
+//		throw new RuntimeException('''Unsupported or operands: «left» || «right».''')
 	}
 }
 
@@ -161,14 +236,70 @@ class AndAspect extends ExpressionAspect {
 	def Value evaluateExpression(State state) {
 		val left = _self.left.evaluateExpression(state)
 		val right = _self.right.evaluateExpression(state)
-		if (left instanceof BooleanValue) {
-			if (right instanceof BooleanValue) {
+		
+		
+		if(left instanceof UBooleanValue) {
+			if(right instanceof UBooleanValue) {
+				return UMiniJavaDynamicDataFactory.eINSTANCE.createUBooleanValue => [
+					val castedLeft = left as UBooleanValue
+					val castedRight = right as UBooleanValue
+					
+					if(castedLeft.value == true && castedRight.value == true) {
+						value = true
+						confidence = castedLeft.confidence * castedRight.confidence
+					} else if(castedLeft.value == true && castedRight.value == false) {
+						value = false
+						confidence = 1 - (castedLeft.confidence * (1-castedRight.confidence))
+					} else if(castedLeft.value == false && castedRight.value ==true) {
+						value = false
+						confidence = 1- ((1-castedLeft.confidence) *castedRight.confidence)
+					} else {
+						value = false
+						confidence = 1- ((1-castedLeft.confidence) * (1-castedRight.confidence))
+					}
+				]
+			} else {
+				return UMiniJavaDynamicDataFactory.eINSTANCE.createUBooleanValue => [
+					val castedLeft = left as UBooleanValue
+					val castedRight = right as BooleanValue
+					
+					if(castedRight.value == false) {
+						value=false
+						confidence = 1
+					} else {
+						value = castedLeft.value
+						confidence = castedLeft.confidence
+					}
+				]
+			}
+		} else {
+			if(right instanceof UBooleanValue) {
+				return UMiniJavaDynamicDataFactory.eINSTANCE.createUBooleanValue => [
+					val castedLeft = left as BooleanValue
+					val castedRight = right as UBooleanValue
+					
+					if(castedLeft.value == false) {
+						value=false
+						confidence = 1
+					} else {
+						value = castedRight.value
+						confidence = castedRight.confidence
+					}
+				]
+			} else {
 				return MinijavadynamicdataFactory::eINSTANCE.createBooleanValue => [
-					value = left.value && right.value
+					value = (left as BooleanValue).value && (right as BooleanValue).value
 				]
 			}
 		}
-		throw new RuntimeException('''Unsupported or operands: «left» && «right».''')
+//		if (left instanceof BooleanValue) {
+//			if (right instanceof BooleanValue) {
+//				return MinijavadynamicdataFactory::eINSTANCE.createBooleanValue => [
+//					value = left.value && right.value
+//				]
+//			}
+//		}
+//		throw new RuntimeException('''Unsupported or operands: «left» && «right».''')
 	}
 }
 
@@ -225,10 +356,17 @@ class SuperiorAspect extends ExpressionAspect {
 class NotAspect extends ExpressionAspect {
 	@OverrideAspectMethod
 	def Value evaluateExpression(State state) {
-		val expr = (_self.expression.evaluateExpression(state) as BooleanValue).value
-		return MinijavadynamicdataFactory::eINSTANCE.createBooleanValue => [
-			value = !expr
-		]
+		val exprVal = _self.expression.evaluateExpression(state)
+		if(exprVal instanceof UBooleanValue) {
+			return UMiniJavaDynamicDataFactory.eINSTANCE.createUBooleanValue => [
+				value = !exprVal.value
+				confidence = 1 - exprVal.confidence
+			]
+		} else {
+			return MinijavadynamicdataFactory::eINSTANCE.createBooleanValue => [
+				value = !(exprVal as BooleanValue).value
+			]
+		}
 	}
 }
 
@@ -493,7 +631,17 @@ class IntConstantAspect extends ExpressionAspect {
 	@OverrideAspectMethod
 	def Value evaluateExpression(State state) {
 		return MinijavadynamicdataFactory::eINSTANCE.createIntegerValue => [
-			value = (_self.value as int)
+			value = _self.value
+		]
+	}
+}
+
+@Aspect(className=DoubleConstant)
+class DoubleConstantAspect extends ExpressionAspect {
+	@OverrideAspectMethod
+	def Value evaluateExpression(State state) {
+		return MinijavadynamicdataFactory::eINSTANCE.createDoubleValue => [
+			value = _self.value
 		]
 	}
 }
@@ -529,4 +677,25 @@ class ArrayAccessAspect extends ExpressionAspect {
 		return array.value.get(index).copy
 	}
 
+}
+
+@Aspect(className=NewUObject)
+class NewUObjectAspect extends ExpressionAspect {
+	@OverrideAspectMethod
+	def Value evaluateExpression(State state) {
+		if(_self.type instanceof BernoulliRef) {
+			return UMiniJavaDynamicDataFactory.eINSTANCE.createUBooleanValue => [
+				value = (_self.args.get(0).evaluateExpression(state) as BooleanValue).value
+				
+				if(_self.args.length == 1) {
+					confidence = 1
+				} else {
+					confidence = (_self.args.get(1).evaluateExpression(state) as DoubleValue).value
+				}
+			]
+		}
+		return null
+	
+	
+	}
 }
