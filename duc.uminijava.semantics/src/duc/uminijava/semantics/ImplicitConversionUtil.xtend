@@ -43,4 +43,22 @@ class ImplicitConversionUtil {
 			]
 		}
 	}
+	
+	def static dispatch BooleanValue toBool(UBooleanValue value) {
+		return MinijavadynamicdataFactory.eINSTANCE.createBooleanValue => [
+			if(value.confidence >= 0.5) {
+				it.value = value.value
+			} else {
+				it.value = !value.value
+			}
+		]
+	}
+	
+	def static dispatch BooleanValue toBool(BooleanValue value) {
+		return value
+	}
+	
+	def static dispatch BooleanValue toBool(Value value) {
+		throw new RuntimeException("BAD BAD BAD!!!")
+	}
 }

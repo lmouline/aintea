@@ -46,6 +46,7 @@ import static extension duc.uminijava.semantics.TypeRefAspect.*
 import static extension duc.uminijava.semantics.ValueAspect.*
 import static extension duc.uminijava.semantics.ValueToStringAspect.*
 import static extension duc.uminijava.semantics.MethodSortofStatementAspect.*
+import static extension duc.uminijava.semantics.EqualityUtils.*
 
 import org.tetrabox.minijava.dynamic.minijavadynamicdata.ObjectInstance
 import org.tetrabox.minijava.dynamic.minijavadynamicdata.ObjectRefValue
@@ -57,17 +58,16 @@ import org.tetrabox.minijava.xtext.miniJava.ArrayAccess
 import org.tetrabox.minijava.xtext.miniJava.IntegerTypeRef
 import org.tetrabox.minijava.xtext.miniJava.BooleanTypeRef
 import org.tetrabox.minijava.xtext.miniJava.StringTypeRef
-import org.tetrabox.minijava.dynamic.minijavadynamicdata.NullValue
 import java.util.Map
 import java.util.HashMap
 import org.tetrabox.minijava.dynamic.minijavadynamicdata.MinijavadynamicdataFactory
 import duc.uminijava.uMiniJava.NewUObject
 import uMiniJavaDynamicData.UMiniJavaDynamicDataFactory
-import uMiniJavaDynamicData.UObjectInstance
 import duc.uminijava.uMiniJava.BernoulliRef
 import org.tetrabox.minijava.xtext.miniJava.DoubleConstant
 import org.tetrabox.minijava.dynamic.minijavadynamicdata.DoubleValue
 import uMiniJavaDynamicData.UBooleanValue
+import duc.uminijava.uMiniJava.ExistExpr
 
 @Aspect(className=Expression)
 class ExpressionAspect {
@@ -360,7 +360,7 @@ class NotAspect extends ExpressionAspect {
 		if(exprVal instanceof UBooleanValue) {
 			return UMiniJavaDynamicDataFactory.eINSTANCE.createUBooleanValue => [
 				value = !exprVal.value
-				confidence = 1 - exprVal.confidence
+				confidence = exprVal.confidence
 			]
 		} else {
 			return MinijavadynamicdataFactory::eINSTANCE.createBooleanValue => [
@@ -377,21 +377,7 @@ class EqualityAspect extends ExpressionAspect {
 	def Value evaluateExpression(State state) {
 		val left = _self.left.evaluateExpression(state)
 		val right = _self.right.evaluateExpression(state)
-
-		val boolean result = if (left instanceof IntegerValue) {
-				left.value === (right as IntegerValue).value
-			} else if (left instanceof StringValue) {
-				left.value == (right as StringValue).value
-			} else if (left instanceof BooleanValue) {
-				left.value === (right as BooleanValue).value
-			} else if (left instanceof NullValue) {
-				right instanceof NullValue
-			} else if (left instanceof ObjectRefValue) {
-				(right instanceof ObjectRefValue) && left.instance === (right as ObjectRefValue).instance
-			} else {
-				throw new RuntimeException('''Type unsupported for equality operator: «left.class»''')
-			}
-
+		val boolean result =  left.equals(right)
 		return MinijavadynamicdataFactory::eINSTANCE.createBooleanValue => [
 			value = result
 		]
@@ -405,20 +391,7 @@ class InequalityAspect extends ExpressionAspect {
 	def Value evaluateExpression(State state) {
 		val left = _self.left.evaluateExpression(state)
 		val right = _self.right.evaluateExpression(state)
-
-		val boolean result = if (left instanceof IntegerValue) {
-				left.value !== (right as IntegerValue).value
-			} else if (left instanceof StringValue) {
-				left.value != (right as StringValue).value
-			} else if (left instanceof BooleanValue) {
-				left.value !== (right as BooleanValue).value
-			} else if (left instanceof NullValue) {
-				! (right instanceof NullValue)
-			} else if (left instanceof ObjectRefValue) {
-				!(right instanceof ObjectRefValue) || left.instance !== (right as ObjectRefValue).instance
-			} else {
-				throw new RuntimeException('''Type unsupported for inequality operator: «left.class»''')
-			}
+		val boolean result = left.notEquals(right)
 		return MinijavadynamicdataFactory::eINSTANCE.createBooleanValue => [
 			value = result
 		]
@@ -452,7 +425,7 @@ class ParameterAspect {
 @Aspect(className=Method)
 class MethodAspect {
 
-	private Map<Class, Method> cache = new HashMap
+	Map<Class, Method> cache = new HashMap
 
 	def Method findOverride(Class c) {
 
@@ -672,9 +645,28 @@ class ArrayLengthAspect extends ExpressionAspect {
 class ArrayAccessAspect extends ExpressionAspect {
 	@OverrideAspectMethod
 	def Value evaluateExpression(State state) {
-		val array = (_self.object.evaluateExpression(state) as ArrayRefValue).instance
-		val index = (_self.index.evaluateExpression(state) as IntegerValue).value
-		return array.value.get(index).copy
+		val arrayRef = _self.object.evaluateExpression(state)
+		
+		if(arrayRef instanceof ArrayRefValue) {
+			val index = (_self.index.evaluateExpression(state) as IntegerValue).value
+			return arrayRef.instance.value.get(index).copy
+		} else if(arrayRef instanceof UBooleanValue){ //UBooleanValue
+			val conf = (_self.index.evaluateExpression(state) as DoubleValue).value
+					
+			return MinijavadynamicdataFactory.eINSTANCE.createBooleanValue => [
+				if(arrayRef.value) {
+					value = arrayRef.confidence >= conf
+				} else {
+					value = (1-arrayRef.confidence) >= conf
+				}
+			]
+		} else {
+			throw new RuntimeException("Not yet implemented for " + arrayRef.class.name)
+		}
+		
+//		val array = (_self.object.evaluateExpression(state) as ArrayRefValue).instance
+//		val index = (_self.index.evaluateExpression(state) as IntegerValue).value
+//		return array.value.get(index).copy
 	}
 
 }
@@ -697,5 +689,22 @@ class NewUObjectAspect extends ExpressionAspect {
 		return null
 	
 	
+	}
+}
+
+@Aspect(className=ExistExpr)
+class ExistExprAspect extends ExpressionAspect {
+	@OverrideAspectMethod
+	def Value evaluateExpression(State state) {
+		val double conf = (_self.confidence.evaluateExpression(state) as DoubleValue).value
+		val uAtt = _self.expr.evaluateExpression(state)
+		if(uAtt instanceof UBooleanValue) {
+			MinijavadynamicdataFactory.eINSTANCE.createBooleanValue => [
+				value = conf <= uAtt.confidence || conf <= 1 - uAtt.confidence
+			]
+		} else {
+			throw new RuntimeException('''Not yet implemented for «uAtt.class.name»''')
+		}
+		
 	}
 }

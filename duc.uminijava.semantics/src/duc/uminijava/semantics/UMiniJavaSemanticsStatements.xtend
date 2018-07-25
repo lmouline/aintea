@@ -133,7 +133,8 @@ class IfStatementAspect extends StatementAspect {
 	@OverrideAspectMethod
 	@Step
 	def void evaluateStatement(State state) {
-		if ((_self.expression.evaluateExpression(state) as BooleanValue).value) {
+		val condition = _self.expression.evaluateExpression(state).toBool
+		if (condition.value) {
 			_self.thenBlock.evaluateStatement(state)
 		} else if (_self.elseBlock !== null) {
 			_self.elseBlock.evaluateStatement(state)

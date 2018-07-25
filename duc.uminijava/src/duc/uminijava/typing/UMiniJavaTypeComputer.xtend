@@ -115,10 +115,10 @@ class UMiniJavaTypeComputer extends MiniJavaTypeComputer{
 	}
 	
 	def dispatch TypeDeclaration typeFor(Equality eq) {
-		if(eq.left.typeFor === BERNOULLI_TYPE || eq.right.typeFor === BERNOULLI_TYPE) {
-			return BERNOULLI_TYPE
-		}
-		
+//		if(eq.left.typeFor === BERNOULLI_TYPE || eq.right.typeFor === BERNOULLI_TYPE) {
+//			return BERNOULLI_TYPE
+//		}
+//		
 		if(eq.left.typeFor.isSubclassOf(GAUSSIAN_TYPE) || eq.right.typeFor.isSubclassOf(GAUSSIAN_TYPE)) {
 			return BERNOULLI_TYPE
 		}
@@ -127,10 +127,10 @@ class UMiniJavaTypeComputer extends MiniJavaTypeComputer{
 	}
 	
 	def dispatch TypeDeclaration typeFor(Inequality ineq) {
-		if(ineq.left.typeFor === BERNOULLI_TYPE || ineq.right.typeFor === BERNOULLI_TYPE) {
-			return BERNOULLI_TYPE
-		}
-		
+//		if(ineq.left.typeFor === BERNOULLI_TYPE || ineq.right.typeFor === BERNOULLI_TYPE) {
+//			return BERNOULLI_TYPE
+//		}
+//		
 		if(ineq.left.typeFor.isSubclassOf(GAUSSIAN_TYPE) || ineq.right.typeFor.isSubclassOf(GAUSSIAN_TYPE)) {
 			return BERNOULLI_TYPE
 		}
