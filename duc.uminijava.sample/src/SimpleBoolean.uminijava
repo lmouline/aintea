@@ -1,66 +1,58 @@
 package simple.bool;
 
 class Building {
-	private Room[] rooms;
-	private Bernoulli<boolean> heatingSystem;
-	
+	public Room[] rooms;
+	public Bernoulli<boolean> heatingSystem;
+
 	public Bernoulli<boolean> heatingWithOpenWindow() {
 		Bernoulli<boolean> oneWindowOpen = false;
-		
+
 		for(int i=0;i<this.rooms.length; i=i+1) {
 			Room r = this.rooms[i];
 			if(oneWindowOpen[0.95]) {
 				oneWindowOpen = oneWindowOpen || r.windowOpen;
 			}
-	
-//			if((r.windowOpen == true)[0.95]) {}
-//			if((!(r.windowOpen == false))[0.95]) {}
-//			if((!r.windowOpen)[0.95]) {}
-
 		}
-		
+
 		return this.heatingSystem && oneWindowOpen;
 	}
-	
-	
-	public Bernoulli<boolean> heatingWithOpenWindowAndSomeone() {
+
+
+	public void heatingWithOpenWindowAndSomeone() {
 		for(int i=0;i<this.rooms.length; i=i+1) {
 			Room r = this.rooms[i];
 			Bernoulli<boolean> riseAlarm = r.windowOpen && r.someonePresent && this.heatingSystem;
-			
-			if(riseAlarm[0.7]) {
-	        	//send email
+
+			if(riseAlarm[0.3]) {
+				for(int j=0;j<r.employees.length; j=j+1) {
+					Employee e = r.employees[j];
+					System.out.println("Send e-mail to " + e.getEmail());
+		       	}
+	        } else {
+	        	System.out.println("No Alarm to send for room " + i + ": " + riseAlarm);
 	        }
 		}
-		
-		return null;
 	}
 }
 
-abstract class Room {
+class Room {
 	public Bernoulli<boolean> someonePresent = new Bernoulli<boolean>(true, .95);
 	public Bernoulli<boolean> windowOpen = new Bernoulli<boolean>(true, 0.95);
-}
 
-class Office extends Room {
-	private Employee[] employees;
-}
-
-class PrinterRoom extends Room {
-	
+	public Employee[] employees;
 }
 
 class Employee {
 	private String email = "to_fill@domain.com";
-	
+
 	public Employee(String email) {
 		this.email = email;
 	}
-	
+
 	public String getEmail() {
 		return this.email;
 	}
-	
+
 	public void setEmail(String newEmail) {
 		this.email = newEmail;
 	}
@@ -68,8 +60,27 @@ class Employee {
 
 class TestRunner {
 	public static void main(String[] args) {
-		int lala = 5 + 8;
-		System.out.println(lala);
+		int NB_ROOM = 10;
+		int NB_EMPLOYEE_PER_ROOM = 3;
+		
+		Building b = new Building();
+		b.rooms = new Room[NB_ROOM];
+		b.heatingSystem = new Bernoulli<boolean>(true, 0.65);
+		
+		for(int i=0;i<NB_ROOM;i=i+1) {
+			Room r = new Room();
+			r.someonePresent = new Bernoulli<boolean>(true, 0.8);
+			r.windowOpen = new Bernoulli<boolean>(true, 0.78);
+			r.employees = new Employee[NB_EMPLOYEE_PER_ROOM];
+			b.rooms[i] = r;
+			
+			for(int j=0; j<NB_EMPLOYEE_PER_ROOM; j=j+1) {
+				Employee e = new Employee();
+				e.setEmail("employee_" + i + "_" + j);
+				r.employees[j] = e;
+			}
+		}
+		
+		b.heatingWithOpenWindowAndSomeone();
 	}
 }
-

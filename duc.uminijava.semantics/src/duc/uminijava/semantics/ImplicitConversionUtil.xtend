@@ -13,9 +13,9 @@ import org.tetrabox.minijava.dynamic.minijavadynamicdata.MinijavadynamicdataFact
 class ImplicitConversionUtil {
 	
 	def static dispatch Value convert(Value actual, Assignee expected) {
-		throw new RuntimeException('''Implicit conversion not impleted for assignee «expected.class.name» and value «actual.class.name»''')
+		return actual
 	}
-	
+		
 	def static dispatch Value convert(BooleanValue actual, VariableDeclaration expected) {
 		if(!(expected.typeRef instanceof BooleanTypeRef)) {
 			switch expected.typeRef {
