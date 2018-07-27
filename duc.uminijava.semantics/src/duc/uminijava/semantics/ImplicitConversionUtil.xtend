@@ -9,6 +9,11 @@ import duc.uminijava.uMiniJava.BernoulliRef
 import uMiniJavaDynamicData.UMiniJavaDynamicDataFactory
 import uMiniJavaDynamicData.UBooleanValue
 import org.tetrabox.minijava.dynamic.minijavadynamicdata.MinijavadynamicdataFactory
+import org.tetrabox.minijava.dynamic.minijavadynamicdata.DoubleValue
+import org.tetrabox.minijava.xtext.miniJava.DoubleTypeRef
+import duc.uminijava.uMiniJava.GaussianRef
+import uMiniJavaDynamicData.UDoubleValue
+import org.tetrabox.minijava.dynamic.minijavadynamicdata.IntegerValue
 
 class ImplicitConversionUtil {
 	
@@ -30,6 +35,7 @@ class ImplicitConversionUtil {
 		}
 	}
 	
+	
 	def static dispatch Value convert(UBooleanValue actual, VariableDeclaration expected) {
 		if(expected.typeRef instanceof BernoulliRef) {
 			return actual
@@ -44,6 +50,31 @@ class ImplicitConversionUtil {
 		}
 	}
 	
+	def static dispatch Value convert(DoubleValue actual, VariableDeclaration expected) {
+		if(!(expected.typeRef instanceof DoubleTypeRef)) {
+			switch expected.typeRef {
+				GaussianRef: return UMiniJavaDynamicDataFactory.eINSTANCE.createUDoubleValue => [
+					value = actual.value
+					variance = 0
+				]
+				default: throw new RuntimeException("Unsupported operation.")
+			}
+		} else {
+			return actual
+		}
+	}
+	
+	def static dispatch Value convert(UDoubleValue actual, VariableDeclaration expected) {
+		if(expected.typeRef instanceof GaussianRef) {
+			return actual
+		} else {
+			return MinijavadynamicdataFactory.eINSTANCE.createDoubleValue => [
+				it.value = actual.value
+			]
+		}
+	}
+	
+
 	def static dispatch BooleanValue toBool(UBooleanValue value) {
 		return MinijavadynamicdataFactory.eINSTANCE.createBooleanValue => [
 			if(value.confidence >= 0.5) {
@@ -59,6 +90,21 @@ class ImplicitConversionUtil {
 	}
 	
 	def static dispatch BooleanValue toBool(Value value) {
+		throw new RuntimeException("BAD BAD BAD!!!")
+	}
+	
+	
+	
+	
+	def static dispatch double toDouble(IntegerValue value) {
+		return value.value
+	}
+	
+	def static dispatch double toDouble(DoubleValue value) {
+		return value.value
+	}
+	
+	def static dispatch double toDouble(Value value) {
 		throw new RuntimeException("BAD BAD BAD!!!")
 	}
 }

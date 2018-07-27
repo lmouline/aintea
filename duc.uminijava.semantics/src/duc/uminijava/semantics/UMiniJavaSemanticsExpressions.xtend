@@ -47,6 +47,7 @@ import static extension duc.uminijava.semantics.ValueAspect.*
 import static extension duc.uminijava.semantics.ValueToStringAspect.*
 import static extension duc.uminijava.semantics.MethodSortofStatementAspect.*
 import static extension duc.uminijava.semantics.EqualityUtils.*
+import static extension duc.uminijava.semantics.ImplicitConversionUtil.*
 
 import org.tetrabox.minijava.dynamic.minijavadynamicdata.ObjectInstance
 import org.tetrabox.minijava.dynamic.minijavadynamicdata.ObjectRefValue
@@ -68,6 +69,10 @@ import org.tetrabox.minijava.xtext.miniJava.DoubleConstant
 import org.tetrabox.minijava.dynamic.minijavadynamicdata.DoubleValue
 import uMiniJavaDynamicData.UBooleanValue
 import duc.uminijava.uMiniJava.ExistExpr
+import duc.uminijava.uMiniJava.GaussianRef
+import org.tetrabox.minijava.xtext.miniJava.DoubleTypeRef
+import uMiniJavaDynamicData.UIntegerValue
+import uMiniJavaDynamicData.UDoubleValue
 
 @Aspect(className=Expression)
 class ExpressionAspect {
@@ -98,9 +103,57 @@ class NullAspect extends ExpressionAspect {
 class MinusAspect extends ExpressionAspect {
 	@OverrideAspectMethod
 	def Value evaluateExpression(State state) {
-		val left = (_self.left.evaluateExpression(state) as IntegerValue).value
-		val right = (_self.right.evaluateExpression(state) as IntegerValue).value
-		return MinijavadynamicdataFactory::eINSTANCE.createIntegerValue => [value = left - right]
+		val left = _self.left.evaluateExpression(state)
+		val right = _self.right.evaluateExpression(state)
+		if(left instanceof UIntegerValue) {
+			if(right instanceof UIntegerValue) {
+				return UMiniJavaDynamicDataFactory.eINSTANCE.createUIntegerValue => [
+					value = left.value - right.value
+					variance = left.variance + right.variance
+				]
+			} else if(right instanceof IntegerValue) {
+				return UMiniJavaDynamicDataFactory.eINSTANCE.createUIntegerValue => [
+					value = left.value - right.value
+					variance = left.variance
+				]
+			} else {
+				throw new RuntimeException('''Plus operation is not implemented between «left.class.name» and «right.class.name»''')
+			}
+		} else if(left instanceof UDoubleValue) {
+			if(right instanceof UDoubleValue) {
+				return UMiniJavaDynamicDataFactory.eINSTANCE.createUDoubleValue => [
+					value = left.value - right.value
+					variance = left.variance + right.variance
+				]
+			} else if(right instanceof DoubleValue) {
+				return UMiniJavaDynamicDataFactory.eINSTANCE.createUDoubleValue => [
+					value = left.value - right.value
+					variance = left.variance
+				]
+			} else {
+				throw new RuntimeException('''Plus operation is not implemented between «left.class.name» and «right.class.name»''')
+			}
+		} else if(left instanceof DoubleValue) {
+			if(right instanceof UDoubleValue) {
+				return UMiniJavaDynamicDataFactory.eINSTANCE.createUDoubleValue => [
+					value = left.value - right.value
+					variance = right.variance
+				]
+			} else if(right instanceof DoubleValue) {
+				return MinijavadynamicdataFactory.eINSTANCE.createDoubleValue => [
+					value = left.value - right.value
+				]
+			} else {
+				throw new RuntimeException('''Plus operation is not implemented between «left.class.name» and «right.class.name»''')
+			}
+		} else if (left instanceof IntegerValue) {
+			if (right instanceof IntegerValue) {
+				return MinijavadynamicdataFactory::eINSTANCE.createIntegerValue => [
+					value = left.value - right.value
+				]
+			}
+		}
+		throw new RuntimeException('''Unsupported plus operands: «left» + «right».''')
 	}
 }
 
@@ -108,9 +161,57 @@ class MinusAspect extends ExpressionAspect {
 class MultiplicationAspect extends ExpressionAspect {
 	@OverrideAspectMethod
 	def Value evaluateExpression(State state) {
-		val left = (_self.left.evaluateExpression(state) as IntegerValue).value
-		val right = (_self.right.evaluateExpression(state) as IntegerValue).value
-		return MinijavadynamicdataFactory::eINSTANCE.createIntegerValue => [value = left * right]
+		val left = _self.left.evaluateExpression(state)
+		val right = _self.right.evaluateExpression(state)
+		if(left instanceof UIntegerValue) {
+			if(right instanceof UIntegerValue) {
+				return UMiniJavaDynamicDataFactory.eINSTANCE.createUIntegerValue => [
+					value = left.value * right.value
+					variance = right.value*right.value*left.variance + left.value*left.value*right.variance
+				]
+			} else if(right instanceof IntegerValue) {
+				return UMiniJavaDynamicDataFactory.eINSTANCE.createUIntegerValue => [
+					value = left.value * right.value
+					variance = left.variance
+				]
+			} else {
+				throw new RuntimeException('''Plus operation is not implemented between «left.class.name» and «right.class.name»''')
+			}
+		} else if(left instanceof UDoubleValue) {
+			if(right instanceof UDoubleValue) {
+				return UMiniJavaDynamicDataFactory.eINSTANCE.createUDoubleValue => [
+					value = left.value * right.value
+					variance = right.value*right.value*left.variance + left.value*left.value*right.variance
+				]
+			} else if(right instanceof DoubleValue) {
+				return UMiniJavaDynamicDataFactory.eINSTANCE.createUDoubleValue => [
+					value = left.value * right.value
+					variance = left.variance
+				]
+			} else {
+				throw new RuntimeException('''Plus operation is not implemented between «left.class.name» and «right.class.name»''')
+			}
+		} else if(left instanceof DoubleValue) {
+			if(right instanceof UDoubleValue) {
+				return UMiniJavaDynamicDataFactory.eINSTANCE.createUDoubleValue => [
+					value = left.value * right.value
+					variance = right.variance
+				]
+			} else if(right instanceof DoubleValue) {
+				return MinijavadynamicdataFactory.eINSTANCE.createDoubleValue => [
+					value = left.value * right.value
+				]
+			} else {
+				throw new RuntimeException('''Plus operation is not implemented between «left.class.name» and «right.class.name»''')
+			}
+		} else if (left instanceof IntegerValue) {
+			if (right instanceof IntegerValue) {
+				return MinijavadynamicdataFactory::eINSTANCE.createIntegerValue => [
+					value = left.value * right.value
+				]
+			}
+		}
+		throw new RuntimeException('''Unsupported plus operands: «left» + «right».''')
 	}
 }
 
@@ -118,9 +219,57 @@ class MultiplicationAspect extends ExpressionAspect {
 class DivisionAspect extends ExpressionAspect {
 	@OverrideAspectMethod
 	def Value evaluateExpression(State state) {
-		val left = (_self.left.evaluateExpression(state) as IntegerValue).value
-		val right = (_self.right.evaluateExpression(state) as IntegerValue).value
-		return MinijavadynamicdataFactory::eINSTANCE.createIntegerValue => [value = left / right]
+		val left = _self.left.evaluateExpression(state)
+		val right = _self.right.evaluateExpression(state)
+		if(left instanceof UIntegerValue) {
+			if(right instanceof UIntegerValue) {
+				return UMiniJavaDynamicDataFactory.eINSTANCE.createUIntegerValue => [
+					value = ((left.value/right.value) + (left.value*right.variance)/(right.value*right.value*right.value)) as int
+					variance = (left.variance/right.value) + (left.value*left.value*right.variance)/(right.value*right.value*right.value*right.value)
+				]
+			} else if(right instanceof IntegerValue) {
+				return UMiniJavaDynamicDataFactory.eINSTANCE.createUIntegerValue => [
+					value = left.value / right.value
+					variance = (left.variance/right.value)
+				]
+			} else {
+				throw new RuntimeException('''Plus operation is not implemented between «left.class.name» and «right.class.name»''')
+			}
+		} else if(left instanceof UDoubleValue) {
+			if(right instanceof UDoubleValue) {
+				return UMiniJavaDynamicDataFactory.eINSTANCE.createUDoubleValue => [
+					value = (left.value/right.value) + (left.value*right.variance)/(right.value*right.value*right.value)
+					variance = (left.variance/right.value) + (left.value*left.value*right.variance)/(right.value*right.value*right.value*right.value)
+				]
+			} else if(right instanceof DoubleValue) {
+				return UMiniJavaDynamicDataFactory.eINSTANCE.createUDoubleValue => [
+					value = left.value / right.value
+					variance = (left.variance/right.value)
+				]
+			} else {
+				throw new RuntimeException('''Plus operation is not implemented between «left.class.name» and «right.class.name»''')
+			}
+		} else if(left instanceof DoubleValue) {
+			if(right instanceof UDoubleValue) {
+				return UMiniJavaDynamicDataFactory.eINSTANCE.createUDoubleValue => [
+					value = left.value / right.value
+					variance = (left.value*left.value*right.variance)/(right.value*right.value*right.value*right.value)
+				]
+			} else if(right instanceof DoubleValue) {
+				return MinijavadynamicdataFactory.eINSTANCE.createDoubleValue => [
+					value = left.value / right.value
+				]
+			} else {
+				throw new RuntimeException('''Plus operation is not implemented between «left.class.name» and «right.class.name»''')
+			}
+		} else if (left instanceof IntegerValue) {
+			if (right instanceof IntegerValue) {
+				return MinijavadynamicdataFactory::eINSTANCE.createIntegerValue => [
+					value = left.value / right.value
+				]
+			}
+		}
+		throw new RuntimeException('''Unsupported plus operands: «left» + «right».''')
 	}
 }
 
@@ -134,6 +283,47 @@ class PlusAspect extends ExpressionAspect {
 			return MinijavadynamicdataFactory::eINSTANCE.createStringValue => [
 				value = left.customToString + right.customToString
 			]
+		} else if(left instanceof UIntegerValue) {
+			if(right instanceof UIntegerValue) {
+				return UMiniJavaDynamicDataFactory.eINSTANCE.createUIntegerValue => [
+					value = left.value + right.value
+					variance = left.variance + right.variance
+				]
+			} else if(right instanceof IntegerValue) {
+				return UMiniJavaDynamicDataFactory.eINSTANCE.createUIntegerValue => [
+					value = left.value + right.value
+					variance = left.variance
+				]
+			} else {
+				throw new RuntimeException('''Plus operation is not implemented between «left.class.name» and «right.class.name»''')
+			}
+		} else if(left instanceof UDoubleValue) {
+			if(right instanceof UDoubleValue) {
+				return UMiniJavaDynamicDataFactory.eINSTANCE.createUDoubleValue => [
+					value = left.value + right.value
+					variance = left.variance + right.variance
+				]
+			} else if(right instanceof DoubleValue) {
+				return UMiniJavaDynamicDataFactory.eINSTANCE.createUDoubleValue => [
+					value = left.value + right.value
+					variance = left.variance
+				]
+			} else {
+				throw new RuntimeException('''Plus operation is not implemented between «left.class.name» and «right.class.name»''')
+			}
+		} else if(left instanceof DoubleValue) {
+			if(right instanceof UDoubleValue) {
+				return UMiniJavaDynamicDataFactory.eINSTANCE.createUDoubleValue => [
+					value = left.value + right.value
+					variance = right.variance
+				]
+			} else if(right instanceof DoubleValue) {
+				return MinijavadynamicdataFactory.eINSTANCE.createDoubleValue => [
+					value = left.value + right.value
+				]
+			} else {
+				throw new RuntimeException('''Plus operation is not implemented between «left.class.name» and «right.class.name»''')
+			}
 		} else if (left instanceof IntegerValue) {
 			if (right instanceof IntegerValue) {
 				return MinijavadynamicdataFactory::eINSTANCE.createIntegerValue => [
@@ -675,18 +865,33 @@ class ArrayAccessAspect extends ExpressionAspect {
 class NewUObjectAspect extends ExpressionAspect {
 	@OverrideAspectMethod
 	def Value evaluateExpression(State state) {
+		val conf = if(_self.args.length == 1) {
+			1
+		} else {
+			(_self.args.get(1).evaluateExpression(state) as DoubleValue).value
+		}
+				
 		if(_self.type instanceof BernoulliRef) {
 			return UMiniJavaDynamicDataFactory.eINSTANCE.createUBooleanValue => [
 				value = (_self.args.get(0).evaluateExpression(state) as BooleanValue).value
-				
-				if(_self.args.length == 1) {
-					confidence = 1
-				} else {
-					confidence = (_self.args.get(1).evaluateExpression(state) as DoubleValue).value
-				}
+				confidence = conf
 			]
+		} else if(_self.type instanceof GaussianRef) {
+			if(_self.type.genericType instanceof IntegerTypeRef) {
+				return UMiniJavaDynamicDataFactory.eINSTANCE.createUIntegerValue => [
+					value = (_self.args.get(0).evaluateExpression(state) as IntegerValue).value
+					variance = conf
+				]
+			} else if(_self.type.genericType instanceof DoubleTypeRef) {
+				return UMiniJavaDynamicDataFactory.eINSTANCE.createUDoubleValue => [
+					value = _self.args.get(0).evaluateExpression(state).toDouble
+					variance = conf
+				]
+			} else {
+				throw new RuntimeException("Not yet supported");
+			}
 		}
-		return null
+		throw new RuntimeException("Not yet supported");
 	
 	
 	}

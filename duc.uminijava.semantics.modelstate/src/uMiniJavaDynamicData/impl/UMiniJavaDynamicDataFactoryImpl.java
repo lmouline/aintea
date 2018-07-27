@@ -57,6 +57,8 @@ public class UMiniJavaDynamicDataFactoryImpl extends EFactoryImpl implements UMi
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
 			case UMiniJavaDynamicDataPackage.UBOOLEAN_VALUE: return createUBooleanValue();
+			case UMiniJavaDynamicDataPackage.UINTEGER_VALUE: return createUIntegerValue();
+			case UMiniJavaDynamicDataPackage.UDOUBLE_VALUE: return createUDoubleValue();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -70,6 +72,26 @@ public class UMiniJavaDynamicDataFactoryImpl extends EFactoryImpl implements UMi
 	public UBooleanValue createUBooleanValue() {
 		UBooleanValueImpl uBooleanValue = new UBooleanValueImpl();
 		return uBooleanValue;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public UIntegerValue createUIntegerValue() {
+		UIntegerValueImpl uIntegerValue = new UIntegerValueImpl();
+		return uIntegerValue;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public UDoubleValue createUDoubleValue() {
+		UDoubleValueImpl uDoubleValue = new UDoubleValueImpl();
+		return uDoubleValue;
 	}
 
 	/**

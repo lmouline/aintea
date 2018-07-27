@@ -31,6 +31,24 @@ public interface UMiniJavaDynamicDataFactory extends EFactory {
 	UBooleanValue createUBooleanValue();
 
 	/**
+	 * Returns a new object of class '<em>UInteger Value</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>UInteger Value</em>'.
+	 * @generated
+	 */
+	UIntegerValue createUIntegerValue();
+
+	/**
+	 * Returns a new object of class '<em>UDouble Value</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>UDouble Value</em>'.
+	 * @generated
+	 */
+	UDoubleValue createUDoubleValue();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

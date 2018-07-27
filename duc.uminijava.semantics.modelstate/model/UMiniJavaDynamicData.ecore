@@ -5,4 +5,10 @@
   <eClassifiers xsi:type="ecore:EClass" name="UBooleanValue" eSuperTypes="../../org.tetrabox.minijava.semantics.modelstate/model/MiniJavaDynamicData.ecore#//BooleanValue">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="confidence" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="UIntegerValue" eSuperTypes="../../org.tetrabox.minijava.semantics.modelstate/model/MiniJavaDynamicData.ecore#//IntegerValue">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="variance" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="UDoubleValue" eSuperTypes="../../org.tetrabox.minijava.semantics.modelstate/model/MiniJavaDynamicData.ecore#//DoubleValue">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="variance" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+  </eClassifiers>
 </ecore:EPackage>

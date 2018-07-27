@@ -11,6 +11,8 @@ import org.tetrabox.minijava.dynamic.minijavadynamicdata.MinijavadynamicdataPack
 import org.tetrabox.minijava.xtext.miniJava.MiniJavaPackage;
 
 import uMiniJavaDynamicData.UBooleanValue;
+import uMiniJavaDynamicData.UDoubleValue;
+import uMiniJavaDynamicData.UIntegerValue;
 import uMiniJavaDynamicData.UMiniJavaDynamicDataFactory;
 import uMiniJavaDynamicData.UMiniJavaDynamicDataPackage;
 
@@ -27,6 +29,18 @@ public class UMiniJavaDynamicDataPackageImpl extends EPackageImpl implements UMi
 	 * @generated
 	 */
 	private EClass uBooleanValueEClass = null;
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass uIntegerValueEClass = null;
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass uDoubleValueEClass = null;
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
 	 * {@link org.eclipse.emf.ecore.EPackage.Registry EPackage.Registry} by the package
@@ -115,6 +129,42 @@ public class UMiniJavaDynamicDataPackageImpl extends EPackageImpl implements UMi
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getUIntegerValue() {
+		return uIntegerValueEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getUIntegerValue_Variance() {
+		return (EAttribute)uIntegerValueEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getUDoubleValue() {
+		return uDoubleValueEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getUDoubleValue_Variance() {
+		return (EAttribute)uDoubleValueEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public UMiniJavaDynamicDataFactory getUMiniJavaDynamicDataFactory() {
 		return (UMiniJavaDynamicDataFactory)getEFactoryInstance();
 	}
@@ -140,6 +190,12 @@ public class UMiniJavaDynamicDataPackageImpl extends EPackageImpl implements UMi
 		// Create classes and their features
 		uBooleanValueEClass = createEClass(UBOOLEAN_VALUE);
 		createEAttribute(uBooleanValueEClass, UBOOLEAN_VALUE__CONFIDENCE);
+
+		uIntegerValueEClass = createEClass(UINTEGER_VALUE);
+		createEAttribute(uIntegerValueEClass, UINTEGER_VALUE__VARIANCE);
+
+		uDoubleValueEClass = createEClass(UDOUBLE_VALUE);
+		createEAttribute(uDoubleValueEClass, UDOUBLE_VALUE__VARIANCE);
 	}
 
 	/**
@@ -174,10 +230,18 @@ public class UMiniJavaDynamicDataPackageImpl extends EPackageImpl implements UMi
 
 		// Add supertypes to classes
 		uBooleanValueEClass.getESuperTypes().add(theMinijavadynamicdataPackage.getBooleanValue());
+		uIntegerValueEClass.getESuperTypes().add(theMinijavadynamicdataPackage.getIntegerValue());
+		uDoubleValueEClass.getESuperTypes().add(theMinijavadynamicdataPackage.getDoubleValue());
 
 		// Initialize classes, features, and operations; add parameters
 		initEClass(uBooleanValueEClass, UBooleanValue.class, "UBooleanValue", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getUBooleanValue_Confidence(), ecorePackage.getEDouble(), "confidence", null, 0, 1, UBooleanValue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(uIntegerValueEClass, UIntegerValue.class, "UIntegerValue", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getUIntegerValue_Variance(), ecorePackage.getEDouble(), "variance", null, 0, 1, UIntegerValue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(uDoubleValueEClass, UDoubleValue.class, "UDoubleValue", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getUDoubleValue_Variance(), ecorePackage.getEDouble(), "variance", null, 0, 1, UDoubleValue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Create resource
 		createResource(eNS_URI);

@@ -9,3 +9,9 @@ Package uMiniJavaDynamicData <http://www.uminijava.duc/UMiniJavaDynamicData>
 
   Class UBooleanValue -> BooleanValue
     Attribute confidence : EDouble
+
+  Class UIntegerValue -> IntegerValue
+    Attribute variance : EDouble
+
+  Class UDoubleValue -> DoubleValue
+    Attribute variance : EDouble

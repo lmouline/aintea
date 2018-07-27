@@ -22,6 +22,9 @@ import org.tetrabox.minijava.xtext.miniJava.CharTypeRef
 
 import static extension duc.uminijava.semantics.PrimitiveTypeToString.*
 import uMiniJavaDynamicData.UBooleanValue
+import uMiniJavaDynamicData.UIntegerValue
+import org.tetrabox.minijava.dynamic.minijavadynamicdata.DoubleValue
+import uMiniJavaDynamicData.UDoubleValue
 
 @Aspect(className=Value)
 class ValueToStringAspect {
@@ -90,6 +93,30 @@ class IntegerValueToStringAspect extends ValueToStringAspect {
 	@OverrideAspectMethod
 	def String customToString() {
 		return _self.value.toString
+	}
+}
+
+@Aspect(className=UIntegerValue)
+class UIntegerValueToStringAspect extends IntegerValueToStringAspect {
+	@OverrideAspectMethod
+	def String customToString() {
+		return '''(«_self.value.toString», «_self.variance.toString»)'''
+	}
+}
+
+@Aspect(className=DoubleValue)
+class DoubleValueToStringAspect extends ValueToStringAspect {
+	@OverrideAspectMethod
+	def String customToString() {
+		return _self.value.toString
+	}
+}
+
+@Aspect(className=UDoubleValue)
+class UDoubleValueToStringAspect extends DoubleValueToStringAspect {
+	@OverrideAspectMethod
+	def String customToString() {
+		return '''(«_self.value.toString», «_self.variance.toString»)'''
 	}
 }
 

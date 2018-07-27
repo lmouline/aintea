@@ -24,12 +24,14 @@ import static extension duc.uminijava.semantics.ContextAspect.*
 import static extension duc.uminijava.semantics.FrameAspect.*
 import uMiniJavaDynamicData.UBooleanValue
 import uMiniJavaDynamicData.UMiniJavaDynamicDataFactory
-import org.tetrabox.minijava.xtext.miniJava.Assignment
+import uMiniJavaDynamicData.UIntegerValue
+import org.tetrabox.minijava.dynamic.minijavadynamicdata.DoubleValue
+import uMiniJavaDynamicData.UDoubleValue
 
 @Aspect(className=Context)
 class ContextAspect {
 
-	private val Map<Symbol, SymbolBinding> cache = new HashMap
+	val Map<Symbol, SymbolBinding> cache = new HashMap
 
 	def Context createChildContext() {
 		return MinijavadynamicdataFactory::eINSTANCE.createContext => [
@@ -65,8 +67,8 @@ class ContextAspect {
 @Aspect(className=State)
 class StateAspect {
 
-	private var Frame frameCache
-	private var Context contextCache
+	var Frame frameCache
+	var Context contextCache
 
 	def Frame findCurrentFrame() {
 		if (_self.frameCache === null) {
@@ -157,6 +159,36 @@ class IntegerValueAspect extends ValueAspect {
 	@OverrideAspectMethod
 	def Value copy() {
 		return MinijavadynamicdataFactory::eINSTANCE.createIntegerValue => [value = _self.value]
+	}
+}
+
+@Aspect(className=UIntegerValue)
+class UIntegerValueAspect extends IntegerValueAspect {
+	@OverrideAspectMethod
+	def Value copy() {
+		return UMiniJavaDynamicDataFactory::eINSTANCE.createUIntegerValue => [
+			value = _self.value
+			variance = _self.variance
+		]
+	}
+}
+
+@Aspect(className=DoubleValue)
+class DoubleValueAspect extends ValueAspect {
+	@OverrideAspectMethod
+	def Value copy() {
+		return MinijavadynamicdataFactory::eINSTANCE.createDoubleValue => [value = _self.value]
+	}
+}
+
+@Aspect(className=UDoubleValue)
+class UDoubleValueAspect extends DoubleValueAspect {
+	@OverrideAspectMethod
+	def Value copy() {
+		return UMiniJavaDynamicDataFactory::eINSTANCE.createUDoubleValue => [
+			value = _self.value
+			variance = _self.variance
+		]
 	}
 }
 

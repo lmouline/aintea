@@ -8,6 +8,8 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.util.Switch;
 
 import org.tetrabox.minijava.dynamic.minijavadynamicdata.BooleanValue;
+import org.tetrabox.minijava.dynamic.minijavadynamicdata.DoubleValue;
+import org.tetrabox.minijava.dynamic.minijavadynamicdata.IntegerValue;
 import org.tetrabox.minijava.dynamic.minijavadynamicdata.Value;
 import uMiniJavaDynamicData.*;
 
@@ -76,6 +78,22 @@ public class UMiniJavaDynamicDataSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case UMiniJavaDynamicDataPackage.UINTEGER_VALUE: {
+				UIntegerValue uIntegerValue = (UIntegerValue)theEObject;
+				T result = caseUIntegerValue(uIntegerValue);
+				if (result == null) result = caseIntegerValue(uIntegerValue);
+				if (result == null) result = caseValue(uIntegerValue);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case UMiniJavaDynamicDataPackage.UDOUBLE_VALUE: {
+				UDoubleValue uDoubleValue = (UDoubleValue)theEObject;
+				T result = caseUDoubleValue(uDoubleValue);
+				if (result == null) result = caseDoubleValue(uDoubleValue);
+				if (result == null) result = caseValue(uDoubleValue);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			default: return defaultCase(theEObject);
 		}
 	}
@@ -92,6 +110,36 @@ public class UMiniJavaDynamicDataSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseUBooleanValue(UBooleanValue object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>UInteger Value</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>UInteger Value</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseUIntegerValue(UIntegerValue object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>UDouble Value</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>UDouble Value</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseUDoubleValue(UDoubleValue object) {
 		return null;
 	}
 
@@ -122,6 +170,36 @@ public class UMiniJavaDynamicDataSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseBooleanValue(BooleanValue object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Integer Value</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Integer Value</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseIntegerValue(IntegerValue object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Double Value</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Double Value</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseDoubleValue(DoubleValue object) {
 		return null;
 	}
 

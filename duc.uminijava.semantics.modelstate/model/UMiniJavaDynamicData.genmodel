@@ -10,5 +10,11 @@
     <genClasses ecoreClass="UMiniJavaDynamicData.ecore#//UBooleanValue">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute UMiniJavaDynamicData.ecore#//UBooleanValue/confidence"/>
     </genClasses>
+    <genClasses ecoreClass="UMiniJavaDynamicData.ecore#//UIntegerValue">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute UMiniJavaDynamicData.ecore#//UIntegerValue/variance"/>
+    </genClasses>
+    <genClasses ecoreClass="UMiniJavaDynamicData.ecore#//UDoubleValue">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute UMiniJavaDynamicData.ecore#//UDoubleValue/variance"/>
+    </genClasses>
   </genPackages>
 </genmodel:GenModel>
