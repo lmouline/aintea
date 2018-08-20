@@ -24,7 +24,6 @@ import org.tetrabox.minijava.xtext.miniJava.DoubleConstant
 import org.tetrabox.minijava.xtext.miniJava.BooleanTypeRef
 import org.tetrabox.minijava.xtext.miniJava.TypedDeclaration
 import duc.uminijava.uMiniJava.ExistExpr
-import org.tetrabox.minijava.xtext.miniJava.Plus
 
 /**
  * This class contains custom validation rules. 
@@ -84,14 +83,7 @@ class UMiniJavaValidator extends AbstractUMiniJavaValidator {
 					error('''Argument should be a double type. Actual: «objCreation.args.get(1).typeFor.name»''', UMiniJavaPackage.eINSTANCE.newUObject_Args,0)
 				}
 			}
-			
-			if(objCreation.args.get(objCreation.args.length - 1) instanceof DoubleConstant) {
-				val doubleVal = (objCreation.args.get(objCreation.args.length - 1) as DoubleConstant).value
-				if(doubleVal < 0 || doubleVal > 1) {
-					warning("Confidence value should be in [0;1] range", UMiniJavaPackage.eINSTANCE.newUObject_Args, 1)
-				}
-			}
-			
+						
 		}
 	}
 		

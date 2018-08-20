@@ -16,5 +16,17 @@
     <genClasses ecoreClass="UMiniJavaDynamicData.ecore#//UDoubleValue">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute UMiniJavaDynamicData.ecore#//UDoubleValue/variance"/>
     </genClasses>
+    <genClasses ecoreClass="UMiniJavaDynamicData.ecore#//ULongValue">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute UMiniJavaDynamicData.ecore#//ULongValue/variance"/>
+    </genClasses>
+    <genClasses ecoreClass="UMiniJavaDynamicData.ecore#//UShortValue">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute UMiniJavaDynamicData.ecore#//UShortValue/variance"/>
+    </genClasses>
+    <genClasses ecoreClass="UMiniJavaDynamicData.ecore#//UByteValue">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute UMiniJavaDynamicData.ecore#//UByteValue/variance"/>
+    </genClasses>
+    <genClasses ecoreClass="UMiniJavaDynamicData.ecore#//UFloatValue">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute UMiniJavaDynamicData.ecore#//UFloatValue/variance"/>
+    </genClasses>
   </genPackages>
 </genmodel:GenModel>

@@ -73,6 +73,12 @@ import duc.uminijava.uMiniJava.GaussianRef
 import org.tetrabox.minijava.xtext.miniJava.DoubleTypeRef
 import uMiniJavaDynamicData.UIntegerValue
 import uMiniJavaDynamicData.UDoubleValue
+import org.tetrabox.minijava.xtext.miniJava.LongTypeRef
+import org.tetrabox.minijava.dynamic.minijavadynamicdata.LongValue
+import org.tetrabox.minijava.xtext.miniJava.ShortTypeRef
+import org.tetrabox.minijava.xtext.miniJava.ByteTypeRef
+import org.tetrabox.minijava.xtext.miniJava.FloatTypeRef
+import org.tetrabox.minijava.xtext.miniJava.LongConstant
 
 @Aspect(className=Expression)
 class ExpressionAspect {
@@ -482,14 +488,6 @@ class AndAspect extends ExpressionAspect {
 				]
 			}
 		}
-//		if (left instanceof BooleanValue) {
-//			if (right instanceof BooleanValue) {
-//				return MinijavadynamicdataFactory::eINSTANCE.createBooleanValue => [
-//					value = left.value && right.value
-//				]
-//			}
-//		}
-//		throw new RuntimeException('''Unsupported or operands: «left» && «right».''')
 	}
 }
 
@@ -567,7 +565,7 @@ class EqualityAspect extends ExpressionAspect {
 	def Value evaluateExpression(State state) {
 		val left = _self.left.evaluateExpression(state)
 		val right = _self.right.evaluateExpression(state)
-		val boolean result =  left.equals(right)
+		val boolean result =  equals(left,right)
 		return MinijavadynamicdataFactory::eINSTANCE.createBooleanValue => [
 			value = result
 		]
@@ -700,7 +698,7 @@ class ThisAspect extends ExpressionAspect {
 class SymbolRefAspect extends ExpressionAspect {
 	@OverrideAspectMethod
 	def Value evaluateExpression(State state) {
-		state.findCurrentContext.findBinding(_self.symbol).value.copy
+		state.findCurrentContext.findBinding(_self.symbol).value.copy 
 	}
 }
 
@@ -809,6 +807,18 @@ class DoubleConstantAspect extends ExpressionAspect {
 	}
 }
 
+@Aspect(className=LongConstant)
+class LongConstantAspect extends ExpressionAspect {
+	@OverrideAspectMethod
+	def Value evaluateExpression(State state) {
+		return MinijavadynamicdataFactory::eINSTANCE.createLongValue => [
+			val strValue = _self.value.substring(0, _self.value.length - 1)
+			value = Long.parseLong(strValue)
+		]
+	}
+}
+
+
 @Aspect(className=BoolConstant)
 class BoolConstantAspect extends ExpressionAspect {
 	@OverrideAspectMethod
@@ -885,6 +895,26 @@ class NewUObjectAspect extends ExpressionAspect {
 			} else if(_self.type.genericType instanceof DoubleTypeRef) {
 				return UMiniJavaDynamicDataFactory.eINSTANCE.createUDoubleValue => [
 					value = _self.args.get(0).evaluateExpression(state).toDouble
+					variance = conf
+				]
+			} else if(_self.type.genericType instanceof LongTypeRef) {
+				return UMiniJavaDynamicDataFactory.eINSTANCE.createULongValue => [
+					value = (_self.args.get(0).evaluateExpression(state) as LongValue).value
+					variance = conf
+				]
+			} else if(_self.type.genericType instanceof ShortTypeRef) {
+				return UMiniJavaDynamicDataFactory.eINSTANCE.createUShortValue => [
+					value = ((_self.args.get(0).evaluateExpression(state) as IntegerValue).value) as short
+					variance = conf
+				]
+			} else if(_self.type.genericType instanceof ByteTypeRef) {
+				return UMiniJavaDynamicDataFactory.eINSTANCE.createUByteValue => [
+					value = ((_self.args.get(0).evaluateExpression(state) as IntegerValue).value) as byte
+					variance = conf
+				]
+			} else if(_self.type.genericType instanceof FloatTypeRef) {
+				return UMiniJavaDynamicDataFactory.eINSTANCE.createUFloatValue => [
+					value = ((_self.args.get(0).evaluateExpression(state) as DoubleValue).value) as float
 					variance = conf
 				]
 			} else {

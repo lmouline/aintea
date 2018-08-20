@@ -15,3 +15,15 @@ Package uMiniJavaDynamicData <http://www.uminijava.duc/UMiniJavaDynamicData>
 
   Class UDoubleValue -> DoubleValue
     Attribute variance : EDouble
+
+  Class ULongValue -> LongValue
+    Attribute variance : EDouble
+
+  Class UShortValue -> ShortValue
+    Attribute variance : EDouble
+
+  Class UByteValue -> ByteValue
+    Attribute variance : EDouble
+
+  Class UFloatValue -> FloatValue
+    Attribute variance : EDouble

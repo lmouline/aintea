@@ -59,6 +59,10 @@ public class UMiniJavaDynamicDataFactoryImpl extends EFactoryImpl implements UMi
 			case UMiniJavaDynamicDataPackage.UBOOLEAN_VALUE: return createUBooleanValue();
 			case UMiniJavaDynamicDataPackage.UINTEGER_VALUE: return createUIntegerValue();
 			case UMiniJavaDynamicDataPackage.UDOUBLE_VALUE: return createUDoubleValue();
+			case UMiniJavaDynamicDataPackage.ULONG_VALUE: return createULongValue();
+			case UMiniJavaDynamicDataPackage.USHORT_VALUE: return createUShortValue();
+			case UMiniJavaDynamicDataPackage.UBYTE_VALUE: return createUByteValue();
+			case UMiniJavaDynamicDataPackage.UFLOAT_VALUE: return createUFloatValue();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -92,6 +96,46 @@ public class UMiniJavaDynamicDataFactoryImpl extends EFactoryImpl implements UMi
 	public UDoubleValue createUDoubleValue() {
 		UDoubleValueImpl uDoubleValue = new UDoubleValueImpl();
 		return uDoubleValue;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ULongValue createULongValue() {
+		ULongValueImpl uLongValue = new ULongValueImpl();
+		return uLongValue;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public UShortValue createUShortValue() {
+		UShortValueImpl uShortValue = new UShortValueImpl();
+		return uShortValue;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public UByteValue createUByteValue() {
+		UByteValueImpl uByteValue = new UByteValueImpl();
+		return uByteValue;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public UFloatValue createUFloatValue() {
+		UFloatValueImpl uFloatValue = new UFloatValueImpl();
+		return uFloatValue;
 	}
 
 	/**

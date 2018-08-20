@@ -8,8 +8,12 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.util.Switch;
 
 import org.tetrabox.minijava.dynamic.minijavadynamicdata.BooleanValue;
+import org.tetrabox.minijava.dynamic.minijavadynamicdata.ByteValue;
 import org.tetrabox.minijava.dynamic.minijavadynamicdata.DoubleValue;
+import org.tetrabox.minijava.dynamic.minijavadynamicdata.FloatValue;
 import org.tetrabox.minijava.dynamic.minijavadynamicdata.IntegerValue;
+import org.tetrabox.minijava.dynamic.minijavadynamicdata.LongValue;
+import org.tetrabox.minijava.dynamic.minijavadynamicdata.ShortValue;
 import org.tetrabox.minijava.dynamic.minijavadynamicdata.Value;
 import uMiniJavaDynamicData.*;
 
@@ -94,6 +98,38 @@ public class UMiniJavaDynamicDataSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case UMiniJavaDynamicDataPackage.ULONG_VALUE: {
+				ULongValue uLongValue = (ULongValue)theEObject;
+				T result = caseULongValue(uLongValue);
+				if (result == null) result = caseLongValue(uLongValue);
+				if (result == null) result = caseValue(uLongValue);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case UMiniJavaDynamicDataPackage.USHORT_VALUE: {
+				UShortValue uShortValue = (UShortValue)theEObject;
+				T result = caseUShortValue(uShortValue);
+				if (result == null) result = caseShortValue(uShortValue);
+				if (result == null) result = caseValue(uShortValue);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case UMiniJavaDynamicDataPackage.UBYTE_VALUE: {
+				UByteValue uByteValue = (UByteValue)theEObject;
+				T result = caseUByteValue(uByteValue);
+				if (result == null) result = caseByteValue(uByteValue);
+				if (result == null) result = caseValue(uByteValue);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case UMiniJavaDynamicDataPackage.UFLOAT_VALUE: {
+				UFloatValue uFloatValue = (UFloatValue)theEObject;
+				T result = caseUFloatValue(uFloatValue);
+				if (result == null) result = caseFloatValue(uFloatValue);
+				if (result == null) result = caseValue(uFloatValue);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			default: return defaultCase(theEObject);
 		}
 	}
@@ -140,6 +176,66 @@ public class UMiniJavaDynamicDataSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseUDoubleValue(UDoubleValue object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>ULong Value</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>ULong Value</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseULongValue(ULongValue object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>UShort Value</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>UShort Value</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseUShortValue(UShortValue object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>UByte Value</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>UByte Value</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseUByteValue(UByteValue object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>UFloat Value</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>UFloat Value</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseUFloatValue(UFloatValue object) {
 		return null;
 	}
 
@@ -200,6 +296,66 @@ public class UMiniJavaDynamicDataSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseDoubleValue(DoubleValue object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Long Value</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Long Value</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseLongValue(LongValue object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Short Value</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Short Value</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseShortValue(ShortValue object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Byte Value</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Byte Value</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseByteValue(ByteValue object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Float Value</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Float Value</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseFloatValue(FloatValue object) {
 		return null;
 	}
 

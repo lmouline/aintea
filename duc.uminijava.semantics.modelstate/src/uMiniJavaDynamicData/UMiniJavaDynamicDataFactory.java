@@ -49,6 +49,42 @@ public interface UMiniJavaDynamicDataFactory extends EFactory {
 	UDoubleValue createUDoubleValue();
 
 	/**
+	 * Returns a new object of class '<em>ULong Value</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>ULong Value</em>'.
+	 * @generated
+	 */
+	ULongValue createULongValue();
+
+	/**
+	 * Returns a new object of class '<em>UShort Value</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>UShort Value</em>'.
+	 * @generated
+	 */
+	UShortValue createUShortValue();
+
+	/**
+	 * Returns a new object of class '<em>UByte Value</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>UByte Value</em>'.
+	 * @generated
+	 */
+	UByteValue createUByteValue();
+
+	/**
+	 * Returns a new object of class '<em>UFloat Value</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>UFloat Value</em>'.
+	 * @generated
+	 */
+	UFloatValue createUFloatValue();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

@@ -90,9 +90,8 @@ class ImplicitConversionUtil {
 	}
 	
 	def static dispatch BooleanValue toBool(Value value) {
-		throw new RuntimeException("BAD BAD BAD!!!")
+		throw new RuntimeException("Unsupported double conversion for " + value.getClass().name)
 	}
-	
 	
 	
 	
@@ -105,6 +104,6 @@ class ImplicitConversionUtil {
 	}
 	
 	def static dispatch double toDouble(Value value) {
-		throw new RuntimeException("BAD BAD BAD!!!")
+		throw new RuntimeException("Unsupported double conversion for " + value.getClass().name)
 	}
 }

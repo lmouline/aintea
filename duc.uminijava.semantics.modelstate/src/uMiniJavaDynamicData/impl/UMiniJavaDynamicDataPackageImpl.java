@@ -9,12 +9,15 @@ import org.eclipse.emf.ecore.impl.EPackageImpl;
 
 import org.tetrabox.minijava.dynamic.minijavadynamicdata.MinijavadynamicdataPackage;
 import org.tetrabox.minijava.xtext.miniJava.MiniJavaPackage;
-
 import uMiniJavaDynamicData.UBooleanValue;
+import uMiniJavaDynamicData.UByteValue;
 import uMiniJavaDynamicData.UDoubleValue;
+import uMiniJavaDynamicData.UFloatValue;
 import uMiniJavaDynamicData.UIntegerValue;
+import uMiniJavaDynamicData.ULongValue;
 import uMiniJavaDynamicData.UMiniJavaDynamicDataFactory;
 import uMiniJavaDynamicData.UMiniJavaDynamicDataPackage;
+import uMiniJavaDynamicData.UShortValue;
 
 /**
  * <!-- begin-user-doc -->
@@ -41,6 +44,30 @@ public class UMiniJavaDynamicDataPackageImpl extends EPackageImpl implements UMi
 	 * @generated
 	 */
 	private EClass uDoubleValueEClass = null;
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass uLongValueEClass = null;
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass uShortValueEClass = null;
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass uByteValueEClass = null;
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass uFloatValueEClass = null;
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
 	 * {@link org.eclipse.emf.ecore.EPackage.Registry EPackage.Registry} by the package
@@ -165,6 +192,78 @@ public class UMiniJavaDynamicDataPackageImpl extends EPackageImpl implements UMi
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getULongValue() {
+		return uLongValueEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getULongValue_Variance() {
+		return (EAttribute)uLongValueEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getUShortValue() {
+		return uShortValueEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getUShortValue_Variance() {
+		return (EAttribute)uShortValueEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getUByteValue() {
+		return uByteValueEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getUByteValue_Variance() {
+		return (EAttribute)uByteValueEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getUFloatValue() {
+		return uFloatValueEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getUFloatValue_Variance() {
+		return (EAttribute)uFloatValueEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public UMiniJavaDynamicDataFactory getUMiniJavaDynamicDataFactory() {
 		return (UMiniJavaDynamicDataFactory)getEFactoryInstance();
 	}
@@ -196,6 +295,18 @@ public class UMiniJavaDynamicDataPackageImpl extends EPackageImpl implements UMi
 
 		uDoubleValueEClass = createEClass(UDOUBLE_VALUE);
 		createEAttribute(uDoubleValueEClass, UDOUBLE_VALUE__VARIANCE);
+
+		uLongValueEClass = createEClass(ULONG_VALUE);
+		createEAttribute(uLongValueEClass, ULONG_VALUE__VARIANCE);
+
+		uShortValueEClass = createEClass(USHORT_VALUE);
+		createEAttribute(uShortValueEClass, USHORT_VALUE__VARIANCE);
+
+		uByteValueEClass = createEClass(UBYTE_VALUE);
+		createEAttribute(uByteValueEClass, UBYTE_VALUE__VARIANCE);
+
+		uFloatValueEClass = createEClass(UFLOAT_VALUE);
+		createEAttribute(uFloatValueEClass, UFLOAT_VALUE__VARIANCE);
 	}
 
 	/**
@@ -232,6 +343,10 @@ public class UMiniJavaDynamicDataPackageImpl extends EPackageImpl implements UMi
 		uBooleanValueEClass.getESuperTypes().add(theMinijavadynamicdataPackage.getBooleanValue());
 		uIntegerValueEClass.getESuperTypes().add(theMinijavadynamicdataPackage.getIntegerValue());
 		uDoubleValueEClass.getESuperTypes().add(theMinijavadynamicdataPackage.getDoubleValue());
+		uLongValueEClass.getESuperTypes().add(theMinijavadynamicdataPackage.getLongValue());
+		uShortValueEClass.getESuperTypes().add(theMinijavadynamicdataPackage.getShortValue());
+		uByteValueEClass.getESuperTypes().add(theMinijavadynamicdataPackage.getByteValue());
+		uFloatValueEClass.getESuperTypes().add(theMinijavadynamicdataPackage.getFloatValue());
 
 		// Initialize classes, features, and operations; add parameters
 		initEClass(uBooleanValueEClass, UBooleanValue.class, "UBooleanValue", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -242,6 +357,18 @@ public class UMiniJavaDynamicDataPackageImpl extends EPackageImpl implements UMi
 
 		initEClass(uDoubleValueEClass, UDoubleValue.class, "UDoubleValue", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getUDoubleValue_Variance(), ecorePackage.getEDouble(), "variance", null, 0, 1, UDoubleValue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(uLongValueEClass, ULongValue.class, "ULongValue", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getULongValue_Variance(), ecorePackage.getEDouble(), "variance", null, 0, 1, ULongValue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(uShortValueEClass, UShortValue.class, "UShortValue", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getUShortValue_Variance(), ecorePackage.getEDouble(), "variance", null, 0, 1, UShortValue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(uByteValueEClass, UByteValue.class, "UByteValue", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getUByteValue_Variance(), ecorePackage.getEDouble(), "variance", null, 0, 1, UByteValue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(uFloatValueEClass, UFloatValue.class, "UFloatValue", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getUFloatValue_Variance(), ecorePackage.getEDouble(), "variance", null, 0, 1, UFloatValue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Create resource
 		createResource(eNS_URI);

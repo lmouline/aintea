@@ -29,6 +29,10 @@ import org.tetrabox.minijava.xtext.miniJava.Superior
 import org.tetrabox.minijava.xtext.miniJava.Inferior
 import duc.uminijava.uMiniJava.ExistExpr
 import org.tetrabox.minijava.xtext.miniJava.Plus
+import org.tetrabox.minijava.xtext.miniJava.Expression
+import org.tetrabox.minijava.xtext.miniJava.Minus
+import org.tetrabox.minijava.xtext.miniJava.Multiplication
+import org.tetrabox.minijava.xtext.miniJava.Division
 
 class UMiniJavaTypeComputer extends MiniJavaTypeComputer{
 	
@@ -202,8 +206,24 @@ class UMiniJavaTypeComputer extends MiniJavaTypeComputer{
 	}
 	
 	override dispatch typeFor(Plus plus) {
-		val leftType = plus.left.typeFor
-		val rightType = plus.right.typeFor
+		typeForArithMetic(plus.left, plus.right)
+	}
+	
+	def dispatch typeFor(Minus minus) {
+		typeForArithMetic(minus.left, minus.right)
+	}
+	
+	def dispatch typeFor(Multiplication times) {
+		typeForArithMetic(times.left, times.right)
+	}
+	
+	def dispatch typeFor(Division division) {
+		typeForArithMetic(division.left, division.right)
+	}
+	
+	private def typeForArithMetic(Expression left, Expression right) {
+		val leftType = left.typeFor
+		val rightType = right.typeFor
 		
 		if(leftType === GAUSSIAN_DOUBLE_TYPE || rightType === GAUSSIAN_DOUBLE_TYPE) {
 			return GAUSSIAN_DOUBLE_TYPE
@@ -218,7 +238,7 @@ class UMiniJavaTypeComputer extends MiniJavaTypeComputer{
 		}
 		
 		if(leftType === GAUSSIAN_INT_TYPE || rightType === GAUSSIAN_INT_TYPE) {
-			return GAUSSIAN_DOUBLE_TYPE
+			return GAUSSIAN_INT_TYPE
 		}
 		
 		if(leftType === GAUSSIAN_SHORT_TYPE || rightType === GAUSSIAN_SHORT_TYPE) {

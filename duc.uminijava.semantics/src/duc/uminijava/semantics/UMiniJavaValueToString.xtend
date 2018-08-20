@@ -25,6 +25,14 @@ import uMiniJavaDynamicData.UBooleanValue
 import uMiniJavaDynamicData.UIntegerValue
 import org.tetrabox.minijava.dynamic.minijavadynamicdata.DoubleValue
 import uMiniJavaDynamicData.UDoubleValue
+import org.tetrabox.minijava.dynamic.minijavadynamicdata.LongValue
+import uMiniJavaDynamicData.ULongValue
+import org.tetrabox.minijava.dynamic.minijavadynamicdata.ShortValue
+import uMiniJavaDynamicData.UShortValue
+import org.tetrabox.minijava.dynamic.minijavadynamicdata.ByteValue
+import uMiniJavaDynamicData.UByteValue
+import org.tetrabox.minijava.dynamic.minijavadynamicdata.FloatValue
+import uMiniJavaDynamicData.UFloatValue
 
 @Aspect(className=Value)
 class ValueToStringAspect {
@@ -119,6 +127,72 @@ class UDoubleValueToStringAspect extends DoubleValueToStringAspect {
 		return '''(«_self.value.toString», «_self.variance.toString»)'''
 	}
 }
+
+@Aspect(className=LongValue)
+class LongValueToStringAspect extends ValueToStringAspect {
+	@OverrideAspectMethod
+	def String customToString() {
+		return _self.value.toString
+	}
+}
+
+@Aspect(className=ULongValue)
+class ULongValueToStringAspect extends LongValueToStringAspect {
+	@OverrideAspectMethod
+	def String customToString() {
+		return '''(«_self.value.toString», «_self.variance.toString»)'''
+	}
+}
+
+@Aspect(className=ShortValue)
+class ShortValueToStringAspect extends ValueToStringAspect {
+	@OverrideAspectMethod
+	def String customToString() {
+		return _self.value.toString
+	}
+}
+
+@Aspect(className=UShortValue)
+class UShortValueToStringAspect extends ShortValueToStringAspect {
+	@OverrideAspectMethod
+	def String customToString() {
+		return '''(«_self.value.toString», «_self.variance.toString»)'''
+	}
+}
+
+@Aspect(className=ByteValue)
+class ByteValueToStringAspect extends ValueToStringAspect {
+	@OverrideAspectMethod
+	def String customToString() {
+		return _self.value.toString
+	}
+}
+
+@Aspect(className=UByteValue)
+class UByteValueToStringAspect extends ByteValueToStringAspect {
+	@OverrideAspectMethod
+	def String customToString() {
+		return '''(«_self.value.toString», «_self.variance.toString»)'''
+	}
+}
+
+@Aspect(className=FloatValue)
+class FloatValueToStringAspect extends ValueToStringAspect {
+	@OverrideAspectMethod
+	def String customToString() {
+		return _self.value.toString
+	}
+}
+
+@Aspect(className=UFloatValue)
+class UFloatValueToStringAspect extends FloatValueToStringAspect {
+	@OverrideAspectMethod
+	def String customToString() {
+		return '''(«_self.value.toString», «_self.variance.toString»)'''
+	}
+}
+
+
 
 @Aspect(className=BooleanValue)
 class BooleanValueToStringAspect extends ValueToStringAspect {

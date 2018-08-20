@@ -27,6 +27,14 @@ import uMiniJavaDynamicData.UMiniJavaDynamicDataFactory
 import uMiniJavaDynamicData.UIntegerValue
 import org.tetrabox.minijava.dynamic.minijavadynamicdata.DoubleValue
 import uMiniJavaDynamicData.UDoubleValue
+import uMiniJavaDynamicData.ULongValue
+import org.tetrabox.minijava.dynamic.minijavadynamicdata.LongValue
+import uMiniJavaDynamicData.UShortValue
+import org.tetrabox.minijava.dynamic.minijavadynamicdata.ShortValue
+import uMiniJavaDynamicData.UByteValue
+import org.tetrabox.minijava.dynamic.minijavadynamicdata.ByteValue
+import uMiniJavaDynamicData.UFloatValue
+import org.tetrabox.minijava.dynamic.minijavadynamicdata.FloatValue
 
 @Aspect(className=Context)
 class ContextAspect {
@@ -191,6 +199,87 @@ class UDoubleValueAspect extends DoubleValueAspect {
 		]
 	}
 }
+
+@Aspect(className=LongValue)
+class LongValueAspect extends ValueAspect {
+	@OverrideAspectMethod
+	def Value copy() {
+		return MinijavadynamicdataFactory::eINSTANCE.createLongValue => [value = _self.value]
+	}
+}
+
+@Aspect(className=ULongValue)
+class ULongValueAspect extends LongValueAspect {
+	@OverrideAspectMethod
+	def Value copy() {
+		return UMiniJavaDynamicDataFactory::eINSTANCE.createULongValue => [
+			value = _self.value
+			variance = _self.variance
+		]
+	}
+}
+
+
+
+@Aspect(className=ShortValue)
+class ShortValueAspect extends ValueAspect {
+	@OverrideAspectMethod
+	def Value copy() {
+		return MinijavadynamicdataFactory::eINSTANCE.createShortValue => [value = _self.value]
+	}
+}
+
+@Aspect(className=UShortValue)
+class UShortValueAspect extends ShortValueAspect {
+	@OverrideAspectMethod
+	def Value copy() {
+		return UMiniJavaDynamicDataFactory::eINSTANCE.createUShortValue => [
+			value = _self.value
+			variance = _self.variance
+		]
+	}
+}
+
+
+@Aspect(className=ByteValue)
+class ByteValueAspect extends ValueAspect {
+	@OverrideAspectMethod
+	def Value copy() {
+		return MinijavadynamicdataFactory::eINSTANCE.createByteValue => [value = _self.value]
+	}
+}
+
+@Aspect(className=UByteValue)
+class UByteValueAspect extends ByteValueAspect {
+	@OverrideAspectMethod
+	def Value copy() {
+		return UMiniJavaDynamicDataFactory::eINSTANCE.createUByteValue => [
+			value = _self.value
+			variance = _self.variance
+		]
+	}
+}
+
+@Aspect(className=FloatValue)
+class FloatValueAspect extends ValueAspect {
+	@OverrideAspectMethod
+	def Value copy() {
+		return MinijavadynamicdataFactory::eINSTANCE.createFloatValue => [value = _self.value]
+	}
+}
+
+@Aspect(className=UFloatValue)
+class UFloatValueAspect extends FloatValueAspect {
+	@OverrideAspectMethod
+	def Value copy() {
+		return UMiniJavaDynamicDataFactory::eINSTANCE.createUFloatValue => [
+			value = _self.value
+			variance = _self.variance
+		]
+	}
+}
+
+
 
 @Aspect(className=BooleanValue)
 class BooleanValueAspect extends ValueAspect {
