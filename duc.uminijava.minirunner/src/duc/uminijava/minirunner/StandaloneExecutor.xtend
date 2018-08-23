@@ -21,11 +21,11 @@ import java.io.PrintStream
 
 class StandaloneExecutor {
 	
-	static Injector injector = new UMiniJavaStandaloneSetup().createInjectorAndDoEMFRegistration()
-	static ResourceSet rs = injector.getInstance(ResourceSet)
-	
 	private static def UProgram parse(String filePath, OutputStream out) {
-		val Resource resource = rs.getResource(URI.createFileURI(filePath), true)
+		val Injector injector = new UMiniJavaStandaloneSetup().createInjectorAndDoEMFRegistration()
+		val ResourceSet rs = injector.getInstance(ResourceSet)
+		
+		val Resource resource = rs.createResource(URI.createFileURI(filePath))
 		resource.load(null)
 		val IResourceValidator validator = injector.getInstance(IResourceValidator)
 		val List<Issue> issues = validator.validate(resource, CheckMode.ALL, CancelIndicator.NullImpl)
