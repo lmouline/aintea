@@ -6,6 +6,12 @@
    <feature url="features/org.tetrabox.minijava.feature_1.0.0.qualifier.jar" id="org.tetrabox.minijava.feature" version="1.0.0.qualifier">
       <category name="minijava"/>
    </feature>
+   <bundle id="duc.uminijava.semantics" version="1.0.0">
+      <category name="uminijava"/>
+   </bundle>
+   <bundle id="duc.uminijava.semantics.modelstate" version="1.0.0.qualifier">
+      <category name="uminijava"/>
+   </bundle>
    <category-def name="uminijava" label="UMiniJava"/>
    <category-def name="minijava" label="minijava"/>
 </site>

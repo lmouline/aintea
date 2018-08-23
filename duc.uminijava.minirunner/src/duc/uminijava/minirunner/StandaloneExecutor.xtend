@@ -16,14 +16,15 @@ import duc.uminijava.uMiniJava.UProgram
 
 import static extension duc.uminijava.semantics.UProgramAspect.execute
 import static extension duc.uminijava.semantics.UProgramAspect.initialize
-
+import java.io.OutputStream
+import java.io.PrintStream
 
 class StandaloneExecutor {
 	
 	static Injector injector = new UMiniJavaStandaloneSetup().createInjectorAndDoEMFRegistration()
 	static ResourceSet rs = injector.getInstance(ResourceSet)
 	
-	private static def UProgram parse(String filePath) {
+	private static def UProgram parse(String filePath, OutputStream out) {
 		val Resource resource = rs.getResource(URI.createFileURI(filePath), true)
 		resource.load(null)
 		val IResourceValidator validator = injector.getInstance(IResourceValidator)
@@ -32,11 +33,12 @@ class StandaloneExecutor {
 		for (Issue i : issues) {
 			switch i.severity {
 				case Severity.ERROR: {
-					println('''ERROR: «i.message»''')
+					val String s = '''ERROR: «i.message»\n'''
+					out.write(s.bytes)
 					parsingError = true
 				}
-				case Severity.WARNING: println('''WARNING: «i.message»''')
-				default: println(i.message)
+				case Severity.WARNING: out.write(('''WARNING: «i.message»\n''').toString.bytes)
+				default: out.write((i.message + "\n").bytes)
 			}
 		}
 		
@@ -47,11 +49,17 @@ class StandaloneExecutor {
 	}
 	
 	
-	def static execute(String filePath) {
-		val UProgram prog = parse(filePath)
+	def static execute(String filePath, OutputStream out) {
+		val UProgram prog = parse(filePath, out)
 		if(prog !== null) {
-			prog.initialize(new ArrayList())
-			prog.execute
+			try {
+				prog.initialize(new ArrayList(), out)
+				prog.execute
+			} catch(Exception e) {
+				val PrintStream printStream = new PrintStream(out)
+				e.printStackTrace(printStream)
+				printStream.flush
+			}
 		}
 	}
 	

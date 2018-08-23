@@ -358,14 +358,12 @@ class OrAspect extends ExpressionAspect {
 						value = true
 						confidence = castedLeft.confidence + castedRight.confidence - castedLeft.confidence * castedRight.confidence
 					} else if(castedLeft.value == false && castedRight.value == true) {
-						value = false
-						val confidenceTrue = (1-castedLeft.confidence)+ castedRight.confidence - (1-castedLeft.confidence)*castedRight.confidence
-						confidence = 1- confidenceTrue
+						value = true 
+						confidence = (1-castedLeft.confidence)+ castedRight.confidence - (1-castedLeft.confidence)*castedRight.confidence
 						
 					} else if(castedLeft.value == true && castedRight.value == false) {
-						value = false
-						val confidenceTrue = (1-castedRight.confidence)+ castedLeft.confidence - (1-castedRight.confidence)*castedLeft.confidence
-						confidence = 1- confidenceTrue
+						value = true
+						confidence = (1-castedRight.confidence)+ castedLeft.confidence - (1-castedRight.confidence)*castedLeft.confidence
 					} else if(castedLeft.value == false && castedRight.value == false) {
 						value = false
 						val confidenceTrue = 2-castedRight.confidence-castedLeft.confidence - (1-castedRight.confidence)*(1-castedLeft.confidence)
@@ -381,11 +379,11 @@ class OrAspect extends ExpressionAspect {
 						value = true
 						confidence = 1
 					} else if(castedLeft.value == false && castedRight.value == true) {
-						value = false
+						value = true
 						confidence = 0
 					} else if(castedLeft.value == true && castedRight.value == false) {
-						value = false
-						confidence = 1-castedLeft.confidence
+						value = true
+						confidence = castedLeft.confidence
 					} else if(castedLeft.value == false && castedRight.value == false) {
 						value = false
 						confidence = castedLeft.confidence
@@ -404,14 +402,14 @@ class OrAspect extends ExpressionAspect {
 						value = true
 						confidence = 1
 					} else if(castedLeft.value == false && castedRight.value == true) {
-						value = false
-						confidence = 1-castedRight.confidence
+						value = true
+						confidence = castedRight.confidence
 					} else if(castedLeft.value == true && castedRight.value == false) {
-						value = false
-						confidence = 0
+						value = true
+						confidence = 1
 					} else if(castedLeft.value == false && castedRight.value == false) {
 						value = false
-						confidence = castedRight.confidence
+						confidence = 1
 					}
 					
 				]

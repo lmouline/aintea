@@ -431,4 +431,22 @@
 			type="text">
 		</fileTypes>
 	</extension>
+  <extension point="org.eclipse.debug.ui.launchShortcuts">
+  	<shortcut
+        class="duc.uminijava.ui.launchConfiguration.LaunchShortcut"
+        id="duc.uminijava.launcher.shortcut"
+        label="UMiniJava Application"
+        modes="run">
+        <contextualLaunch>
+            <enablement>
+                <with
+                    variable="selection">
+                    <count
+                        value="+">
+                    </count>
+                </with>
+            </enablement>
+        </contextualLaunch>
+    </shortcut>
+  </extension>
 </plugin>

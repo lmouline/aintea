@@ -35,6 +35,7 @@ import uMiniJavaDynamicData.UByteValue
 import org.tetrabox.minijava.dynamic.minijavadynamicdata.ByteValue
 import uMiniJavaDynamicData.UFloatValue
 import org.tetrabox.minijava.dynamic.minijavadynamicdata.FloatValue
+import java.io.OutputStream
 
 @Aspect(className=Context)
 class ContextAspect {
@@ -77,6 +78,7 @@ class StateAspect {
 
 	var Frame frameCache
 	var Context contextCache
+	var OutputStream javaOutputStream
 
 	def Frame findCurrentFrame() {
 		if (_self.frameCache === null) {
@@ -93,8 +95,8 @@ class StateAspect {
 	}
 
 	def void println(String string) {
-		println(string)
-		_self.outputStream.stream.add(string)
+//		println(string)
+		_self.outputStream.stream.add(string) //Usage ???
 	}
 
 	def void pushNewContext() {

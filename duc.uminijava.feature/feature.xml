@@ -16,6 +16,13 @@
          unpack="false"/>
 
    <plugin
+         id="duc.uminijava.ide"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
          id="duc.uminijava.ui"
          download-size="0"
          install-size="0"
@@ -23,10 +30,31 @@
          unpack="false"/>
 
    <plugin
-         id="duc.uminijava.ide"
+         id="duc.uminijava.minirunner"
          download-size="0"
          install-size="0"
-         version="0.0.0"
+         version="1.0.0.qualifier"
+         unpack="false"/>
+
+   <plugin
+         id="duc.uminijava.semantics"
+         download-size="0"
+         install-size="0"
+         version="1.0.2"
+         unpack="false"/>
+
+   <plugin
+         id="duc.uminijava.semantics.modelstate"
+         download-size="0"
+         install-size="0"
+         version="1.0.0.qualifier"
+         unpack="false"/>
+
+   <plugin
+         id="org.tetrabox.minijava.semantics.modelstate"
+         download-size="0"
+         install-size="0"
+         version="0.1.0.qualifier"
          unpack="false"/>
 
 </feature>

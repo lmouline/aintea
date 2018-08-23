@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-SymbolicName: duc.uminijava.semantics; singleton:=true
 Export-Package: duc.uminijava.semantics
 Bundle-Name: duc.uminijava.semantics
-Bundle-Version: 1.0.0
+Bundle-Version: 1.0.2
 Bundle-ClassPath: .
 Require-Bundle: fr.inria.diverse.k3.al.annotationprocessor.plugin;bundle-version="3.0.0";visibility:=reexport,
  org.eclipse.xtend.lib;bundle-version="2.6.0";visibility:=private,
@@ -16,4 +16,4 @@ Require-Bundle: fr.inria.diverse.k3.al.annotationprocessor.plugin;bundle-version
  duc.uminijava.semantics.modelstate;bundle-version="1.0.0",
  org.aspectj.runtime;bundle-version="1.9.0"
 Bundle-ManifestVersion: 2
-Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
