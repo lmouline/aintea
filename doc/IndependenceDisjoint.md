@@ -241,4 +241,4 @@ These two variables are:
 *[No mathematical proof as we do not have the probabilities]* These two variables are dependent by definition.
 As A and B share one outcome ((connect.,no-load)), they are non-disjoint.
 
-For the same reason explained in [Dependent and non-disjoint](##smart-grid-example-1), **it is not relevant in our case to implement this probability rule.** 
+For the same reason explained in [Dependent and non-disjoint](#smart-grid-example-1), **it is not relevant in our case to implement this probability rule.** 
