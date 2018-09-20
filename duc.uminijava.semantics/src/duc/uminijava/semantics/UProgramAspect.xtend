@@ -9,7 +9,7 @@ import org.tetrabox.minijava.xtext.miniJava.Method
 import duc.uminijava.uMiniJava.ArrayTypeRef
 import org.tetrabox.minijava.xtext.miniJava.StringTypeRef
 
-import static extension duc.uminijava.semantics.BlockAspect.evaluateStatementKeepContext
+import static extension duc.uminijava.semantics.statements.BlockAspect.evaluateStatementKeepContext
 import fr.inria.diverse.k3.al.annotationprocessor.InitializeModel
 import java.util.List
 import org.tetrabox.minijava.dynamic.minijavadynamicdata.MinijavadynamicdataFactory

@@ -1,6 +1,10 @@
 Manifest-Version: 1.0
+Automatic-Module-Name: duc.uminijava.semantics
 Bundle-SymbolicName: duc.uminijava.semantics; singleton:=true
-Export-Package: duc.uminijava.semantics
+Export-Package: duc.uminijava.semantics,
+ duc.uminijava.semantics.expressions,
+ duc.uminijava.semantics.statements,
+ duc.uminijava.semantics.utils
 Bundle-Name: duc.uminijava.semantics
 Bundle-Version: 1.0.2
 Bundle-ClassPath: .
