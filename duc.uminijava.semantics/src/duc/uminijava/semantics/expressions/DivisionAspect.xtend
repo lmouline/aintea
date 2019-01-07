@@ -30,7 +30,7 @@ class DivisionAspect extends ExpressionAspect {
 					variance = (left.variance/right.value)
 				]
 			} else {
-				throw new RuntimeException('''Plus operation is not implemented between «left.class.name» and «right.class.name»''')
+				throw new RuntimeException('''Division operation is not implemented between «left.class.name» and «right.class.name»''')
 			}
 		} else if(left instanceof UDoubleValue) {
 			if(right instanceof UDoubleValue) {
@@ -43,8 +43,13 @@ class DivisionAspect extends ExpressionAspect {
 					value = left.value / right.value
 					variance = (left.variance/right.value)
 				]
+			} else if(right instanceof IntegerValue) {
+				return UMiniJavaDynamicDataFactory.eINSTANCE.createUDoubleValue => [
+					value = left.value / right.value
+					variance = (left.variance/right.value)
+				]
 			} else {
-				throw new RuntimeException('''Plus operation is not implemented between «left.class.name» and «right.class.name»''')
+				throw new RuntimeException('''Division operation is not implemented between «left.class.name» and «right.class.name»''')
 			}
 		} else if(left instanceof DoubleValue) {
 			if(right instanceof UDoubleValue) {
@@ -57,7 +62,7 @@ class DivisionAspect extends ExpressionAspect {
 					value = left.value / right.value
 				]
 			} else {
-				throw new RuntimeException('''Plus operation is not implemented between «left.class.name» and «right.class.name»''')
+				throw new RuntimeException('''Division operation is not implemented between «left.class.name» and «right.class.name»''')
 			}
 		} else if (left instanceof IntegerValue) {
 			if (right instanceof IntegerValue) {
@@ -66,6 +71,6 @@ class DivisionAspect extends ExpressionAspect {
 				]
 			}
 		}
-		throw new RuntimeException('''Unsupported plus operands: «left» + «right».''')
+		throw new RuntimeException('''Unsupported Division operands: «left» / «right».''')
 	}
 }

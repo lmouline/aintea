@@ -13,6 +13,9 @@ import org.tetrabox.minijava.xtext.miniJava.NewArray
 import org.tetrabox.minijava.xtext.miniJava.StringTypeRef
 
 import static extension duc.uminijava.semantics.utils.ValueAspect.copy
+import org.tetrabox.minijava.xtext.miniJava.DoubleTypeRef
+import duc.uminijava.uMiniJava.GaussianRef
+import uMiniJavaDynamicData.UMiniJavaDynamicDataFactory
 
 @Aspect(className=NewArray)
 class NewArrayAspect extends ExpressionAspect {
@@ -26,6 +29,15 @@ class NewArrayAspect extends ExpressionAspect {
 		// Filling array with default values
 		val defaultValue = switch (_self.type) {
 			IntegerTypeRef: MinijavadynamicdataFactory::eINSTANCE.createIntegerValue => [value = 0]
+			DoubleTypeRef: MinijavadynamicdataFactory::eINSTANCE.createDoubleValue => [value = 0.0]
+			GaussianRef: {
+				switch (_self.type as GaussianRef).genericType {
+					DoubleTypeRef: UMiniJavaDynamicDataFactory::eINSTANCE.createUDoubleValue => [
+						value = 0.0
+						variance = 0.0
+					]
+				}
+			}
 			BooleanTypeRef: MinijavadynamicdataFactory::eINSTANCE.createBooleanValue => [value = false]
 			StringTypeRef: MinijavadynamicdataFactory::eINSTANCE.createNullValue
 			ClassRef: MinijavadynamicdataFactory::eINSTANCE.createNullValue
