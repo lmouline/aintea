@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Automatic-Module-Name: duc.uscript.tests
+Bundle-ManifestVersion: 2
+Bundle-Name: duc.uscript.tests
+Bundle-Vendor: My Company
+Bundle-Version: 1.0.0.qualifier
+Bundle-SymbolicName: duc.uscript.tests; singleton:=true
+Bundle-ActivationPolicy: lazy
+Require-Bundle: duc.uscript,
+ org.junit.jupiter.api;bundle-version="[5.0.0,6.0.0)",
+ org.eclipse.xtext.testing,
+ org.eclipse.xtext.xbase.testing
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
