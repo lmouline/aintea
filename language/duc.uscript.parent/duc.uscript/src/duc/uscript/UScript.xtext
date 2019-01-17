@@ -1,9 +1,179 @@
 grammar duc.uscript.UScript with org.eclipse.xtext.common.Terminals
 
+import "http://www.eclipse.org/emf/2002/Ecore" as ecore
+
 generate uScript "http://www.uscript.duc/UScript"
 
-Model:
-	greetings+=Greeting*;
+Program:
+	elements+=(Class | Method)*;
+
+terminal DOUBLE returns ecore::EDouble: (('0'..'9')+ '.' ('0'..'9')*) | (('.') ('0'..'9')+);
+terminal LONG returns ecore::EString: INT ('l' | 'L');
+
+QualifiedName:
+	ID ('.' ID)*
+;
+
+Class:
+	'class' name=ID ('extends' superClass=[Class])? '{'
+	members+=(Field | Method)*
+	'}'
+;
+
+Method:
+	typeRef=TypeRef name=ID? '(' (params+=Parameter (',' params+=Parameter)*)? ')'
+	(body=Block | ';')
+;
+
+Parameter:
+	typeRef=TypeRef name=ID
+;
+
+Field:
+	typeRef=TypeRef name=ID ('=' defaultValue=Expression)? ';';
+
+Block:
+	{Block} '{' statements+=Statement* '}';
+
+Statement:
+	Return ';' |
+	=> Assignment ';' |
+	IfStatement |
+	WhileStatement |
+	ForStatement |
+	PrintStatement ";" |
+	Block |
+	SelectionExpression ';'
+;
+
+PrintStatement:
+	"print" "(" expression=Expression ")"
+;
+
+Return:
+	'return' expression=Expression
+;
+
+IfStatement:
+	'if' '(' expression=Expression ')' 
+	thenBlock=Block
+	(=> 'else' elseBlock=Block)?
+;
+
+WhileStatement:
+	'while' '(' condition=Expression ')' 
+	block=Block
+;
+
+ForStatement:
+	'for' '(' declaration=Assignment ';' condition=Expression ';' progression=Assignment ')' 
+	block=Block
+;
+
+TypeRef:
+	SingleTypeRef ({ArrayTypeRef.typeRef=current} '[' ']')?
+;
+
+SingleTypeRef:
+	ClassRef |
+	{ByteTypeRef} 'byte' |
+	{IntegerTypeRef} 'int' |
+	{LongTypeRef} 'long' |
+	{FloatTypeRef} 'float' |
+	{DoubleTypeRef} 'double' |
+	{ShortTypeRef} 'short' |
+	{CharTypeRef} 'char' |
+	{BooleanTypeRef} 'bool' |
+	{StringTypeRef} 'string' |
+	{VoidTypeRef} 'void';
+
+ClassRef:
+	referencedClass=[Class|QualifiedName]
+;
 	
-Greeting:
-	'Hello' name=ID '!';
+VariableDeclaration:
+	typeRef=TypeRef name=ID
+;
+
+Assignment:
+	assignee=Assignee '=' value=Expression
+;
+
+Assignee:
+	=> ArrayAccess |
+	VariableDeclaration
+;
+
+Expression:
+	Or
+;
+
+Or returns Expression:
+	And ({Or.left=current} "||" right=And)*
+;
+
+And returns Expression:
+	Equality ({And.left=current} "&&" right=Equality)*
+;
+
+Equality returns Expression:
+	Comparison (({Equality.left=current} "==" | {Inequality.left=current} "!=")
+	right=Comparison)*
+;
+
+Comparison returns Expression:
+	PlusOrMinus (({SuperiorOrEqual.left=current} ">=" |
+	{InferiorOrEqual.left=current} "<=" |
+	{Superior.left=current} ">" |
+	{Inferior.left=current} "<") right=PlusOrMinus)*
+;
+
+PlusOrMinus returns Expression:
+	MulOrDiv (({Plus.left=current} '+' | {Minus.left=current} '-')
+	right=MulOrDiv)*
+;
+
+MulOrDiv returns Expression:
+	ArrayAccess (({Multiplication.left=current} '*' | {Division.left=current} '/')
+	right=ArrayAccess)*
+;
+	
+ArrayAccess returns Expression:
+	ArrayLength ( {ArrayAccess.object=current}'[' index=Expression ']')?
+;
+
+ArrayLength returns Expression:
+	Primary ({ArrayLength.array=current}'.' 'length')?
+;
+
+Primary returns Expression:
+	'(' Expression ')' |
+	{Not} => "!" expression=Primary |
+	{Neg} => "-" expression=Primary |
+	SelectionExpression
+;
+
+SelectionExpression returns Expression:
+	TerminalExpression
+	(({FieldAccess.receiver=current} '.' field=[Field]
+	|
+	{MethodCall.receiver=current} '.' method=[Method]
+	'(' (args+=Expression (',' args+=Expression)*)? ')'))*
+;
+
+TerminalExpression returns Expression:
+	{IntConstant} value=INT |
+	{DoubleConstant} value=DOUBLE |
+	{LongConstant} value=LONG |
+	{BoolConstant} value=('true' | 'false') |
+	{StringConstant} value=STRING |
+	{This} 'this' |
+	{Super} 'super' |
+	{Null} 'null' |
+	{NewObject} 'new' type=[Class] =>'(' (args+=Expression (',' args+=Expression)*)? ')' |
+	{NewArray}  'new' type=TypeRef =>'[' size=Expression ']' |
+	{SymbolRef} symbol=[Symbol|ID]
+;
+
+Symbol:
+	=> Parameter | VariableDeclaration;
