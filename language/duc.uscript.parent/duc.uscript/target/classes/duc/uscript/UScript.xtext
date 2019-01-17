@@ -1,9 +1,0 @@
-grammar duc.uscript.UScript with org.eclipse.xtext.common.Terminals
-
-generate uScript "http://www.uscript.duc/UScript"
-
-Model:
-	greetings+=Greeting*;
-	
-Greeting:
-	'Hello' name=ID '!';
