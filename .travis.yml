@@ -10,4 +10,4 @@ jdk:
 before_script:
   - cd ./language/duc.uscript.parent
 script:
-  - mvn clean verify
+  - mvn -P CI clean verify

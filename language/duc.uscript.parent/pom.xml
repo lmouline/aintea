@@ -320,6 +320,19 @@
 				<moduleProperties>--add-modules=ALL-SYSTEM</moduleProperties>
 			</properties>
 		</profile>
+		<profile>
+      		<id>CI</id>
+      		<modules>
+      			<module>duc.uscript</module>
+				<module>duc.uscript.ide</module>
+				<module>duc.uscript.ui</module>
+				<module>duc.uscript.web</module>
+				<module>duc.uscript.target</module>
+				<module>duc.uscript.feature</module>
+				<module>duc.uscript.repository</module>
+				<module>duc.uscript.tests</module>
+      		</modules>
+    	</profile>
 	</profiles>
 
 	<dependencies>
