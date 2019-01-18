@@ -6,6 +6,7 @@ package duc.uscript.tests.parser
 import com.google.inject.Inject
 import duc.uscript.uScript.Program
 import duc.uscript.uScript.Class
+import duc.uscript.uScript.GaussianRef
 import duc.uscript.uScript.Parameter
 import duc.uscript.uScript.Field
 import org.eclipse.xtext.testing.InjectWith
@@ -22,6 +23,18 @@ import duc.uscript.uScript.IntegerTypeRef
 import duc.uscript.uScript.Method
 import duc.uscript.uScript.StringTypeRef
 import duc.uscript.tests.UScriptInjectorProvider
+import duc.uscript.uScript.LongTypeRef
+import duc.uscript.uScript.FloatTypeRef
+import duc.uscript.uScript.ShortTypeRef
+import duc.uscript.uScript.CharTypeRef
+import duc.uscript.uScript.BooleanTypeRef
+import duc.uscript.uScript.DoubleConstant
+import duc.uscript.uScript.IntConstant
+import duc.uscript.uScript.LongConstant
+import duc.uscript.uScript.BinomialRef
+import duc.uscript.uScript.RayleighRef
+import duc.uscript.uScript.DiracRef
+import duc.uscript.uScript.BernoulliRef
 
 @ExtendWith(InjectionExtension)
 @InjectWith(UScriptInjectorProvider)
@@ -84,5 +97,158 @@ class TestClassParsing {
 		assertEquals("param3", paramsM2_3.name)
 		assertTrue(paramsM2_3.typeRef instanceof DoubleTypeRef, '''Expected: «DoubleTypeRef», Actual: «paramsM2_3.typeRef»''')
 		assertNull(method2.body)
+	}
+
+	@Test
+	def void typeDcl() {
+		val script = '''
+			class MyClass {
+				double att1;
+				int att2;
+				long att3;
+				float att4;
+				short att5;
+				char att6;
+				bool att7;
+				string att8;
+				
+				double att9 = 5.;
+				double att10 = .5;
+				double att11 = 5;
+				
+				long att12 = 5l;
+				long att13 = 5L;
+			}
+		'''.parse
+		
+		val myClass = script.elements.get(0) as Class
+		val fields = myClass.members
+		
+		assertEquals(13, fields.size)
+		
+		val att1 = fields.get(0) as Field
+		assertEquals("att1", att1.name)
+		assertTrue(att1.typeRef instanceof DoubleTypeRef, '''Expected:«DoubleTypeRef», Actual:«att1.typeRef»''')
+		assertNull(att1.defaultValue)
+		
+		val att2 = fields.get(1) as Field
+		assertEquals("att2", att2.name)
+		assertTrue(att2.typeRef instanceof IntegerTypeRef, '''Expected:«IntegerTypeRef», Actual:«att2.typeRef»''')
+		assertNull(att2.defaultValue)
+
+		val att3 = fields.get(2) as Field
+		assertEquals("att3", att3.name)
+		assertTrue(att3.typeRef instanceof LongTypeRef, '''Expected:«LongTypeRef», Actual:«att3.typeRef»''')
+		assertNull(att3.defaultValue)
+
+		val att4 = fields.get(3) as Field
+		assertEquals("att4", att4.name)
+		assertTrue(att4.typeRef instanceof FloatTypeRef, '''Expected:«FloatTypeRef», Actual:«att4.typeRef»''')
+		assertNull(att4.defaultValue)
+		
+		val att5 = fields.get(4) as Field
+		assertEquals("att5", att5.name)
+		assertTrue(att5.typeRef instanceof ShortTypeRef, '''Expected:«ShortTypeRef», Actual:«att5.typeRef»''')
+		assertNull(att5.defaultValue)
+		
+		val att6 = fields.get(5) as Field
+		assertEquals("att6", att6.name)
+		assertTrue(att6.typeRef instanceof CharTypeRef, '''Expected:«CharTypeRef», Actual:«att6.typeRef»''')
+		assertNull(att6.defaultValue)
+		
+		val att7 = fields.get(6) as Field
+		assertEquals("att7", att7.name)
+		assertTrue(att7.typeRef instanceof BooleanTypeRef, '''Expected:«BooleanTypeRef», Actual:«att7.typeRef»''')
+		assertNull(att7.defaultValue)
+		
+		val att8 = fields.get(7) as Field
+		assertEquals("att8", att8.name)
+		assertTrue(att8.typeRef instanceof StringTypeRef, '''Expected:«StringTypeRef», Actual:«att8.typeRef»''')
+		assertNull(att8.defaultValue)
+		
+		val att9 = fields.get(8) as Field
+		assertEquals("att9", att9.name)
+		assertTrue(att9.typeRef instanceof DoubleTypeRef, '''Expected:«DoubleTypeRef», Actual:«att9.typeRef»''')
+		assertNotNull(att9.defaultValue)
+		assertTrue(att9.defaultValue instanceof DoubleConstant, '''Expected:«DoubleConstant», Actual:«att9.defaultValue»''')
+		
+		val att10 = fields.get(9) as Field
+		assertEquals("att10", att10.name)
+		assertTrue(att10.typeRef instanceof DoubleTypeRef, '''Expected:«DoubleTypeRef», Actual:«att10.typeRef»''')
+		assertNotNull(att10.defaultValue)
+		assertTrue(att10.defaultValue instanceof DoubleConstant, '''Expected:«DoubleConstant», Actual:«att10.defaultValue»''')
+
+		val att11 = fields.get(10) as Field
+		assertEquals("att11", att11.name)
+		assertTrue(att11.typeRef instanceof DoubleTypeRef, '''Expected:«DoubleTypeRef», Actual:«att11.typeRef»''')
+		assertNotNull(att11.defaultValue)
+		assertTrue(att11.defaultValue instanceof IntConstant, '''Expected:«IntConstant», Actual:«att11.defaultValue»''')
+
+		val att12 = fields.get(11) as Field
+		assertEquals("att12", att12.name)
+		assertTrue(att12.typeRef instanceof LongTypeRef, '''Expected:«LongTypeRef», Actual:«att12.typeRef»''')
+		assertNotNull(att12.defaultValue)
+		assertTrue(att12.defaultValue instanceof LongConstant, '''Expected:«LongConstant», Actual:«att12.defaultValue»''')
+
+		val att13 = fields.get(12) as Field
+		assertEquals("att13", att13.name)
+		assertTrue(att13.typeRef instanceof LongTypeRef, '''Expected:«LongTypeRef», Actual:«att13.typeRef»''')
+		assertNotNull(att13.defaultValue)
+		assertTrue(att13.defaultValue instanceof LongConstant, '''Expected:«LongConstant», Actual:«att13.defaultValue»''')
+		
+		
+	}
+	
+	@Test
+	def void uncertainTypeDcl() {
+		val script = '''
+			class MyClass {
+				Gaussian<double> att1;
+				Binomial<int> att2;
+				Rayleigh<double> att3;
+				DiracDeltaFct<short> att4;
+				Bernoulli<bool> att5;
+			}
+		'''.parse
+		
+		val myClass = script.elements.get(0) as Class
+		val fields = myClass.members
+		
+		assertEquals(5, fields.size)
+		
+		val f_1 = fields.get(0) as Field
+		assertEquals("att1", f_1.name)
+		assertNull(f_1.defaultValue)
+		val typeF_1 = f_1.typeRef
+		assertTrue(typeF_1 instanceof GaussianRef, '''Expected:«GaussianRef», Actual:«typeF_1»''')
+		assertTrue((typeF_1 as GaussianRef).genericType instanceof DoubleTypeRef, '''Expected:«DoubleTypeRef», Actual:«(typeF_1 as GaussianRef).genericType»''')
+
+		val f_2 = fields.get(1) as Field
+		assertEquals("att2", f_2.name)
+		assertNull(f_2.defaultValue)
+		val typeF_2 = f_2.typeRef
+		assertTrue(typeF_2 instanceof BinomialRef, '''Expected:«BinomialRef», Actual:«typeF_2»''')
+		assertTrue((typeF_2 as BinomialRef).genericType instanceof IntegerTypeRef, '''Expected:«IntegerTypeRef», Actual:«(typeF_2 as BinomialRef).genericType»''')
+
+		val f_3 = fields.get(2) as Field
+		assertEquals("att3", f_3.name)
+		assertNull(f_3.defaultValue)
+		val typeF_3 = f_3.typeRef
+		assertTrue(typeF_3 instanceof RayleighRef, '''Expected:«RayleighRef», Actual:«typeF_3»''')
+		assertTrue((typeF_3 as RayleighRef).genericType instanceof DoubleTypeRef, '''Expected:«DoubleTypeRef», Actual:«(typeF_3 as RayleighRef).genericType»''')
+
+		val f_4 = fields.get(3) as Field
+		assertEquals("att4", f_4.name)
+		assertNull(f_4.defaultValue)
+		val typeF_4 = f_4.typeRef
+		assertTrue(typeF_4 instanceof DiracRef, '''Expected:«DiracRef», Actual:«typeF_4»''')
+		assertTrue((typeF_4 as DiracRef).genericType instanceof ShortTypeRef, '''Expected:«ShortTypeRef», Actual:«(typeF_4 as DiracRef).genericType»''')
+
+		val f_5 = fields.get(4) as Field
+		assertEquals("att5", f_5.name)
+		assertNull(f_5.defaultValue)
+		val typeF_5 = f_5.typeRef
+		assertTrue(typeF_5 instanceof BernoulliRef, '''Expected:«BernoulliRef», Actual:«typeF_5»''')
+		assertTrue((typeF_5 as BernoulliRef).genericType instanceof BooleanTypeRef, '''Expected:«BooleanTypeRef», Actual:«(typeF_5 as BernoulliRef).genericType»''')
 	}
 }

@@ -71,7 +71,7 @@ ForStatement:
 ;
 
 TypeRef:
-	SingleTypeRef ({ArrayTypeRef.typeRef=current} '[' ']')?
+	(SingleTypeRef | UTypeRef) ({ArrayTypeRef.typeRef=current} '[' ']')?
 ;
 
 SingleTypeRef:
@@ -90,7 +90,31 @@ SingleTypeRef:
 ClassRef:
 	referencedClass=[Class|QualifiedName]
 ;
-	
+
+UTypeRef:
+	GaussianRef | BernoulliRef | RayleighRef | BinomialRef | DiracRef
+;
+
+GaussianRef:
+	{GaussianRef} ('Gaussian' '<' genericType=SingleTypeRef '>')
+;
+
+BernoulliRef:
+	{BernoulliRef} ('Bernoulli' '<' genericType=SingleTypeRef '>')
+;
+
+RayleighRef:
+	{RayleighRef} ('Rayleigh' '<' genericType=SingleTypeRef '>')
+;
+
+BinomialRef:
+	{BinomialRef} ('Binomial' '<' genericType=SingleTypeRef '>')
+;
+
+DiracRef:
+	{DiracRef} ('DiracDeltaFct' '<' genericType=SingleTypeRef '>')
+;
+
 VariableDeclaration:
 	typeRef=TypeRef name=ID
 ;
@@ -171,8 +195,10 @@ TerminalExpression returns Expression:
 	{Super} 'super' |
 	{Null} 'null' |
 	{NewObject} 'new' type=[Class] =>'(' (args+=Expression (',' args+=Expression)*)? ')' |
+	{NewUObject} 'new' type=UTypeRef =>'(' (args+=Expression (',' args+=Expression)*)? ')' |
 	{NewArray}  'new' type=TypeRef =>'[' size=Expression ']' |
-	{SymbolRef} symbol=[Symbol|ID]
+	{SymbolRef} symbol=[Symbol|ID] |
+	{ExistExpr} 'exist' '(' expr=Expression',' confidence=Expression ')'
 ;
 
 Symbol:
