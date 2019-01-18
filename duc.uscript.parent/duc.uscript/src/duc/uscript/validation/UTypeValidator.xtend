@@ -19,6 +19,7 @@ import duc.uscript.uScript.LongTypeRef
 import duc.uscript.uScript.ByteTypeRef
 import duc.uscript.uScript.Field
 import org.eclipse.xtext.validation.AbstractDeclarativeValidator
+import duc.uscript.uScript.DiracRef
 
 class UTypeValidator extends AbstractUScriptValidator{
 	
@@ -74,7 +75,7 @@ class UTypeValidator extends AbstractUScriptValidator{
 	}
 	
 	@Check
-	def checkDiracNbr(BinomialRef bin) {
+	def checkDiracNbr(DiracRef bin) {
 		val genType = bin.genericType
 		
 		if(!(genType instanceof ShortTypeRef || genType instanceof IntegerTypeRef || genType instanceof LongTypeRef ||
