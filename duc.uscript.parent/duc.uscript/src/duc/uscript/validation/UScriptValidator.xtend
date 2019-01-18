@@ -3,23 +3,62 @@
  */
 package duc.uscript.validation
 
+import org.eclipse.xtext.validation.Check
+import duc.uscript.uScript.Program
+import duc.uscript.uScript.Class
+import duc.uscript.uScript.Method
+import java.util.HashSet
+import duc.uscript.uScript.UScriptPackage
+import duc.uscript.uScript.Field
+import org.eclipse.xtext.validation.ComposedChecks
 
 /**
  * This class contains custom validation rules. 
  *
  * See https://www.eclipse.org/Xtext/documentation/303_runtime_concepts.html#validation
  */
+ @ComposedChecks(validators=UTypeValidator)
 class UScriptValidator extends AbstractUScriptValidator {
 	
-//	public static val INVALID_NAME = 'invalidName'
-//
-//	@Check
-//	def checkGreetingStartsWithCapital(Greeting greeting) {
-//		if (!Character.isUpperCase(greeting.name.charAt(0))) {
-//			warning('Name should start with a capital', 
-//					UScriptPackage.Literals.GREETING__NAME,
-//					INVALID_NAME)
+	public static val DUPLICATE_NAME = "duplicateName"
+	
+	@Check
+	def checkUniqueness(Program program) {
+		val HashSet<String> classNames = new HashSet()
+		val HashSet<String> functionNames = new HashSet()
+		
+		program.elements.forEach[ elm |
+			switch elm {
+				Class: {
+					val notExist = classNames.add(elm.name)
+					if(!notExist) {
+						error('''A class named «elm.name» already exists.''', elm, UScriptPackage.Literals.CLASS__NAME, DUPLICATE_NAME)
+					}
+				}
+				
+				Method: {
+					val notExist = functionNames.add(elm.name)
+					if(!notExist) {
+						error('''A function named «elm.name» already exists.''', elm, UScriptPackage.Literals.METHOD__NAME, DUPLICATE_NAME)
+					}
+				}
+			}
+		]
+	}
+	
+	@Check
+	def check2(Field f) {
+//		val type = f.typeRef
+//		if(type instanceof UTypeRef) {
+//			if(!(type.genericType instanceof BooleanTypeRef)) {
+//				error(
+//					'''Bernoulli distribution can only be applied on boolean. Actual: «type.genericType.syntax»''',
+//					type,
+//					UScriptPackage.Literals.UTYPE_REF__GENERIC_TYPE,
+//					"wrongUType"
+//				)
+//			}
 //		}
-//	}
+	}
 	
 }
