@@ -12,13 +12,10 @@ import duc.uscript.uScript.DoubleTypeRef
 import duc.uscript.uScript.UTypeRef
 import duc.uscript.uScript.RayleighRef
 import duc.uscript.uScript.BinomialRef
-import com.ibm.icu.impl.coll.SharedObject.Reference
 import duc.uscript.uScript.ShortTypeRef
 import duc.uscript.uScript.IntegerTypeRef
 import duc.uscript.uScript.LongTypeRef
 import duc.uscript.uScript.ByteTypeRef
-import duc.uscript.uScript.Field
-import org.eclipse.xtext.validation.AbstractDeclarativeValidator
 import duc.uscript.uScript.DiracRef
 
 class UTypeValidator extends AbstractUScriptValidator{

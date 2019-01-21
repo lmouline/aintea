@@ -17,7 +17,7 @@ import org.eclipse.xtext.validation.ComposedChecks
  *
  * See https://www.eclipse.org/Xtext/documentation/303_runtime_concepts.html#validation
  */
- @ComposedChecks(validators=UTypeValidator)
+ @ComposedChecks(validators=#[UTypeValidator, ArthTypeValidator])
 class UScriptValidator extends AbstractUScriptValidator {
 	
 	public static val DUPLICATE_NAME = "duplicateName"
@@ -45,20 +45,5 @@ class UScriptValidator extends AbstractUScriptValidator {
 			}
 		]
 	}
-	
-	@Check
-	def check2(Field f) {
-//		val type = f.typeRef
-//		if(type instanceof UTypeRef) {
-//			if(!(type.genericType instanceof BooleanTypeRef)) {
-//				error(
-//					'''Bernoulli distribution can only be applied on boolean. Actual: «type.genericType.syntax»''',
-//					type,
-//					UScriptPackage.Literals.UTYPE_REF__GENERIC_TYPE,
-//					"wrongUType"
-//				)
-//			}
-//		}
-	}
-	
+		
 }

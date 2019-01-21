@@ -1,0 +1,13 @@
+void main() {
+	Bernoulli<bool> uncertain_bool1 = true;
+//	Bernoulli<int> uncertain_int1;
+	
+	Gaussian<float> uncertain_bool2 = new Gaussian<float>(5,5.);
+//	Gaussian<int> uncertain_int2;
+	
+	Binomial<int> uncertain_int3 = 5;
+	Rayleigh<double> r1 = 5;
+	Rayleigh<double> r2 = 5;
+	
+	Rayleigh<double> c = r1 / uncertain_bool2;
+}
