@@ -6,13 +6,15 @@ generate uScript "http://www.uscript.duc/UScript"
 
 Program:
 	elements+=(Class | Method)*;
-
+	
 terminal DOUBLE returns ecore::EDouble: (('0'..'9')+ '.' ('0'..'9')*) | (('.') ('0'..'9')+);
 terminal LONG returns ecore::EString: INT ('l' | 'L');
 
 QualifiedName:
 	ID ('.' ID)*
 ;
+
+
 
 Class:
 	'class' name=ID ('extends' superClass=[Class])? '{'
@@ -43,8 +45,7 @@ Statement:
 	ForStatement |
 	PrintStatement ";" |
 	Block |
-	SelectionExpression ';' |
-	VariableDeclaration
+	SelectionExpression ';' 
 ;
 
 PrintStatement:
@@ -121,7 +122,7 @@ VariableDeclaration:
 ;
 
 Assignment:
-	assignee=Assignee '=' value=Expression
+	assignee=Assignee ('=' value=Expression)?
 ;
 
 Assignee:
