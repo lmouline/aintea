@@ -4,7 +4,7 @@ import org.eclipse.xtext.validation.Check
 import duc.uscript.uScript.BernoulliRef
 import duc.uscript.uScript.BooleanTypeRef
 
-import static extension duc.uscript.validation.TypeNameHelper.getSyntax
+import static extension duc.uscript.typing.TypeNameHelper.getSyntax
 import duc.uscript.uScript.UScriptPackage
 import duc.uscript.uScript.GaussianRef
 import duc.uscript.uScript.FloatTypeRef

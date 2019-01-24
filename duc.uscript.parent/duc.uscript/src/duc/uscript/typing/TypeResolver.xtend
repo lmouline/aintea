@@ -1,4 +1,4 @@
-package duc.uscript.validation
+package duc.uscript.typing
 
 import duc.uscript.uScript.Expression
 import duc.uscript.uScript.Or

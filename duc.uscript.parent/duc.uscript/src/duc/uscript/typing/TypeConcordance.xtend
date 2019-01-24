@@ -4,9 +4,14 @@ import static duc.uscript.typing.InternalTypeDcl.*
 import duc.uscript.uScript.Class
 
 class TypeConcordance {
+	def static boolean isInternal(Class c) {
+		return is(c, INTERNAL_TYPE)
+	}
+	
 	def static boolean isNumber(Class c) {
 		return is(c, NUMERIC_TYPE) || is(c, UNCERTAIN_NUMERIC_TYPE)
 	}
+	
 	def static boolean isCertainNumber(Class c) {
 		return is(c, NUMERIC_TYPE)
 	}

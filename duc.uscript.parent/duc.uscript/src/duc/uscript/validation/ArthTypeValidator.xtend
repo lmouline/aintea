@@ -3,7 +3,7 @@ package duc.uscript.validation
 import org.eclipse.xtext.validation.Check
 import duc.uscript.uScript.Plus
 import duc.uscript.uScript.Class
-import static duc.uscript.validation.TypeResolver.type
+import static duc.uscript.typing.TypeResolver.type
 import static duc.uscript.typing.TypeConcordance.isNumber
 import static duc.uscript.typing.TypeConcordance.is
 import duc.uscript.uScript.UScriptPackage

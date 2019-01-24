@@ -14,8 +14,6 @@ QualifiedName:
 	ID ('.' ID)*
 ;
 
-
-
 Class:
 	'class' name=ID ('extends' superClass=[Class])? '{'
 	members+=(Field | Method)*
@@ -199,9 +197,10 @@ TerminalExpression returns Expression:
 	{NewObject} 'new' type=[Class] =>'(' (args+=Expression (',' args+=Expression)*)? ')' |
 	{NewUObject} 'new' type=UTypeRef =>'(' (args+=Expression (',' args+=Expression)*)? ')' |
 	{NewArray}  'new' type=TypeRef =>'[' size=Expression ']' |
-	{SymbolRef} symbol=[Symbol|ID] |
-	{ExistExpr} 'exist' '(' expr=Expression',' confidence=Expression ')'
+	{SymbolRef} symbol=[Symbol] |
+	{ExistExpr} 'exist' '(' expr=Expression',' confidence=Expression ')' |
+	{DrawExpr} '$' '(' expr=Expression ')'
 ;
 
 Symbol:
-	=> Parameter | VariableDeclaration;
+	=> Parameter | VariableDeclaration | Field;

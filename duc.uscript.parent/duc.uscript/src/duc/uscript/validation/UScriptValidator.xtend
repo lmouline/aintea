@@ -9,7 +9,6 @@ import duc.uscript.uScript.Class
 import duc.uscript.uScript.Method
 import java.util.HashSet
 import duc.uscript.uScript.UScriptPackage
-import duc.uscript.uScript.Field
 import org.eclipse.xtext.validation.ComposedChecks
 
 /**

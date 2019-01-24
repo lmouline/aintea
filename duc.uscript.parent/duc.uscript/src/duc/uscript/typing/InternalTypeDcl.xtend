@@ -5,11 +5,25 @@ import duc.uscript.uScript.UScriptFactory
 class InternalTypeDcl {
 	protected static val FACTORY = UScriptFactory.eINSTANCE
 	
-	public static val STRING_TYPE = FACTORY.createClass => [name = 'stringType']
-	public static val CHAR_TYPE = FACTORY.createClass => [name = 'charType']
-	public static val BOOLEAN_TYPE = FACTORY.createClass => [name = 'booleanType']
+	public static val INTERNAL_TYPE = FACTORY.createClass => [name = 'internalType']
 	
-	public static val NUMERIC_TYPE = FACTORY.createClass => [name = 'numericType']
+	public static val STRING_TYPE = FACTORY.createClass => [
+		name = 'stringType'
+		superClass = INTERNAL_TYPE
+	]
+	public static val CHAR_TYPE = FACTORY.createClass => [
+		name = 'charType'
+		superClass = INTERNAL_TYPE
+	]
+	public static val BOOLEAN_TYPE = FACTORY.createClass => [
+		name = 'booleanType'
+		superClass = INTERNAL_TYPE
+	]
+	
+	public static val NUMERIC_TYPE = FACTORY.createClass => [
+		name = 'numericType'
+		superClass = INTERNAL_TYPE
+	]
 	public static val LONG_TYPE = FACTORY.createClass => [
 		name = 'longType'
 		superClass = NUMERIC_TYPE
@@ -36,6 +50,7 @@ class InternalTypeDcl {
 		superClass = DOUBLE_TYPE
 	]
 	
+	public static val ARRAY_TYPE = FACTORY.createClass => [name = 'arrayType']
 	public static val STRING_ARRAY_TYPE = FACTORY.createClass => [name = 'stringArrayType']
 	public static val INT_ARRAY_TYPE = FACTORY.createClass => [name = 'intArrayType']
 	public static val BOOLEAN_ARRAY_TYPE = FACTORY.createClass => [name = 'booleanArrayType']
@@ -52,6 +67,7 @@ class InternalTypeDcl {
 	
 	public static val UNCERTAIN_TYPE = FACTORY.createClass => [
 		name = 'uncertainType'
+		superClass = INTERNAL_TYPE
 	]
 
 	public static val BERNOULLI_TYPE = FACTORY.createClass => [

@@ -3,6 +3,21 @@
  */
 package duc.uscript.scoping
 
+import org.eclipse.emf.ecore.EObject
+import org.eclipse.xtext.scoping.IScope
+import org.eclipse.emf.ecore.EReference
+import duc.uscript.uScript.UScriptPackage
+import duc.uscript.uScript.Method
+import org.eclipse.xtext.scoping.Scopes
+import duc.uscript.uScript.Block
+import duc.uscript.uScript.Class
+import duc.uscript.uScript.Assignment
+import duc.uscript.uScript.VariableDeclaration
+import duc.uscript.uScript.Field
+import duc.uscript.uScript.ForStatement
+import static duc.uscript.typing.TypeResolver.*
+import static duc.uscript.typing.TypeConcordance.*
+import duc.uscript.uScript.FieldAccess
 
 /**
  * This class contains custom scoping description.
@@ -11,5 +26,72 @@ package duc.uscript.scoping
  * on how and when to use it.
  */
 class UScriptScopeProvider extends AbstractUScriptScopeProvider {
+	
+	val ePackage = UScriptPackage.eINSTANCE
+		
+	override IScope getScope(EObject context, EReference reference) {
+		if (reference === ePackage.symbolRef_Symbol) {
+			return getScopeForSymbolRef(context)
+		}
+		
+		if(reference === ePackage.fieldAccess_Field) {
+			return getScopeForFieldAccess(context as FieldAccess)
+		}
+		
+		return super.getScope(context, reference)
+	}
+	
+	def private IScope getScopeForFieldAccess(FieldAccess field) {
+		val type = type(field.receiver)
+		
+		if(!isInternal(type)) {
+			return getScopeForClass(type)
+		}
+		
+		return IScope.NULLSCOPE
+	}
+	
+	def private IScope getScopeForSymbolRef(EObject ctx) {
+		val container = ctx.eContainer
+		if(container === null) {
+			return IScope.NULLSCOPE
+		}
+		return switch (container) {
+			Class: {
+				getScopeForClass(container)
+			}
+			Method: {
+				Scopes.scopeFor(
+					container.params,
+					getScopeForSymbolRef(container)
+				)
+			}
+			Block: {
+				Scopes.scopeFor(
+					container.statements.takeWhile[it != ctx].filter(Assignment)
+										.map[it.assignee].filter(VariableDeclaration),
+					getScopeForSymbolRef(container)
+				)
+			}
+			ForStatement: {
+				Scopes.scopeFor(
+					#[container.declaration.assignee],
+					getScopeForSymbolRef(container)
+				)
+				
+			}
+			default: getScopeForSymbolRef(container)
+		}
+	}
+	
+	private def IScope getScopeForClass(Class c) {
+		if(c === null) {
+			return IScope.NULLSCOPE
+		}
+		return Scopes.scopeFor(
+					c.members.filter(Field),
+					getScopeForClass(c.superClass)
+				)
+	}
 
 }

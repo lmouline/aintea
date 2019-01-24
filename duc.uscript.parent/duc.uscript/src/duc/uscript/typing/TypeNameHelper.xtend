@@ -1,4 +1,4 @@
-package duc.uscript.validation
+package duc.uscript.typing
 
 import duc.uscript.uScript.TypeRef
 import duc.uscript.uScript.ByteTypeRef
@@ -20,75 +20,75 @@ import duc.uscript.uScript.ClassRef
 import duc.uscript.uScript.ArrayTypeRef
 
 class TypeNameHelper {
-	static def dispatch getSyntax(TypeRef type) {
+	static def dispatch String getSyntax(TypeRef type) {
 		return '''Type «type» not implemented in the validator. Please update it.'''
 	}
 	
-	static def dispatch getSyntax(ArrayTypeRef type) {
+	static def dispatch String getSyntax(ArrayTypeRef type) {
 		return '''«getSyntax(type.typeRef)»[]'''
 	}
 	
-	static def dispatch getSyntax(ByteTypeRef type) {
+	static def dispatch String getSyntax(ByteTypeRef type) {
 		return "byte"
 	}
 	
-	static def dispatch getSyntax(IntegerTypeRef type) {
+	static def dispatch String getSyntax(IntegerTypeRef type) {
 		return "int"
 	}
 	
-	static def dispatch getSyntax(LongTypeRef type) {
+	static def dispatch String getSyntax(LongTypeRef type) {
 		return "long"
 	}
 	
-	static def dispatch getSyntax(FloatTypeRef type) {
+	static def dispatch String getSyntax(FloatTypeRef type) {
 		return "float"
 	}
 	
-	static def dispatch getSyntax(DoubleTypeRef type) {
+	static def dispatch String getSyntax(DoubleTypeRef type) {
 		return "double"
 	}
 	
-	static def dispatch getSyntax(ShortTypeRef type) {
+	static def dispatch String getSyntax(ShortTypeRef type) {
 		return "short"
 	}
 	
-	static def dispatch getSyntax(CharTypeRef type) {
+	static def dispatch String getSyntax(CharTypeRef type) {
 		return "char"
 	}
 	
-	static def dispatch getSyntax(BooleanTypeRef type) {
+	static def dispatch String getSyntax(BooleanTypeRef type) {
 		return "bool"
 	}
 	
-	static def dispatch getSyntax(StringTypeRef type) {
+	static def dispatch String getSyntax(StringTypeRef type) {
 		return "string"
 	}
 	
-	static def dispatch getSyntax(VoidTypeRef type) {
+	static def dispatch String getSyntax(VoidTypeRef type) {
 		return "void"
 	}
 	
-	static def dispatch getSyntax(GaussianRef type) {
+	static def dispatch String getSyntax(GaussianRef type) {
 		return "Gaussian"
 	}
 	
-	static def dispatch getSyntax(BernoulliRef type) {
+	static def dispatch String getSyntax(BernoulliRef type) {
 		return "Bernoulli"
 	}
 	
-	static def dispatch getSyntax(RayleighRef type) {
+	static def dispatch String getSyntax(RayleighRef type) {
 		return "Rayleigh"
 	}
 	
-	static def dispatch getSyntax(BinomialRef type) {
+	static def dispatch String getSyntax(BinomialRef type) {
 		return "Binomial"
 	}
 	
-	static def dispatch getSyntax(DiracRef type) {
+	static def dispatch String getSyntax(DiracRef type) {
 		return "DiracDeltaFct"
 	}
 	
-	static def dispatch getSyntax(ClassRef type) {
+	static def dispatch String getSyntax(ClassRef type) {
 		return type.referencedClass.name
 	}
 	
