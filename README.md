@@ -1,7 +1,7 @@
 U-Script
 ---
 
-[![Build Status](https://travis-ci.org/lmouline/uscript.svg?branch=master)](https://travis-ci.org/lmouline/uscript)
+[![Build Status](https://travis-ci.org/lmouline/uscript.svg?branch=mvn)](https://travis-ci.org/lmouline/uscript)
 
 **Building...**
 
