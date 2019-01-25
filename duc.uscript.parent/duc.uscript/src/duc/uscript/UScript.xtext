@@ -55,7 +55,7 @@ Return:
 ;
 
 IfStatement:
-	'if' '(' expression=Expression ')' 
+	'if' '(' condition=Expression ')' 
 	thenBlock=Block
 	(=> 'else' elseBlock=Block)?
 ;
