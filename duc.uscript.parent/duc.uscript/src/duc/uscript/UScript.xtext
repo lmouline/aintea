@@ -198,6 +198,7 @@ TerminalExpression returns Expression:
 	{NewUObject} 'new' type=UTypeRef =>'(' (args+=Expression (',' args+=Expression)*)? ')' |
 	{NewArray}  'new' type=TypeRef =>'[' size=Expression ']' |
 	{SymbolRef} symbol=[Symbol] |
+	{MethodCall2} method=[Method] '(' (args+=Expression (',' args+=Expression)*)? ')'|
 	{ExistExpr} 'exist' '(' expr=Expression',' confidence=Expression ')' |
 	{DrawExpr} '$' '(' expr=Expression ')'
 ;

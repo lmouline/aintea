@@ -49,6 +49,7 @@ import duc.uscript.uScript.RayleighRef
 import duc.uscript.uScript.DiracRef
 import duc.uscript.uScript.SymbolRef
 import duc.uscript.uScript.ExistExpr
+import duc.uscript.uScript.NewObject
 
 class TypeResolver {
 		
@@ -269,7 +270,7 @@ class TypeResolver {
 	}
 	
 	def static dispatch Class type(StringConstant boolCst) {
-		return BOOLEAN_TYPE
+		return STRING_TYPE
 	}
 	
 	def static dispatch Class type(Null nullCts) {
@@ -278,6 +279,10 @@ class TypeResolver {
 	
 	def static dispatch Class type(NewUObject newUObj) {
 		newUObj.type.type
+	}
+	
+	def static dispatch Class type(NewObject newUObj) {
+		newUObj.type
 	}
 	
 	def static dispatch Class type(SymbolRef symbol) {

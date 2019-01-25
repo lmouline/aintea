@@ -18,6 +18,7 @@ import duc.uscript.uScript.ForStatement
 import static duc.uscript.typing.TypeResolver.*
 import static duc.uscript.typing.TypeConcordance.*
 import duc.uscript.uScript.FieldAccess
+import duc.uscript.uScript.MethodCall
 
 /**
  * This class contains custom scoping description.
@@ -38,14 +39,29 @@ class UScriptScopeProvider extends AbstractUScriptScopeProvider {
 			return getScopeForFieldAccess(context as FieldAccess)
 		}
 		
+		if(reference === ePackage.methodCall_Method) {
+			return getScopeForMethodCall(context as MethodCall)
+		}
+		
 		return super.getScope(context, reference)
+	}
+	
+	def private IScope getScopeForMethodCall(MethodCall methodCall) {
+		val type = type(methodCall.receiver)
+		
+		if(!isInternal(type)) {
+			return getClassMethods(type)
+		}
+		
+		return IScope.NULLSCOPE
+		
 	}
 	
 	def private IScope getScopeForFieldAccess(FieldAccess field) {
 		val type = type(field.receiver)
 		
 		if(!isInternal(type)) {
-			return getScopeForClass(type)
+			return getClassFields(type)
 		}
 		
 		return IScope.NULLSCOPE
@@ -58,7 +74,7 @@ class UScriptScopeProvider extends AbstractUScriptScopeProvider {
 		}
 		return switch (container) {
 			Class: {
-				getScopeForClass(container)
+				getClassFields(container)
 			}
 			Method: {
 				Scopes.scopeFor(
@@ -84,13 +100,23 @@ class UScriptScopeProvider extends AbstractUScriptScopeProvider {
 		}
 	}
 	
-	private def IScope getScopeForClass(Class c) {
+	private def IScope getClassFields(Class c) {
 		if(c === null) {
 			return IScope.NULLSCOPE
 		}
 		return Scopes.scopeFor(
 					c.members.filter(Field),
-					getScopeForClass(c.superClass)
+					getClassFields(c.superClass)
+				)
+	}
+	
+	private def IScope getClassMethods(Class c) {
+		if(c === null) {
+			return IScope.NULLSCOPE
+		}
+		return Scopes.scopeFor(
+					c.members.filter(Method),
+					getClassMethods(c.superClass)
 				)
 	}
 

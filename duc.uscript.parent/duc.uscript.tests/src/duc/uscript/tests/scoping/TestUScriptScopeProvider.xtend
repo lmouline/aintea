@@ -138,8 +138,53 @@ class TestUScriptScopeProvider {
 		//scope for int i4 = c.c;
 		assgmt = fSttmts.get(6) as Assignment
 		assertScope(assgmt.value, UScriptPackage.eINSTANCE.fieldAccess_Field, "c")
+	}
+	
+	@Test
+	def void testScpProvForMethodAcc() {
+		val script = '''
+			class A {
+				int a(){}
+			}
+			
+			class B extends A{
+				int b(){}
+			}
+			
+			class C {
+				int c(){}
+			}
+			
+			void f() {
+				A a = new A();
+				B b = new B();
+				C c = new C();
+				int i1 = a.a();
+				int i2 = b.b();
+				int i3 = b.a();
+				int i4 = c.c();
+			}
+		'''.parse
+		
+		val f = script.elements.get(3) as Method
+		val fSttmts = f.body.statements
 		
 		
+		//scope for int i1 = a.a();
+		var assgmt = fSttmts.get(3) as Assignment
+		assertScope(assgmt.value,UScriptPackage.eINSTANCE.methodCall_Method, "a")
+		
+		//scope for int i2 = b.b();
+		assgmt = fSttmts.get(4) as Assignment
+		assertScope(assgmt.value, UScriptPackage.eINSTANCE.methodCall_Method, "b, a")
+		
+		//scope for int i3 = b.a();
+		assgmt = fSttmts.get(5) as Assignment
+		assertScope(assgmt.value, UScriptPackage.eINSTANCE.methodCall_Method, "b, a")
+		
+		//scope for int i4 = c.c();
+		assgmt = fSttmts.get(6) as Assignment
+		assertScope(assgmt.value, UScriptPackage.eINSTANCE.methodCall_Method, "c")
 	}
 	
 	@Test
