@@ -50,11 +50,16 @@ import duc.uscript.uScript.DiracRef
 import duc.uscript.uScript.SymbolRef
 import duc.uscript.uScript.ExistExpr
 import duc.uscript.uScript.NewObject
+import duc.uscript.uScript.MethodCall2
 
 class TypeResolver {
 		
 	def static dispatch Class type(Expression e) {
 		throw new RuntimeException('''Expression «e» not condisered in the type resolver''')
+	}
+	
+	def static dispatch Class type(Void e) {
+		return NULL_TYPE
 	}
 	
 	private static def Class typeBoolExpr(Class left, Class right) {
@@ -218,7 +223,25 @@ class TypeResolver {
 	}
 	
 	def static dispatch Class type(ArrayAccess arrayAccess) {
-		throw new RuntimeException("Not yet implemented")
+		val typeElmt = type(arrayAccess.object)
+		
+		if(isUncertain(typeElmt)) {
+			return BOOLEAN_TYPE
+		}
+		
+		return switch(typeElmt) {
+			case STRING_ARRAY_TYPE: STRING_TYPE
+			case BYTE_ARRAY_TYPE: BYTE_TYPE
+			case BYTE_ARRAY_TYPE: SHORT_TYPE
+			case INT_ARRAY_TYPE: INT_TYPE
+			case LONG_ARRAY_TYPE: LONG_TYPE
+			case FLOAT_ARRAY_TYPE: FLOAT_TYPE
+			case DOUBLE_ARRAY_TYPE: DOUBLE_TYPE
+			case CHAR_ARRAY_TYPE: CHAR_TYPE
+			case STRING_ARRAY_TYPE: STRING_TYPE
+			default: throw new RuntimeException('''type(ArrayAccess arrayAccess) not Implemented for user defined classes or for this one. Actual: «typeElmt.name»''')
+		}
+		
 	}
 	
 	def static dispatch Class type(ArrayLength arrayLength) {
@@ -236,9 +259,13 @@ class TypeResolver {
 	def static dispatch Class type(FieldAccess fieldAccess) {
 		return fieldAccess.field.typeRef.type
 	}
-	
+		
 	def static dispatch Class type(MethodCall call) {
 		call.method.typeRef.type
+	}
+	
+	def static dispatch Class type(MethodCall2 call2) {
+		call2.method.typeRef.type
 	}
 	
 	def static dispatch Class type(IntConstant intCst) {
@@ -294,7 +321,7 @@ class TypeResolver {
 	}
 	
 	
-	def static Class getType(TypeRef r) {
+	def static dispatch Class type(TypeRef r) {
 		switch r {
 			ClassRef: r.referencedClass
 			IntegerTypeRef: INT_TYPE
