@@ -30,13 +30,15 @@ class UTypeValidator extends AbstractUScriptValidator{
 	
 	@Check
 	def checkBernoulliBool(BernoulliRef ber) {
-		if(!(ber.genericType instanceof BooleanTypeRef)) {
-			error(
-				'''Bernoulli distribution can only be applied on boolean. Actual: «ber.genericType.syntax»''',
-				ber,
-				UScriptPackage.Literals.UTYPE_REF__GENERIC_TYPE,
-				WRONG_UTYPE
-			)
+		if(ber.genericType !== null) {
+			if(!(ber.genericType instanceof BooleanTypeRef)) {
+				error(
+					'''Bernoulli distribution can only be applied on boolean. Actual: «ber.genericType.syntax»''',
+					ber,
+					UScriptPackage.Literals.UTYPE_REF__GENERIC_TYPE,
+					WRONG_UTYPE
+				)
+			}
 		}
 	}
 		
@@ -53,13 +55,15 @@ class UTypeValidator extends AbstractUScriptValidator{
 	private def checkContinuous(UTypeRef type, String name) {
 		val genType = type.genericType
 		
-		if(!(genType instanceof FloatTypeRef || genType instanceof DoubleTypeRef)) {
-			error(
-				'''«name» distribution can only be applied on (float, double). Actual: «genType.syntax»''',
-				type,
-				UScriptPackage.Literals.UTYPE_REF__GENERIC_TYPE,
-				WRONG_UTYPE
-			)
+		if(genType !== null) {
+			if(!(genType instanceof FloatTypeRef || genType instanceof DoubleTypeRef)) {
+				error(
+					'''«name» distribution can only be applied on (float, double). Actual: «genType.syntax»''',
+					type,
+					UScriptPackage.Literals.UTYPE_REF__GENERIC_TYPE,
+					WRONG_UTYPE
+				)
+			}
 		}
 	}
 	
@@ -67,13 +71,15 @@ class UTypeValidator extends AbstractUScriptValidator{
 	def checkBinomialNbr(BinomialRef bin) {
 		val genType = bin.genericType
 		
-		if(!(genType instanceof ShortTypeRef || genType instanceof IntegerTypeRef || genType instanceof LongTypeRef)) {
-			error(
-				'''Binomial distribution can only be applied on (short, int, long). Actual: «genType.syntax»''',
-				bin,
-				UScriptPackage.Literals.UTYPE_REF__GENERIC_TYPE,
-				WRONG_UTYPE
-			)
+		if(genType !== null) {
+			if(!(genType instanceof ShortTypeRef || genType instanceof IntegerTypeRef || genType instanceof LongTypeRef)) {
+				error(
+					'''Binomial distribution can only be applied on (short, int, long). Actual: «genType.syntax»''',
+					bin,
+					UScriptPackage.Literals.UTYPE_REF__GENERIC_TYPE,
+					WRONG_UTYPE
+				)
+			}
 		}
 	}
 	
@@ -81,15 +87,17 @@ class UTypeValidator extends AbstractUScriptValidator{
 	def checkDiracNbr(DiracRef bin) {
 		val genType = bin.genericType
 		
-		if(!(genType instanceof ShortTypeRef || genType instanceof IntegerTypeRef || genType instanceof LongTypeRef ||
-			genType instanceof FloatTypeRef || genType instanceof DoubleTypeRef || genType instanceof ByteTypeRef)) {
-				
-			error(
-				'''Dirac delta function distribution can only be applied on (short, int, long, float, double, byte). Actual: «genType.syntax»''',
-				bin,
-				UScriptPackage.Literals.UTYPE_REF__GENERIC_TYPE,
-				WRONG_UTYPE
-			)
+		if(genType !== null) {
+			if(!(genType instanceof ShortTypeRef || genType instanceof IntegerTypeRef || genType instanceof LongTypeRef ||
+				genType instanceof FloatTypeRef || genType instanceof DoubleTypeRef || genType instanceof ByteTypeRef)) {
+					
+				error(
+					'''Dirac delta function distribution can only be applied on (short, int, long, float, double, byte). Actual: «genType.syntax»''',
+					bin,
+					UScriptPackage.Literals.UTYPE_REF__GENERIC_TYPE,
+					WRONG_UTYPE
+				)
+			}
 		}
 	}
 	
