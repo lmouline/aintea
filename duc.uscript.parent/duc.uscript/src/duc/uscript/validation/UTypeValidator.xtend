@@ -21,6 +21,7 @@ import duc.uscript.uScript.LongTypeRef
 import duc.uscript.uScript.ByteTypeRef
 import duc.uscript.uScript.DiracRef
 import duc.uscript.uScript.NewUObject
+import duc.uscript.uScript.Class
 
 class UTypeValidator extends AbstractUScriptValidator{
 	
@@ -102,15 +103,8 @@ class UTypeValidator extends AbstractUScriptValidator{
 	}
 	
 	private def dispatch checkUTypeCreation(BernoulliRef type, NewUObject newUT) {
-		if(newUT.args.length != 2) {
-			error(
-				'''Bernoulli constructor needs exactly 2 argument: boolean falue and confidence. Actual: «newUT.args.length»''',
-				newUT,
-				UScriptPackage.Literals.NEW_UOBJECT__ARGS,
-				-1,
-				WRONG_UTYPE_CONSTRUCTOR
-			)
-		} else {
+		val hasError = checkNbParam(newUT, "Bernoulli", 2)
+		if(!hasError) {
 			val arg1Type = type(newUT.args.get(0))
 			if(arg1Type !== BOOLEAN_TYPE) {
 				error(
@@ -122,18 +116,68 @@ class UTypeValidator extends AbstractUScriptValidator{
 				)
 			}
 			
-			val arg2Type = type(newUT.args.get(1))
-			if(!isNumber(arg2Type)) {
-				error(
-					'''Second argument of the Bernoulli constructor needs to be a numeric expression. Actual: «arg2Type.name»''',
-					newUT,
-					UScriptPackage.Literals.NEW_UOBJECT__ARGS,
-					1,
-					WRONG_UTYPE_CONSTRUCTOR
-				)
-			}
+			checkNumParam(newUT, 1, "Bernoulli")
+		}
+				
+	}
+	
+	private def dispatch checkUTypeCreation(GaussianRef type, NewUObject newUT) {
+		val hasError = checkNbParam(newUT, "Gaussian", 2)
+		if(!hasError) {
+			checkNumParam(newUT, 0, "Gaussian")
+			checkNumParam(newUT, 1, "Gaussian")
 		}
 		
+	}
+	
+	private def dispatch checkUTypeCreation(DiracRef type, NewUObject newUT) {
+		val hasError = checkNbParam(newUT, "Dirac", 2)
+		if(!hasError) {
+			checkNumParam(newUT, 0, "Dirac")
+			checkNumParam(newUT, 1, "Dirac")
+		}
+		
+	}
+	
+	private def boolean checkNumParam(NewUObject newUT, int paramIdx, String distName) {
+		val Class arg1Type = type(newUT.args.get(paramIdx))
+		if(!isNumber(arg1Type)) {
+			error(
+				'''«intToNiceString(paramIdx)» argument of the «distName» constructor needs to be a numeric expression. Actual: «arg1Type.name»''',
+				newUT,
+				UScriptPackage.Literals.NEW_UOBJECT__ARGS,
+				0,
+				WRONG_UTYPE_CONSTRUCTOR
+			)
+			return true
+		}
+		return false
+	}
+	
+	private def boolean checkNbParam(NewUObject newUT, String distName, int nbArgs) {
+		if(newUT.args.length != nbArgs) {
+			error(
+				'''«distName» constructor needs exactly «nbArgs» arguments. Actual: «newUT.args.length»''',
+				newUT,
+				UScriptPackage.Literals.NEW_UOBJECT__ARGS,
+				-1,
+				WRONG_UTYPE_CONSTRUCTOR
+			)
+			return true;
+		}
+		return false;
+	}
+	
+	private def String intToNiceString(int idx) {
+		if(idx == 0) {
+			return "First"
+		}
+		if(idx == 1) {
+			return "Second"
+		}
+		if(idx == 2) {
+			return "Third"
+		}
 	}
 		
 }

@@ -90,6 +90,7 @@ class InternalTypeDcl {
 		superClass = GAUSSIAN_TYPE
 		
 	]
+	
 	public static val GAUSSIAN_FLOAT_TYPE = FACTORY.createClass => [
 		name = 'gaussianFloatType'
 		superClass = GAUSSIAN_DOUBLE_TYPE
