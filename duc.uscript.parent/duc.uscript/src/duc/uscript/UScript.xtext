@@ -92,27 +92,27 @@ ClassRef:
 ;
 
 UTypeRef:
-	GaussianRef | BernoulliRef | RayleighRef | BinomialRef | DiracRef
+	(GaussianRef | BernoulliRef | RayleighRef | BinomialRef | DiracRef) ('<' genericType=SingleTypeRef '>')?
 ;
 
 GaussianRef:
-	{GaussianRef} ('Gaussian' '<' genericType=SingleTypeRef '>')
+	{GaussianRef} 'Gaussian'
 ;
 
 BernoulliRef:
-	{BernoulliRef} ('Bernoulli' '<' genericType=SingleTypeRef '>')
+	{BernoulliRef} 'Bernoulli'
 ;
 
 RayleighRef:
-	{RayleighRef} ('Rayleigh' '<' genericType=SingleTypeRef '>')
+	{RayleighRef} 'Rayleigh' 
 ;
 
 BinomialRef:
-	{BinomialRef} ('Binomial' '<' genericType=SingleTypeRef '>')
+	{BinomialRef} 'Binomial' 
 ;
 
 DiracRef:
-	{DiracRef} ('DiracDeltaFct' '<' genericType=SingleTypeRef '>')
+	{DiracRef} 'DiracDeltaFct'
 ;
 
 VariableDeclaration:

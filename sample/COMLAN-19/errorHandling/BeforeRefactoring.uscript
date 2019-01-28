@@ -25,9 +25,7 @@ class Substation {
 			Fuse f = fuses[i];
 			noCableConn = noCableConn && f.isClosed;
 		}
-		
-//		load.confidence;
-		
+				
 		load = new DiracDeltaFct<double>(0, noCableConn.confidence);
 		
 	}
