@@ -81,6 +81,10 @@ class TypeConcordance {
 			return LONG_TYPE
 		}
 		
+		if(c === BERNOULLI_TYPE) {
+			return BOOLEAN_TYPE
+		}
+		
 		throw new RuntimeException("Certain type unknown for " + c.name)
 	}
 }
