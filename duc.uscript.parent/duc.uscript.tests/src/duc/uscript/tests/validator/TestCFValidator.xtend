@@ -12,12 +12,30 @@ import org.junit.jupiter.api.Test
 import duc.uscript.uScript.UScriptPackage
 import duc.uscript.validation.CFValidator
 import static duc.uscript.typing.InternalTypeDcl.*
+import org.eclipse.xtext.diagnostics.Diagnostic
+import org.junit.jupiter.api.Assertions
 
 @ExtendWith(InjectionExtension)
 @InjectWith(UScriptInjectorProvider)
 class TestCFValidator {
 	@Inject extension ParseHelper<Program>
 	@Inject extension ValidationTestHelper
+	
+	
+	@Test
+	def void testNoErrorIfEmptyCond() {
+		val script = '''
+			void m() {
+				if() {
+					
+				}
+			}
+		'''.parse
+				
+		assertError(script, UScriptPackage.eINSTANCE.ifStatement,Diagnostic.SYNTAX_DIAGNOSTIC)
+		val issues = validate(script)
+		Assertions.assertEquals(1, issues.length)
+	}
 	
 	@Test
 	def void testNoErrorIfBoolCond() {
