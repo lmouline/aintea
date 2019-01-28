@@ -203,4 +203,43 @@ class TestUScriptScopeProvider {
 		
 		assertScope(asgmt, UScriptPackage.eINSTANCE.symbolRef_Symbol, "i, a")
 	}
+	
+	@Test
+	def void testScopeProviderForUTypes() {
+		val script = '''
+			void m() {
+				Bernoulli<bool> b = new Bernoulli<bool>(true, 0.1);
+				Gaussian<double> g = new Gaussian<double>(0,0);
+				Rayleigh<double> r = new Rayleigh<double>(0,0);
+				DiracDeltaFct<double> d = new DiracDeltaFct<double>(0,0);
+				Binomial<int> bin = new Binomial<int>(0,0);
+				
+				bool b_v = b.value;
+				double g_v = g.value;
+				double r_v = r.value;
+				double d_v = d.value;
+				double bin_v = bin.value;
+			}
+		'''.parse
+		
+		val m = script.elements.get(0) as Method
+		val fSttmts = m.body.statements
+		
+		var Assignment assgmt;
+		assgmt = fSttmts.get(5) as Assignment
+		assertScope(assgmt.value, UScriptPackage.eINSTANCE.fieldAccess_Field, "value, confidence")
+		
+		assgmt = fSttmts.get(6) as Assignment
+		assertScope(assgmt.value, UScriptPackage.eINSTANCE.fieldAccess_Field, "value, confidence")
+		
+		assgmt = fSttmts.get(7) as Assignment
+		assertScope(assgmt.value, UScriptPackage.eINSTANCE.fieldAccess_Field, "value, confidence")
+		
+		assgmt = fSttmts.get(8) as Assignment
+		assertScope(assgmt.value, UScriptPackage.eINSTANCE.fieldAccess_Field, "value, confidence")
+		
+		assgmt = fSttmts.get(9) as Assignment
+		assertScope(assgmt.value, UScriptPackage.eINSTANCE.fieldAccess_Field, "value, confidence")
+		
+	}
 }

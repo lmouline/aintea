@@ -51,6 +51,7 @@ import duc.uscript.uScript.SymbolRef
 import duc.uscript.uScript.ExistExpr
 import duc.uscript.uScript.NewObject
 import duc.uscript.uScript.MethodCall2
+import duc.uscript.uScript.BinomialRef
 
 class TypeResolver {
 		
@@ -63,8 +64,8 @@ class TypeResolver {
 	}
 	
 	private static def Class typeBoolExpr(Class left, Class right) {
-		if(left === BERNOULLI_TYPE || right === BERNOULLI_TYPE) {
-			return BERNOULLI_TYPE
+		if(left === BERNOULLI_BOOL_TYPE || right === BERNOULLI_BOOL_TYPE) {
+			return BERNOULLI_BOOL_TYPE
 		}
 		
 		return BOOLEAN_TYPE
@@ -91,7 +92,7 @@ class TypeResolver {
 			return BOOLEAN_TYPE
 		}
 		
-		return BERNOULLI_TYPE
+		return BERNOULLI_BOOL_TYPE
 	}
 	
 	def static dispatch Class type(SuperiorOrEqual comp) {
@@ -351,12 +352,14 @@ class TypeResolver {
 				switch r.genericType {
 					DoubleTypeRef: GAUSSIAN_DOUBLE_TYPE
 					FloatTypeRef: GAUSSIAN_FLOAT_TYPE
+					default: GAUSSIAN_TYPE
 				}
 			}
 			RayleighRef: {
 				switch r.genericType {
 					DoubleTypeRef: RAYLEIGH_DOUBLE_TYPE
 					FloatTypeRef: RAYLEIGH_FLOAT_TYPE
+					default: RAYLEIGH_TYPE
 				}
 			}
 			DiracRef: {
@@ -367,10 +370,25 @@ class TypeResolver {
 					LongTypeRef: DIRAC_LONG_TYPE
 					DoubleTypeRef: DIRAC_DOUBLE_TYPE
 					FloatTypeRef: DIRAC_FLOAT_TYPE
+					default: DIRAC_TYPE
 				}
 			}
-			BernoulliRef: BERNOULLI_TYPE
-			default: UNRECOGNIZED_TYPE
+			BinomialRef: {
+				switch r.genericType {
+					ByteTypeRef: DIRAC_BYTE_TYPE
+					ShortTypeRef: DIRAC_SHORT_TYPE
+					IntegerTypeRef: DIRAC_INT_TYPE
+					LongTypeRef: DIRAC_LONG_TYPE
+					default: BINOMIAL_TYPE
+				}
+			}
+			BernoulliRef: {
+				switch r.genericType {
+					BooleanTypeRef: BERNOULLI_BOOL_TYPE
+					default: BERNOULLI_TYPE
+				}
+			}
+			default: throw new RuntimeException('''Type not implemented in [Class type(TypeRef r)] function: «r»''')
 		}
 	}
 	

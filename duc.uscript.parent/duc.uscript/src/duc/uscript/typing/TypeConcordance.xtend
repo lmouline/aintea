@@ -4,8 +4,8 @@ import static duc.uscript.typing.InternalTypeDcl.*
 import duc.uscript.uScript.Class
 
 class TypeConcordance {
-	def static boolean isInternal(Class c) {
-		return is(c, INTERNAL_TYPE)
+	def static boolean isPrimitive(Class c) {
+		return is(c, PRIMITIVE_TYPE)
 	}
 	
 	def static boolean isNumber(Class c) {
@@ -81,7 +81,7 @@ class TypeConcordance {
 			return LONG_TYPE
 		}
 		
-		if(c === BERNOULLI_TYPE) {
+		if(c === BERNOULLI_BOOL_TYPE) {
 			return BOOLEAN_TYPE
 		}
 		

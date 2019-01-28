@@ -49,7 +49,7 @@ class UScriptScopeProvider extends AbstractUScriptScopeProvider {
 	def private IScope getScopeForMethodCall(MethodCall methodCall) {
 		val type = type(methodCall.receiver)
 		
-		if(!isInternal(type)) {
+		if(!isPrimitive(type)) {
 			return getClassMethods(type)
 		}
 		
@@ -60,7 +60,7 @@ class UScriptScopeProvider extends AbstractUScriptScopeProvider {
 	def private IScope getScopeForFieldAccess(FieldAccess field) {
 		val type = type(field.receiver)
 		
-		if(!isInternal(type)) {
+		if(!isPrimitive(type)) {
 			return getClassFields(type)
 		}
 		
