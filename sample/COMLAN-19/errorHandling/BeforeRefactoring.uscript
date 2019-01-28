@@ -1,0 +1,112 @@
+class Substation {
+	Fuse[] fuses;
+	Gaussian<double> load;
+	
+		
+	Cable[] getCables() {
+		Cable[] cables = new Cable[fuses.length];
+		for(int i=0; i<cables.length; i=i+1) {
+			Fuse f = fuses[i];
+			cables[i] = f.cable;
+		}
+	}
+	
+	DiracDeltaFct<double> loadNoCable() {
+		Bernoulli<bool> noCableConn;	
+				
+		if(fuses.length > 0) {
+			Fuse f = fuses[0];
+			noCableConn = f.isClosed;
+		} else {
+			return false;
+		}
+		 
+		for(int i=1; i<fuses.length; i=i+1) {
+			Fuse f = fuses[i];
+			noCableConn = noCableConn && f.isClosed;
+		}
+		
+//		load.confidence;
+		
+		load = new DiracDeltaFct<double>(0, noCableConn.confidence);
+		
+	}
+	
+//	Bernoulli<bool> oneCableConn() {
+//		Bernoulli<bool> conf;
+//		if(fuses.length == 0) {
+//			return false;
+//		}
+//		
+//		int nbConn = 0;	
+//			 
+//		for(int i=0; i<fuses.length; i=i+1) {
+//			Fuse f = fuses[i];
+//			if(f.isClosed[0.9]) {
+//				nbConn = nbConn + 1;
+//				if(nbConn == 1) {
+//					conf = f.isClosed;
+//				} else {
+//					conf = conf && f.isClosed;
+//				}
+//			}
+//		}
+//		
+//		return conf;
+//	}
+//
+//	void computeLoad() {	
+//		Bernoulli<bool> noCblCo = noCableConnected();
+//		
+//		if(noCblCo[0.9]) {
+//			load = new Gaussian<double>(0, 0.001);
+//			
+//		} else {
+//			if(oneCableConn()[0.9]) {
+//				Fuse[] fuses = fuses;
+//				for(int i=0; i<fuses.length; i = i + 1) {
+//					Fuse f = fuses[i];
+//					if(f.isClosed[0.9]) {
+//						Cable c = f.cable;
+//						c.load = c.getConsumption();
+//					}
+//				}
+//			}
+//		}
+//	}
+	
+}
+
+class Cabinet extends Substation{}
+
+class DeadEndCabinet extends Substation{}
+
+class SmartMeter {
+	double consumption;
+}
+
+class Cable {
+	Fuse startPoint;
+	Fuse endPoint;
+	SmartMeter[] meters;
+	
+	Gaussian<double> load;
+	double capacity = 100;
+	
+	double getConsumption() {
+		double consumption = 0;
+		for(int i=0; i<meters.length; i = i + 1) {
+			SmartMeter m = meters[i];
+			consumption = consumption + m.consumption;
+		}
+	}
+}
+
+class Fuse {
+	Cable cable;
+	Bernoulli<bool> isClosed;
+}
+
+void main() {
+//	computeLoad(null);
+}
