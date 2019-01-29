@@ -227,7 +227,7 @@ class TestUScriptScopeProvider {
 		
 		var Assignment assgmt;
 		assgmt = fSttmts.get(5) as Assignment
-		assertScope(assgmt.value, UScriptPackage.eINSTANCE.fieldAccess_Field, "value, confidence")
+		assertScope(assgmt.value, UScriptPackage.eINSTANCE.fieldAccess_Field, "value, confidence, probability")
 		
 		assgmt = fSttmts.get(6) as Assignment
 		assertScope(assgmt.value, UScriptPackage.eINSTANCE.fieldAccess_Field, "value, confidence")
@@ -240,6 +240,22 @@ class TestUScriptScopeProvider {
 		
 		assgmt = fSttmts.get(9) as Assignment
 		assertScope(assgmt.value, UScriptPackage.eINSTANCE.fieldAccess_Field, "value, confidence")
+	}
+	
+	@Test
+	def void testScopeProviderForUDist() {
+		val script = '''
+			void m() {
+				Bernoulli b;						
+				double g_v = b.probability;
+			}
+		'''.parse
 		
+		val m = script.elements.get(0) as Method
+		val fSttmts = m.body.statements
+		
+		var Assignment assgmt;
+		assgmt = fSttmts.get(1) as Assignment
+		assertScope(assgmt.value, UScriptPackage.eINSTANCE.fieldAccess_Field, "probability")
 	}
 }

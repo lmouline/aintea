@@ -3,10 +3,13 @@ package duc.uscript.typing
 import duc.uscript.uScript.UScriptFactory
 import org.eclipse.emf.ecore.resource.Resource
 import duc.uscript.uScript.Program
+import duc.uscript.uScript.Class
 
 class InternalTypeDcl {
 	static boolean hasBeenInit = false
 	
+	protected static val FACTORY = UScriptFactory.eINSTANCE
+		
 	def static init(Resource r) {
 		if(hasBeenInit) {
 			return;
@@ -27,10 +30,11 @@ class InternalTypeDcl {
 				BINOMIAL_LONG_TYPE, DIRAC_TYPE, DIRAC_BYTE_TYPE, DIRAC_SHORT_TYPE, DIRAC_INT_TYPE,
 				DIRAC_LONG_TYPE, DIRAC_DOUBLE_TYPE, DIRAC_FLOAT_TYPE
 			)
+		
 		}
 	}
 	
-	protected static val FACTORY = UScriptFactory.eINSTANCE
+	
 	
 	public static val PRIMITIVE_TYPE = FACTORY.createClass => [name = 'primitiveType']
 	
@@ -99,6 +103,11 @@ class InternalTypeDcl {
 	public static val BERNOULLI_TYPE = FACTORY.createClass => [
 		name = 'bernoulliType'
 		superClass = UNCERTAIN_TYPE
+		
+		members.add(FACTORY.createField => [
+			name= "probability"
+			typeRef= FACTORY.createDoubleTypeRef()
+		])
 	]
 	
 	public static val BERNOULLI_BOOL_TYPE = FACTORY.createClass => [

@@ -22,6 +22,7 @@ import duc.uscript.uScript.ByteTypeRef
 import duc.uscript.uScript.DiracRef
 import duc.uscript.uScript.NewUObject
 import duc.uscript.uScript.Class
+import duc.uscript.typing.InternalTypeDcl
 
 class UTypeValidator extends AbstractUScriptValidator{
 	
@@ -30,6 +31,7 @@ class UTypeValidator extends AbstractUScriptValidator{
 	
 	@Check
 	def checkBernoulliBool(BernoulliRef ber) {
+		InternalTypeDcl.init(ber.eResource)
 		if(ber.genericType !== null) {
 			if(!(ber.genericType instanceof BooleanTypeRef)) {
 				error(
@@ -44,12 +46,14 @@ class UTypeValidator extends AbstractUScriptValidator{
 		
 	@Check
 	def checkGaussianNbr(GaussianRef gauss) {
+		InternalTypeDcl.init(gauss.eResource)
 		checkContinuous(gauss, "Gaussian")
 	}
 	
 	@Check
-	def checkRayleighNbr(RayleighRef gauss) {
-		checkContinuous(gauss, "Rayleigh")
+	def checkRayleighNbr(RayleighRef ray) {
+		InternalTypeDcl.init(ray.eResource)
+		checkContinuous(ray, "Rayleigh")
 	}
 	
 	private def checkContinuous(UTypeRef type, String name) {
@@ -69,6 +73,7 @@ class UTypeValidator extends AbstractUScriptValidator{
 	
 	@Check
 	def checkBinomialNbr(BinomialRef bin) {
+		InternalTypeDcl.init(bin.eResource)
 		val genType = bin.genericType
 		
 		if(genType !== null) {
@@ -85,6 +90,7 @@ class UTypeValidator extends AbstractUScriptValidator{
 	
 	@Check
 	def checkDiracNbr(DiracRef bin) {
+		InternalTypeDcl.init(bin.eResource)
 		val genType = bin.genericType
 		
 		if(genType !== null) {
@@ -103,6 +109,7 @@ class UTypeValidator extends AbstractUScriptValidator{
 	
 	@Check
 	def checkNewUObj(NewUObject newUT) {
+		InternalTypeDcl.init(newUT.eResource)
 		checkUTypeCreation(newUT.type, newUT)
 	}
 	
@@ -154,7 +161,7 @@ class UTypeValidator extends AbstractUScriptValidator{
 				'''«intToNiceString(paramIdx)» argument of the «distName» constructor needs to be a numeric expression. Actual: «arg1Type.name»''',
 				newUT,
 				UScriptPackage.Literals.NEW_UOBJECT__ARGS,
-				0,
+				paramIdx,
 				WRONG_UTYPE_CONSTRUCTOR
 			)
 			return true

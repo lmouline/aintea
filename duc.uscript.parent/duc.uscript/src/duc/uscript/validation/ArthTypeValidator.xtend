@@ -16,6 +16,7 @@ import org.eclipse.emf.ecore.EReference
 import duc.uscript.uScript.Minus
 import duc.uscript.uScript.Multiplication
 import duc.uscript.uScript.Division
+import duc.uscript.typing.InternalTypeDcl
 
 class ArthTypeValidator extends AbstractUScriptValidator {
 	
@@ -23,27 +24,31 @@ class ArthTypeValidator extends AbstractUScriptValidator {
 	
 	@Check
 	def checkType(Minus minus) {
+		InternalTypeDcl.init(minus.eResource)
 		checkRayleigh(type(minus.left), type(minus.right), minus, UScriptPackage.Literals.MINUS__LEFT, UScriptPackage.Literals.MINUS__RIGHT)
 	}
 	
 	@Check
 	def checkType(Multiplication mult) {
+		InternalTypeDcl.init(mult.eResource)
 		checkRayleigh(type(mult.left), type(mult.right), mult, UScriptPackage.Literals.MULTIPLICATION__LEFT, UScriptPackage.Literals.MULTIPLICATION__RIGHT)
 	}
 	
 	@Check
 	def checkType(Division division) {
+		InternalTypeDcl.init(division.eResource)
 		checkRayleigh(type(division.left), type(division.right), division, UScriptPackage.Literals.DIVISION__LEFT, UScriptPackage.Literals.DIVISION__RIGHT)
 	}
 		
 	@Check
 	def checkType(Plus plus) {
+		InternalTypeDcl.init(plus.eResource)
 		val leftType = type(plus.left)
 		val rightType = type(plus.right)
 		
 		if(!isNumber(leftType) && leftType != STRING_TYPE) {
 			error(
-				'''Plus operation is only allowed between two numerical or string elements.«leftType»''', 
+				'''Plus operation is only allowed between two numerical or string elements.«leftType.name»''', 
 				plus, 
 				UScriptPackage.Literals.PLUS__LEFT, INCOMPATIBLE_TYPES
 			)
@@ -51,7 +56,7 @@ class ArthTypeValidator extends AbstractUScriptValidator {
 		
 		if(!isNumber(rightType) && rightType != STRING_TYPE ) {
 			error(
-				'''Plus operation is only allowed between two numerical or string elements.«rightType»''', 
+				'''Plus operation is only allowed between two numerical or string elements.«rightType.name»''', 
 				plus, 
 				UScriptPackage.Literals.PLUS__RIGHT, INCOMPATIBLE_TYPES
 			)

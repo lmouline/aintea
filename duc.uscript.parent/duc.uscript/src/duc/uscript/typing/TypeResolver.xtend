@@ -88,7 +88,7 @@ class TypeResolver {
 	}
 	
 	private static def Class typeComparisonExpr(Class left, Class right) {
-		 if(isCertainNumber(left) && isCertainNumber(right)) {
+		if(isCertainNumber(left) && isCertainNumber(right)) {
 			return BOOLEAN_TYPE
 		}
 		
