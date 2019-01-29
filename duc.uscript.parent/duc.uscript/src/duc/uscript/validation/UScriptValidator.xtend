@@ -10,6 +10,7 @@ import duc.uscript.uScript.Method
 import java.util.HashSet
 import duc.uscript.uScript.UScriptPackage
 import org.eclipse.xtext.validation.ComposedChecks
+import duc.uscript.typing.InternalTypeDcl
 
 /**
  * This class contains custom validation rules. 
@@ -23,6 +24,7 @@ class UScriptValidator extends AbstractUScriptValidator {
 	
 	@Check
 	def checkUniqueness(Program program) {
+		InternalTypeDcl.init(program.eResource)
 		val HashSet<String> classNames = new HashSet()
 		val HashSet<String> functionNames = new HashSet()
 		

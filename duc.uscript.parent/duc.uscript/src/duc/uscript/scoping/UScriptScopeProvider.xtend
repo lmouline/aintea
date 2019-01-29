@@ -19,6 +19,7 @@ import static duc.uscript.typing.TypeResolver.*
 import static duc.uscript.typing.TypeConcordance.*
 import duc.uscript.uScript.FieldAccess
 import duc.uscript.uScript.MethodCall
+import duc.uscript.typing.InternalTypeDcl
 
 /**
  * This class contains custom scoping description.
@@ -31,6 +32,7 @@ class UScriptScopeProvider extends AbstractUScriptScopeProvider {
 	val ePackage = UScriptPackage.eINSTANCE
 		
 	override IScope getScope(EObject context, EReference reference) {
+		InternalTypeDcl.init(context.eResource)
 		if (reference === ePackage.symbolRef_Symbol) {
 			return getScopeForSymbolRef(context)
 		}

@@ -1,8 +1,35 @@
 package duc.uscript.typing
 
 import duc.uscript.uScript.UScriptFactory
+import org.eclipse.emf.ecore.resource.Resource
+import duc.uscript.uScript.Program
 
 class InternalTypeDcl {
+	static boolean hasBeenInit = false
+	
+	def static init(Resource r) {
+		if(hasBeenInit) {
+			return;
+		}
+		
+		val root = r.contents.get(0)
+		if(root !== null) {
+			val prog = root as Program
+			hasBeenInit = true
+			
+			prog.elements.addAll(PRIMITIVE_TYPE, STRING_TYPE, CHAR_TYPE, BOOLEAN_TYPE, 
+				NUMERIC_TYPE, LONG_TYPE, INT_TYPE, SHORT_TYPE, BYTE_TYPE, DOUBLE_TYPE, FLOAT_TYPE,
+				ARRAY_TYPE, STRING_ARRAY_TYPE, CHAR_ARRAY_TYPE, BOOLEAN_ARRAY_TYPE, LONG_ARRAY_TYPE,
+				INT_ARRAY_TYPE, SHORT_ARRAY_TYPE, BYTE_ARRAY_TYPE, DOUBLE_ARRAY_TYPE, FLOAT_ARRAY_TYPE,
+				NULL_TYPE, UNCERTAIN_TYPE, BERNOULLI_TYPE, BERNOULLI_BOOL_TYPE, UNCERTAIN_NUMERIC_TYPE, 
+				GAUSSIAN_TYPE, GAUSSIAN_DOUBLE_TYPE, GAUSSIAN_FLOAT_TYPE, RAYLEIGH_TYPE, RAYLEIGH_DOUBLE_TYPE,
+				RAYLEIGH_FLOAT_TYPE, BINOMIAL_TYPE, BINOMIAL_BYTE_TYPE, BINOMIAL_SHORT_TYPE, BINOMIAL_INT_TYPE,
+				BINOMIAL_LONG_TYPE, DIRAC_TYPE, DIRAC_BYTE_TYPE, DIRAC_SHORT_TYPE, DIRAC_INT_TYPE,
+				DIRAC_LONG_TYPE, DIRAC_DOUBLE_TYPE, DIRAC_FLOAT_TYPE
+			)
+		}
+	}
+	
 	protected static val FACTORY = UScriptFactory.eINSTANCE
 	
 	public static val PRIMITIVE_TYPE = FACTORY.createClass => [name = 'primitiveType']
@@ -75,7 +102,7 @@ class InternalTypeDcl {
 	]
 	
 	public static val BERNOULLI_BOOL_TYPE = FACTORY.createClass => [
-		name = 'bernoulliType'
+		name = 'bernoulliBoolType'
 		superClass = BERNOULLI_TYPE
 		
 		members.add(FACTORY.createField => [
