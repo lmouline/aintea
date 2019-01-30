@@ -24,6 +24,7 @@ class TestUTypeValidator {
 	@Test
 	def void checkNoErrorBerBool() {
 		val script = '''
+			package myPack
 			class A {
 				Bernoulli<bool> att1;
 			}
@@ -38,6 +39,7 @@ class TestUTypeValidator {
 		
 		for (t : types) {
 			val script = '''
+				package myPack
 				class A {
 					Bernoulli<«t»> att1;
 				}
@@ -61,6 +63,7 @@ class TestUTypeValidator {
 		for (uT: uTypes) {
 			for (t : types) {
 				val script = '''
+					package myPack
 					class A {
 						«uT»<«t»> att1;
 					}
@@ -80,6 +83,7 @@ class TestUTypeValidator {
 		for (uT: uTypes) {
 			for (t : types) {
 				val script = '''
+					package myPack
 					class A {
 						«uT»<«t»> att1;
 					}
@@ -101,6 +105,7 @@ class TestUTypeValidator {
 		
 		for (t : types) {
 			val script = '''
+				package myPack
 				class A {
 					Binomial<«t»> att1;
 				}
@@ -117,6 +122,7 @@ class TestUTypeValidator {
 		
 		for (t : types) {
 			val script = '''
+				package myPack
 				class A {
 					Binomial<«t»> att1;
 				}
@@ -138,6 +144,7 @@ class TestUTypeValidator {
 		
 		for (t : types) {
 			val script = '''
+				package myPack
 				class A {
 					DiracDeltaFct<«t»> att1;
 				}
@@ -155,6 +162,7 @@ class TestUTypeValidator {
 		
 		for (t : types) {
 			val script = '''
+				package myPack
 				class A {
 					DiracDeltaFct<«t»> att1;
 				}

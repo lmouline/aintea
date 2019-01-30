@@ -21,6 +21,7 @@ class TestUScriptValidator {
 	@Test
 	def void checkUniquenessClass() {
 		val script = '''
+			package myPack
 			class A {}
 			class A {}
 		'''.parse
@@ -31,6 +32,7 @@ class TestUScriptValidator {
 	@Test
 	def void checkUniquenessFunction() {
 		val script = '''
+			package myPack
 			void A();
 			void A();
 		'''.parse

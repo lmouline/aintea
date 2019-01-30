@@ -257,6 +257,8 @@ class TestUScriptScopeProvider {
 	@Test
 	def void testScopeProviderForUDist() {
 		val script = '''
+			package myPack
+			
 			void m() {
 				Bernoulli b;						
 				double g_v = b.probability;

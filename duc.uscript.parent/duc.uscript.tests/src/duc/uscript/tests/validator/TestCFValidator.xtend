@@ -61,6 +61,7 @@ class TestCFValidator {
 			val t = types.get(i)
 			
 			val script = '''
+				package myPack
 				class A() {}
 				void m() {
 					if(«a») {

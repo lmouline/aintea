@@ -22,6 +22,7 @@ class TestUTypeConstructor {
 	@Test
 	def void checkNoErrorNewBernoulli() {
 		val script = '''
+			package myPack
 			void m() {
 				Bernoulli<bool> b = new Bernoulli<bool>(true, 0.1);
 			}
@@ -38,6 +39,7 @@ class TestUTypeConstructor {
 			val a = args.get(i)
 			val l = length.get(i)
 			val script = '''
+				package myPack
 				void m() {
 					Bernoulli<bool> b = new Bernoulli<bool>(«a»);
 				}
@@ -60,6 +62,7 @@ class TestUTypeConstructor {
 			val a = args.get(i)
 			val n = typeName.get(i)
 			val script = '''
+				package myPack
 				class A {}
 				
 				void m() {
@@ -84,6 +87,7 @@ class TestUTypeConstructor {
 			val a = args.get(i)
 			val n = typeName.get(i)
 			val script = '''
+				package myPack
 				class A {}
 				
 				void m() {
@@ -103,6 +107,7 @@ class TestUTypeConstructor {
 	@Test
 	def void checkNoErrorNewGaussian() {
 		val script = '''
+			package myPack
 			void m() {
 				Gaussian<double> g = new Gaussian<double>(0, 0.1);
 			}
@@ -119,6 +124,7 @@ class TestUTypeConstructor {
 			val a = args.get(i)
 			val l = length.get(i)
 			val script = '''
+				package myPack
 				void m() {
 					Gaussian<double> b = new Gaussian<double>(«a»);
 				}
@@ -141,6 +147,7 @@ class TestUTypeConstructor {
 			val a = args.get(i)
 			val n = typeName.get(i)
 			val script = '''
+				package myPack
 				class A {}
 				
 				void m() {
@@ -165,6 +172,7 @@ class TestUTypeConstructor {
 			val a = args.get(i)
 			val n = typeName.get(i)
 			val script = '''
+				package myPack
 				class A {}
 				
 				void m() {
@@ -184,6 +192,7 @@ class TestUTypeConstructor {
 	@Test
 	def void checkNoErrorNewDirac() {
 		val script = '''
+			package myPack
 			void m() {
 				DiracDeltaFct<double> g = new DiracDeltaFct<double>(0, 0.1);
 			}
@@ -200,6 +209,7 @@ class TestUTypeConstructor {
 			val a = args.get(i)
 			val l = length.get(i)
 			val script = '''
+				package myPack
 				void m() {
 					DiracDeltaFct<double> b = new DiracDeltaFct<double>(«a»);
 				}
@@ -222,6 +232,7 @@ class TestUTypeConstructor {
 			val a = args.get(i)
 			val n = typeName.get(i)
 			val script = '''
+				package myPack
 				class A {}
 				
 				void m() {
@@ -246,6 +257,7 @@ class TestUTypeConstructor {
 			val a = args.get(i)
 			val n = typeName.get(i)
 			val script = '''
+				package myPack
 				class A {}
 				
 				void m() {
