@@ -44,6 +44,8 @@ class TestClassParsing {
 	@Test
 	def void oneClassScript() {
 		val script = '''
+			package a
+			
 			class MyClass {
 				double att1;
 				int att2;

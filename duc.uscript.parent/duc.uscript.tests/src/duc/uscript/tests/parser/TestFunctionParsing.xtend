@@ -27,6 +27,7 @@ class TestFunctionParsing {
 	@Test
 	def void oneFunctionScript() {
 		val script = '''
+			package a
 			void main(bool param1, short param2, char param3);
 		'''.parse
 		

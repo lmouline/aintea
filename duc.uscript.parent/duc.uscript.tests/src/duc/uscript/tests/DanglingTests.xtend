@@ -19,6 +19,7 @@ class DanglingTests {
 	@Test
 	def void testDanglind() {
 		val script = '''
+			package a
 			void m() {
 				Bernoulli<bool> b = null;
 				Bernoulli bern = b.confidence;

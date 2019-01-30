@@ -25,6 +25,7 @@ class TestCFValidator {
 	@Test
 	def void testNoErrorIfEmptyCond() {
 		val script = '''
+			package a
 			void m() {
 				if() {
 					
@@ -40,6 +41,7 @@ class TestCFValidator {
 	@Test
 	def void testNoErrorIfBoolCond() {
 		val script = '''
+			package a
 			void m() {
 				if(true) {
 					

@@ -16,7 +16,7 @@ class TestEmptyFIle {
 	
 	@Test
 	def void emptyClass() {
-		"".parse	
+		"package a".parse	
 	}
 	
 }

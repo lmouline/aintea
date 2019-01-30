@@ -1,6 +1,6 @@
 define(["ace/lib/oop", "ace/mode/text", "ace/mode/text_highlight_rules"], function(oop, mText, mTextHighlightRules) {
 	var HighlightRules = function() {
-		var keywords = "Bernoulli|Binomial|DiracDeltaFct|Gaussian|Rayleigh|bool|byte|char|class|double|else|exist|extends|false|float|for|if|int|length|long|new|null|print|return|short|string|super|this|true|void|while";
+		var keywords = "Bernoulli|Binomial|DiracDeltaFct|Gaussian|Rayleigh|bool|byte|char|class|double|else|exist|extends|false|float|for|if|import|int|length|long|new|null|package|print|return|short|string|super|this|true|void|while";
 		this.$rules = {
 			"start": [
 				{token: "comment", regex: "\\/\\/.*$"},
