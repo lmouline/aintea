@@ -21,6 +21,8 @@ class TestUScriptIndex {
 	@Test
 	def void testExportedEObjectDescriptions() {
 		val script = '''
+		package myPack
+		
 		class A {}
 		
 		class B {
@@ -36,17 +38,19 @@ class TestUScriptIndex {
 		}
 		'''.parse
 		
-		val expectedEODec = "A, B, B.a, B.f, B.f.p, B.f.v, C, C.p, C.a"
+		val expectedEODec = "myPack, myPack.A, myPack.B, myPack.B.a, myPack.B.f, myPack.B.f.p, myPack.B.f.v, myPack.C, myPack.C.p, myPack.C.a"
 		val actual = script.exportedEObjectDescriptions.map[qualifiedName].join(", ")
 		Assertions.assertEquals(expectedEODec, actual)
 		
-		val expectedClasses = "A, B"
+		val expectedClasses = "myPack.A, myPack.B"
 		val actualClasses = script.exportedClassesEObjectDescriptions.map[qualifiedName].join(", ")
 		Assertions.assertEquals(expectedClasses, actualClasses)
 		
-		val expectedMethods = "C"
+		val expectedMethods = "myPack.C"
 		val actualMethods = script.exportedMethodsEObjectDescriptions.map[qualifiedName].join(", ")
 		Assertions.assertEquals(expectedMethods, actualMethods)
+
+
 	}
 	
 }

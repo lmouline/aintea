@@ -8,15 +8,18 @@ import org.eclipse.xtext.testing.util.ParseHelper
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.^extension.ExtendWith
 import duc.uscript.tests.UScriptInjectorProvider
+import org.eclipse.xtext.testing.validation.ValidationTestHelper
 
 @ExtendWith(InjectionExtension)
 @InjectWith(UScriptInjectorProvider)
 class TestEmptyFIle {
 	@Inject extension ParseHelper<Program>
+	@Inject extension ValidationTestHelper
 	
 	@Test
 	def void emptyClass() {
-		"package a".parse	
+		"package a".parse.assertNoErrors	
+		
 	}
 	
 }
