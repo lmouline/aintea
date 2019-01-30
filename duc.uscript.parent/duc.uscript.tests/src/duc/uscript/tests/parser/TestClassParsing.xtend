@@ -104,6 +104,8 @@ class TestClassParsing {
 	@Test
 	def void typeDcl() {
 		val script = '''
+			package myPack
+			
 			class MyClass {
 				double att1;
 				int att2;
@@ -204,6 +206,8 @@ class TestClassParsing {
 	@Test
 	def void uncertainTypeDcl() {
 		val script = '''
+			package myPack
+			
 			class MyClass {
 				Gaussian<double> att1;
 				Binomial<int> att2;

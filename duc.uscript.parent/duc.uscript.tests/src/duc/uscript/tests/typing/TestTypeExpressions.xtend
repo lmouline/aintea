@@ -25,6 +25,8 @@ class TestTypeExpressions {
 	@Test
 	def void testCertainInequality() {
 		val script = '''
+			package myPack
+			
 			class A {}
 			
 			void m() {

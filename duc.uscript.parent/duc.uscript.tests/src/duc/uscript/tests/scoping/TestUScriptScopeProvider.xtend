@@ -31,6 +31,8 @@ class TestUScriptScopeProvider {
 	@Test
 	def void testScopeProviderForSymbols() {
 		val script = '''
+			package myPack
+			
 			class A{}
 			
 			class B {
@@ -67,6 +69,8 @@ class TestUScriptScopeProvider {
 	@Test
 	def void testScpProvForSymbField() {
 		val script = '''
+			package myPack
+			
 			class A {
 				int a;
 			}
@@ -96,6 +100,8 @@ class TestUScriptScopeProvider {
 	@Test
 	def void testScpProvForFieldAcc() {
 		val script = '''
+			package myPack
+			
 			class A {
 				int a;
 			}
@@ -143,6 +149,8 @@ class TestUScriptScopeProvider {
 	@Test
 	def void testScpProvForMethodAcc() {
 		val script = '''
+			package myPack
+			
 			class A {
 				int a(){}
 			}
@@ -190,6 +198,8 @@ class TestUScriptScopeProvider {
 	@Test
 	def void testScopeProviderForLoop() {
 		val script = '''
+			package myPack
+			
 			void m(int a) {
 				for(int i=0; i<0; i=i+1) {
 					int a = 0;	
@@ -207,6 +217,8 @@ class TestUScriptScopeProvider {
 	@Test
 	def void testScopeProviderForUTypes() {
 		val script = '''
+			package myPack
+			
 			void m() {
 				Bernoulli<bool> b = new Bernoulli<bool>(true, 0.1);
 				Gaussian<double> g = new Gaussian<double>(0,0);
