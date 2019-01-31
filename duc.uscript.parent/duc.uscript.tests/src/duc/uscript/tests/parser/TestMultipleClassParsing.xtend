@@ -18,12 +18,12 @@ import org.junit.jupiter.api.^extension.ExtendWith
 @InjectWith(UScriptInjectorProvider)
 class TestMultipleClassParsing {
 	@Inject extension ParseHelper<Program>
-	@Inject Provider<ResourceSet> resourceSetProvider
+//	@Inject Provider<ResourceSet> resourceSetProvider
 	@Inject extension ValidationTestHelper
 	
 	
 	@Test
-	def void testTwoFiles() {
+	def void testRefFullQualifiedName() {
 		
 		val firstScript = '''
 			package b
@@ -44,6 +44,42 @@ class TestMultipleClassParsing {
 		
 		
 		Assertions.assertSame(superClassB, classA)		
+	}
+	
+	@Test
+	def void testImport() {
+		val firstScript = '''
+			package my.pack.a
+			
+			class A1{}
+			class A2{}
+		'''.parse
+		
+		val secondScript = '''
+			package my.pack.b
+			
+			class B1{}
+			class B2{}
+		'''.parse(firstScript.eResource.resourceSet)
+		
+		val thirdScript = '''
+			package my.pack.c
+			
+			import my.pack.a.A2
+			import my.pack.b.*
+			
+			class C1 extends my.pack.a.A1 {
+				A2 a2;
+				B1 b1;
+				B2 b2;
+			}
+		'''.parse(firstScript.eResource.resourceSet)
+		
+		assertNoErrors(firstScript)
+		assertNoErrors(secondScript)
+		assertNoErrors(thirdScript)
+		
+		
 	}
 	
 }

@@ -11,7 +11,6 @@ import org.eclipse.xtext.testing.validation.ValidationTestHelper
 import org.junit.jupiter.api.Test
 import duc.uscript.validation.UTypeValidator
 import duc.uscript.uScript.UScriptPackage
-import static duc.uscript.typing.InternalTypeDcl.*
 
 @ExtendWith(InjectionExtension)
 @InjectWith(UScriptInjectorProvider)
