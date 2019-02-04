@@ -4,7 +4,7 @@ import org.eclipse.emf.ecore.resource.ResourceSet
 import org.eclipse.emf.common.util.URI
 
 class UScriptLang {
-	public val static LANG_LIB = "./uscript-lang.uscript"
+	public val static LANG_LIB = "./uscript/lang/uscript-lang.uscript"
 	
 	def loadLib(ResourceSet resourceSet) {
 		val url = getClass().classLoader.getResource(LANG_LIB)

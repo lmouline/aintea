@@ -31,10 +31,7 @@ class UScriptScopeProvider extends AbstractUScriptScopeProvider {
 	
 	val ePackage = UScriptPackage.eINSTANCE
 		
-	override IScope getScope(EObject context, EReference reference) {
-		println("Scope: " + context.eResource.resourceSet.resources)
-		println()
-		
+	override IScope getScope(EObject context, EReference reference) {		
 		InternalTypeDcl.init(context.eResource)
 		if (reference === ePackage.symbolRef_Symbol) {
 			return getScopeForSymbolRef(context)

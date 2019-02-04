@@ -27,9 +27,6 @@ class UScriptValidator extends AbstractUScriptValidator {
 	
 	@Check
 	def checkUniqueness(Program program) {
-		println(program.eResource.resourceSet.resources)
-		println(program.visibleClassesDescriptions.map[qualifiedName].join(", "))
-		
 		InternalTypeDcl.init(program.eResource)
 		val HashSet<String> classNames = new HashSet()
 		val HashSet<String> functionNames = new HashSet()
