@@ -27,5 +27,6 @@ Export-Package: duc.uscript.serializer,
  duc.uscript.uScript,
  duc.uscript.services,
  duc.uscript.uScript.util,
- duc.uscript.typing
+ duc.uscript.typing,
+ uscript.lang
 Import-Package: org.apache.log4j

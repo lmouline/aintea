@@ -18,7 +18,7 @@ import org.junit.jupiter.api.^extension.ExtendWith
 @InjectWith(UScriptInjectorProvider)
 class TestMultipleClassParsing {
 	@Inject extension ParseHelper<Program>
-//	@Inject Provider<ResourceSet> resourceSetProvider
+	@Inject Provider<ResourceSet> resourceSetProvider
 	@Inject extension ValidationTestHelper
 	
 	

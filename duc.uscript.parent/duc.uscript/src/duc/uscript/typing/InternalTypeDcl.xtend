@@ -20,16 +20,16 @@ class InternalTypeDcl {
 			val prog = root as Program
 			hasBeenInit = true
 			
-			prog.elements.addAll(PRIMITIVE_TYPE, STRING_TYPE, CHAR_TYPE, BOOLEAN_TYPE, 
-				NUMERIC_TYPE, LONG_TYPE, INT_TYPE, SHORT_TYPE, BYTE_TYPE, DOUBLE_TYPE, FLOAT_TYPE,
-				ARRAY_TYPE, STRING_ARRAY_TYPE, CHAR_ARRAY_TYPE, BOOLEAN_ARRAY_TYPE, LONG_ARRAY_TYPE,
-				INT_ARRAY_TYPE, SHORT_ARRAY_TYPE, BYTE_ARRAY_TYPE, DOUBLE_ARRAY_TYPE, FLOAT_ARRAY_TYPE,
-				NULL_TYPE, UNCERTAIN_TYPE, BERNOULLI_TYPE, BERNOULLI_BOOL_TYPE, UNCERTAIN_NUMERIC_TYPE, 
-				GAUSSIAN_TYPE, GAUSSIAN_DOUBLE_TYPE, GAUSSIAN_FLOAT_TYPE, RAYLEIGH_TYPE, RAYLEIGH_DOUBLE_TYPE,
-				RAYLEIGH_FLOAT_TYPE, BINOMIAL_TYPE, BINOMIAL_BYTE_TYPE, BINOMIAL_SHORT_TYPE, BINOMIAL_INT_TYPE,
-				BINOMIAL_LONG_TYPE, DIRAC_TYPE, DIRAC_BYTE_TYPE, DIRAC_SHORT_TYPE, DIRAC_INT_TYPE,
-				DIRAC_LONG_TYPE, DIRAC_DOUBLE_TYPE, DIRAC_FLOAT_TYPE
-			)
+//			prog.elements.addAll(PRIMITIVE_TYPE, STRING_TYPE, CHAR_TYPE, BOOLEAN_TYPE, 
+//				NUMERIC_TYPE, LONG_TYPE, INT_TYPE, SHORT_TYPE, BYTE_TYPE, DOUBLE_TYPE, FLOAT_TYPE,
+//				ARRAY_TYPE, STRING_ARRAY_TYPE, CHAR_ARRAY_TYPE, BOOLEAN_ARRAY_TYPE, LONG_ARRAY_TYPE,
+//				INT_ARRAY_TYPE, SHORT_ARRAY_TYPE, BYTE_ARRAY_TYPE, DOUBLE_ARRAY_TYPE, FLOAT_ARRAY_TYPE,
+//				NULL_TYPE, UNCERTAIN_TYPE, BERNOULLI_TYPE, BERNOULLI_BOOL_TYPE, UNCERTAIN_NUMERIC_TYPE, 
+//				GAUSSIAN_TYPE, GAUSSIAN_DOUBLE_TYPE, GAUSSIAN_FLOAT_TYPE, RAYLEIGH_TYPE, RAYLEIGH_DOUBLE_TYPE,
+//				RAYLEIGH_FLOAT_TYPE, BINOMIAL_TYPE, BINOMIAL_BYTE_TYPE, BINOMIAL_SHORT_TYPE, BINOMIAL_INT_TYPE,
+//				BINOMIAL_LONG_TYPE, DIRAC_TYPE, DIRAC_BYTE_TYPE, DIRAC_SHORT_TYPE, DIRAC_INT_TYPE,
+//				DIRAC_LONG_TYPE, DIRAC_DOUBLE_TYPE, DIRAC_FLOAT_TYPE
+//			)
 		
 		}
 	}
@@ -104,25 +104,25 @@ class InternalTypeDcl {
 		name = 'bernoulliType'
 		superClass = UNCERTAIN_TYPE
 		
-		members.add(FACTORY.createField => [
-			name= "probability"
-			typeRef= FACTORY.createDoubleTypeRef()
-		])
+//		members.add(FACTORY.createField => [
+//			name= "probability"
+//			typeRef= FACTORY.createDoubleTypeRef()
+//		])
 	]
 	
 	public static val BERNOULLI_BOOL_TYPE = FACTORY.createClass => [
 		name = 'bernoulliBoolType'
 		superClass = BERNOULLI_TYPE
 		
-		members.add(FACTORY.createField => [
-			name= "value"
-			typeRef= FACTORY.createBooleanTypeRef()
-		])
-		
-		members.add(FACTORY.createField => [
-			name= "confidence"
-			typeRef= FACTORY.createBernoulliRef()
-		])
+//		members.add(FACTORY.createField => [
+//			name= "value"
+//			typeRef= FACTORY.createBooleanTypeRef()
+//		])
+//		
+//		members.add(FACTORY.createField => [
+//			name= "confidence"
+//			typeRef= FACTORY.createBernoulliRef()
+//		])
 	]
 	
 	
@@ -140,15 +140,15 @@ class InternalTypeDcl {
 		name = 'gaussianDoubleType'
 		superClass = GAUSSIAN_TYPE
 		
-		members.add(FACTORY.createField => [
-			name= "value"
-			typeRef= FACTORY.createDoubleTypeRef()
-		])
-		
-		members.add(FACTORY.createField => [
-			name= "confidence"
-			typeRef= FACTORY.createGaussianRef()
-		])
+//		members.add(FACTORY.createField => [
+//			name= "value"
+//			typeRef= FACTORY.createDoubleTypeRef()
+//		])
+//		
+//		members.add(FACTORY.createField => [
+//			name= "confidence"
+//			typeRef= FACTORY.createGaussianRef()
+//		])
 		
 	]
 	
@@ -156,15 +156,15 @@ class InternalTypeDcl {
 		name = 'gaussianFloatType'
 		superClass = GAUSSIAN_DOUBLE_TYPE
 		
-		members.add(FACTORY.createField => [
-			name= "value"
-			typeRef= FACTORY.createFloatTypeRef()
-		])
-		
-		members.add(FACTORY.createField => [
-			name= "confidence"
-			typeRef= FACTORY.createGaussianRef()
-		])
+//		members.add(FACTORY.createField => [
+//			name= "value"
+//			typeRef= FACTORY.createFloatTypeRef()
+//		])
+//		
+//		members.add(FACTORY.createField => [
+//			name= "confidence"
+//			typeRef= FACTORY.createGaussianRef()
+//		])
 	]
 	
 	public static val RAYLEIGH_TYPE = FACTORY.createClass => [
@@ -176,30 +176,30 @@ class InternalTypeDcl {
 		name = 'rayleighDoubleType'
 		superClass = RAYLEIGH_TYPE
 		
-		members.add(FACTORY.createField => [
-			name= "value"
-			typeRef= FACTORY.createDoubleTypeRef()
-		])
-		
-		members.add(FACTORY.createField => [
-			name= "confidence"
-			typeRef= FACTORY.createRayleighRef()
-		])
+//		members.add(FACTORY.createField => [
+//			name= "value"
+//			typeRef= FACTORY.createDoubleTypeRef()
+//		])
+//		
+//		members.add(FACTORY.createField => [
+//			name= "confidence"
+//			typeRef= FACTORY.createRayleighRef()
+//		])
 	]
 	
 	public static val RAYLEIGH_FLOAT_TYPE = FACTORY.createClass => [
 		name = 'rayleighFloatType'
 		superClass = RAYLEIGH_DOUBLE_TYPE
 		
-		members.add(FACTORY.createField => [
-			name= "value"
-			typeRef= FACTORY.createFloatTypeRef()
-		])
-		
-		members.add(FACTORY.createField => [
-			name= "confidence"
-			typeRef= FACTORY.createRayleighRef()
-		])
+//		members.add(FACTORY.createField => [
+//			name= "value"
+//			typeRef= FACTORY.createFloatTypeRef()
+//		])
+//		
+//		members.add(FACTORY.createField => [
+//			name= "confidence"
+//			typeRef= FACTORY.createRayleighRef()
+//		])
 	]
 	
 	public static val BINOMIAL_TYPE = FACTORY.createClass => [
@@ -211,60 +211,60 @@ class InternalTypeDcl {
 		name = 'binomialLongType'
 		superClass = BINOMIAL_TYPE
 		
-		members.add(FACTORY.createField => [
-			name= "value"
-			typeRef= FACTORY.createLongTypeRef()
-		])
-		
-		members.add(FACTORY.createField => [
-			name= "confidence"
-			typeRef= FACTORY.createBinomialRef()
-		])
+//		members.add(FACTORY.createField => [
+//			name= "value"
+//			typeRef= FACTORY.createLongTypeRef()
+//		])
+//		
+//		members.add(FACTORY.createField => [
+//			name= "confidence"
+//			typeRef= FACTORY.createBinomialRef()
+//		])
 	]
 	
 	public static val BINOMIAL_INT_TYPE = FACTORY.createClass => [
 		name = 'binomialIntType'
 		superClass = BINOMIAL_LONG_TYPE
 		
-		members.add(FACTORY.createField => [
-			name= "value"
-			typeRef= FACTORY.createIntegerTypeRef()
-		])
-		
-		members.add(FACTORY.createField => [
-			name= "confidence"
-			typeRef= FACTORY.createBinomialRef()
-		])
+//		members.add(FACTORY.createField => [
+//			name= "value"
+//			typeRef= FACTORY.createIntegerTypeRef()
+//		])
+//		
+//		members.add(FACTORY.createField => [
+//			name= "confidence"
+//			typeRef= FACTORY.createBinomialRef()
+//		])
 	]
 	
 	public static val BINOMIAL_SHORT_TYPE = FACTORY.createClass => [
 		name = 'binomialShortType'
 		superClass = BINOMIAL_INT_TYPE
-		
-		members.add(FACTORY.createField => [
-			name= "value"
-			typeRef= FACTORY.createShortTypeRef()
-		])
-		
-		members.add(FACTORY.createField => [
-			name= "confidence"
-			typeRef= FACTORY.createBinomialRef()
-		])
+//		
+//		members.add(FACTORY.createField => [
+//			name= "value"
+//			typeRef= FACTORY.createShortTypeRef()
+//		])
+//		
+//		members.add(FACTORY.createField => [
+//			name= "confidence"
+//			typeRef= FACTORY.createBinomialRef()
+//		])
 	]
 	
 	public static val BINOMIAL_BYTE_TYPE = FACTORY.createClass => [
 		name = 'binomialByteType'
 		superClass = BINOMIAL_SHORT_TYPE
 		
-		members.add(FACTORY.createField => [
-			name= "value"
-			typeRef= FACTORY.createByteTypeRef()
-		])
-		
-		members.add(FACTORY.createField => [
-			name= "confidence"
-			typeRef= FACTORY.createBinomialRef()
-		])
+//		members.add(FACTORY.createField => [
+//			name= "value"
+//			typeRef= FACTORY.createByteTypeRef()
+//		])
+//		
+//		members.add(FACTORY.createField => [
+//			name= "confidence"
+//			typeRef= FACTORY.createBinomialRef()
+//		])
 	]
 	
 	public static val DIRAC_TYPE = FACTORY.createClass => [
@@ -276,90 +276,90 @@ class InternalTypeDcl {
 		name = 'diracLongType'
 		superClass = DIRAC_TYPE
 		
-		members.add(FACTORY.createField => [
-			name= "value"
-			typeRef= FACTORY.createLongTypeRef()
-		])
-		
-		members.add(FACTORY.createField => [
-			name= "confidence"
-			typeRef= FACTORY.createDiracRef()
-		])
+//		members.add(FACTORY.createField => [
+//			name= "value"
+//			typeRef= FACTORY.createLongTypeRef()
+//		])
+//		
+//		members.add(FACTORY.createField => [
+//			name= "confidence"
+//			typeRef= FACTORY.createDiracRef()
+//		])
 	]
 	
 	public static val DIRAC_INT_TYPE = FACTORY.createClass => [
 		name = 'diracIntType'
 		superClass = DIRAC_LONG_TYPE
 		
-		members.add(FACTORY.createField => [
-			name= "value"
-			typeRef= FACTORY.createIntegerTypeRef()
-		])
-		
-		members.add(FACTORY.createField => [
-			name= "confidence"
-			typeRef= FACTORY.createDiracRef()
-		])
+//		members.add(FACTORY.createField => [
+//			name= "value"
+//			typeRef= FACTORY.createIntegerTypeRef()
+//		])
+//		
+//		members.add(FACTORY.createField => [
+//			name= "confidence"
+//			typeRef= FACTORY.createDiracRef()
+//		])
 	]
 	
 	public static val DIRAC_SHORT_TYPE = FACTORY.createClass => [
 		name = 'diracShortType'
 		superClass = DIRAC_INT_TYPE
 		
-		members.add(FACTORY.createField => [
-			name= "value"
-			typeRef= FACTORY.createShortTypeRef()
-		])
-		
-		members.add(FACTORY.createField => [
-			name= "confidence"
-			typeRef= FACTORY.createDiracRef()
-		])
+//		members.add(FACTORY.createField => [
+//			name= "value"
+//			typeRef= FACTORY.createShortTypeRef()
+//		])
+//		
+//		members.add(FACTORY.createField => [
+//			name= "confidence"
+//			typeRef= FACTORY.createDiracRef()
+//		])
 	]
 	
 	public static val DIRAC_BYTE_TYPE = FACTORY.createClass => [
 		name = 'diracByteType'
 		superClass = DIRAC_SHORT_TYPE
 		
-		members.add(FACTORY.createField => [
-			name= "value"
-			typeRef= FACTORY.createByteTypeRef()
-		])
-		
-		members.add(FACTORY.createField => [
-			name= "confidence"
-			typeRef= FACTORY.createDiracRef()
-		])
+//		members.add(FACTORY.createField => [
+//			name= "value"
+//			typeRef= FACTORY.createByteTypeRef()
+//		])
+//		
+//		members.add(FACTORY.createField => [
+//			name= "confidence"
+//			typeRef= FACTORY.createDiracRef()
+//		])
 	]
 	
 	public static val DIRAC_DOUBLE_TYPE = FACTORY.createClass => [
 		name = 'diracDoubleType'
 		superClass = DIRAC_TYPE
 		
-		members.add(FACTORY.createField => [
-			name= "value"
-			typeRef= FACTORY.createDoubleTypeRef()
-		])
-		
-		members.add(FACTORY.createField => [
-			name= "confidence"
-			typeRef= FACTORY.createDiracRef()
-		])
+//		members.add(FACTORY.createField => [
+//			name= "value"
+//			typeRef= FACTORY.createDoubleTypeRef()
+//		])
+//		
+//		members.add(FACTORY.createField => [
+//			name= "confidence"
+//			typeRef= FACTORY.createDiracRef()
+//		])
 	]
 	
 	public static val DIRAC_FLOAT_TYPE = FACTORY.createClass => [
 		name = 'diracFloatType'
 		superClass = DIRAC_DOUBLE_TYPE
-		
-		members.add(FACTORY.createField => [
-			name= "value"
-			typeRef= FACTORY.createFloatTypeRef()
-		])
-		
-		members.add(FACTORY.createField => [
-			name= "confidence"
-			typeRef= FACTORY.createDiracRef()
-		])
+//		
+//		members.add(FACTORY.createField => [
+//			name= "value"
+//			typeRef= FACTORY.createFloatTypeRef()
+//		])
+//		
+//		members.add(FACTORY.createField => [
+//			name= "confidence"
+//			typeRef= FACTORY.createDiracRef()
+//		])
 	]
 	
 }
