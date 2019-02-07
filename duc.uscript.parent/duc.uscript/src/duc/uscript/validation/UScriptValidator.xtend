@@ -10,9 +10,6 @@ import duc.uscript.uScript.Method
 import java.util.HashSet
 import duc.uscript.uScript.UScriptPackage
 import org.eclipse.xtext.validation.ComposedChecks
-import duc.uscript.typing.InternalTypeDcl
-import com.google.inject.Inject
-import duc.uscript.scoping.UScriptIndex
 
 /**
  * This class contains custom validation rules. 
@@ -21,13 +18,11 @@ import duc.uscript.scoping.UScriptIndex
  */
  @ComposedChecks(validators=#[UTypeValidator, ArthTypeValidator, CFValidator])
 class UScriptValidator extends AbstractUScriptValidator {
-	@Inject extension UScriptIndex
 	
 	public static val DUPLICATE_NAME = "duplicateName"
 	
 	@Check
 	def checkUniqueness(Program program) {
-		InternalTypeDcl.init(program.eResource)
 		val HashSet<String> classNames = new HashSet()
 		val HashSet<String> functionNames = new HashSet()
 		

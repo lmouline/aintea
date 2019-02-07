@@ -15,11 +15,11 @@ import duc.uscript.uScript.Assignment
 import duc.uscript.uScript.VariableDeclaration
 import duc.uscript.uScript.Field
 import duc.uscript.uScript.ForStatement
-import static duc.uscript.typing.TypeResolver.*
 import static duc.uscript.typing.TypeConcordance.*
 import duc.uscript.uScript.FieldAccess
 import duc.uscript.uScript.MethodCall
-import duc.uscript.typing.InternalTypeDcl
+import com.google.inject.Inject
+import duc.uscript.typing.TypeResolver
 
 /**
  * This class contains custom scoping description.
@@ -29,10 +29,11 @@ import duc.uscript.typing.InternalTypeDcl
  */
 class UScriptScopeProvider extends AbstractUScriptScopeProvider {
 	
+	@Inject extension TypeResolver
+	
 	val ePackage = UScriptPackage.eINSTANCE
 		
 	override IScope getScope(EObject context, EReference reference) {		
-		InternalTypeDcl.init(context.eResource)
 		if (reference === ePackage.symbolRef_Symbol) {
 			return getScopeForSymbolRef(context)
 		}

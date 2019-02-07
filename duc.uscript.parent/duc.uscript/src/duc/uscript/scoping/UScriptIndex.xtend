@@ -5,14 +5,12 @@ import org.eclipse.xtext.resource.impl.ResourceDescriptionsProvider
 import org.eclipse.emf.ecore.EObject
 import duc.uscript.uScript.UScriptPackage
 import duc.uscript.uScript.Program
-import java.io.InvalidObjectException
-import org.eclipse.xtext.resource.IEObjectDescription
 import org.eclipse.emf.ecore.EClass
 import org.eclipse.xtext.resource.IContainer
-import java.util.Arrays
 import duc.uscript.uScript.Import
 import org.eclipse.xtext.naming.QualifiedName
 import org.eclipse.emf.common.util.EList
+import duc.uscript.uScript.Class
 
 class UScriptIndex {
 	@Inject ResourceDescriptionsProvider rdp
@@ -48,7 +46,7 @@ class UScriptIndex {
 				if (exist) {
 					return true
 				}
-				
+								
 				return existInImport(imported, c.qualifiedName)
 			]
 			
@@ -115,5 +113,22 @@ class UScriptIndex {
 		
 		return getParentProgram(o.eContainer)
 	}
+	
+	def Class getClassFromFqn(EObject ctx, String fqn) {
+		val des = ctx.visibleClassesDescriptions
+					.filter[cDesc | cDesc.qualifiedName.toString == fqn]
+					.head
+		if (des === null) {
+			return null
+		}
 		
+		var rClass = des.EObjectOrProxy
+		if(rClass.eIsProxy) {
+			rClass = ctx.eResource.resourceSet.getEObject(des.EObjectURI, true)
+		}
+		
+		return rClass as Class
+		
+	}
+			
 }

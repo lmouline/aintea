@@ -52,108 +52,111 @@ import duc.uscript.uScript.ExistExpr
 import duc.uscript.uScript.NewObject
 import duc.uscript.uScript.MethodCall2
 import duc.uscript.uScript.BinomialRef
+import com.google.inject.Inject
+import static extension duc.uscript.UScriptModelHelper.getFullQualifiedNamed
+import duc.uscript.scoping.UScriptIndex
 
 class TypeResolver {
+	@Inject extension InternalTypeDcl
+	@Inject extension UScriptIndex
 		
-	def static dispatch Class type(Expression e) {
+	def dispatch Class type(Expression e) {
 		throw new RuntimeException('''Expression «e» not condisered in the type resolver''')
 	}
-	
-	def static dispatch Class type(Void e) {
-		return NULL_TYPE
-	}
-	
-	private static def Class typeBoolExpr(Class left, Class right) {
-		if(left === BERNOULLI_BOOL_TYPE || right === BERNOULLI_BOOL_TYPE) {
-			return BERNOULLI_BOOL_TYPE
+		
+	private def Class typeBoolExpr(Class left, Class right) {
+		if(left.fullQualifiedNamed == BERNOULLI_BOOL_TYPE || right.fullQualifiedNamed == BERNOULLI_BOOL_TYPE) {
+			return left.bernoulliClass
 		}
 		
-		return BOOLEAN_TYPE
+		return left.boolClass
 	}
 	
-	def static dispatch Class type(Or e) {
+	def dispatch Class type(Or e) {
 		typeBoolExpr(e.left.type, e.right.type)
 	}
 	
-	def static dispatch Class type(And e) {
+	def dispatch Class type(And e) {
 		typeBoolExpr(e.left.type, e.right.type)
 	}
 	
-	def static dispatch Class type(Equality eq) {
+	def dispatch Class type(Equality eq) {
 		typeBoolExpr(eq.left.type, eq.right.type)
 	}
 	
-	def static dispatch Class type(Inequality ineq) {
+	def dispatch Class type(Inequality ineq) {
 		typeBoolExpr(ineq.left.type, ineq.right.type)
 	}
 	
-	private static def Class typeComparisonExpr(Class left, Class right) {
+	private def Class typeComparisonExpr(Class left, Class right) {
 		if(isCertainNumber(left) && isCertainNumber(right)) {
-			return BOOLEAN_TYPE
+			return left.boolClass
 		}
 		
-		return BERNOULLI_BOOL_TYPE
+		return left.bernoulliBoolClass
 	}
 	
-	def static dispatch Class type(SuperiorOrEqual comp) {
+	def dispatch Class type(SuperiorOrEqual comp) {
 		typeComparisonExpr(comp.left.type, comp.right.type)
 	}
 	
-	def static dispatch Class type(InferiorOrEqual comp) {
+	def dispatch Class type(InferiorOrEqual comp) {
 		typeComparisonExpr(comp.left.type, comp.right.type)
 	}
 	
-	def static dispatch Class type(Superior comp) {
+	def dispatch Class type(Superior comp) {
 		typeComparisonExpr(comp.left.type, comp.right.type)
 	}
 	
-	def static dispatch Class type(Inferior comp) {
+	def dispatch Class type(Inferior comp) {
 		typeComparisonExpr(comp.left.type, comp.right.type)
 	}
 	
-	private static def Class certainTypeArth(Class left, Class right) {
-		if(left === DOUBLE_TYPE || right === DOUBLE_TYPE) {
-			return DOUBLE_TYPE
+	private def Class certainTypeArth(Class left, Class right) {
+		val leftName = left.fullQualifiedNamed
+		val rightName = right.fullQualifiedNamed
+		if(leftName == DOUBLE_TYPE || rightName == DOUBLE_TYPE) {
+			return left.doubleClass
 		}
 		
-		if(left === FLOAT_TYPE || right === FLOAT_TYPE) {
-			return FLOAT_TYPE
+		if(leftName == FLOAT_TYPE || rightName == FLOAT_TYPE) {
+			return left.floatClass
 		}
 		
-		if(left === LONG_TYPE || right === LONG_TYPE) {
-			return LONG_TYPE
+		if(leftName == LONG_TYPE || rightName == LONG_TYPE) {
+			return left.longClass
 		}
 		
-		if(left === INT_TYPE || right === INT_TYPE) {
-			return INT_TYPE
+		if(leftName == INT_TYPE || rightName == INT_TYPE) {
+			return left.intClass
 		}
 		
-		if(left === SHORT_TYPE || right === SHORT_TYPE) {
-			return SHORT_TYPE
+		if(leftName == SHORT_TYPE || rightName == SHORT_TYPE) {
+			return left.shortClass
 		}
 		
-		return BYTE_TYPE
+		return left.byteClass
 	}
 	
-	private static def Class uTypeArth(Class left, Class right) {
+	private def Class uTypeArth(Class left, Class right) {
 		if(is(left, GAUSSIAN_TYPE) || is(right, GAUSSIAN_TYPE)) {
-			return GAUSSIAN_TYPE
+			return left.gaussianClass
 		}
 		
 		if(is(left, DIRAC_TYPE)) {
-			return getUDistType(right)
+			return left.getClassFromFqn(getUDistType(right))
 		}
 		
 		if(is(right, DIRAC_TYPE)) {
-			return getUDistType(left)
+			return left.getClassFromFqn(getUDistType(left))
 		}
 		
 		if(is(left, RAYLEIGH_TYPE) || is(right, RAYLEIGH_TYPE)) {
-			return RAYLEIGH_TYPE
+			return left.getClassFromFqn(RAYLEIGH_TYPE)
 		}
 		
 		if(is(left, BINOMIAL_TYPE) || is(right, BINOMIAL_TYPE)) {
-			return BINOMIAL_TYPE
+			return left.getClassFromFqn(BINOMIAL_TYPE)
 		}
 		
 		throw new RuntimeException('''Uncertain type unknown for arithmetic operation between «left.name» and «right.name»''')	
@@ -161,7 +164,7 @@ class TypeResolver {
 	
 	
 	
-	private static def Class typeArthExpr(Class left, Class right) {
+	private def Class typeArthExpr(Class left, Class right) {
 		// Operation between two certain numbers
 		if(isCertainNumber(left) && isCertainNumber(right)) {
 			return certainTypeArth(left, right)
@@ -177,215 +180,216 @@ class TypeResolver {
 		}
 		
 		// Operation with 2 uncertain numbers
-		val uType = uTypeArth(left, right)
-		val type = 	certainTypeArth(getTypeFromUType(left), getTypeFromUType(right))
+		val leftClass = left.getClassFromFqn(getTypeFromUType(left))
+		val rightClass = left.getClassFromFqn(getTypeFromUType(right))
+		val uTypeName = uTypeArth(left, right).fullQualifiedNamed
+		val type = 	certainTypeArth(leftClass, rightClass)
 		
-		if(uType === GAUSSIAN_TYPE) {
+		if(uTypeName == GAUSSIAN_TYPE) {
 			if(type == FLOAT_TYPE) {
-				return GAUSSIAN_FLOAT_TYPE
+				return left.gaussianFloatClass
 			}
 			
 			if(type == DOUBLE_TYPE) {
-				return GAUSSIAN_DOUBLE_TYPE
+				return left.gaussianDoubleClass
 			}
 		}
 		
-		if(uType === RAYLEIGH_TYPE) {
+		if(uTypeName == RAYLEIGH_TYPE) {
 			if(type == FLOAT_TYPE) {
-				return RAYLEIGH_FLOAT_TYPE
+				return left.rayleighFloatClass
 			}
 			
 			if(type == DOUBLE_TYPE) {
-				return RAYLEIGH_DOUBLE_TYPE
+				return left.rayleighDoubleClass
 			}
 		}
 	}
 	
-	def static dispatch Class type(Plus plus) {
+	def dispatch Class type(Plus plus) {
 		val left = plus.left.type
 		val right = plus.right.type
 		
-		if(left === STRING_TYPE || right === STRING_TYPE) {
-			return STRING_TYPE
+		if(left.fullQualifiedNamed == STRING_TYPE || right.fullQualifiedNamed == STRING_TYPE) {
+			return plus.stringClass
 		}
 		typeArthExpr(left, right)
 	}
 	
-	def static dispatch Class type(Minus minus) {
+	def dispatch Class type(Minus minus) {
 		typeArthExpr(minus.left.type, minus.right.type)
 	}
 	
-	def static dispatch Class type(Multiplication multiplication) {
+	def dispatch Class type(Multiplication multiplication) {
 		typeArthExpr(multiplication.left.type, multiplication.right.type)
 	}
 	
-	def static dispatch Class type(Division division) {
+	def dispatch Class type(Division division) {
 		typeArthExpr(division.left.type, division.right.type)
 	}
 	
-	def static dispatch Class type(ArrayAccess arrayAccess) {
+	def dispatch Class type(ArrayAccess arrayAccess) {
 		val typeElmt = type(arrayAccess.object)
 		
 		if(isUncertain(typeElmt)) {
-			return BOOLEAN_TYPE
+			return arrayAccess.boolClass
 		}
 		
-		return switch(typeElmt) {
-			case STRING_ARRAY_TYPE: STRING_TYPE
-			case BYTE_ARRAY_TYPE: BYTE_TYPE
-			case BYTE_ARRAY_TYPE: SHORT_TYPE
-			case INT_ARRAY_TYPE: INT_TYPE
-			case LONG_ARRAY_TYPE: LONG_TYPE
-			case FLOAT_ARRAY_TYPE: FLOAT_TYPE
-			case DOUBLE_ARRAY_TYPE: DOUBLE_TYPE
-			case CHAR_ARRAY_TYPE: CHAR_TYPE
-			case STRING_ARRAY_TYPE: STRING_TYPE
+		return switch(typeElmt.fullQualifiedNamed) {
+			case STRING_ARRAY_TYPE: arrayAccess.stringClass
+			case BYTE_ARRAY_TYPE: arrayAccess.byteClass
+			case SHORT_ARRAY_TYPE: arrayAccess.shortClass
+			case INT_ARRAY_TYPE: arrayAccess.intClass
+			case LONG_ARRAY_TYPE: arrayAccess.longClass
+			case FLOAT_ARRAY_TYPE: arrayAccess.floatClass
+			case DOUBLE_ARRAY_TYPE: arrayAccess.doubleClass
+			case CHAR_ARRAY_TYPE: arrayAccess.charClass
 			default: throw new RuntimeException('''type(ArrayAccess arrayAccess) not Implemented for user defined classes or for this one. Actual: «typeElmt.name»''')
 		}
 		
 	}
 	
-	def static dispatch Class type(ArrayLength arrayLength) {
-		return INT_TYPE
+	def dispatch Class type(ArrayLength arrayLength) {
+		return arrayLength.intClass
 	}
 	
-	def static dispatch Class type(Not not) {
-		return BOOLEAN_TYPE
+	def dispatch Class type(Not not) {
+		return not.boolClass
 	}
 	
-	def static dispatch Class type(Neg neg) {
-		return typeArthExpr(INT_TYPE, neg.expression.type)
+	def dispatch Class type(Neg neg) {
+		return typeArthExpr(neg.intClass, neg.expression.type)
 	}
 	
-	def static dispatch Class type(FieldAccess fieldAccess) {
+	def dispatch Class type(FieldAccess fieldAccess) {
 		return fieldAccess.field.typeRef.type
 	}
 		
-	def static dispatch Class type(MethodCall call) {
+	def dispatch Class type(MethodCall call) {
 		call.method.typeRef.type
 	}
 	
-	def static dispatch Class type(MethodCall2 call2) {
+	def dispatch Class type(MethodCall2 call2) {
 		call2.method.typeRef.type
 	}
 	
-	def static dispatch Class type(IntConstant intCst) {
+	def dispatch Class type(IntConstant intCst) {
 		if(intCst.value >= Byte.MIN_VALUE && intCst.value <= Byte.MAX_VALUE) {
-			return BYTE_TYPE
+			return intCst.byteClass
 		}
 		if(intCst.value >= Short.MIN_VALUE && intCst.value <= Short.MAX_VALUE) {
-			return SHORT_TYPE
+			return intCst.shortClass
 		}
 		if(intCst.value >= Integer.MIN_VALUE && intCst.value <= Integer.MAX_VALUE) {
-			return INT_TYPE
+			return intCst.intClass
 		}
-		return LONG_TYPE
+		return intCst.longClass
 	}
 	
-	def static dispatch Class type(LongConstant longCst) {
-		return LONG_TYPE
+	def dispatch Class type(LongConstant longCst) {
+		return longCst.longClass
 	}
 	
-	def static dispatch Class type(DoubleConstant dblCst) {
+	def dispatch Class type(DoubleConstant dblCst) {
 		if(dblCst.value >= Float.MIN_VALUE && dblCst.value <= Float.MAX_VALUE) {
-			return FLOAT_TYPE
+			return dblCst.floatClass
 		}
-		return DOUBLE_TYPE
+		return dblCst.doubleClass
 	}
 	
-	def static dispatch Class type(BoolConstant boolCst) {
-		return BOOLEAN_TYPE
+	def dispatch Class type(BoolConstant boolCst) {
+		return boolCst.boolClass
 	}
 	
-	def static dispatch Class type(StringConstant boolCst) {
-		return STRING_TYPE
+	def dispatch Class type(StringConstant stringCst) {
+		return stringCst.stringClass
 	}
 	
-	def static dispatch Class type(Null nullCts) {
-		return NULL_TYPE
+	def dispatch Class type(Null nullCts) {
+		return nullCts.nullClass
 	}
 	
-	def static dispatch Class type(NewUObject newUObj) {
+	def dispatch Class type(NewUObject newUObj) {
 		newUObj.type.type
 	}
 	
-	def static dispatch Class type(NewObject newUObj) {
+	def dispatch Class type(NewObject newUObj) {
 		newUObj.type
 	}
 	
-	def static dispatch Class type(SymbolRef symbol) {
+	def dispatch Class type(SymbolRef symbol) {
 		symbol.symbol.typeRef.type
 	}
 	
-	def static dispatch Class type(ExistExpr exist) {
-		BOOLEAN_TYPE
+	def dispatch Class type(ExistExpr exist) {
+		exist.boolClass
 	}
 	
 	
-	def static dispatch Class type(TypeRef r) {
+	def dispatch Class type(TypeRef r) {
 		switch r {
 			ClassRef: r.referencedClass
-			IntegerTypeRef: INT_TYPE
-			BooleanTypeRef: BOOLEAN_TYPE
-			StringTypeRef: STRING_TYPE
-			VoidTypeRef : NULL_TYPE
-			FloatTypeRef: FLOAT_TYPE
-			CharTypeRef: CHAR_TYPE
-			ShortTypeRef: SHORT_TYPE
-			DoubleTypeRef: DOUBLE_TYPE
-			ByteTypeRef: BYTE_TYPE
-			LongTypeRef: LONG_TYPE
+			IntegerTypeRef: r.intClass
+			BooleanTypeRef: r.boolClass
+			StringTypeRef: r.stringClass
+			VoidTypeRef : r.nullClass
+			FloatTypeRef: r.floatClass
+			CharTypeRef: r.charClass
+			ShortTypeRef: r.shortClass
+			DoubleTypeRef: r.doubleClass
+			ByteTypeRef: r.byteClass
+			LongTypeRef: r.longClass
 			ArrayTypeRef:{
 				switch(r.typeRef) {
-					IntegerTypeRef: INT_ARRAY_TYPE
-					BooleanTypeRef: BOOLEAN_ARRAY_TYPE
-					StringTypeRef: STRING_ARRAY_TYPE
-					FloatTypeRef: FLOAT_ARRAY_TYPE
-					CharTypeRef: CHAR_ARRAY_TYPE
-					ShortTypeRef: SHORT_ARRAY_TYPE
-					DoubleTypeRef: DOUBLE_ARRAY_TYPE
-					ByteTypeRef: BYTE_ARRAY_TYPE
-					LongTypeRef: LONG_ARRAY_TYPE
+					IntegerTypeRef: r.intArrayClass
+					BooleanTypeRef: r.boolArrayClass
+					StringTypeRef: r.stringArrayClass
+					FloatTypeRef: r.floatArrayClass
+					CharTypeRef: r.charArrayClass
+					ShortTypeRef: r.shortArrayClass
+					DoubleTypeRef: r.doubleArrayClass
+					ByteTypeRef: r.byteArrayClass
+					LongTypeRef: r.longArrayClass
 				}
 			}
 			GaussianRef: {
 				switch r.genericType {
-					DoubleTypeRef: GAUSSIAN_DOUBLE_TYPE
-					FloatTypeRef: GAUSSIAN_FLOAT_TYPE
-					default: GAUSSIAN_TYPE
+					DoubleTypeRef: r.gaussianDoubleClass
+					FloatTypeRef: r.gaussianFloatClass
+					default: r.gaussianClass
 				}
 			}
 			RayleighRef: {
 				switch r.genericType {
-					DoubleTypeRef: RAYLEIGH_DOUBLE_TYPE
-					FloatTypeRef: RAYLEIGH_FLOAT_TYPE
-					default: RAYLEIGH_TYPE
+					DoubleTypeRef: r.rayleighDoubleClass
+					FloatTypeRef: r.rayleighFloatClass
+					default: r.rayleighClass
 				}
 			}
 			DiracRef: {
 				switch r.genericType {
-					ByteTypeRef: DIRAC_BYTE_TYPE
-					ShortTypeRef: DIRAC_SHORT_TYPE
-					IntegerTypeRef: DIRAC_INT_TYPE
-					LongTypeRef: DIRAC_LONG_TYPE
-					DoubleTypeRef: DIRAC_DOUBLE_TYPE
-					FloatTypeRef: DIRAC_FLOAT_TYPE
-					default: DIRAC_TYPE
+					ByteTypeRef: r.diracByteClass
+					ShortTypeRef: r.diracShortClass
+					IntegerTypeRef: r.diracIntClass
+					LongTypeRef: r.diracLongClass
+					DoubleTypeRef: r.diracDoubleClass
+					FloatTypeRef: r.diracFloatClass
+					default: r.diracClass
 				}
 			}
 			BinomialRef: {
 				switch r.genericType {
-					ByteTypeRef: DIRAC_BYTE_TYPE
-					ShortTypeRef: DIRAC_SHORT_TYPE
-					IntegerTypeRef: DIRAC_INT_TYPE
-					LongTypeRef: DIRAC_LONG_TYPE
-					default: BINOMIAL_TYPE
+					ByteTypeRef: r.binomialByteClass
+					ShortTypeRef: r.binomialShortClass
+					IntegerTypeRef: r.binomialIntClass
+					LongTypeRef: r.binomialLongClass
+					default: r.binomialClass
 				}
 			}
 			BernoulliRef: {
 				switch r.genericType {
-					BooleanTypeRef: BERNOULLI_BOOL_TYPE
-					default: BERNOULLI_TYPE
+					BooleanTypeRef: r.bernoulliBoolClass
+					default: r.bernoulliClass
 				}
 			}
 			default: throw new RuntimeException('''Type not implemented in [Class type(TypeRef r)] function: «r»''')

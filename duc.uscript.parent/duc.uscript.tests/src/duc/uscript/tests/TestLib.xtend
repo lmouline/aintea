@@ -19,12 +19,13 @@ class TestLib {
 	@Inject extension ValidationTestHelper
 	@Inject	extension UScriptLang
 	@Inject Provider<ResourceSet> rsp
+
 	
 	@Test 
 	def void testImplicitImports() { 
 		'''
 		package a
-		
+				
 		class C {
 		       BernoulliDist s;
 		       String i;

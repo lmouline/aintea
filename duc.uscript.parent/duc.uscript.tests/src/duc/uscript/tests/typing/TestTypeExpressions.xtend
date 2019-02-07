@@ -12,20 +12,28 @@ import org.eclipse.xtext.testing.util.ParseHelper
 import duc.uscript.uScript.Program
 import duc.uscript.uScript.Method
 import duc.uscript.uScript.IfStatement
-import static duc.uscript.typing.TypeResolver.*
+import duc.uscript.typing.TypeResolver
 import duc.uscript.typing.InternalTypeDcl
-import duc.uscript.uScript.Assignee
 import duc.uscript.uScript.Assignment
+import duc.uscript.UScriptLang
+import org.eclipse.emf.ecore.resource.ResourceSet
+import com.google.inject.Provider
+import static extension duc.uscript.UScriptModelHelper.getFullQualifiedNamed
 
 @ExtendWith(InjectionExtension)
 @InjectWith(UScriptInjectorProvider)
 class TestTypeExpressions {
 	@Inject extension ParseHelper<Program>
+	@Inject extension TypeResolver
+	@Inject	extension UScriptLang
+	@Inject Provider<ResourceSet> rsp
 	
 	@Test
 	def void testCertainInequality() {
-		val script = '''
+		val scriptText = '''
 			package myPack
+			
+			import uscript.lang.*
 			
 			class A {}
 			
@@ -34,17 +42,21 @@ class TestTypeExpressions {
 				int i = array.length;
 				if(array.length > 0){}
 			}
-		'''.parse
+		'''
+		
+		val resourceSet = rsp.get 
+		loadLib(resourceSet) 
+		val script = scriptText.parse(resourceSet)
 		
 		val method = script.elements.get(1) as Method
 		
 		val iSttmt = method.body.statements.get(1) as Assignment
-		val typeValue = type(iSttmt.value)
+		val typeValue = type(iSttmt.value).fullQualifiedNamed
 		Assertions.assertEquals(InternalTypeDcl.INT_TYPE, typeValue)
 		
 		val ifSttmt = method.body.statements.get(2) as IfStatement
-		val type = type(ifSttmt.condition)
-		Assertions.assertEquals(InternalTypeDcl.BOOLEAN_TYPE, type)
+		val type = type(ifSttmt.condition).fullQualifiedNamed
+		Assertions.assertEquals(InternalTypeDcl.BOOL_TYPE, type)
 		
 	}
 	

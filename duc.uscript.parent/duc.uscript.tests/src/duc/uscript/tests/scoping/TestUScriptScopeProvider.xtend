@@ -17,12 +17,17 @@ import org.junit.jupiter.api.Assertions
 import duc.uscript.uScript.UScriptPackage
 import duc.uscript.uScript.Assignment
 import duc.uscript.uScript.ForStatement
+import com.google.inject.Provider
+import org.eclipse.emf.ecore.resource.ResourceSet
+import duc.uscript.UScriptLang
 
 @ExtendWith(InjectionExtension)
 @InjectWith(UScriptInjectorProvider)
 class TestUScriptScopeProvider {
 	@Inject extension ParseHelper<Program>
 	@Inject extension IScopeProvider
+	@Inject Provider<ResourceSet> rsp
+	@Inject	extension UScriptLang
 	
 	private def assertScope(EObject ctx, EReference ref, String expected) {
 		Assertions.assertEquals(expected, ctx.getScope(ref).allElements.map[name].join(", "))
@@ -216,6 +221,9 @@ class TestUScriptScopeProvider {
 	
 	@Test
 	def void testScopeProviderForUTypes() {
+		val rs = rsp.get
+		loadLib(rs)
+		
 		val script = '''
 			package myPack
 			
@@ -232,14 +240,14 @@ class TestUScriptScopeProvider {
 				double d_v = d.value;
 				double bin_v = bin.value;
 			}
-		'''.parse
+		'''.parse(rs)
 		
 		val m = script.elements.get(0) as Method
 		val fSttmts = m.body.statements
 		
 		var Assignment assgmt;
 		assgmt = fSttmts.get(5) as Assignment
-		assertScope(assgmt.value, UScriptPackage.eINSTANCE.fieldAccess_Field, "value, confidence, probability")
+		assertScope(assgmt.value, UScriptPackage.eINSTANCE.fieldAccess_Field, "value, confidence")
 		
 		assgmt = fSttmts.get(6) as Assignment
 		assertScope(assgmt.value, UScriptPackage.eINSTANCE.fieldAccess_Field, "value, confidence")
@@ -256,14 +264,16 @@ class TestUScriptScopeProvider {
 	
 	@Test
 	def void testScopeProviderForUDist() {
+		val rs = rsp.get
+		loadLib(rs)
 		val script = '''
 			package myPack
-			
+						
 			void m() {
-				Bernoulli b;						
+				BernoulliDist b;						
 				double g_v = b.probability;
 			}
-		'''.parse
+		'''.parse(rs)
 		
 		val m = script.elements.get(0) as Method
 		val fSttmts = m.body.statements

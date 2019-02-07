@@ -11,12 +11,17 @@ import org.junit.jupiter.api.Test
 import duc.uscript.validation.UTypeValidator
 import duc.uscript.uScript.UScriptPackage
 import static duc.uscript.typing.InternalTypeDcl.*
+import duc.uscript.UScriptLang
+import org.eclipse.emf.ecore.resource.ResourceSet
+import com.google.inject.Provider
 
 @ExtendWith(InjectionExtension)
 @InjectWith(UScriptInjectorProvider)
 class TestUTypeConstructor {
 	@Inject extension ParseHelper<Program>
 	@Inject extension ValidationTestHelper
+	@Inject	extension UScriptLang
+	@Inject Provider<ResourceSet> rsp
 	
 	// Bernoulli 
 	@Test
@@ -27,7 +32,7 @@ class TestUTypeConstructor {
 				Bernoulli<bool> b = new Bernoulli<bool>(true, 0.1);
 			}
 		'''.parse
-		script.assertNoError(UTypeValidator.WRONG_UTYPE_CONSTRUCTOR)
+		script.assertNoErrors
 	}
 	
 	@Test
@@ -56,19 +61,25 @@ class TestUTypeConstructor {
 	@Test
 	def void checkErrorsTypeArg1NewBernoulli() {
 		val args = #["\"aString\"","1", "1.2", "1L", "null", "new A()"]
-		val typeName = #[STRING_TYPE.name, BYTE_TYPE.name, FLOAT_TYPE.name, LONG_TYPE.name, NULL_TYPE.name, "A"]
+		val typeName = #["string", "byte", "float", "long", "null", "A"]
 		
 		for(var i=0; i<args.length; i++) {
+			val resourceSet = rsp.get 
+			loadLib(resourceSet) 
+		
 			val a = args.get(i)
 			val n = typeName.get(i)
 			val script = '''
 				package myPack
+				
+				import uscript.lang.*
+				
 				class A {}
 				
 				void m() {
 					Bernoulli<bool> b = new Bernoulli<bool>(«a», 0.1);
 				}
-				'''.parse
+				'''.parse(resourceSet)
 							
 			script.assertError(
 				UScriptPackage.eINSTANCE.newUObject, 
@@ -81,19 +92,25 @@ class TestUTypeConstructor {
 	@Test
 	def void checkErrorsTypeArg2NewBernoulli() {
 		val args = #["\"aString\"", "null", "new A()", "true"]
-		val typeName = #[STRING_TYPE.name, NULL_TYPE.name, "A", BOOLEAN_TYPE.name]
+		val typeName = #["string", "null", "A", "bool"]
 		
 		for(var i=0; i<args.length; i++) {
+			val resourceSet = rsp.get 
+			loadLib(resourceSet) 
+			
 			val a = args.get(i)
 			val n = typeName.get(i)
 			val script = '''
 				package myPack
+				
+				import uscript.lang.*
+				
 				class A {}
 				
 				void m() {
 					Bernoulli<bool> b = new Bernoulli<bool>(true, «a»);
 				}
-				'''.parse
+				'''.parse(resourceSet)
 							
 			script.assertError(
 				UScriptPackage.eINSTANCE.newUObject, 
@@ -141,19 +158,25 @@ class TestUTypeConstructor {
 	@Test
 	def void checkErrorsTypeArg1NewGaussian() {
 		val args = #["\"aString\"", "null", "new A()", "true"]
-		val typeName = #[STRING_TYPE.name, NULL_TYPE.name, "A", BOOLEAN_TYPE.name]
+		val typeName = #["string", "null", "A", "bool"]
 		
 		for(var i=0; i<args.length; i++) {
+			val resourceSet = rsp.get 
+			loadLib(resourceSet) 
+			
 			val a = args.get(i)
 			val n = typeName.get(i)
 			val script = '''
 				package myPack
+				
+				import uscript.lang.*
+				
 				class A {}
 				
 				void m() {
 					Gaussian<double> b = new Gaussian<double>(«a», 0.1);
 				}
-				'''.parse
+				'''.parse(resourceSet)
 							
 			script.assertError(
 				UScriptPackage.eINSTANCE.newUObject, 
@@ -166,19 +189,25 @@ class TestUTypeConstructor {
 	@Test
 	def void checkErrorsTypeArg2NewGaussian() {
 		val args = #["\"aString\"", "null", "new A()", "true"]
-		val typeName = #[STRING_TYPE.name, NULL_TYPE.name, "A", BOOLEAN_TYPE.name]
+		val typeName = #["string", "null", "A", "bool"]
 		
 		for(var i=0; i<args.length; i++) {
+			val resourceSet = rsp.get 
+			loadLib(resourceSet)
+			
 			val a = args.get(i)
 			val n = typeName.get(i)
 			val script = '''
 				package myPack
+				
+				import uscript.lang.*
+				
 				class A {}
 				
 				void m() {
 					Gaussian<double> b = new Gaussian<double>(0.1, «a»);
 				}
-				'''.parse
+				'''.parse(resourceSet)
 							
 			script.assertError(
 				UScriptPackage.eINSTANCE.newUObject, 
@@ -226,19 +255,25 @@ class TestUTypeConstructor {
 	@Test
 	def void checkErrorsTypeArg1NewDirac() {
 		val args = #["\"aString\"", "null", "new A()", "true"]
-		val typeName = #[STRING_TYPE.name, NULL_TYPE.name, "A", BOOLEAN_TYPE.name]
+		val typeName = #["string", "null", "A", "bool"]
 		
 		for(var i=0; i<args.length; i++) {
+			val resourceSet = rsp.get 
+			loadLib(resourceSet)
+			
 			val a = args.get(i)
 			val n = typeName.get(i)
 			val script = '''
 				package myPack
+				
+				import uscript.lang.*
+				
 				class A {}
 				
 				void m() {
 					DiracDeltaFct<double> b = new DiracDeltaFct<double>(«a», 0.1);
 				}
-				'''.parse
+				'''.parse(resourceSet)
 							
 			script.assertError(
 				UScriptPackage.eINSTANCE.newUObject, 
@@ -251,19 +286,25 @@ class TestUTypeConstructor {
 	@Test
 	def void checkErrorsTypeArg2NewDirac() {
 		val args = #["\"aString\"", "null", "new A()", "true"]
-		val typeName = #[STRING_TYPE.name, NULL_TYPE.name, "A", BOOLEAN_TYPE.name]
+		val typeName = #["string", "null", "A", "bool"]
 		
 		for(var i=0; i<args.length; i++) {
+			val resourceSet = rsp.get 
+			loadLib(resourceSet)
+			
 			val a = args.get(i)
 			val n = typeName.get(i)
 			val script = '''
 				package myPack
+				
+				import uscript.lang.*
+				
 				class A {}
 				
 				void m() {
 					DiracDeltaFct<double> b = new DiracDeltaFct<double>(0.1, «a»);
 				}
-				'''.parse
+				'''.parse(resourceSet)
 							
 			script.assertError(
 				UScriptPackage.eINSTANCE.newUObject, 

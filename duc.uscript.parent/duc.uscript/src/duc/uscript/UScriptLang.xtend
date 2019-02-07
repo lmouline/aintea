@@ -7,6 +7,10 @@ class UScriptLang {
 	public val static LANG_LIB = "./uscript/lang/uscript-lang.uscript"
 	
 	def loadLib(ResourceSet resourceSet) {
+		val url1 = getClass().classLoader.getResource("./")
+		println("ICICICICICICCI: " + url1.path)
+		
+		
 		val url = getClass().classLoader.getResource(LANG_LIB)
 		val stream = url.openStream
 		val resource = resourceSet.createResource(URI.createFileURI(url.path))

@@ -14,12 +14,17 @@ import duc.uscript.validation.CFValidator
 import static duc.uscript.typing.InternalTypeDcl.*
 import org.eclipse.xtext.diagnostics.Diagnostic
 import org.junit.jupiter.api.Assertions
+import duc.uscript.UScriptLang
+import com.google.inject.Provider
+import org.eclipse.emf.ecore.resource.ResourceSet
 
 @ExtendWith(InjectionExtension)
 @InjectWith(UScriptInjectorProvider)
 class TestCFValidator {
 	@Inject extension ParseHelper<Program>
 	@Inject extension ValidationTestHelper
+	@Inject	extension UScriptLang
+	@Inject Provider<ResourceSet> rsp
 	
 	
 	@Test
@@ -54,22 +59,29 @@ class TestCFValidator {
 	@Test
 	def void testErrorsIfBoolCond() {
 		val args = #["\"a\"", "1", "0.1", "1L", "null", "new A()"]
-		val types = #[STRING_TYPE.name, BYTE_TYPE.name, FLOAT_TYPE.name, LONG_TYPE.name, NULL_TYPE.name, "A"]
+		val types = #[STRING_TYPE, BYTE_TYPE, FLOAT_TYPE, LONG_TYPE, NULL_TYPE, "myPack.A"]
 		
 		for(var i=0; i<args.length; i++) {
 			val a = args.get(i)
 			val t = types.get(i)
 			
+			val resourceSet = rsp.get 
+			loadLib(resourceSet) 
+			
 			val script = '''
 				package myPack
-				class A() {}
+				
+				import uscript.lang.*
+				
+				class A {}
+				
 				void m() {
 					if(«a») {
 						
 					}
 				}
-			'''.parse
-			
+			'''.parse(resourceSet)
+						
 			assertError(
 				script,
 				UScriptPackage.eINSTANCE.ifStatement,

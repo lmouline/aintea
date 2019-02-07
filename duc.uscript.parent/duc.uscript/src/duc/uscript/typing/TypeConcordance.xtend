@@ -3,6 +3,8 @@ package duc.uscript.typing
 import static duc.uscript.typing.InternalTypeDcl.*
 import duc.uscript.uScript.Class
 
+import static extension duc.uscript.UScriptModelHelper.getFullQualifiedNamed
+
 class TypeConcordance {
 	def static boolean isPrimitive(Class c) {
 		return is(c, PRIMITIVE_TYPE)
@@ -20,8 +22,8 @@ class TypeConcordance {
 		return is(c, UNCERTAIN_TYPE)
 	}
 	
-	def static boolean is(Class c, Class parent) {
-		if (c === parent) {
+	def static boolean is(Class c, String parentFqnName) {
+		if (c.fullQualifiedNamed == parentFqnName) {
 			return true
 		}
 		
@@ -29,14 +31,14 @@ class TypeConcordance {
 			return false
 		}
 		
-		if(c.superClass === parent) {
+		if(c.superClass.fullQualifiedNamed == parentFqnName) {
 			return true
 		}
 		
-		return is(c.superClass, parent)
+		return is(c.superClass, parentFqnName)
 	}
 	
-	def static getUDistType(Class c) {
+	def static String getUDistType(Class c) {
 		if(is(c, GAUSSIAN_TYPE)) {
 			return GAUSSIAN_TYPE
 		}
@@ -56,33 +58,34 @@ class TypeConcordance {
 		throw new RuntimeException("Uncertain distribution unknown for " + c.name)
 	}
 	
-	def static getTypeFromUType(Class c) {
-		if(c === GAUSSIAN_DOUBLE_TYPE || c === RAYLEIGH_DOUBLE_TYPE || c === DIRAC_DOUBLE_TYPE) {
+	def static String getTypeFromUType(Class c) {
+		val fqn = c.fullQualifiedNamed
+		if(fqn == GAUSSIAN_DOUBLE_TYPE || fqn == RAYLEIGH_DOUBLE_TYPE || fqn == DIRAC_DOUBLE_TYPE) {
 			return DOUBLE_TYPE
 		}
 		
-		if(c === GAUSSIAN_FLOAT_TYPE || c === RAYLEIGH_FLOAT_TYPE || c === DIRAC_FLOAT_TYPE) {
+		if(fqn == GAUSSIAN_FLOAT_TYPE || fqn == RAYLEIGH_FLOAT_TYPE || fqn == DIRAC_FLOAT_TYPE) {
 			return FLOAT_TYPE
 		}
 		
-		if(c === DIRAC_BYTE_TYPE || c === BINOMIAL_BYTE_TYPE) {
+		if(fqn == DIRAC_BYTE_TYPE || fqn == BINOMIAL_BYTE_TYPE) {
 			return BYTE_TYPE
 		}
 		
-		if(c === DIRAC_INT_TYPE || c === BINOMIAL_INT_TYPE) {
+		if(fqn == DIRAC_INT_TYPE || fqn == BINOMIAL_INT_TYPE) {
 			return INT_TYPE
 		}
 		
-		if(c === DIRAC_SHORT_TYPE || c === BINOMIAL_SHORT_TYPE) {
+		if(fqn == DIRAC_SHORT_TYPE || fqn == BINOMIAL_SHORT_TYPE) {
 			return SHORT_TYPE
 		}
 		
-		if(c === DIRAC_LONG_TYPE || c === BINOMIAL_LONG_TYPE) {
+		if(fqn == DIRAC_LONG_TYPE || fqn == BINOMIAL_LONG_TYPE) {
 			return LONG_TYPE
 		}
 		
-		if(c === BERNOULLI_BOOL_TYPE) {
-			return BOOLEAN_TYPE
+		if(fqn == BERNOULLI_BOOL_TYPE) {
+			return BOOL_TYPE
 		}
 		
 		throw new RuntimeException("Certain type unknown for " + c.name)

@@ -5,7 +5,7 @@ import duc.uscript.uScript.BernoulliRef
 import duc.uscript.uScript.BooleanTypeRef
 
 import static extension duc.uscript.typing.TypeNameHelper.getSyntax
-import static duc.uscript.typing.TypeResolver.*
+import duc.uscript.typing.TypeResolver
 import static duc.uscript.typing.InternalTypeDcl.*
 import static duc.uscript.typing.TypeConcordance.*
 import duc.uscript.uScript.UScriptPackage
@@ -22,16 +22,17 @@ import duc.uscript.uScript.ByteTypeRef
 import duc.uscript.uScript.DiracRef
 import duc.uscript.uScript.NewUObject
 import duc.uscript.uScript.Class
-import duc.uscript.typing.InternalTypeDcl
+import com.google.inject.Inject
+import static extension duc.uscript.UScriptModelHelper.getFullQualifiedNamed
 
 class UTypeValidator extends AbstractUScriptValidator{
+	@Inject extension TypeResolver
 	
 	public static val WRONG_UTYPE = "wrongUType"
 	public static val WRONG_UTYPE_CONSTRUCTOR = "wrongUTypeConstructor"
 	
 	@Check
 	def checkBernoulliBool(BernoulliRef ber) {
-		InternalTypeDcl.init(ber.eResource)
 		if(ber.genericType !== null) {
 			if(!(ber.genericType instanceof BooleanTypeRef)) {
 				error(
@@ -46,13 +47,11 @@ class UTypeValidator extends AbstractUScriptValidator{
 		
 	@Check
 	def checkGaussianNbr(GaussianRef gauss) {
-		InternalTypeDcl.init(gauss.eResource)
 		checkContinuous(gauss, "Gaussian")
 	}
 	
 	@Check
 	def checkRayleighNbr(RayleighRef ray) {
-		InternalTypeDcl.init(ray.eResource)
 		checkContinuous(ray, "Rayleigh")
 	}
 	
@@ -73,7 +72,6 @@ class UTypeValidator extends AbstractUScriptValidator{
 	
 	@Check
 	def checkBinomialNbr(BinomialRef bin) {
-		InternalTypeDcl.init(bin.eResource)
 		val genType = bin.genericType
 		
 		if(genType !== null) {
@@ -90,7 +88,6 @@ class UTypeValidator extends AbstractUScriptValidator{
 	
 	@Check
 	def checkDiracNbr(DiracRef bin) {
-		InternalTypeDcl.init(bin.eResource)
 		val genType = bin.genericType
 		
 		if(genType !== null) {
@@ -109,7 +106,6 @@ class UTypeValidator extends AbstractUScriptValidator{
 	
 	@Check
 	def checkNewUObj(NewUObject newUT) {
-		InternalTypeDcl.init(newUT.eResource)
 		checkUTypeCreation(newUT.type, newUT)
 	}
 	
@@ -121,7 +117,7 @@ class UTypeValidator extends AbstractUScriptValidator{
 		val hasError = checkNbParam(newUT, "Bernoulli", 2)
 		if(!hasError) {
 			val arg1Type = type(newUT.args.get(0))
-			if(arg1Type !== BOOLEAN_TYPE) {
+			if(arg1Type.fullQualifiedNamed != BOOL_TYPE) {
 				error(
 					'''First argument of the Bernoulli constructor needs to be a boolean expression. Actual: «arg1Type.name»''',
 					newUT,

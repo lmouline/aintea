@@ -3,7 +3,6 @@ package duc.uscript.validation
 import org.eclipse.xtext.validation.Check
 import duc.uscript.uScript.Plus
 import duc.uscript.uScript.Class
-import static duc.uscript.typing.TypeResolver.type
 import static duc.uscript.typing.TypeConcordance.isNumber
 import static duc.uscript.typing.TypeConcordance.is
 import duc.uscript.uScript.UScriptPackage
@@ -16,33 +15,31 @@ import org.eclipse.emf.ecore.EReference
 import duc.uscript.uScript.Minus
 import duc.uscript.uScript.Multiplication
 import duc.uscript.uScript.Division
-import duc.uscript.typing.InternalTypeDcl
+import com.google.inject.Inject
+import duc.uscript.typing.TypeResolver
 
 class ArthTypeValidator extends AbstractUScriptValidator {
+	@Inject extension TypeResolver
 	
 	public static val INCOMPATIBLE_TYPES = "incompatibleTypes"
 	
 	@Check
 	def checkType(Minus minus) {
-		InternalTypeDcl.init(minus.eResource)
 		checkRayleigh(type(minus.left), type(minus.right), minus, UScriptPackage.Literals.MINUS__LEFT, UScriptPackage.Literals.MINUS__RIGHT)
 	}
 	
 	@Check
 	def checkType(Multiplication mult) {
-		InternalTypeDcl.init(mult.eResource)
 		checkRayleigh(type(mult.left), type(mult.right), mult, UScriptPackage.Literals.MULTIPLICATION__LEFT, UScriptPackage.Literals.MULTIPLICATION__RIGHT)
 	}
 	
 	@Check
 	def checkType(Division division) {
-		InternalTypeDcl.init(division.eResource)
 		checkRayleigh(type(division.left), type(division.right), division, UScriptPackage.Literals.DIVISION__LEFT, UScriptPackage.Literals.DIVISION__RIGHT)
 	}
 		
 	@Check
 	def checkType(Plus plus) {
-		InternalTypeDcl.init(plus.eResource)
 		val leftType = type(plus.left)
 		val rightType = type(plus.right)
 		

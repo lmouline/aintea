@@ -1,365 +1,237 @@
 package duc.uscript.typing
 
-import duc.uscript.uScript.UScriptFactory
-import org.eclipse.emf.ecore.resource.Resource
-import duc.uscript.uScript.Program
+import com.google.inject.Inject
+import duc.uscript.scoping.UScriptIndex
+import org.eclipse.emf.ecore.EObject
 import duc.uscript.uScript.Class
 
 class InternalTypeDcl {
-	static boolean hasBeenInit = false
+	@Inject extension UScriptIndex
 	
-	protected static val FACTORY = UScriptFactory.eINSTANCE
-		
-	def static init(Resource r) {
-		if(hasBeenInit) {
-			return;
-		}
-		
-		val root = r.contents.get(0)
-		if(root !== null) {
-			val prog = root as Program
-			hasBeenInit = true
-			
-//			prog.elements.addAll(PRIMITIVE_TYPE, STRING_TYPE, CHAR_TYPE, BOOLEAN_TYPE, 
-//				NUMERIC_TYPE, LONG_TYPE, INT_TYPE, SHORT_TYPE, BYTE_TYPE, DOUBLE_TYPE, FLOAT_TYPE,
-//				ARRAY_TYPE, STRING_ARRAY_TYPE, CHAR_ARRAY_TYPE, BOOLEAN_ARRAY_TYPE, LONG_ARRAY_TYPE,
-//				INT_ARRAY_TYPE, SHORT_ARRAY_TYPE, BYTE_ARRAY_TYPE, DOUBLE_ARRAY_TYPE, FLOAT_ARRAY_TYPE,
-//				NULL_TYPE, UNCERTAIN_TYPE, BERNOULLI_TYPE, BERNOULLI_BOOL_TYPE, UNCERTAIN_NUMERIC_TYPE, 
-//				GAUSSIAN_TYPE, GAUSSIAN_DOUBLE_TYPE, GAUSSIAN_FLOAT_TYPE, RAYLEIGH_TYPE, RAYLEIGH_DOUBLE_TYPE,
-//				RAYLEIGH_FLOAT_TYPE, BINOMIAL_TYPE, BINOMIAL_BYTE_TYPE, BINOMIAL_SHORT_TYPE, BINOMIAL_INT_TYPE,
-//				BINOMIAL_LONG_TYPE, DIRAC_TYPE, DIRAC_BYTE_TYPE, DIRAC_SHORT_TYPE, DIRAC_INT_TYPE,
-//				DIRAC_LONG_TYPE, DIRAC_DOUBLE_TYPE, DIRAC_FLOAT_TYPE
-//			)
-		
-		}
+	public static final String LIB_PACK = "uscript.lang"
+	
+	public static final String PRIMITIVE_TYPE = LIB_PACK + ".Primitive"
+	public static final String STRING_TYPE = LIB_PACK + ".String"
+	public static final String CHAR_TYPE = LIB_PACK + ".Char"
+	public static final String BOOL_TYPE = LIB_PACK + ".Boolean"
+	public static final String NUMERIC_TYPE = LIB_PACK + ".Numeric"
+	public static final String LONG_TYPE = LIB_PACK + ".Long"
+	public static final String INT_TYPE = LIB_PACK + ".Int"
+	public static final String SHORT_TYPE = LIB_PACK + ".Short"
+	public static final String BYTE_TYPE = LIB_PACK + ".Byte"
+	public static final String DOUBLE_TYPE = LIB_PACK + ".Double"
+	public static final String FLOAT_TYPE = LIB_PACK + ".Float"
+	
+	public static final String ARRAY_TYPE = LIB_PACK + ".Array"
+	public static final String STRING_ARRAY_TYPE = LIB_PACK + ".StringArray"
+	public static final String CHAR_ARRAY_TYPE = LIB_PACK + ".CharArray"
+	public static final String LONG_ARRAY_TYPE = LIB_PACK + ".LongArray"
+	public static final String INT_ARRAY_TYPE = LIB_PACK + ".IntArray"
+	public static final String SHORT_ARRAY_TYPE = LIB_PACK + ".ShortArray"
+	public static final String BYTE_ARRAY_TYPE = LIB_PACK + ".ByteArray"
+	public static final String DOUBLE_ARRAY_TYPE = LIB_PACK + ".DoubleArray"
+	public static final String FLOAT_ARRAY_TYPE = LIB_PACK + ".FloatArray"
+	public static final String BOOL_ARRAY_TYPE = LIB_PACK + ".BooleanArray"
+	
+	public static final String NULL_TYPE = LIB_PACK + ".Null"
+	
+	public static final String BERNOULLI_DIST_TYPE = LIB_PACK + ".BernoulliDist"
+	public static final String GAUSSIAN_DIST_TYPE = LIB_PACK + ".GaussianDist"
+	public static final String RAYLEIGH_DIST_TYPE = LIB_PACK + ".RayleighDist"
+	public static final String BINOMIAL_DIST_TYPE = LIB_PACK + ".BinomialDist"
+	public static final String DIRAC_DIST_TYPE = LIB_PACK + ".DiracDeltaFunction"
+	
+	public static final String UNCERTAIN_TYPE = LIB_PACK + ".UncertainType"
+	
+	public static final String BERNOULLI_TYPE = LIB_PACK + ".BernoulliType"
+	public static final String BERNOULLI_BOOL_TYPE = LIB_PACK + ".BernoulliBool"
+	
+	public static final String UNCERTAIN_NUMERIC_TYPE = LIB_PACK + ".UncertainNumeric"
+	
+	public static final String GAUSSIAN_TYPE = LIB_PACK + ".GaussianType"
+	public static final String GAUSSIAN_DOUBLE_TYPE = LIB_PACK + ".GaussianDouble"
+	public static final String GAUSSIAN_FLOAT_TYPE = LIB_PACK + ".GaussianFloat"
+	
+	public static final String RAYLEIGH_TYPE = LIB_PACK + ".RayleighType"
+	public static final String RAYLEIGH_DOUBLE_TYPE = LIB_PACK + ".RayleighDouble"
+	public static final String RAYLEIGH_FLOAT_TYPE = LIB_PACK + ".RayleighFloat"
+	
+	public static final String BINOMIAL_TYPE = LIB_PACK + ".BinomialType"
+	public static final String BINOMIAL_LONG_TYPE = LIB_PACK + ".BinomialLong"
+	public static final String BINOMIAL_INT_TYPE = LIB_PACK + ".BinomialInt"
+	public static final String BINOMIAL_SHORT_TYPE = LIB_PACK + ".BinomialShort"
+	public static final String BINOMIAL_BYTE_TYPE = LIB_PACK + ".BinomialByte"
+	
+	public static final String DIRAC_TYPE = LIB_PACK + ".DiracType"
+	public static final String DIRAC_LONG_TYPE = LIB_PACK + ".DiracLong"
+	public static final String DIRAC_INT_TYPE = LIB_PACK + ".DiracInt"
+	public static final String DIRAC_SHORT_TYPE = LIB_PACK + ".DiracShort"
+	public static final String DIRAC_BYTE_TYPE = LIB_PACK + ".DiracByte"
+	public static final String DIRAC_DOUBLE_TYPE = LIB_PACK + ".DiracDouble"
+	public static final String DIRAC_FLOAT_TYPE = LIB_PACK + ".DiracFloat"
+	
+	def Class getStringClass(EObject ctx) {
+		return ctx.getClassFromFqn(STRING_TYPE)
 	}
 	
+	def Class getCharClass(EObject ctx) {
+		return ctx.getClassFromFqn(CHAR_TYPE)
+	}
 	
+	def Class getBoolClass(EObject ctx) {
+		return ctx.getClassFromFqn(BOOL_TYPE)
+	}
 	
-	public static val PRIMITIVE_TYPE = FACTORY.createClass => [name = 'primitiveType']
+	def Class getLongClass(EObject ctx) {
+		return ctx.getClassFromFqn(LONG_TYPE)
+	}
 	
-	public static val STRING_TYPE = FACTORY.createClass => [
-		name = 'stringType'
-		superClass = PRIMITIVE_TYPE
-	]
-	public static val CHAR_TYPE = FACTORY.createClass => [
-		name = 'charType'
-		superClass = PRIMITIVE_TYPE
-	]
-	public static val BOOLEAN_TYPE = FACTORY.createClass => [
-		name = 'booleanType'
-		superClass = PRIMITIVE_TYPE
-	]
+	def Class getIntClass(EObject ctx) {
+		return ctx.getClassFromFqn(INT_TYPE)
+	}
 	
-	public static val NUMERIC_TYPE = FACTORY.createClass => [
-		name = 'numericType'
-		superClass = PRIMITIVE_TYPE
-	]
-	public static val LONG_TYPE = FACTORY.createClass => [
-		name = 'longType'
-		superClass = NUMERIC_TYPE
-	]
-	public static val INT_TYPE = FACTORY.createClass => [
-		name = 'intType'
-		superClass = LONG_TYPE
-	]
-	public static val SHORT_TYPE = FACTORY.createClass => [
-		name = 'shortType'
-		superClass = INT_TYPE
-	]
-	public static val BYTE_TYPE = FACTORY.createClass => [
-		name = 'byteType'
-		superClass = SHORT_TYPE
-	]
+	def Class getShortClass(EObject ctx) {
+		return ctx.getClassFromFqn(SHORT_TYPE)
+	}
 	
-	public static val DOUBLE_TYPE = FACTORY.createClass => [
-		name = 'doubleType'
-		superClass = NUMERIC_TYPE
-	]
-	public static val FLOAT_TYPE = FACTORY.createClass => [
-		name = 'floatType'
-		superClass = DOUBLE_TYPE
-	]
+	def Class getByteClass(EObject ctx) {
+		return ctx.getClassFromFqn(BYTE_TYPE)
+	}
 	
-	public static val ARRAY_TYPE = FACTORY.createClass => [name = 'arrayType']
-	public static val STRING_ARRAY_TYPE = FACTORY.createClass => [name = 'stringArrayType']
-	public static val INT_ARRAY_TYPE = FACTORY.createClass => [name = 'intArrayType']
-	public static val BOOLEAN_ARRAY_TYPE = FACTORY.createClass => [name = 'booleanArrayType']
-	public static val BYTE_ARRAY_TYPE = FACTORY.createClass => [name = 'byteArrayType']
-	public static val LONG_ARRAY_TYPE = FACTORY.createClass => [name = 'longArrayType']
-	public static val DOUBLE_ARRAY_TYPE = FACTORY.createClass => [name = 'doubleArrayType']
-	public static val SHORT_ARRAY_TYPE = FACTORY.createClass => [name = 'shortArrayType']
-	public static val FLOAT_ARRAY_TYPE = FACTORY.createClass => [name = 'floatArrayType']
-	public static val CHAR_ARRAY_TYPE = FACTORY.createClass => [name = 'charArrayType']
+	def Class getDoubleClass(EObject ctx) {
+		return ctx.getClassFromFqn(DOUBLE_TYPE)
+	}
 	
-	public static val NULL_TYPE = FACTORY.createClass => [name = 'nullType']
+	def Class getFloatClass(EObject ctx) {
+		return ctx.getClassFromFqn(FLOAT_TYPE)
+	}
 	
+	def Class getNullClass(EObject ctx) {
+		return ctx.getClassFromFqn(NULL_TYPE)
+	}
 	
+	def Class getBernoulliClass(EObject ctx) {
+		return ctx.getClassFromFqn(BERNOULLI_TYPE)
+	}
 	
-	public static val UNCERTAIN_TYPE = FACTORY.createClass => [
-		name = 'uncertainType'
-	]
-
-	public static val BERNOULLI_TYPE = FACTORY.createClass => [
-		name = 'bernoulliType'
-		superClass = UNCERTAIN_TYPE
-		
-//		members.add(FACTORY.createField => [
-//			name= "probability"
-//			typeRef= FACTORY.createDoubleTypeRef()
-//		])
-	]
+	def Class getGaussianClass(EObject ctx) {
+		return ctx.getClassFromFqn(GAUSSIAN_TYPE)
+	}
 	
-	public static val BERNOULLI_BOOL_TYPE = FACTORY.createClass => [
-		name = 'bernoulliBoolType'
-		superClass = BERNOULLI_TYPE
-		
-//		members.add(FACTORY.createField => [
-//			name= "value"
-//			typeRef= FACTORY.createBooleanTypeRef()
-//		])
-//		
-//		members.add(FACTORY.createField => [
-//			name= "confidence"
-//			typeRef= FACTORY.createBernoulliRef()
-//		])
-	]
+	def Class getRayleighClass(EObject ctx) {
+		return ctx.getClassFromFqn(RAYLEIGH_TYPE)
+	}
 	
+	def Class getDiracClass(EObject ctx) {
+		return ctx.getClassFromFqn(DIRAC_TYPE)
+	}
 	
-	public static val UNCERTAIN_NUMERIC_TYPE = FACTORY.createClass => [
-		name = 'uncertainNumericType'
-		superClass = UNCERTAIN_TYPE
-	]
+	def Class getBinomialClass(EObject ctx) {
+		return ctx.getClassFromFqn(BINOMIAL_TYPE)
+	}
 	
-	public static val GAUSSIAN_TYPE = FACTORY.createClass => [
-		name = 'gaussianType'
-		superClass = UNCERTAIN_NUMERIC_TYPE
-	]
-		
-	public static val GAUSSIAN_DOUBLE_TYPE = FACTORY.createClass => [
-		name = 'gaussianDoubleType'
-		superClass = GAUSSIAN_TYPE
-		
-//		members.add(FACTORY.createField => [
-//			name= "value"
-//			typeRef= FACTORY.createDoubleTypeRef()
-//		])
-//		
-//		members.add(FACTORY.createField => [
-//			name= "confidence"
-//			typeRef= FACTORY.createGaussianRef()
-//		])
-		
-	]
+	def Class getBernoulliBoolClass(EObject ctx) {
+		return ctx.getClassFromFqn(BERNOULLI_BOOL_TYPE)
+	}
 	
-	public static val GAUSSIAN_FLOAT_TYPE = FACTORY.createClass => [
-		name = 'gaussianFloatType'
-		superClass = GAUSSIAN_DOUBLE_TYPE
-		
-//		members.add(FACTORY.createField => [
-//			name= "value"
-//			typeRef= FACTORY.createFloatTypeRef()
-//		])
-//		
-//		members.add(FACTORY.createField => [
-//			name= "confidence"
-//			typeRef= FACTORY.createGaussianRef()
-//		])
-	]
+	def Class getGaussianDoubleClass(EObject ctx) {
+		return ctx.getClassFromFqn(GAUSSIAN_DOUBLE_TYPE)
+	}
 	
-	public static val RAYLEIGH_TYPE = FACTORY.createClass => [
-		name = 'rayleighType'
-		superClass = UNCERTAIN_NUMERIC_TYPE
-	]
-		
-	public static val RAYLEIGH_DOUBLE_TYPE = FACTORY.createClass => [
-		name = 'rayleighDoubleType'
-		superClass = RAYLEIGH_TYPE
-		
-//		members.add(FACTORY.createField => [
-//			name= "value"
-//			typeRef= FACTORY.createDoubleTypeRef()
-//		])
-//		
-//		members.add(FACTORY.createField => [
-//			name= "confidence"
-//			typeRef= FACTORY.createRayleighRef()
-//		])
-	]
+	def Class getGaussianFloatClass(EObject ctx) {
+		return ctx.getClassFromFqn(GAUSSIAN_FLOAT_TYPE)
+	}
 	
-	public static val RAYLEIGH_FLOAT_TYPE = FACTORY.createClass => [
-		name = 'rayleighFloatType'
-		superClass = RAYLEIGH_DOUBLE_TYPE
-		
-//		members.add(FACTORY.createField => [
-//			name= "value"
-//			typeRef= FACTORY.createFloatTypeRef()
-//		])
-//		
-//		members.add(FACTORY.createField => [
-//			name= "confidence"
-//			typeRef= FACTORY.createRayleighRef()
-//		])
-	]
+	def Class getRayleighDoubleClass(EObject ctx) {
+		return ctx.getClassFromFqn(RAYLEIGH_DOUBLE_TYPE)
+	}
 	
-	public static val BINOMIAL_TYPE = FACTORY.createClass => [
-		name = 'binomialType'
-		superClass = UNCERTAIN_NUMERIC_TYPE
-	]
+	def Class getRayleighFloatClass(EObject ctx) {
+		return ctx.getClassFromFqn(RAYLEIGH_FLOAT_TYPE)
+	}
 	
-	public static val BINOMIAL_LONG_TYPE = FACTORY.createClass => [
-		name = 'binomialLongType'
-		superClass = BINOMIAL_TYPE
-		
-//		members.add(FACTORY.createField => [
-//			name= "value"
-//			typeRef= FACTORY.createLongTypeRef()
-//		])
-//		
-//		members.add(FACTORY.createField => [
-//			name= "confidence"
-//			typeRef= FACTORY.createBinomialRef()
-//		])
-	]
+	def Class getDiracLongClass(EObject ctx) {
+		return ctx.getClassFromFqn(DIRAC_LONG_TYPE)
+	}
 	
-	public static val BINOMIAL_INT_TYPE = FACTORY.createClass => [
-		name = 'binomialIntType'
-		superClass = BINOMIAL_LONG_TYPE
-		
-//		members.add(FACTORY.createField => [
-//			name= "value"
-//			typeRef= FACTORY.createIntegerTypeRef()
-//		])
-//		
-//		members.add(FACTORY.createField => [
-//			name= "confidence"
-//			typeRef= FACTORY.createBinomialRef()
-//		])
-	]
+	def Class getDiracIntClass(EObject ctx) {
+		return ctx.getClassFromFqn(DIRAC_INT_TYPE)
+	}
 	
-	public static val BINOMIAL_SHORT_TYPE = FACTORY.createClass => [
-		name = 'binomialShortType'
-		superClass = BINOMIAL_INT_TYPE
-//		
-//		members.add(FACTORY.createField => [
-//			name= "value"
-//			typeRef= FACTORY.createShortTypeRef()
-//		])
-//		
-//		members.add(FACTORY.createField => [
-//			name= "confidence"
-//			typeRef= FACTORY.createBinomialRef()
-//		])
-	]
+	def Class getDiracShortClass(EObject ctx) {
+		return ctx.getClassFromFqn(DIRAC_SHORT_TYPE)
+	}
 	
-	public static val BINOMIAL_BYTE_TYPE = FACTORY.createClass => [
-		name = 'binomialByteType'
-		superClass = BINOMIAL_SHORT_TYPE
-		
-//		members.add(FACTORY.createField => [
-//			name= "value"
-//			typeRef= FACTORY.createByteTypeRef()
-//		])
-//		
-//		members.add(FACTORY.createField => [
-//			name= "confidence"
-//			typeRef= FACTORY.createBinomialRef()
-//		])
-	]
+	def Class getDiracByteClass(EObject ctx) {
+		return ctx.getClassFromFqn(DIRAC_BYTE_TYPE)
+	}
 	
-	public static val DIRAC_TYPE = FACTORY.createClass => [
-		name = 'diracType'
-		superClass = UNCERTAIN_NUMERIC_TYPE
-	]
+	def Class getDiracDoubleClass(EObject ctx) {
+		return ctx.getClassFromFqn(DIRAC_DOUBLE_TYPE)
+	}
 	
-	public static val DIRAC_LONG_TYPE = FACTORY.createClass => [
-		name = 'diracLongType'
-		superClass = DIRAC_TYPE
-		
-//		members.add(FACTORY.createField => [
-//			name= "value"
-//			typeRef= FACTORY.createLongTypeRef()
-//		])
-//		
-//		members.add(FACTORY.createField => [
-//			name= "confidence"
-//			typeRef= FACTORY.createDiracRef()
-//		])
-	]
+	def Class getDiracFloatClass(EObject ctx) {
+		return ctx.getClassFromFqn(DIRAC_FLOAT_TYPE)
+	}
 	
-	public static val DIRAC_INT_TYPE = FACTORY.createClass => [
-		name = 'diracIntType'
-		superClass = DIRAC_LONG_TYPE
-		
-//		members.add(FACTORY.createField => [
-//			name= "value"
-//			typeRef= FACTORY.createIntegerTypeRef()
-//		])
-//		
-//		members.add(FACTORY.createField => [
-//			name= "confidence"
-//			typeRef= FACTORY.createDiracRef()
-//		])
-	]
+	def Class getUncertainClass(EObject ctx) {
+		return ctx.getClassFromFqn(UNCERTAIN_TYPE)
+	}
 	
-	public static val DIRAC_SHORT_TYPE = FACTORY.createClass => [
-		name = 'diracShortType'
-		superClass = DIRAC_INT_TYPE
-		
-//		members.add(FACTORY.createField => [
-//			name= "value"
-//			typeRef= FACTORY.createShortTypeRef()
-//		])
-//		
-//		members.add(FACTORY.createField => [
-//			name= "confidence"
-//			typeRef= FACTORY.createDiracRef()
-//		])
-	]
+	def Class getBinomialLongClass(EObject ctx) {
+		return ctx.getClassFromFqn(BINOMIAL_LONG_TYPE)
+	}
 	
-	public static val DIRAC_BYTE_TYPE = FACTORY.createClass => [
-		name = 'diracByteType'
-		superClass = DIRAC_SHORT_TYPE
-		
-//		members.add(FACTORY.createField => [
-//			name= "value"
-//			typeRef= FACTORY.createByteTypeRef()
-//		])
-//		
-//		members.add(FACTORY.createField => [
-//			name= "confidence"
-//			typeRef= FACTORY.createDiracRef()
-//		])
-	]
+	def Class getBinomialIntClass(EObject ctx) {
+		return ctx.getClassFromFqn(BINOMIAL_INT_TYPE)
+	}
 	
-	public static val DIRAC_DOUBLE_TYPE = FACTORY.createClass => [
-		name = 'diracDoubleType'
-		superClass = DIRAC_TYPE
-		
-//		members.add(FACTORY.createField => [
-//			name= "value"
-//			typeRef= FACTORY.createDoubleTypeRef()
-//		])
-//		
-//		members.add(FACTORY.createField => [
-//			name= "confidence"
-//			typeRef= FACTORY.createDiracRef()
-//		])
-	]
+	def Class getBinomialShortClass(EObject ctx) {
+		return ctx.getClassFromFqn(BINOMIAL_SHORT_TYPE)
+	}
 	
-	public static val DIRAC_FLOAT_TYPE = FACTORY.createClass => [
-		name = 'diracFloatType'
-		superClass = DIRAC_DOUBLE_TYPE
-//		
-//		members.add(FACTORY.createField => [
-//			name= "value"
-//			typeRef= FACTORY.createFloatTypeRef()
-//		])
-//		
-//		members.add(FACTORY.createField => [
-//			name= "confidence"
-//			typeRef= FACTORY.createDiracRef()
-//		])
-	]
+	def Class getBinomialByteClass(EObject ctx) {
+		return ctx.getClassFromFqn(DIRAC_BYTE_TYPE)
+	}
 	
+	def Class getLongArrayClass(EObject ctx) {
+		return ctx.getClassFromFqn(LONG_ARRAY_TYPE)
+	}
+	
+	def Class getIntArrayClass(EObject ctx) {
+		return ctx.getClassFromFqn(INT_ARRAY_TYPE)
+	}
+	
+	def Class getShortArrayClass(EObject ctx) {
+		return ctx.getClassFromFqn(SHORT_ARRAY_TYPE)
+	}
+	
+	def Class getByteArrayClass(EObject ctx) {
+		return ctx.getClassFromFqn(BYTE_ARRAY_TYPE)
+	}
+	
+	def Class getDoubleArrayClass(EObject ctx) {
+		return ctx.getClassFromFqn(DOUBLE_ARRAY_TYPE)
+	}
+	
+	def Class getFloatArrayClass(EObject ctx) {
+		return ctx.getClassFromFqn(FLOAT_ARRAY_TYPE)
+	}
+	
+	def Class getBoolArrayClass(EObject ctx) {
+		return ctx.getClassFromFqn(BOOL_ARRAY_TYPE)
+	}
+	
+	def Class getStringArrayClass(EObject ctx) {
+		return ctx.getClassFromFqn(STRING_ARRAY_TYPE)
+	}
+	
+	def Class getCharArrayClass(EObject ctx) {
+		return ctx.getClassFromFqn(CHAR_ARRAY_TYPE)
+	}
+	
+	def Class getNumericClass(EObject ctx) {
+		return ctx.getClassFromFqn(NUMERIC_TYPE)
+	}
+			
 }
