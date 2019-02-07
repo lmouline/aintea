@@ -5,9 +5,10 @@ import "http://www.eclipse.org/emf/2002/Ecore" as ecore
 generate uScript "http://www.uscript.duc/UScript"
 
 Program:
-	("package" name=QualifiedName)
+	(("package" name=QualifiedName)
 	imports+=(Import)*
-	elements+=(Class | Method)*;
+	elements+=(Class | Method)*)?
+;
 	
 terminal DOUBLE returns ecore::EDouble: (('0'..'9')+ '.' ('0'..'9')*) | (('.') ('0'..'9')+);
 terminal LONG returns ecore::EString: INT ('l' | 'L');
