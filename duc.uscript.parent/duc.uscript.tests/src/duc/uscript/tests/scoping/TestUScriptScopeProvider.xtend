@@ -226,7 +226,7 @@ class TestUScriptScopeProvider {
 		
 		val script = '''
 			package myPack
-			
+			import uscript.lang.*			
 			void m() {
 				Bernoulli<bool> b = new Bernoulli<bool>(true, 0.1);
 				Gaussian<double> g = new Gaussian<double>(0,0);

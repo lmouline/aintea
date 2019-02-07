@@ -10,6 +10,12 @@
 	<packaging>eclipse-plugin</packaging>
 
 	<build>
+		<resources>
+			<resource>
+				<directory>lib</directory>
+			</resource>
+		</resources>
+	
 		<plugins>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
