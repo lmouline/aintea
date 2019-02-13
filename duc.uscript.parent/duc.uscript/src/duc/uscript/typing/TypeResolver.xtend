@@ -55,18 +55,34 @@ import duc.uscript.uScript.BinomialRef
 import com.google.inject.Inject
 import static extension duc.uscript.UScriptModelHelper.getFullQualifiedNamed
 import duc.uscript.scoping.UScriptIndex
+import duc.uscript.uScript.This
+import org.eclipse.emf.ecore.EObject
+import duc.uscript.uScript.VariableDeclaration
+import duc.uscript.uScript.NewArray
 
 class TypeResolver {
 	@Inject extension InternalTypeDcl
 	@Inject extension UScriptIndex
-		
+			
 	def dispatch Class type(Expression e) {
 		throw new RuntimeException('''Expression «e» not condisered in the type resolver''')
+	}
+	
+	def dispatch Class type(This t) {
+		var EObject current = t;
+		while(!(current instanceof Class)) {
+			current = current.eContainer
+			if(current === null) {
+				return t.nullClass
+			}
+		}
+		
+		return current as Class
 	}
 		
 	private def Class typeBoolExpr(Class left, Class right) {
 		if(left.fullQualifiedNamed == BERNOULLI_BOOL_TYPE || right.fullQualifiedNamed == BERNOULLI_BOOL_TYPE) {
-			return left.bernoulliClass
+			return left.bernoulliBoolClass
 		}
 		
 		return left.boolClass
@@ -262,6 +278,9 @@ class TypeResolver {
 	}
 	
 	def dispatch Class type(FieldAccess fieldAccess) {
+		if(fieldAccess.field.typeRef === null) {
+			return fieldAccess.nullClass
+		}
 		return fieldAccess.field.typeRef.type
 	}
 		
@@ -302,6 +321,8 @@ class TypeResolver {
 	}
 	
 	def dispatch Class type(StringConstant stringCst) {
+		println('''ResourceSet: «stringCst.eResource.resourceSet»''')
+		println('''TypeResolver.type(«stringCst») => «stringCst.stringClass»''')
 		return stringCst.stringClass
 	}
 	
@@ -318,11 +339,25 @@ class TypeResolver {
 	}
 	
 	def dispatch Class type(SymbolRef symbol) {
-		symbol.symbol.typeRef.type
+		if(symbol.symbol === null) {
+			return symbol.nullClass
+		}
+		if(symbol.symbol.typeRef === null) {
+			return symbol.nullClass
+		}
+		return symbol.symbol.typeRef.type
 	}
 	
 	def dispatch Class type(ExistExpr exist) {
 		exist.boolClass
+	}
+	
+	def dispatch Class type(VariableDeclaration varDcl) {
+		return varDcl.typeRef.type
+	}
+	
+	def dispatch Class type(NewArray newArray) {
+		newArray.getType.type
 	}
 	
 	
@@ -356,14 +391,14 @@ class TypeResolver {
 				switch r.genericType {
 					DoubleTypeRef: r.gaussianDoubleClass
 					FloatTypeRef: r.gaussianFloatClass
-					default: r.gaussianClass
+					default: r.gaussianDistClass
 				}
 			}
 			RayleighRef: {
 				switch r.genericType {
 					DoubleTypeRef: r.rayleighDoubleClass
 					FloatTypeRef: r.rayleighFloatClass
-					default: r.rayleighClass
+					default: r.rayleighDistClass
 				}
 			}
 			DiracRef: {
@@ -383,13 +418,13 @@ class TypeResolver {
 					ShortTypeRef: r.binomialShortClass
 					IntegerTypeRef: r.binomialIntClass
 					LongTypeRef: r.binomialLongClass
-					default: r.binomialClass
+					default: r.binomialDistClass
 				}
 			}
 			BernoulliRef: {
 				switch r.genericType {
 					BooleanTypeRef: r.bernoulliBoolClass
-					default: r.bernoulliClass
+					default: r.bernoulliDistClass
 				}
 			}
 			default: throw new RuntimeException('''Type not implemented in [Class type(TypeRef r)] function: «r»''')
