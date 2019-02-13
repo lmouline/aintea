@@ -110,6 +110,26 @@ class InternalTypeDcl {
 		return ctx.getClassFromFqn(NULL_TYPE)
 	}
 	
+	def Class getBernoulliDistClass(EObject ctx) {
+		return ctx.getClassFromFqn(BERNOULLI_DIST_TYPE)
+	}
+	
+	def Class getBinomialDistClass(EObject ctx) {
+		return ctx.getClassFromFqn(BINOMIAL_DIST_TYPE)
+	}
+	
+	def Class getDiracDistClass(EObject ctx) {
+		return ctx.getClassFromFqn(DIRAC_DIST_TYPE)
+	}
+	
+	def Class getGaussianDistClass(EObject ctx) {
+		return ctx.getClassFromFqn(GAUSSIAN_DIST_TYPE)
+	}
+	
+	def Class getRayleighDistClass(EObject ctx) {
+		return ctx.getClassFromFqn(RAYLEIGH_DIST_TYPE)
+	}
+	
 	def Class getBernoulliClass(EObject ctx) {
 		return ctx.getClassFromFqn(BERNOULLI_TYPE)
 	}
