@@ -16,7 +16,7 @@ import org.eclipse.xtext.validation.ComposedChecks
  *
  * See https://www.eclipse.org/Xtext/documentation/303_runtime_concepts.html#validation
  */
- @ComposedChecks(validators=#[UTypeValidator, ArthTypeValidator, CFValidator])
+ @ComposedChecks(validators=#[UTypeValidator, ArthTypeValidator, CFValidator, AssigmentValidator])
 class UScriptValidator extends AbstractUScriptValidator {
 	
 	public static val DUPLICATE_NAME = "duplicateName"
