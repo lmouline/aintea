@@ -8,16 +8,24 @@ import duc.uscript.typing.TypeResolver
 import com.google.inject.Inject
 import duc.uscript.uScript.Class
 import static extension duc.uscript.UScriptModelHelper.getFullQualifiedNamed
+import duc.uscript.typing.InternalTypeDcl
 
 class CFValidator extends AbstractUScriptValidator {
 	@Inject extension TypeResolver
+	@Inject extension InternalTypeDcl
 	
 	public static val WRONG_COND_TYPE = "wrongConditionnalType"
 	
 	@Check
 	def checkIfCondition(IfStatement ifSttmnt) {
 		if(ifSttmnt.condition !== null) {
-			val Class condType = type(ifSttmnt.condition)
+			
+			var Class condType
+			if(ifSttmnt.condition === null) {
+				condType = ifSttmnt.nullClass
+			} else {
+				condType = type(ifSttmnt.condition)
+			}
 			
 			if(condType.getFullQualifiedNamed != BOOL_TYPE) {
 				error(
