@@ -115,8 +115,9 @@ class UTypeValidator extends AbstractUScriptValidator{
 	
 	private def dispatch checkUTypeCreation(BernoulliRef type, NewUObject newUT) {
 		val hasError = checkNbParam(newUT, "Bernoulli", 2)
+
 		if(!hasError) {
-			val arg1Type = type(newUT.args.get(0))
+			val Class arg1Type = type(newUT.args.get(0))
 			if(arg1Type.fullQualifiedNamed != BOOL_TYPE) {
 				error(
 					'''First argument of the Bernoulli constructor needs to be a boolean expression. Actual: «arg1Type.name»''',
@@ -137,6 +138,15 @@ class UTypeValidator extends AbstractUScriptValidator{
 		if(!hasError) {
 			checkNumParam(newUT, 0, "Gaussian")
 			checkNumParam(newUT, 1, "Gaussian")
+		}
+		
+	}
+	
+	private def dispatch checkUTypeCreation(RayleighRef type, NewUObject newUT) {
+		val hasError = checkNbParam(newUT, "Rayleigh", 2)
+		if(!hasError) {
+			checkNumParam(newUT, 0, "Rayleigh")
+			checkNumParam(newUT, 1, "Rayleigh")
 		}
 		
 	}
