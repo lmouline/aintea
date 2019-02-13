@@ -1,0 +1,9 @@
+package a
+
+import uscript.lang.*
+
+void m() {
+	Bernoulli<bool> noCableConn;
+	
+	bool a = true;
+}
