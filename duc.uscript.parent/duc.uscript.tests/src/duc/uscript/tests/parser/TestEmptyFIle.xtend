@@ -18,8 +18,7 @@ class TestEmptyFIle {
 	
 	@Test
 	def void emptyClass() {
-		"package a".parse.assertNoErrors	
-		
+		"".parse.assertNoErrors
 	}
 	
 }
