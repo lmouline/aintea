@@ -18,8 +18,20 @@ class TypeConcordance {
 		return is(c, NUMERIC_TYPE)
 	}
 	
+	def static boolean isBoolean(Class c) {
+		return is(c, BOOL_TYPE) || is(c, BERNOULLI_BOOL_TYPE)
+	}
+	
 	def static boolean isUncertain(Class c) {
 		return is(c, UNCERTAIN_TYPE)
+	}
+	
+	def static boolean isGaussian(Class c) {
+		return is(c, GAUSSIAN_TYPE)
+	}
+	
+	def static boolean isDirac(Class c) {
+		return is(c, DIRAC_TYPE)
 	}
 	
 	def static boolean is(Class c, String parentFqnName) {
