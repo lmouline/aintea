@@ -20,6 +20,7 @@ import duc.uscript.uScript.FieldAccess
 import duc.uscript.uScript.MethodCall
 import com.google.inject.Inject
 import duc.uscript.typing.TypeResolver
+import duc.uscript.typing.InternalTypeDcl
 
 /**
  * This class contains custom scoping description.
@@ -30,6 +31,7 @@ import duc.uscript.typing.TypeResolver
 class UScriptScopeProvider extends AbstractUScriptScopeProvider {
 	
 	@Inject extension TypeResolver
+	@Inject extension InternalTypeDcl
 	
 	val ePackage = UScriptPackage.eINSTANCE
 		
@@ -61,7 +63,16 @@ class UScriptScopeProvider extends AbstractUScriptScopeProvider {
 	}
 	
 	def private IScope getScopeForFieldAccess(FieldAccess field) {
-		val type = type(field.receiver)
+		var Class type
+		if(field.receiver !== null) {
+			type = type(field.receiver)
+		} else {
+			type = field.nullClass
+		}
+		
+		if(type === null) {
+			return IScope.NULLSCOPE
+		}
 		
 		if(!isPrimitive(type)) {
 			return getClassFields(type)
