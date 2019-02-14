@@ -55,3 +55,6 @@ Thumbs.db
 # dotCover
 *.dotCover
 
+# Idea
+.idea
+__pycache__
