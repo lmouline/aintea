@@ -71,8 +71,6 @@ namespace ExpressivenessCSharp
                 InferenceEngine = new InferenceEngine();
             }
 
-
-
             public void ComputeLoadNoCable(Substation substation)
             {
                 Variable<bool> noCableConn = Variable.Bernoulli(1);
@@ -97,8 +95,8 @@ namespace ExpressivenessCSharp
 
             public void ComputeLoad(Substation substation)
             {
-                var isDisco = substation.IsDisconnected();
-                var bern = (Bernoulli) InferenceEngine.Infer(isDisco);
+                Variable<bool> isDisco = substation.IsDisconnected();
+                Bernoulli bern = (Bernoulli) InferenceEngine.Infer(isDisco);
 
                 if(bern.GetProbTrue() >= 0.95)
                 {
@@ -106,10 +104,10 @@ namespace ExpressivenessCSharp
                     return;
                 }
 
-                var load = Variable.GaussianFromMeanAndVariance(0, 0.001);
+                Variable<double> load = Variable.GaussianFromMeanAndVariance(0, 0.001);
                 foreach(Fuse fuse in substation.Fuses)
                 {
-                    var isClosedBern = (Bernoulli) InferenceEngine.Infer(fuse.IsClosed);
+                    Bernoulli isClosedBern = (Bernoulli) InferenceEngine.Infer(fuse.IsClosed);
                     load = load + (fuse.Cable.Load * isClosedBern.GetProbTrue());
                 }
 
