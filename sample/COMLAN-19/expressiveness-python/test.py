@@ -3,13 +3,15 @@ import openturns as ot
 from openturns.viewer import View
 import sys
 
-distribution = ot.Normal()
-# distribution1 = ot.Normal(10, 0.51)
+distribution1 = ot.Normal(1, 2)
+distribution2 = ot.Normal(10, 3)
+distribution3 = distribution1 + distribution2
+
+print(distribution1)
+print(distribution2)
+print(distribution3)
+
 # print(str(distribution == distribution1))
-
-print(distribution.computeProbability(ot.Interval(0, 0)))
-
-
 # graph = distribution.drawPDF()
 # graph.setLegends(['normal pdf'])
 #
