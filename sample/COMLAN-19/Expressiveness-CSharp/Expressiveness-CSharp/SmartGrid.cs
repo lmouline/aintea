@@ -89,7 +89,7 @@ namespace ExpressivenessCSharp
                     noCableConn = noCableConn & substation.Fuses[i].IsClosed;
                 }
 
-                var bernoulli = (Bernoulli) InferenceEngine.Infer(noCableConn);
+                Bernoulli bernoulli = (Bernoulli) InferenceEngine.Infer(noCableConn);
                 substation.Load = Variable.GaussianFromMeanAndVariance(0, bernoulli.GetVariance());
             }
 

@@ -1,0 +1,76 @@
+package smartgrid
+
+import uscript.lang.*
+
+class Substation {
+	Fuse[] fuses;
+	Gaussian<double> load;
+	
+	Bernoulli<bool> isDisconnected() {
+		if(fuses.length == 0) {
+			return new Bernoulli<bool>(true, 1);
+		}
+		
+		Fuse f = fuses[0];
+		Bernoulli<bool> isConn = f.isClosed;
+		
+		for(int i=1; i<fuses.length; i = i + 1) {
+			f = fuses[i];
+			isConn = isConn || f.isClosed;
+		}
+		
+		return !isConn;
+	}
+}
+
+class Fuse {
+	Bernoulli<bool> isClosed;
+	Cable cable;
+}
+
+class Cable{
+	Gaussian<double> load;
+}
+
+void ComputeLoadNoCable(Substation substation) {
+	Bernoulli<bool> noCableConn = new Bernoulli<bool>(true, 1);
+	Fuse[] fuses = substation.fuses;
+	
+	Fuse f;
+	if(fuses.length > 0) {
+		f = fuses[0];
+		noCableConn = f.isClosed;
+	} else {
+		substation.load = new Gaussian<double>(0, 0.001);
+		return;
+	}
+	
+	for(int i=1; i<fuses.length; i=i+1) {
+		f = fuses[i];
+		noCableConn = noCableConn && f.isClosed;
+	}
+	
+	Bernoulli bern = noCableConn.confidence;
+	substation.load = new Gaussian<double>(0, bern.variance);
+}
+
+void ComputeLoad(Substation substation) {
+	Bernoulli<bool> isDisco = substation.isDisconnected();
+	
+	if(exist(isDisco, 0.95) && isDisco[0.95]) {
+		ComputeLoadNoCable(substation);
+		return;
+	}
+	
+	Gaussian<double> load = new Gaussian<double>(0, 0.001);
+	Fuse[] fuses = substation.fuses;
+	for(int i=0; i<fuses.length; i=i+1) {
+		Fuse f = fuses[i];
+		Cable c = f.cable;
+		Bernoulli<bool> isClosed = f.isClosed;
+		Bernoulli bern = isClosed.confidence;
+		load = load + c.load * bern.probability;
+	}
+	
+	substation.load = load;
+}
