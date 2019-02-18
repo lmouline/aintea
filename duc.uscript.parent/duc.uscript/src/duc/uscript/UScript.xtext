@@ -61,7 +61,7 @@ PrintStatement:
 ;
 
 Return:
-	'return' expression=Expression
+	{Return} 'return' (expression=Expression)?
 ;
 
 IfStatement:
