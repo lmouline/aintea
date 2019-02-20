@@ -1,0 +1,6 @@
+@GenModel(complianceLevel="7.0", modelDirectory="/duc.uscript.execution.modelstate/src-gen")
+package uscript.execution
+
+class A {
+	boolean isCool
+}
