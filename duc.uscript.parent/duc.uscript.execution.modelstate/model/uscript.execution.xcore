@@ -1,5 +1,10 @@
-@GenModel(complianceLevel="7.0", modelDirectory="/duc.uscript.execution.modelstate/src-gen")
+@GenModel(complianceLevel="8.0", modelDirectory="/duc.uscript.execution.modelstate/src-gen")
 package duc.uscript.execution
+
+import duc.uscript.uScript.Symbol
+import duc.uscript.uScript.Field
+import duc.uscript.uScript.NewObject
+import duc.uscript.uScript.MethodCall
 
 class Context {
 	contains Context child opposite parent
@@ -7,24 +12,96 @@ class Context {
 	contains SymbolBindings[] bindings
 }
 
-
-
 class Frame {
 	contains Context rootContext
 	contains Frame child opposite parent
 	container Frame parent opposite child
 	contains Value value
+	contains Call call
+	refers ObjectInstance instance
 }
 
 class OutputStream {
-	String stream
+	String[] stream
 }
 
 class State {
 	contains OutputStream outputStream
 	contains Frame rootFrame
+	contains ObjectInstance[] objectsHeap
+	contains ArrayInstance[] arraysHeap
 }
 
 interface Value {}
 
-class SymbolBindings {}
+class ByteValue extends Value {
+	byte value
+}
+
+class ShortValue extends Value {
+	short value
+}
+
+class IntegerValue extends Value {
+	int value
+}
+
+class LongValue extends Value {
+	long value
+}
+
+class FloatValue extends Value {
+	float value
+}
+
+class DoubleValue extends Value {
+	double value
+}
+
+class BooleanValue extends Value {
+	boolean value
+}
+
+class StringValue extends Value {
+	String value
+}
+
+class NullValue extends Value {}
+
+class SymbolBindings {
+	contains Value value
+	refers Symbol[1] symbol
+}
+
+class FieldBinding {
+	refers Field[1] field
+	contains Value value
+}
+
+abstract class Call {}
+
+class NewCall extends Call {
+	refers NewObject[1] ^new
+}
+
+class MethodCall2 extends Call {
+	refers MethodCall[1] methodcall
+}
+
+class ObjectInstance {
+	contains FieldBinding[] fieldbindings
+	refers duc.uscript.uScript.Class[1] ^type
+}
+
+class ArrayInstance {
+	contains Value[] value
+	int size
+}
+
+class ObjectRefValue extends Value {
+	refers ObjectInstance instance
+}
+
+class ArrayRefValue extends Value {
+	refers ArrayInstance instance
+}

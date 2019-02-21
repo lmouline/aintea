@@ -14,5 +14,6 @@ Export-Package: duc.uscript.execution,
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore;visibility:=reexport,
  org.eclipse.xtext.xbase.lib,
- org.eclipse.emf.ecore.xcore.lib
+ org.eclipse.emf.ecore.xcore.lib,
+ duc.uscript;bundle-version="1.0.0";visibility:=reexport
 Bundle-ActivationPolicy: lazy
