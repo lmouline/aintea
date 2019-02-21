@@ -4,6 +4,11 @@ branches:
   only:
   - master
 
+addons:
+  apt:
+    packages:
+      - hugo
+
 jdk:
   - openjdk8
 
@@ -12,3 +17,15 @@ before_script:
   
 script:
   - mvn -P CI clean verify
+  - cd website
+  - hugo
+
+deploy:
+  provider: pages
+  skip-cleanup: true
+  github-token: $GITHUB_TOKEN
+  keep-history: true
+  target-branch: gh-pages
+  on:
+    branch: master
+  local-dir: website/public
