@@ -36,6 +36,7 @@ import duc.uscript.uScript.RayleighRef
 import duc.uscript.uScript.DiracRef
 import duc.uscript.uScript.BernoulliRef
 
+
 @ExtendWith(InjectionExtension)
 @InjectWith(UScriptInjectorProvider)
 class TestClassParsing {

@@ -1,6 +1,30 @@
 @GenModel(complianceLevel="7.0", modelDirectory="/duc.uscript.execution.modelstate/src-gen")
-package uscript.execution
+package duc.uscript.execution
 
-class A {
-	boolean isCool
+class Context {
+	contains Context child opposite parent
+	container Context parent opposite child
+	contains SymbolBindings[] bindings
 }
+
+
+
+class Frame {
+	contains Context rootContext
+	contains Frame child opposite parent
+	container Frame parent opposite child
+	contains Value value
+}
+
+class OutputStream {
+	String stream
+}
+
+class State {
+	contains OutputStream outputStream
+	contains Frame rootFrame
+}
+
+interface Value {}
+
+class SymbolBindings {}

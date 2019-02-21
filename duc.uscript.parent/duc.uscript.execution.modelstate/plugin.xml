@@ -6,11 +6,12 @@
 
 <plugin>
 
+
    <extension point="org.eclipse.emf.ecore.generated_package">
-      <!-- @generated a -->
+      <!-- @generated uscript.execution -->
       <package
-            uri="uscript.execution"
-            class="uscript.execution.ExecutionPackage"
+            uri="duc.uscript.execution"
+            class="duc.uscript.execution.ExecutionPackage"
             genModel="model/uscript.execution.xcore"/>
    </extension>
 

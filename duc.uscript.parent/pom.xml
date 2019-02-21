@@ -1,5 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>duc.uscript</groupId>
 	<version>1.0.0-SNAPSHOT</version>
@@ -14,10 +14,10 @@
 		<!-- Tycho settings -->
 		<tycho-version>1.3.0</tycho-version>
 		<!-- Define overridable properties for tycho-surefire-plugin -->
-		<platformSystemProperties></platformSystemProperties>
-		<moduleProperties></moduleProperties>
-		<systemProperties></systemProperties>
-		<tycho.testArgLine></tycho.testArgLine>
+		<platformSystemProperties/>
+		<moduleProperties/>
+		<systemProperties/>
+		<tycho.testArgLine/>
 	</properties>
 	<modules>
 		<module>duc.uscript</module>
@@ -30,7 +30,7 @@
 		<module>duc.uscript.tests</module>
 		<module>duc.uscript.execution.modelstate</module>
 		<module>duc.uscript.execution.interpreter</module>
-	</modules>
+  </modules>
 	<build>
 		<plugins>
 			<plugin>
@@ -172,7 +172,7 @@
 										</goals>
 									</pluginExecutionFilter>
 									<action>
-										<ignore></ignore>
+										<ignore/>
 									</action>
 								</pluginExecution>
 								<pluginExecution>
@@ -194,7 +194,7 @@
 										</goals>
 									</pluginExecutionFilter>
 									<action>
-										<ignore></ignore>
+										<ignore/>
 									</action>
 								</pluginExecution>
 								<pluginExecution>
@@ -213,7 +213,7 @@
 										</goals>
 									</pluginExecutionFilter>
 									<action>
-										<ignore></ignore>
+										<ignore/>
 									</action>
 								</pluginExecution>
 								<pluginExecution>
@@ -235,7 +235,7 @@
 										</goals>
 									</pluginExecutionFilter>
 									<action>
-										<ignore></ignore>
+										<ignore/>
 									</action>
 								</pluginExecution>
 							</pluginExecutions>
