@@ -2,3 +2,4 @@ baseURL = "https://lmouline.github.io/uscript/"
 languageCode = "en-us"
 title = "My New Hugo Site"
 theme = "ananke"
+canonifyURLs = true
