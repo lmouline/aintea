@@ -17,8 +17,8 @@ before_script:
   - cd ./duc.uscript.parent
   
 script:
-  - mvn -P CI clean verify
-  - cd website
+  # - mvn -P CI clean verify
+  - cd $TRAVIS_BUILD_DIR/website
   - hugo
 
 deploy:
