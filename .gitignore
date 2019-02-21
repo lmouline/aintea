@@ -58,3 +58,7 @@ Thumbs.db
 # Idea
 .idea
 __pycache__
+
+# Hugo
+
+website/public
