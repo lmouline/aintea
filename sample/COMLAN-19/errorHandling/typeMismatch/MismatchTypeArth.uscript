@@ -1,0 +1,12 @@
+package errorHandling.type.mismatch
+
+import uscript.lang.*
+
+void main() {	
+	Gaussian<float> g1 = new Gaussian<float>(5, " ");
+	Rayleigh<double> r1 = new Rayleigh<double>(1, 1.2);
+	Rayleigh<double> r2 = new Rayleigh<double>(1, " ");
+	
+	Rayleigh<double> r3 = r1 + r2;
+	Rayleigh<double> r5 = g1 + r1;
+}

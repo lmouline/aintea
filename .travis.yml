@@ -1,0 +1,14 @@
+language: java
+
+branches:
+  only:
+  - mvn
+
+jdk:
+  - openjdk8
+
+before_script:
+  - cd ./duc.uscript.parent
+  
+script:
+  - mvn -P CI clean verify

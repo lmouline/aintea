@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Tests
+Bundle-SymbolicName: duc.uscript.execution.interpreter.tests
+Bundle-Version: 1.0.0.qualifier
+Automatic-Module-Name: duc.uscript.execution.interpreter.tests
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Require-Bundle: org.eclipse.xtext.testing;bundle-version="2.16.0",
+ duc.uscript.tests;bundle-version="1.0.0",
+ org.eclipse.xtext.xbase.lib;bundle-version="2.16.0",
+ org.junit.jupiter.api;bundle-version="[5.0.0,6.0.0)",
+ duc.uscript;bundle-version="1.0.0",
+ duc.uscript.execution.interpreter;bundle-version="1.0.0",
+ duc.uscript.execution.modelstate;bundle-version="1.0.0"
+Export-Package: duc.uscript.execution.interpreter.tests

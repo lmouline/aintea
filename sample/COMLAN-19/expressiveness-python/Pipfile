@@ -1,0 +1,14 @@
+[[source]]
+url = "https://pypi.python.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+openturns = '==1.12'
+numpy = '==1.16.1 '
+matplotlib = "==3.0.2"
+
+[dev-packages]
+
+[requires]
+python_version = "3.6"

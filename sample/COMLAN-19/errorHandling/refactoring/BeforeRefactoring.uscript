@@ -1,0 +1,65 @@
+package smart.grid
+
+import uscript.lang.*
+
+class Substation {
+	Fuse[] fuses;
+	DiracDeltaFct<double> load;
+	
+	Cable[] getCables() {
+		Cable[] cables = new Cable[fuses.length];
+		for(int i=0; i<cables.length;i=i+1) {
+			Fuse f = fuses[i];
+			cables[i] = f.cable;
+		}
+		return cables;
+	}
+	
+	void computeLoadNoCable() {
+		Bernoulli<bool> noCableConn;
+
+		if(fuses.length > 0) {
+			Fuse f = fuses[0];
+			noCableConn = f.isClosed;
+		} else {
+			this.load= new DiracDeltaFct<double>(0, 1);
+		}
+		
+		for(int i=1; i<fuses.length; i=i+1) {
+			Fuse f = fuses[i];
+			noCableConn = noCableConn && f.isClosed;
+		}
+		
+		Bernoulli conf = noCableConn.confidence;
+		this.load = new DiracDeltaFct<double>(0, conf.probability);
+	}
+}
+
+class Fuse {
+	Cable cable;
+	Bernoulli<bool> isClosed;
+}
+
+class Cable {
+	Fuse startPoint;
+	Fuse endPoint;
+	SmartMeter[] meters;
+	
+	Gaussian<double> load;
+	double capacity = 100;
+	
+	double getConsumption() {
+		double consumption = 0;
+		for(int i=0; i<meters.length; i = i + 1) {
+			SmartMeter m = meters[i];
+			consumption = consumption + m.consumption;
+		}
+	}
+}
+
+class Cabinet extends Substation{}
+class DeadEndCabinet extends Substation{}
+
+class SmartMeter {
+	double consumption;
+}
