@@ -9,6 +9,7 @@ import duc.uscript.uScript.Method
 import static extension duc.uscript.execution.interpreter.statement.BlockAspect.*
 import java.io.OutputStream
 import duc.uscript.execution.ExecutionFactory
+import duc.uscript.execution.interpreter.utils.OutputStreamListener
 
 @Aspect(className=Program)
 class ProgramAspect {
@@ -39,6 +40,9 @@ class ProgramAspect {
 			rootFrame = ExecutionFactory::eINSTANCE.createFrame => [
 				rootContext = rootCtx
 			]
+			
+			outputStream.eAdapters.add(new OutputStreamListener(out))
+			
 		]
 		
 		_self.state = state

@@ -44,4 +44,8 @@ class StateAspect {
 		_self.findCurrentContext.parent = null
 		_self.context = newCurrent
 	}
+	
+	def void print(String string) {
+		_self.outputStream.stream.add(string)
+	}
 }
