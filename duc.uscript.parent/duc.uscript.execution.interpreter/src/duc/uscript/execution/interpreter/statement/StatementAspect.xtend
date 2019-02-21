@@ -1,4 +1,4 @@
-package duc.uscript.execution.interpreter
+package duc.uscript.execution.interpreter.statement
 
 import fr.inria.diverse.k3.al.annotationprocessor.Aspect
 import duc.uscript.uScript.Statement

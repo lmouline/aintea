@@ -6,7 +6,7 @@ import duc.uscript.uScript.Program
 import duc.uscript.execution.State
 import duc.uscript.uScript.Method
 
-import static extension duc.uscript.execution.interpreter.BlockAspect.*
+import static extension duc.uscript.execution.interpreter.statement.BlockAspect.*
 import java.io.OutputStream
 import duc.uscript.execution.ExecutionFactory
 
