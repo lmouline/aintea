@@ -1,7 +1,7 @@
 U-Script
 ---
 
-[![Build Status](https://travis-ci.org/lmouline/uscript.svg?branch=mvn)](https://travis-ci.org/lmouline/uscript)
+[![Build Status](https://travis-ci.org/lmouline/uscript.svg?branch=master)](https://travis-ci.org/lmouline/uscript)
 
 **Building...**
 
@@ -15,6 +15,3 @@ U-Script
     - {float, double} <-> {Gaussian, Rayleigh}
     - {short, integer, long} <-> binomial
     - {short, integer, long, float, double} <-> Dirac delta function
-
-
-
