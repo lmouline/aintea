@@ -29,6 +29,8 @@
 		<module>duc.uscript.repository</module>
 		<module>duc.uscript.tests</module>
 		<module>duc.uscript.execution.modelstate</module>
+		<module>duc.uscript.execution.interpreter</module>
+		<module>duc.uscript.execution.interpreter.tests</module>
   </modules>
 	<build>
 		<plugins>

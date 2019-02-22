@@ -1,19 +1,18 @@
 package duc.uscript.execution.interpreter.tests
 
-import org.junit.runner.RunWith
-import org.eclipse.xtext.testing.XtextRunner
 import org.eclipse.xtext.testing.InjectWith
 import duc.uscript.tests.UScriptInjectorProvider
 import com.google.inject.Inject
 import org.eclipse.xtext.testing.util.ParseHelper
-import duc.uscript.uScript.Program
-import org.junit.Test
-
+import org.junit.jupiter.api.Test
 import static extension duc.uscript.execution.interpreter.ProgramAspect.*
 import duc.uscript.execution.State
-import org.junit.Assert
+import org.junit.jupiter.api.^extension.ExtendWith
+import static org.junit.jupiter.api.Assertions.assertArrayEquals
+import org.eclipse.xtext.testing.extensions.InjectionExtension
+import duc.uscript.uScript.Program
 
-@RunWith(XtextRunner)
+@ExtendWith(InjectionExtension)
 @InjectWith(UScriptInjectorProvider)
 class PrintStatementTest {
 	
@@ -30,7 +29,7 @@ class PrintStatementTest {
 		
 		script.initialize(System.out)
 		val State state = script.execute
-		Assert.assertArrayEquals(expected, state.outputStream.stream.toArray)
+		assertArrayEquals(expected, state.outputStream.stream.toArray)
 	}
 	
 	

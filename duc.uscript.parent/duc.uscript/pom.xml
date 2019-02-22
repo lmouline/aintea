@@ -118,6 +118,18 @@
 						<fileset>
 							<directory>${basedir}/model/generated/</directory>
 						</fileset>
+						<fileset>
+							<directory>${basedir}/../duc.uscript.execution.interpreter/xtend-gen/</directory>
+							<includes>
+								<include>**/*</include>
+							</includes>
+						</fileset>
+						<fileset>
+							<directory>${basedir}/../duc.uscript.execution.interpreter.tests/xtend-gen/</directory>
+							<includes>
+								<include>**/*</include>
+							</includes>
+						</fileset>
 					</filesets>
 				</configuration>
 			</plugin>

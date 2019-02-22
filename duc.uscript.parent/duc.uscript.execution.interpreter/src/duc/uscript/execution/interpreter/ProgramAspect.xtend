@@ -1,7 +1,6 @@
 package duc.uscript.execution.interpreter
 
 import fr.inria.diverse.k3.al.annotationprocessor.Aspect
-import fr.inria.diverse.k3.al.annotationprocessor.InitializeModel
 import duc.uscript.uScript.Program
 import duc.uscript.execution.State
 import duc.uscript.uScript.Method
@@ -26,7 +25,6 @@ class ProgramAspect {
 				.findFirst[it.name == "main"]
 	}
 	
-	@InitializeModel
 	def void initialize(OutputStream out) {
 		val main = getMainMethod(_self)
 		
