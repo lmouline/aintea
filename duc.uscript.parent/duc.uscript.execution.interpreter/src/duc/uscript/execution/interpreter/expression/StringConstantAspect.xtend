@@ -1,4 +1,4 @@
-package duc.uscript.execution.interpreter.expression.constants
+package duc.uscript.execution.interpreter.expression
 
 import fr.inria.diverse.k3.al.annotationprocessor.Aspect
 import duc.uscript.uScript.StringConstant
@@ -8,7 +8,7 @@ import duc.uscript.execution.State
 import duc.uscript.execution.ExecutionFactory
 
 @Aspect(className=StringConstant)
-class StringConstantAspect extends AExpressionAspect {
+class StringConstantAspect extends ExpressionAspect {
 		
 	@OverrideAspectMethod
 	def Value evaluateExpression(State state) {

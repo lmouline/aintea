@@ -5,9 +5,9 @@ import duc.uscript.uScript.PrintStatement
 import fr.inria.diverse.k3.al.annotationprocessor.OverrideAspectMethod
 import duc.uscript.execution.State
 
-import static extension duc.uscript.execution.interpreter.expression.constants.AExpressionAspect.*
 import static extension duc.uscript.execution.interpreter.modelstate.StateAspect.*
 import static extension duc.uscript.execution.interpreter.modelstate.AValueAspect.*
+import static extension duc.uscript.execution.interpreter.expression.ExpressionAspect.*
 
 @Aspect(className=PrintStatement)
 class PrintStatementAspect extends AStatementAspect{

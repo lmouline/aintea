@@ -10,7 +10,7 @@
 	<artifactId>duc.uscript.execution.interpreter</artifactId>
 	<packaging>eclipse-plugin</packaging>
 	
-	<build>
+	<!-- <build>
 		<plugins>
 			<plugin>
 				<groupId>org.eclipse.xtend</groupId>
@@ -27,7 +27,7 @@
 				</executions>
 			</plugin>
 		</plugins>
-	</build>
+	</build> -->
 	
 	
 	<repositories>
