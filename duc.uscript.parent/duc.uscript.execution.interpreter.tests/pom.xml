@@ -15,7 +15,7 @@
 			<plugin>
 				<groupId>org.eclipse.xtend</groupId>
 				<artifactId>xtend-maven-plugin</artifactId>
-				<!-- <executions>
+				<executions>
 					<execution>
 						<goals>
 							<goal>compile</goal>
@@ -24,7 +24,7 @@
 							<goal>xtend-test-install-debug-info</goal>
 						</goals>
 					</execution>
-				</executions> -->
+				</executions>
 			</plugin>
 		</plugins>
 	</build>

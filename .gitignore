@@ -60,5 +60,8 @@ Thumbs.db
 __pycache__
 
 # Hugo
-
 website/public
+
+# Xtend Eclipse plugin
+*.java._trace
+*.xtendbin

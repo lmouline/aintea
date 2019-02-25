@@ -8,23 +8,35 @@ import org.eclipse.xtext.testing.util.ParseHelper
 import duc.uscript.uScript.Program
 import org.junit.jupiter.api.Test
 import org.eclipse.xtext.testing.validation.ValidationTestHelper
+import duc.uscript.UScriptLang
+import com.google.inject.Provider
+import org.eclipse.emf.ecore.resource.ResourceSet
 
 @ExtendWith(InjectionExtension)
 @InjectWith(UScriptInjectorProvider)
-class DanglingTests {
+class TestDangling {
 	
 	@Inject extension ParseHelper<Program>
 	@Inject extension ValidationTestHelper
+	@Inject	extension UScriptLang
+	@Inject Provider<ResourceSet> rsp
 		
 	@Test
-	def void testDanglind() {
+	def void testDangling() {
+		val resourceSet = rsp.get 
+		loadLib(resourceSet) 
+		
 		val script = '''
-			package a
+			package a	
+			
+			import uscript.lang.*
+				
 			void m() {
-				Bernoulli<bool> b = null;
+				Bernoulli<bool> b = new Bernoulli<bool>(true, 0.5);
 				Bernoulli bern = b.confidence;
 			}
-		'''.parse		
+		'''.parse(resourceSet)
+			
 		assertNoErrors(script)
 	}
 	
