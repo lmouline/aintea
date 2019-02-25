@@ -7,7 +7,7 @@ import duc.uscript.execution.State
 
 import static extension duc.uscript.execution.interpreter.expression.constants.AExpressionAspect.*
 import static extension duc.uscript.execution.interpreter.modelstate.StateAspect.*
-import static extension duc.uscript.execution.interpreter.modelstate.A_ValueAspect.*
+import static extension duc.uscript.execution.interpreter.modelstate.AValueAspect.*
 
 @Aspect(className=PrintStatement)
 class PrintStatementAspect extends AStatementAspect{

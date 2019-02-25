@@ -5,7 +5,7 @@ import fr.inria.diverse.k3.al.annotationprocessor.OverrideAspectMethod
 import duc.uscript.execution.DoubleValue
 
 @Aspect(className=DoubleValue)
-class DoubleValueAspect extends A_ValueAspect {
+class DoubleValueAspect extends AValueAspect {
 	
 	@OverrideAspectMethod
 	def String convertToString() {

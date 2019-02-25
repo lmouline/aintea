@@ -5,7 +5,7 @@ import fr.inria.diverse.k3.al.annotationprocessor.OverrideAspectMethod
 import duc.uscript.execution.ByteValue
 
 @Aspect(className=ByteValue)
-class ByteValueAspect extends A_ValueAspect {
+class ByteValueAspect extends AValueAspect {
 	
 	@OverrideAspectMethod
 	def String convertToString() {

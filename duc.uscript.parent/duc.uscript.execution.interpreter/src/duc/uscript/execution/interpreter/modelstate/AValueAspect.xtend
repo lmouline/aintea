@@ -4,7 +4,7 @@ import fr.inria.diverse.k3.al.annotationprocessor.Aspect
 import duc.uscript.execution.Value
 
 @Aspect(className=Value)
-class A_ValueAspect {
+class AValueAspect {
 	
 	def String convertToString() {
 		throw new RuntimeException("Not implemented")

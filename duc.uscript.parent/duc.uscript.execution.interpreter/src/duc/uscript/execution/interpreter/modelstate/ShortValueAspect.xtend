@@ -5,7 +5,7 @@ import fr.inria.diverse.k3.al.annotationprocessor.OverrideAspectMethod
 import duc.uscript.execution.ShortValue
 
 @Aspect(className=ShortValue)
-class ShortValueAspect extends A_ValueAspect {
+class ShortValueAspect extends AValueAspect {
 	
 	@OverrideAspectMethod
 	def String convertToString() {
