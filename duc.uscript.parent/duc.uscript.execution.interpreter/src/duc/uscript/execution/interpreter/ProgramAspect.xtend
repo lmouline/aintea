@@ -12,7 +12,6 @@ import duc.uscript.execution.interpreter.utils.OutputStreamListener
 
 @Aspect(className=Program)
 class ProgramAspect {
-	
 	public State state
 	
 	def void main() {

@@ -5,12 +5,12 @@ import duc.uscript.uScript.PrintStatement
 import fr.inria.diverse.k3.al.annotationprocessor.OverrideAspectMethod
 import duc.uscript.execution.State
 
-import static extension duc.uscript.execution.interpreter.expression.ExpressionAspect.*
+import static extension duc.uscript.execution.interpreter.expression.constants.AExpressionAspect.*
 import static extension duc.uscript.execution.interpreter.modelstate.StateAspect.*
-import static extension duc.uscript.execution.interpreter.modelstate.ValueAspect.*
+import static extension duc.uscript.execution.interpreter.modelstate.A_ValueAspect.*
 
 @Aspect(className=PrintStatement)
-class PrintStatementAspect extends StatementAspect{
+class PrintStatementAspect extends AStatementAspect{
 	
 	@OverrideAspectMethod
 	def void evaluateStatement(State state) {

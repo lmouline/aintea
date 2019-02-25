@@ -5,7 +5,7 @@ import fr.inria.diverse.k3.al.annotationprocessor.OverrideAspectMethod
 import duc.uscript.execution.BooleanValue
 
 @Aspect(className=BooleanValue)
-class BooleanValueAspect extends ValueAspect {
+class BooleanValueAspect extends A_ValueAspect {
 	
 	@OverrideAspectMethod
 	def String convertToString() {

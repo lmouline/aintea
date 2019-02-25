@@ -8,7 +8,7 @@ import static extension duc.uscript.execution.interpreter.modelstate.StateAspect
 import fr.inria.diverse.k3.al.annotationprocessor.OverrideAspectMethod
 
 @Aspect(className=Block)
-class BlockAspect extends StatementAspect {
+class BlockAspect extends AStatementAspect {
 	
 	def void evaluateStatementKeepContext(State state) {
 		state.pushNewContext

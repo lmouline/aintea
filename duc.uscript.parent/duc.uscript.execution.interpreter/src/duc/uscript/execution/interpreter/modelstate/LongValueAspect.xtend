@@ -5,7 +5,7 @@ import fr.inria.diverse.k3.al.annotationprocessor.OverrideAspectMethod
 import duc.uscript.execution.LongValue
 
 @Aspect(className=LongValue)
-class LongValueAspect extends ValueAspect {
+class LongValueAspect extends A_ValueAspect {
 	
 	@OverrideAspectMethod
 	def String convertToString() {
