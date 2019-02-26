@@ -14,7 +14,7 @@ import duc.uscript.uScript.Program
 
 @ExtendWith(InjectionExtension)
 @InjectWith(UScriptInjectorProvider)
-class TestPrintStatement2 {
+class TestPrintStatement {
 	
 	@Inject extension ParseHelper<Program>
 	

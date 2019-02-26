@@ -3,7 +3,7 @@ package duc.uscript.execution.interpreter.statement;
 import duc.uscript.execution.State;
 import duc.uscript.execution.Value;
 import duc.uscript.execution.interpreter.expression.ExpressionAspect;
-import duc.uscript.execution.interpreter.modelstate.AValueAspect;
+import duc.uscript.execution.interpreter.modelstate.ValueAspect;
 import duc.uscript.execution.interpreter.modelstate.StateAspect;
 import duc.uscript.execution.interpreter.statement.AStatementAspect;
 import duc.uscript.execution.interpreter.statement.PrintStatementAspectPrintStatementAspectProperties;
@@ -30,7 +30,7 @@ public class PrintStatementAspect extends AStatementAspect {
   
   protected static void _privk3_evaluateStatement(final PrintStatementAspectPrintStatementAspectProperties _self_, final PrintStatement _self, final State state) {
     final Value expression = ExpressionAspect.evaluateExpression(_self.getExpression(), state);
-    final String string = AValueAspect.convertToString(expression);
+    final String string = ValueAspect.convertToString(expression);
     StateAspect.print(state, string);
   }
 }

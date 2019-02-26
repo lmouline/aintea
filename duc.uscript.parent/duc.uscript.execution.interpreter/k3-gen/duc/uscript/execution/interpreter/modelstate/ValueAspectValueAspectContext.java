@@ -5,8 +5,8 @@ import duc.uscript.execution.interpreter.modelstate.AValueAspectValueAspectPrope
 import java.util.Map;
 
 @SuppressWarnings("all")
-public class AValueAspectValueAspectContext {
-  public static final AValueAspectValueAspectContext INSTANCE = new AValueAspectValueAspectContext();
+public class ValueAspectValueAspectContext {
+  public static final ValueAspectValueAspectContext INSTANCE = new ValueAspectValueAspectContext();
   
   public static AValueAspectValueAspectProperties getSelf(final Value _self) {
     		if (!INSTANCE.map.containsKey(_self))

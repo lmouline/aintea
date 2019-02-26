@@ -38,6 +38,11 @@ public class ExpressionAspect {
     			result = duc.uscript.execution.interpreter.expression.StringConstantAspect.evaluateExpression((duc.uscript.uScript.StringConstant)_self,state);
     		} else
     		// EndInjectInto duc.uscript.execution.interpreter.expression.ExpressionAspect#Value evaluateExpression(State) from duc.uscript.execution.interpreter.expression.StringConstantAspect
+    	// BeginInjectInto duc.uscript.execution.interpreter.expression.ExpressionAspect#Value evaluateExpression(State) from duc.uscript.execution.interpreter.expression.SymbolRefAspect
+    		if (_self instanceof duc.uscript.uScript.SymbolRef){
+    			result = duc.uscript.execution.interpreter.expression.SymbolRefAspect.evaluateExpression((duc.uscript.uScript.SymbolRef)_self,state);
+    		} else
+    		// EndInjectInto duc.uscript.execution.interpreter.expression.ExpressionAspect#Value evaluateExpression(State) from duc.uscript.execution.interpreter.expression.SymbolRefAspect
     // #DispatchPointCut_before# Value evaluateExpression(State)
     if (_self instanceof duc.uscript.uScript.Expression){
     	result = duc.uscript.execution.interpreter.expression.ExpressionAspect._privk3_evaluateExpression(_self_, (duc.uscript.uScript.Expression)_self,state);

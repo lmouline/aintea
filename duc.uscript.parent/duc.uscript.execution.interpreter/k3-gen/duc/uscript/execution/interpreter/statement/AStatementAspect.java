@@ -11,6 +11,11 @@ import org.eclipse.xtend2.lib.StringConcatenation;
 public class AStatementAspect {
   public static void evaluateStatement(final Statement _self, final State state) {
     final duc.uscript.execution.interpreter.statement.AStatementAspectStatementAspectProperties _self_ = duc.uscript.execution.interpreter.statement.AStatementAspectStatementAspectContext.getSelf(_self);
+    	// BeginInjectInto duc.uscript.execution.interpreter.statement.AStatementAspect#void evaluateStatement(State) from duc.uscript.execution.interpreter.statement.AssigmentAspect
+    		if (_self instanceof duc.uscript.uScript.Assignment){
+    			duc.uscript.execution.interpreter.statement.AssigmentAspect.evaluateStatement((duc.uscript.uScript.Assignment)_self,state);
+    		} else
+    		// EndInjectInto duc.uscript.execution.interpreter.statement.AStatementAspect#void evaluateStatement(State) from duc.uscript.execution.interpreter.statement.AssigmentAspect
     	// BeginInjectInto duc.uscript.execution.interpreter.statement.AStatementAspect#void evaluateStatement(State) from duc.uscript.execution.interpreter.statement.BlockAspect
     		if (_self instanceof duc.uscript.uScript.Block){
     			duc.uscript.execution.interpreter.statement.BlockAspect.evaluateStatement((duc.uscript.uScript.Block)_self,state);
