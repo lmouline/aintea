@@ -6,12 +6,14 @@ import duc.uscript.execution.State;
 import duc.uscript.execution.SymbolBindings;
 import duc.uscript.execution.Value;
 import duc.uscript.execution.interpreter.expression.ExpressionAspect;
+import duc.uscript.execution.interpreter.modelstate.ContextAspect;
 import duc.uscript.execution.interpreter.modelstate.StateAspect;
 import duc.uscript.execution.interpreter.statement.AStatementAspect;
 import duc.uscript.execution.interpreter.statement.AssigmentAspectAssignmentAspectProperties;
 import duc.uscript.uScript.Assignee;
 import duc.uscript.uScript.Assignment;
 import duc.uscript.uScript.Symbol;
+import duc.uscript.uScript.SymbolRef;
 import duc.uscript.uScript.VariableDeclaration;
 import fr.inria.diverse.k3.al.annotationprocessor.Aspect;
 import fr.inria.diverse.k3.al.annotationprocessor.OverrideAspectMethod;
@@ -42,15 +44,22 @@ public class AssigmentAspect extends AStatementAspect {
       final Assignee assignee = _self.getAssignee();
       final Value right = ExpressionAspect.evaluateExpression(_self.getValue(), state);
       boolean _matched = false;
-      if (assignee instanceof VariableDeclaration) {
+      if (assignee instanceof SymbolRef) {
         _matched=true;
-        SymbolBindings _createSymbolBindings = ExecutionFactory.eINSTANCE.createSymbolBindings();
-        final Procedure1<SymbolBindings> _function = (SymbolBindings it) -> {
-          it.setSymbol(((Symbol)assignee));
-          it.setValue(right);
-        };
-        final SymbolBindings binding = ObjectExtensions.<SymbolBindings>operator_doubleArrow(_createSymbolBindings, _function);
-        context.getBindings().add(binding);
+        final SymbolBindings existingBinding = ContextAspect.findBinding(context, ((SymbolRef)assignee).getSymbol());
+        existingBinding.setValue(right);
+      }
+      if (!_matched) {
+        if (assignee instanceof VariableDeclaration) {
+          _matched=true;
+          SymbolBindings _createSymbolBindings = ExecutionFactory.eINSTANCE.createSymbolBindings();
+          final Procedure1<SymbolBindings> _function = (SymbolBindings it) -> {
+            it.setSymbol(((Symbol)assignee));
+            it.setValue(right);
+          };
+          final SymbolBindings binding = ObjectExtensions.<SymbolBindings>operator_doubleArrow(_createSymbolBindings, _function);
+          context.getBindings().add(binding);
+        }
       }
       if (!_matched) {
         throw new Exception(("Cannot assign a value to " + assignee));

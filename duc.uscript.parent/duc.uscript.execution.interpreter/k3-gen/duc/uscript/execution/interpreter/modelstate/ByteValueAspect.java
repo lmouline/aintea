@@ -3,8 +3,8 @@ package duc.uscript.execution.interpreter.modelstate;
 import duc.uscript.execution.ByteValue;
 import duc.uscript.execution.ExecutionFactory;
 import duc.uscript.execution.Value;
-import duc.uscript.execution.interpreter.modelstate.ValueAspect;
 import duc.uscript.execution.interpreter.modelstate.ByteValueAspectByteValueAspectProperties;
+import duc.uscript.execution.interpreter.modelstate.ValueAspect;
 import fr.inria.diverse.k3.al.annotationprocessor.Aspect;
 import fr.inria.diverse.k3.al.annotationprocessor.OverrideAspectMethod;
 import org.eclipse.xtext.xbase.lib.ObjectExtensions;
@@ -36,7 +36,7 @@ public class ByteValueAspect extends ValueAspect {
   }
   
   private static String super_convertToString(final ByteValue _self) {
-    final duc.uscript.execution.interpreter.modelstate.AValueAspectValueAspectProperties _self_ = duc.uscript.execution.interpreter.modelstate.ValueAspectValueAspectContext.getSelf(_self);
+    final duc.uscript.execution.interpreter.modelstate.ValueAspectValueAspectProperties _self_ = duc.uscript.execution.interpreter.modelstate.ValueAspectValueAspectContext.getSelf(_self);
     return  duc.uscript.execution.interpreter.modelstate.ValueAspect._privk3_convertToString(_self_, _self);
   }
   
@@ -45,7 +45,7 @@ public class ByteValueAspect extends ValueAspect {
   }
   
   private static Value super_copy(final ByteValue _self) {
-    final duc.uscript.execution.interpreter.modelstate.AValueAspectValueAspectProperties _self_ = duc.uscript.execution.interpreter.modelstate.ValueAspectValueAspectContext.getSelf(_self);
+    final duc.uscript.execution.interpreter.modelstate.ValueAspectValueAspectProperties _self_ = duc.uscript.execution.interpreter.modelstate.ValueAspectValueAspectContext.getSelf(_self);
     return  duc.uscript.execution.interpreter.modelstate.ValueAspect._privk3_copy(_self_, _self);
   }
   

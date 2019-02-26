@@ -1,5 +1,5 @@
 package duc.uscript.execution.interpreter.modelstate;
 
 @SuppressWarnings("all")
-public class AValueAspectValueAspectProperties {
+public class ValueAspectValueAspectProperties {
 }

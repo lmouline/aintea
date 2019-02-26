@@ -27,12 +27,16 @@ class TestAssignmentStatement {
 			void main() {
 				«type» a = «value»;
 				print(a);
+				
+				«type» b;
+				b = «value»;
+				print(b);
 			}
 		'''.parse
 		
 		script.initialize(System.out)
 		val State state = script.execute
-		assertArrayEquals(#[expected], state.outputStream.stream.toArray)
+		assertArrayEquals(#[expected, expected], state.outputStream.stream.toArray)
 	}
 	
 	@Test

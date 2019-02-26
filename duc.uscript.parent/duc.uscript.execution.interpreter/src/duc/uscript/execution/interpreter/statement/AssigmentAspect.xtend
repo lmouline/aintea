@@ -7,9 +7,11 @@ import duc.uscript.execution.State
 
 import static extension duc.uscript.execution.interpreter.modelstate.StateAspect.*
 import static extension duc.uscript.execution.interpreter.expression.ExpressionAspect.*
+import static extension duc.uscript.execution.interpreter.modelstate.ContextAspect.*
+
 import duc.uscript.uScript.VariableDeclaration
-import duc.uscript.uScript.UScriptFactory
 import duc.uscript.execution.ExecutionFactory
+import duc.uscript.uScript.SymbolRef
 
 @Aspect(className=Assignment)
 class AssigmentAspect extends AStatementAspect {
@@ -21,10 +23,10 @@ class AssigmentAspect extends AStatementAspect {
 		val right = _self.value.evaluateExpression(state)
 					
 		switch (assignee) {
-//			SymbolRef: {
-//				val existingBinding = context.findBinding(assignee.symbol)
-//				existingBinding.value = right
-//			}
+			SymbolRef: {
+				val existingBinding = context.findBinding(assignee.symbol)
+				existingBinding.value = right
+			}
 			VariableDeclaration: {
 				val binding = ExecutionFactory::eINSTANCE.createSymbolBindings => [
 					symbol = assignee
