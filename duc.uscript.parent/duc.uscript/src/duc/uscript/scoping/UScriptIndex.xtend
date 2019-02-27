@@ -4,7 +4,7 @@ import com.google.inject.Inject
 import org.eclipse.xtext.resource.impl.ResourceDescriptionsProvider
 import org.eclipse.emf.ecore.EObject
 import duc.uscript.uScript.UScriptPackage
-import duc.uscript.uScript.Program
+import duc.uscript.uScript.Script
 import org.eclipse.emf.ecore.EClass
 import org.eclipse.xtext.resource.IContainer
 import duc.uscript.uScript.Import
@@ -36,7 +36,7 @@ class UScriptIndex {
 	}
 	
 	def getVisibleClassesDescriptions(EObject o) {
-		val parentProg = o.parentProgram
+		val parentProg = o.parentScript
 		val imported = parentProg.getImports
 		val progClasses = parentProg.exportedClassesEObjectDescriptions
 		
@@ -53,13 +53,13 @@ class UScriptIndex {
 	}
 	
 	def getVisibleMethodsDescriptions(EObject o) {
-		val parentProg = o.parentProgram
+		val parentProg = o.parentScript
 		val imported = parentProg.getImports
 		val progMethods = parentProg.exportedMethodsEObjectDescriptions
 		
 		o.getVisibleEObjectDescriptions(UScriptPackage.eINSTANCE.method)
 			.filter[m | 
-				if(!(m.EObjectOrProxy.eContainer instanceof Program)) {
+				if(!(m.EObjectOrProxy.eContainer instanceof Script)) {
 					return false
 				}
 				
@@ -92,7 +92,7 @@ class UScriptIndex {
 	
 	def getExportedMethodsEObjectDescriptions(EObject o) {
 		o.resourceDescription.getExportedObjectsByType(UScriptPackage.eINSTANCE.method).filter[ obDes |
-			obDes.EObjectOrProxy.eContainer instanceof Program
+			obDes.EObjectOrProxy.eContainer instanceof Script
 		]
 	}
 	
@@ -102,16 +102,16 @@ class UScriptIndex {
 		cm.getVisibleContainers(rd, idx)
 	}
 	
-	private def Program getParentProgram(EObject o) {
-		if(o instanceof Program) {
+	private def Script getParentScript(EObject o) {
+		if(o instanceof Script) {
 			return o
 		}
 		
-		if(o.eContainer instanceof Program) {
-			return o.eContainer as Program
+		if(o.eContainer instanceof Script) {
+			return o.eContainer as Script
 		}
 		
-		return getParentProgram(o.eContainer)
+		return getParentScript(o.eContainer)
 	}
 	
 	def Class getClassFromFqn(EObject ctx, String fqn) {

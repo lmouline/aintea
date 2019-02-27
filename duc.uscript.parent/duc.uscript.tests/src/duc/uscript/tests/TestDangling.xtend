@@ -5,7 +5,7 @@ import org.eclipse.xtext.testing.extensions.InjectionExtension
 import org.junit.jupiter.api.^extension.ExtendWith
 import com.google.inject.Inject
 import org.eclipse.xtext.testing.util.ParseHelper
-import duc.uscript.uScript.Program
+import duc.uscript.uScript.Script
 import org.junit.jupiter.api.Test
 import org.eclipse.xtext.testing.validation.ValidationTestHelper
 import duc.uscript.UScriptLang
@@ -16,7 +16,7 @@ import org.eclipse.emf.ecore.resource.ResourceSet
 @InjectWith(UScriptInjectorProvider)
 class TestDangling {
 	
-	@Inject extension ParseHelper<Program>
+	@Inject extension ParseHelper<Script>
 	@Inject extension ValidationTestHelper
 	@Inject	extension UScriptLang
 	@Inject Provider<ResourceSet> rsp

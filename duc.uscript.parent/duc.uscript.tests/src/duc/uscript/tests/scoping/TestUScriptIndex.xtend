@@ -5,7 +5,7 @@ import org.junit.jupiter.api.^extension.ExtendWith
 import org.eclipse.xtext.testing.InjectWith
 import duc.uscript.tests.UScriptInjectorProvider
 import org.eclipse.xtext.testing.util.ParseHelper
-import duc.uscript.uScript.Program
+import duc.uscript.uScript.Script
 import com.google.inject.Inject
 import duc.uscript.scoping.UScriptIndex
 import org.junit.jupiter.api.Test
@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals
 @InjectWith(UScriptInjectorProvider)
 class TestUScriptIndex {
 	
-	@Inject extension ParseHelper<Program>
+	@Inject extension ParseHelper<Script>
 	@Inject extension UScriptIndex
 	
 	@Test

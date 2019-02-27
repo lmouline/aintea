@@ -6,7 +6,7 @@ import org.eclipse.xtext.testing.InjectWith
 import duc.uscript.tests.UScriptInjectorProvider
 import com.google.inject.Inject
 import org.eclipse.xtext.testing.util.ParseHelper
-import duc.uscript.uScript.Program
+import duc.uscript.uScript.Script
 import org.eclipse.xtext.testing.validation.ValidationTestHelper
 import org.junit.jupiter.api.Test
 import duc.uscript.uScript.UScriptPackage
@@ -15,7 +15,7 @@ import duc.uscript.validation.UScriptValidator
 @ExtendWith(InjectionExtension)
 @InjectWith(UScriptInjectorProvider)
 class TestUScriptValidator {
-	@Inject extension ParseHelper<Program>
+	@Inject extension ParseHelper<Script>
 	@Inject extension ValidationTestHelper
 	
 	@Test

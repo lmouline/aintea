@@ -6,7 +6,7 @@ package duc.uscript.ui.outline
 import org.eclipse.xtext.ui.editor.outline.impl.DefaultOutlineTreeProvider
 import duc.uscript.uScript.Field
 import org.eclipse.xtext.ui.editor.outline.impl.DocumentRootNode
-import duc.uscript.uScript.Program
+import duc.uscript.uScript.Script
 import duc.uscript.uScript.Parameter
 import static duc.uscript.typing.TypeNameHelper.*
 import duc.uscript.uScript.Method
@@ -26,8 +26,8 @@ class UScriptOutlineTreeProvider extends DefaultOutlineTreeProvider {
 		return true;
 	}
 	
-	def _createChildren(DocumentRootNode outlineNode, Program program) {
-		program.elements.forEach[ elm |
+	def _createChildren(DocumentRootNode outlineNode, Script script) {
+		script.elements.forEach[ elm |
 			createNode(outlineNode, elm)
 		]
 	}

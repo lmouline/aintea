@@ -10,7 +10,7 @@ import org.eclipse.xtext.testing.util.ParseHelper
 import duc.uscript.UScriptLang
 import org.eclipse.emf.ecore.resource.ResourceSet
 import com.google.inject.Provider
-import duc.uscript.uScript.Program
+import duc.uscript.uScript.Script
 import duc.uscript.typing.InternalTypeDcl
 import org.junit.jupiter.api.^extension.ExtendWith
 import org.eclipse.xtext.testing.InjectWith
@@ -22,7 +22,7 @@ import org.junit.jupiter.api.BeforeEach
 @ExtendWith(InjectionExtension)
 @InjectWith(UScriptInjectorProvider)
 class TestTypeConcordance {
-	@Inject extension ParseHelper<Program>
+	@Inject extension ParseHelper<Script>
 	@Inject	extension UScriptLang
 	@Inject Provider<ResourceSet> rsp
 	@Inject InternalTypeDcl internalType

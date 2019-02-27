@@ -6,11 +6,11 @@ import duc.uscript.execution.Context;
 import duc.uscript.execution.ExecutionFactory;
 import duc.uscript.execution.Frame;
 import duc.uscript.execution.State;
-import duc.uscript.execution.interpreter.ProgramAspectProgramAspectProperties;
+import duc.uscript.execution.interpreter.ScriptAspectScriptAspectProperties;
 import duc.uscript.execution.interpreter.statement.BlockAspect;
 import duc.uscript.execution.interpreter.utils.OutputStreamListener;
 import duc.uscript.uScript.Method;
-import duc.uscript.uScript.Program;
+import duc.uscript.uScript.Script;
 import fr.inria.diverse.k3.al.annotationprocessor.Aspect;
 import java.io.OutputStream;
 import org.eclipse.emf.common.notify.Adapter;
@@ -21,68 +21,68 @@ import org.eclipse.xtext.xbase.lib.IterableExtensions;
 import org.eclipse.xtext.xbase.lib.ObjectExtensions;
 import org.eclipse.xtext.xbase.lib.Procedures.Procedure1;
 
-@Aspect(className = Program.class)
+@Aspect(className = Script.class)
 @SuppressWarnings("all")
-public class ProgramAspect {
-  public static void main(final Program _self) {
-    final duc.uscript.execution.interpreter.ProgramAspectProgramAspectProperties _self_ = duc.uscript.execution.interpreter.ProgramAspectProgramAspectContext.getSelf(_self);
+public class ScriptAspect {
+  public static void main(final Script _self) {
+    final duc.uscript.execution.interpreter.ScriptAspectScriptAspectProperties _self_ = duc.uscript.execution.interpreter.ScriptAspectScriptAspectContext.getSelf(_self);
     // #DispatchPointCut_before# void main()
-    if (_self instanceof duc.uscript.uScript.Program){
-    	duc.uscript.execution.interpreter.ProgramAspect._privk3_main(_self_, (duc.uscript.uScript.Program)_self);
+    if (_self instanceof duc.uscript.uScript.Script){
+    	duc.uscript.execution.interpreter.ScriptAspect._privk3_main(_self_, (duc.uscript.uScript.Script)_self);
     };
   }
   
-  private static Method getMainMethod(final Program _self) {
-    final duc.uscript.execution.interpreter.ProgramAspectProgramAspectProperties _self_ = duc.uscript.execution.interpreter.ProgramAspectProgramAspectContext.getSelf(_self);
+  private static Method getMainMethod(final Script _self) {
+    final duc.uscript.execution.interpreter.ScriptAspectScriptAspectProperties _self_ = duc.uscript.execution.interpreter.ScriptAspectScriptAspectContext.getSelf(_self);
     Object result = null;
     // #DispatchPointCut_before# Method getMainMethod()
-    if (_self instanceof duc.uscript.uScript.Program){
-    	result = duc.uscript.execution.interpreter.ProgramAspect._privk3_getMainMethod(_self_, (duc.uscript.uScript.Program)_self);
+    if (_self instanceof duc.uscript.uScript.Script){
+    	result = duc.uscript.execution.interpreter.ScriptAspect._privk3_getMainMethod(_self_, (duc.uscript.uScript.Script)_self);
     };
     return (duc.uscript.uScript.Method)result;
   }
   
-  public static void initialize(final Program _self, final OutputStream out) {
-    final duc.uscript.execution.interpreter.ProgramAspectProgramAspectProperties _self_ = duc.uscript.execution.interpreter.ProgramAspectProgramAspectContext.getSelf(_self);
+  public static void initialize(final Script _self, final OutputStream out) {
+    final duc.uscript.execution.interpreter.ScriptAspectScriptAspectProperties _self_ = duc.uscript.execution.interpreter.ScriptAspectScriptAspectContext.getSelf(_self);
     // #DispatchPointCut_before# void initialize(OutputStream)
-    if (_self instanceof duc.uscript.uScript.Program){
-    	duc.uscript.execution.interpreter.ProgramAspect._privk3_initialize(_self_, (duc.uscript.uScript.Program)_self,out);
+    if (_self instanceof duc.uscript.uScript.Script){
+    	duc.uscript.execution.interpreter.ScriptAspect._privk3_initialize(_self_, (duc.uscript.uScript.Script)_self,out);
     };
   }
   
-  public static State execute(final Program _self) {
-    final duc.uscript.execution.interpreter.ProgramAspectProgramAspectProperties _self_ = duc.uscript.execution.interpreter.ProgramAspectProgramAspectContext.getSelf(_self);
+  public static State execute(final Script _self) {
+    final duc.uscript.execution.interpreter.ScriptAspectScriptAspectProperties _self_ = duc.uscript.execution.interpreter.ScriptAspectScriptAspectContext.getSelf(_self);
     Object result = null;
     // #DispatchPointCut_before# State execute()
-    if (_self instanceof duc.uscript.uScript.Program){
-    	result = duc.uscript.execution.interpreter.ProgramAspect._privk3_execute(_self_, (duc.uscript.uScript.Program)_self);
+    if (_self instanceof duc.uscript.uScript.Script){
+    	result = duc.uscript.execution.interpreter.ScriptAspect._privk3_execute(_self_, (duc.uscript.uScript.Script)_self);
     };
     return (duc.uscript.execution.State)result;
   }
   
-  public static State state(final Program _self) {
-    final duc.uscript.execution.interpreter.ProgramAspectProgramAspectProperties _self_ = duc.uscript.execution.interpreter.ProgramAspectProgramAspectContext.getSelf(_self);
+  public static State state(final Script _self) {
+    final duc.uscript.execution.interpreter.ScriptAspectScriptAspectProperties _self_ = duc.uscript.execution.interpreter.ScriptAspectScriptAspectContext.getSelf(_self);
     Object result = null;
     // #DispatchPointCut_before# State state()
-    if (_self instanceof duc.uscript.uScript.Program){
-    	result = duc.uscript.execution.interpreter.ProgramAspect._privk3_state(_self_, (duc.uscript.uScript.Program)_self);
+    if (_self instanceof duc.uscript.uScript.Script){
+    	result = duc.uscript.execution.interpreter.ScriptAspect._privk3_state(_self_, (duc.uscript.uScript.Script)_self);
     };
     return (duc.uscript.execution.State)result;
   }
   
-  public static void state(final Program _self, final State state) {
-    final duc.uscript.execution.interpreter.ProgramAspectProgramAspectProperties _self_ = duc.uscript.execution.interpreter.ProgramAspectProgramAspectContext.getSelf(_self);
+  public static void state(final Script _self, final State state) {
+    final duc.uscript.execution.interpreter.ScriptAspectScriptAspectProperties _self_ = duc.uscript.execution.interpreter.ScriptAspectScriptAspectContext.getSelf(_self);
     // #DispatchPointCut_before# void state(State)
-    if (_self instanceof duc.uscript.uScript.Program){
-    	duc.uscript.execution.interpreter.ProgramAspect._privk3_state(_self_, (duc.uscript.uScript.Program)_self,state);
+    if (_self instanceof duc.uscript.uScript.Script){
+    	duc.uscript.execution.interpreter.ScriptAspect._privk3_state(_self_, (duc.uscript.uScript.Script)_self,state);
     };
   }
   
-  protected static void _privk3_main(final ProgramAspectProgramAspectProperties _self_, final Program _self) {
-    ProgramAspect.execute(_self);
+  protected static void _privk3_main(final ScriptAspectScriptAspectProperties _self_, final Script _self) {
+    ScriptAspect.execute(_self);
   }
   
-  protected static Method _privk3_getMainMethod(final ProgramAspectProgramAspectProperties _self_, final Program _self) {
+  protected static Method _privk3_getMainMethod(final ScriptAspectScriptAspectProperties _self_, final Script _self) {
     final Function1<Method, Boolean> _function = (Method it) -> {
       String _name = it.getName();
       return Boolean.valueOf(Objects.equal(_name, "main"));
@@ -90,8 +90,8 @@ public class ProgramAspect {
     return IterableExtensions.<Method>findFirst(Iterables.<Method>filter(_self.getElements(), Method.class), _function);
   }
   
-  protected static void _privk3_initialize(final ProgramAspectProgramAspectProperties _self_, final Program _self, final OutputStream out) {
-    final Method main = ProgramAspect.getMainMethod(_self);
+  protected static void _privk3_initialize(final ScriptAspectScriptAspectProperties _self_, final Script _self, final OutputStream out) {
+    final Method main = ScriptAspect.getMainMethod(_self);
     if ((main == null)) {
       StringConcatenation _builder = new StringConcatenation();
       _builder.append("No main method found");
@@ -112,16 +112,16 @@ public class ProgramAspect {
       _eAdapters.add(_outputStreamListener);
     };
     final State state = ObjectExtensions.<State>operator_doubleArrow(_createState, _function);
-    ProgramAspect.state(_self, state);
+    ScriptAspect.state(_self, state);
   }
   
-  protected static State _privk3_execute(final ProgramAspectProgramAspectProperties _self_, final Program _self) {
-    final Method main = ProgramAspect.getMainMethod(_self);
-    BlockAspect.evaluateStatement(main.getBody(), ProgramAspect.state(_self));
-    return ProgramAspect.state(_self);
+  protected static State _privk3_execute(final ScriptAspectScriptAspectProperties _self_, final Script _self) {
+    final Method main = ScriptAspect.getMainMethod(_self);
+    BlockAspect.evaluateStatement(main.getBody(), ScriptAspect.state(_self));
+    return ScriptAspect.state(_self);
   }
   
-  protected static State _privk3_state(final ProgramAspectProgramAspectProperties _self_, final Program _self) {
+  protected static State _privk3_state(final ScriptAspectScriptAspectProperties _self_, final Script _self) {
     try {
     	for (java.lang.reflect.Method m : _self.getClass().getMethods()) {
     		if (m.getName().equals("getState") &&
@@ -140,7 +140,7 @@ public class ProgramAspect {
     return _self_.state;
   }
   
-  protected static void _privk3_state(final ProgramAspectProgramAspectProperties _self_, final Program _self, final State state) {
+  protected static void _privk3_state(final ScriptAspectScriptAspectProperties _self_, final Script _self, final State state) {
     boolean setterCalled = false;
     try {
     	for (java.lang.reflect.Method m : _self.getClass().getMethods()) {

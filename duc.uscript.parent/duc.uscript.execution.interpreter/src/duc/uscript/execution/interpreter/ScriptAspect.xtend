@@ -1,7 +1,7 @@
 package duc.uscript.execution.interpreter
 
 import fr.inria.diverse.k3.al.annotationprocessor.Aspect
-import duc.uscript.uScript.Program
+import duc.uscript.uScript.Script
 import duc.uscript.execution.State
 import duc.uscript.uScript.Method
 
@@ -10,8 +10,8 @@ import java.io.OutputStream
 import duc.uscript.execution.ExecutionFactory
 import duc.uscript.execution.interpreter.utils.OutputStreamListener
 
-@Aspect(className=Program)
-class ProgramAspect {
+@Aspect(className=Script)
+class ScriptAspect {
 	public State state
 	
 	def void main() {

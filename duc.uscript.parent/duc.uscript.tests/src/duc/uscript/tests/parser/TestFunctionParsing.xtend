@@ -8,7 +8,7 @@ import com.google.inject.Inject
 
 import org.eclipse.xtext.testing.util.ParseHelper
 import org.junit.jupiter.api.Test
-import duc.uscript.uScript.Program
+import duc.uscript.uScript.Script
 import duc.uscript.uScript.Method
 
 import static org.junit.jupiter.api.Assertions.assertEquals
@@ -22,7 +22,7 @@ import duc.uscript.uScript.CharTypeRef
 @InjectWith(UScriptInjectorProvider)
 class TestFunctionParsing {
 	
-	@Inject extension ParseHelper<Program>
+	@Inject extension ParseHelper<Script>
 	
 	@Test
 	def void oneFunctionScript() {

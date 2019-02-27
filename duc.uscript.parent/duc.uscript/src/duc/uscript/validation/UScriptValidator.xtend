@@ -4,7 +4,7 @@
 package duc.uscript.validation
 
 import org.eclipse.xtext.validation.Check
-import duc.uscript.uScript.Program
+import duc.uscript.uScript.Script
 import duc.uscript.uScript.Class
 import duc.uscript.uScript.Method
 import java.util.HashSet
@@ -22,11 +22,11 @@ class UScriptValidator extends AbstractUScriptValidator {
 	public static val DUPLICATE_NAME = "duplicateName"
 	
 	@Check
-	def checkUniqueness(Program program) {
+	def checkUniqueness(Script script) {
 		val HashSet<String> classNames = new HashSet()
 		val HashSet<String> functionNames = new HashSet()
 		
-		program.elements.forEach[ elm |
+		script.elements.forEach[ elm |
 			switch elm {
 				Class: {
 					val notExist = classNames.add(elm.name)

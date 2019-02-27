@@ -6,19 +6,19 @@ import org.eclipse.xtext.testing.extensions.InjectionExtension
 import duc.uscript.tests.UScriptInjectorProvider
 import com.google.inject.Inject
 import org.eclipse.xtext.testing.util.ParseHelper
-import duc.uscript.uScript.Program
+import duc.uscript.uScript.Script
 import org.junit.jupiter.api.Test
 import duc.uscript.execution.State
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals
 
-import static extension duc.uscript.execution.interpreter.ProgramAspect.*
+import static extension duc.uscript.execution.interpreter.ScriptAspect.*
 
 @ExtendWith(InjectionExtension)
 @InjectWith(UScriptInjectorProvider)
 class TestAssignmentStatement {
 	
-	@Inject extension ParseHelper<Program>
+	@Inject extension ParseHelper<Script>
 	
 	private def genericTest(String type, Object value, String expected) {
 		val script = '''

@@ -6,7 +6,7 @@ import org.eclipse.xtext.testing.InjectWith
 import duc.uscript.tests.UScriptInjectorProvider
 import com.google.inject.Inject
 import org.eclipse.xtext.testing.util.ParseHelper
-import duc.uscript.uScript.Program
+import duc.uscript.uScript.Script
 import org.eclipse.xtext.scoping.IScopeProvider
 import org.junit.jupiter.api.Test
 import duc.uscript.uScript.Class
@@ -24,7 +24,7 @@ import duc.uscript.UScriptLang
 @ExtendWith(InjectionExtension)
 @InjectWith(UScriptInjectorProvider)
 class TestUScriptScopeProvider {
-	@Inject extension ParseHelper<Program>
+	@Inject extension ParseHelper<Script>
 	@Inject extension IScopeProvider
 	@Inject Provider<ResourceSet> rsp
 	@Inject	extension UScriptLang

@@ -4,7 +4,7 @@
 package duc.uscript.tests.parser
 
 import com.google.inject.Inject
-import duc.uscript.uScript.Program
+import duc.uscript.uScript.Script
 import duc.uscript.uScript.Class
 import duc.uscript.uScript.GaussianRef
 import duc.uscript.uScript.Parameter
@@ -40,7 +40,7 @@ import duc.uscript.uScript.BernoulliRef
 @ExtendWith(InjectionExtension)
 @InjectWith(UScriptInjectorProvider)
 class TestClassParsing {
-	@Inject extension ParseHelper<Program>
+	@Inject extension ParseHelper<Script>
 	
 	@Test
 	def void oneClassScript() {

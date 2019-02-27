@@ -9,7 +9,7 @@ import org.eclipse.xtext.testing.InjectWith
 import duc.uscript.tests.UScriptInjectorProvider
 import com.google.inject.Inject
 import org.eclipse.xtext.testing.util.ParseHelper
-import duc.uscript.uScript.Program
+import duc.uscript.uScript.Script
 import duc.uscript.uScript.Method
 import duc.uscript.uScript.IfStatement
 import duc.uscript.typing.TypeResolver
@@ -23,7 +23,7 @@ import static extension duc.uscript.UScriptModelHelper.getFullQualifiedNamed
 @ExtendWith(InjectionExtension)
 @InjectWith(UScriptInjectorProvider)
 class TestTypeExpressions {
-	@Inject extension ParseHelper<Program>
+	@Inject extension ParseHelper<Script>
 	@Inject extension TypeResolver
 	@Inject	extension UScriptLang
 	@Inject Provider<ResourceSet> rsp

@@ -5,18 +5,18 @@ import duc.uscript.tests.UScriptInjectorProvider
 import com.google.inject.Inject
 import org.eclipse.xtext.testing.util.ParseHelper
 import org.junit.jupiter.api.Test
-import static extension duc.uscript.execution.interpreter.ProgramAspect.*
+import static extension duc.uscript.execution.interpreter.ScriptAspect.*
 import duc.uscript.execution.State
 import org.junit.jupiter.api.^extension.ExtendWith
 import static org.junit.jupiter.api.Assertions.assertArrayEquals
 import org.eclipse.xtext.testing.extensions.InjectionExtension
-import duc.uscript.uScript.Program
+import duc.uscript.uScript.Script
 
 @ExtendWith(InjectionExtension)
 @InjectWith(UScriptInjectorProvider)
 class TestPrintStatement {
 	
-	@Inject extension ParseHelper<Program>
+	@Inject extension ParseHelper<Script>
 	
 	def void genericTest(Object value, String[] expected) {
 		val script = '''
