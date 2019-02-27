@@ -96,18 +96,13 @@ gulp.task('browser-sync', function() {
   gulp.watch(src_paths.sass, ['default']).on('change', reload);
 });
 
-gulp.task('lint', ['lint:sass', 'lint:javascript']);
-gulp.task('sass', ['sass:style']);
-gulp.task('script', ['javascript']);
-gulp.task('serve', ['browser-sync']);
+gulp.task('lint', gulp.series('lint:sass', 'lint:javascript'));
+gulp.task('sass', gulp.series('sass:style'));
+gulp.task('script', gulp.series('javascript'));
+gulp.task('serve', gulp.series('browser-sync'));
 
-gulp.task('default', function(callback) {
-  runSequence(
-    'lint',
-    'sass',
-    'script',
+gulp.task('default', gulp.series('lint', 'sass', 'script'), function(callback) {
     callback
-  );
 });
 
 gulp.task('watch', function() {
