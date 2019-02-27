@@ -61,6 +61,8 @@ __pycache__
 
 # Hugo
 website/public
+node_modules
+website/themes/hugo-theme-techdoc/exampleSite
 
 # Xtend Eclipse plugin
 *.java._trace
