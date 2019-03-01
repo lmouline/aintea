@@ -4,6 +4,8 @@ title = "UScript"
 theme = "hugo-theme-techdoc"
 canonifyURLs = true
 
+metaDataFormat = "yaml"
+
 [Params]
     description = "Scripting language that handles uncertain data"
     github_repository = "https://github.com/lmouline/uscript"
