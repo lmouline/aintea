@@ -1,0 +1,126 @@
+package uscript.lang
+
+class Primitive {}
+
+class String extends Primitive{}
+class Char extends Primitive{}
+class Boolean extends Primitive{}
+
+class Numeric extends Primitive{}
+class Long extends Numeric{}
+class Int extends Long{}
+class Short extends Int{}
+class Byte extends Short{}
+class Double extends Numeric{}
+class Float extends Numeric{}
+
+class Array {}
+class StringArray extends Array {}
+class IntArray extends Array {}
+class BooleanArray extends Array{}
+class ByteArray extends Array{}
+class LongArray extends Array{}
+class DoubleArray extends Array{}
+class ShortArray extends Array{}
+class FloatArray extends Array{}
+class CharArray extends Array{}
+
+class Null{}
+
+class BernoulliDist {
+	double probability;
+	double variance;
+}
+
+class GaussianDist {
+	double mean;
+	double standardDeviation;
+}
+
+class RayleighDist {}
+class BinomialDist {}
+class DiracDeltaFunction {}
+
+class UncertainType {}
+
+class BernoulliType extends UncertainType {
+	BernoulliDist confidence;
+}
+
+class BernoulliBool extends BernoulliType {
+	bool value;
+}
+
+class UncertainNumeric extends UncertainType{}
+
+class GaussianType extends UncertainNumeric {
+	GaussianDist confidence;
+}
+
+class GaussianDouble extends GaussianType {
+	double value;
+}
+
+class GaussianFloat extends GaussianType {
+	float value;
+}
+
+class RayleighType extends UncertainNumeric {
+	RayleighDist confidence;
+}
+
+class RayleighDouble extends RayleighType {
+	double value;
+}
+
+class RayleighFloat extends RayleighType {
+	float value;
+}
+
+class BinomialType extends UncertainNumeric {
+	BinomialDist confidence;
+}
+
+class BinomialLong extends BinomialType {
+	long value;
+}
+
+class BinomialInt extends BinomialType {
+	int value;
+}
+
+class BinomialShort extends BinomialType {
+	short value;
+}
+
+class BinomialByte extends BinomialType {
+	byte value;
+}
+
+class DiracType extends UncertainNumeric {
+	DiracDeltaFunction confidence;
+}
+
+class DiracLong extends DiracType {
+	long value;
+}
+
+class DiracInt extends DiracType {
+	int value;
+}
+
+class DiracShort extends DiracType {
+	short value;
+}
+
+class DiracByte extends DiracType {
+	byte value;
+}
+
+class DiracDouble extends DiracType {
+	double value;
+}
+
+class DiracFloat extends DiracType {
+	float value;
+}

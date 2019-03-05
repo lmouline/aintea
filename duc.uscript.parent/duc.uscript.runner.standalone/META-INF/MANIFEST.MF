@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Standalone
+Bundle-SymbolicName: duc.uscript.runner.standalone
+Bundle-Version: 1.0.0.qualifier
+Bundle-ClassPath: standalone.jar,
+  .
+Export-Package: 
+ duc.uscript.runner.standalone
+Require-Bundle: duc.uscript;bundle-version="1.0.0",
+ duc.uscript.execution.modelstate;bundle-version="1.0.0",
+ duc.uscript.execution.interpreter;bundle-version="1.0.0",
+ com.google.inject;bundle-version="3.0.0",
+ org.eclipse.xtext;bundle-version="2.16.0",
+ org.eclipse.xtend.lib;bundle-version="2.16.0"

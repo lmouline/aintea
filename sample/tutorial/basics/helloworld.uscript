@@ -1,0 +1,7 @@
+package basics
+
+import uscript.lang.*
+
+void main() {
+    print("Hello world!");
+}

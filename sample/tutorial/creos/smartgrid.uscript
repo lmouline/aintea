@@ -1,0 +1,24 @@
+package smartgrid
+
+import uscript.lang.*
+
+class Entity {
+	Fuse[] fuses;
+	Gaussian<double> load;
+}
+
+class Substation extends Entity {}
+class Cabinet extends Entity {}
+class DeadEndCabinet extends Entity {}
+
+class Fuse {
+	Bernoulli<bool> isClosed;
+	Cable cable;
+	Entity entity;
+}
+
+class Cable{
+	Gaussian<double> load;
+}
+
+

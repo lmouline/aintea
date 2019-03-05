@@ -31,7 +31,8 @@
 		<module>duc.uscript.execution.modelstate</module>
 		<module>duc.uscript.execution.interpreter</module>
 		<module>duc.uscript.execution.interpreter.tests</module>
-  </modules>
+		<module>duc.uscript.runner.standalone</module>
+	</modules>
 	<build>
 		<plugins>
 			<plugin>

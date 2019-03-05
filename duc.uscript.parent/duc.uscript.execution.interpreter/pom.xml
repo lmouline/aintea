@@ -10,26 +10,6 @@
 	<artifactId>duc.uscript.execution.interpreter</artifactId>
 	<packaging>eclipse-plugin</packaging>
 	
-	<!-- <build>
-		<plugins>
-			<plugin>
-				<groupId>org.eclipse.xtend</groupId>
-				<artifactId>xtend-maven-plugin</artifactId>
-				<executions>
-					<execution>
-						<goals>
-							<goal>compile</goal>
-							<goal>testCompile</goal>
-							<goal>xtend-install-debug-info</goal>
-							<goal>xtend-test-install-debug-info</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
-	</build> -->
-	
-	
 	<repositories>
 		<repository>
 			<id>k3P2index</id>
