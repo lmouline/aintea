@@ -11,12 +11,15 @@ import org.junit.jupiter.api.^extension.ExtendWith
 import static org.junit.jupiter.api.Assertions.assertArrayEquals
 import org.eclipse.xtext.testing.extensions.InjectionExtension
 import duc.uscript.uScript.Script
+import java.io.OutputStream
 
 @ExtendWith(InjectionExtension)
 @InjectWith(UScriptInjectorProvider)
 class TestPrintStatement {
 	
 	@Inject extension ParseHelper<Script>
+	
+	val OutputStream DEFAULT_OUT = new MockOutputStream()
 	
 	def void genericTest(Object value, String[] expected) {
 		val script = '''
@@ -27,7 +30,7 @@ class TestPrintStatement {
 			}
 		'''.parse
 		
-		script.initialize(System.out)
+		script.initialize(DEFAULT_OUT)
 		val State state = script.execute
 		assertArrayEquals(expected, state.outputStream.stream.toArray)
 	}

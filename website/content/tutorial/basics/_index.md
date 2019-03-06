@@ -16,6 +16,8 @@ All the final code is accessible on [GitHub](https://github.com/lmouline/uscript
 
 # Hellow World
 
+In our language, the `print` function allow to write to the output stream.
+
 ```
 package basics
 
@@ -24,15 +26,39 @@ void main() {
 }
 ```
 
-# String concatenation
+# Primitive datatypes
+
+## Certain types
+In our language, the certain types manage by our language are: `byte`, `short`, `int`, `long`, `float`, `double`, `bool`, `char`, and `string`.
 
 ```
 package basics
 
 void main() {
-    String hello = "hello";
-    String name = "Jean"
-    double age = 5;
-    print("Hello world! " + 2019);
+    byte b = 5;
+    short s = 8;
+    int i = 10;
+    long l = 100L;
+    float f = 0.8;
+    double d = 10.8;
+    bool b = true;
+    char c = 'c';
+    string str = "A String";
+}
+```
+
+We support the different arithmetic operators for all the numeric types: addition, subtraction, multiplication and division.
+
+```
+package basics
+
+void main() {
+  int i1 = 90;
+  int i2 = 45;
+
+  int i3 = i1 + i2;
+  int i4 = i1 - i2;
+  int i5 = i1 * i2;
+  int i6 = i1 / i2;
 }
 ```

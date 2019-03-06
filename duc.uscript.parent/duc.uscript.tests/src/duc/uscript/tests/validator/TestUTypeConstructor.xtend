@@ -10,7 +10,6 @@ import org.eclipse.xtext.testing.validation.ValidationTestHelper
 import org.junit.jupiter.api.Test
 import duc.uscript.validation.UTypeValidator
 import duc.uscript.uScript.UScriptPackage
-import static duc.uscript.typing.InternalTypeDcl.*
 import duc.uscript.UScriptLang
 import org.eclipse.emf.ecore.resource.ResourceSet
 import com.google.inject.Provider

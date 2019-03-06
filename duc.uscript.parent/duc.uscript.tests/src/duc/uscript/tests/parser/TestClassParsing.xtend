@@ -7,7 +7,7 @@ import com.google.inject.Inject
 import duc.uscript.uScript.Script
 import duc.uscript.uScript.Class
 import duc.uscript.uScript.GaussianRef
-import duc.uscript.uScript.Parameter
+//import duc.uscript.uScript.Parameter
 import duc.uscript.uScript.Field
 import org.eclipse.xtext.testing.InjectWith
 import org.eclipse.xtext.testing.extensions.InjectionExtension

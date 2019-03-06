@@ -13,12 +13,15 @@ import duc.uscript.execution.State
 import static org.junit.jupiter.api.Assertions.assertArrayEquals
 
 import static extension duc.uscript.execution.interpreter.ScriptAspect.*
+import java.io.OutputStream
 
 @ExtendWith(InjectionExtension)
 @InjectWith(UScriptInjectorProvider)
 class TestAssignmentStatement {
 	
 	@Inject extension ParseHelper<Script>
+	
+	val OutputStream DEFAULT_OUT = new MockOutputStream()
 	
 	private def genericTest(String type, Object value, String expected) {
 		val script = '''
@@ -34,7 +37,7 @@ class TestAssignmentStatement {
 			}
 		'''.parse
 		
-		script.initialize(System.out)
+		script.initialize(DEFAULT_OUT)
 		val State state = script.execute
 		assertArrayEquals(#[expected, expected], state.outputStream.stream.toArray)
 	}

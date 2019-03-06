@@ -1,11 +1,11 @@
 package duc.uscript.tests.parser
 
 import com.google.inject.Inject
-import com.google.inject.Provider
+//import com.google.inject.Provider
 import duc.uscript.tests.UScriptInjectorProvider
 import duc.uscript.uScript.Class
 import duc.uscript.uScript.Script
-import org.eclipse.emf.ecore.resource.ResourceSet
+//import org.eclipse.emf.ecore.resource.ResourceSet
 import org.eclipse.xtext.testing.InjectWith
 import org.eclipse.xtext.testing.extensions.InjectionExtension
 import org.eclipse.xtext.testing.util.ParseHelper
@@ -18,7 +18,7 @@ import org.junit.jupiter.api.^extension.ExtendWith
 @InjectWith(UScriptInjectorProvider)
 class TestMultipleClassParsing {
 	@Inject extension ParseHelper<Script>
-	@Inject Provider<ResourceSet> resourceSetProvider
+//	@Inject Provider<ResourceSet> resourceSetProvider
 	@Inject extension ValidationTestHelper
 	
 	

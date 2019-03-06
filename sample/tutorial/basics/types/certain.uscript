@@ -1,0 +1,23 @@
+package basics
+
+void main() {
+    byte b = 5;
+    short s = 8;
+    int i = 10;
+    long l = 100L;
+    float f = 0.8;
+    double d = 10.8;
+    bool bo = true;
+    char c = 'c';
+    string str = "A String";
+
+    print(b);
+    print(s);
+    print(i);
+    print(l);
+    print(f);
+    print(d);
+    print(bo);
+    print(c);
+    print(str);
+}

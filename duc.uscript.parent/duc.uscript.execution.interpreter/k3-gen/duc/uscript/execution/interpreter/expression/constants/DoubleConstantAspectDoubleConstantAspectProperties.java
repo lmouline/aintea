@@ -1,4 +1,4 @@
-package duc.uscript.execution.interpreter.expression;
+package duc.uscript.execution.interpreter.expression.constants;
 
 @SuppressWarnings("all")
 public class DoubleConstantAspectDoubleConstantAspectProperties {

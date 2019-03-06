@@ -1,11 +1,11 @@
-package duc.uscript.execution.interpreter.expression;
+package duc.uscript.execution.interpreter.expression.constants;
 
 import duc.uscript.execution.BooleanValue;
 import duc.uscript.execution.ExecutionFactory;
 import duc.uscript.execution.State;
 import duc.uscript.execution.Value;
-import duc.uscript.execution.interpreter.expression.BoolConstantAspectBoolConstantAspectProperties;
 import duc.uscript.execution.interpreter.expression.ExpressionAspect;
+import duc.uscript.execution.interpreter.expression.constants.BoolConstantAspectBoolConstantAspectProperties;
 import duc.uscript.uScript.BoolConstant;
 import fr.inria.diverse.k3.al.annotationprocessor.Aspect;
 import fr.inria.diverse.k3.al.annotationprocessor.OverrideAspectMethod;
@@ -17,11 +17,11 @@ import org.eclipse.xtext.xbase.lib.Procedures.Procedure1;
 public class BoolConstantAspect extends ExpressionAspect {
   @OverrideAspectMethod
   public static Value evaluateExpression(final BoolConstant _self, final State state) {
-    final duc.uscript.execution.interpreter.expression.BoolConstantAspectBoolConstantAspectProperties _self_ = duc.uscript.execution.interpreter.expression.BoolConstantAspectBoolConstantAspectContext.getSelf(_self);
+    final duc.uscript.execution.interpreter.expression.constants.BoolConstantAspectBoolConstantAspectProperties _self_ = duc.uscript.execution.interpreter.expression.constants.BoolConstantAspectBoolConstantAspectContext.getSelf(_self);
     Object result = null;
     // #DispatchPointCut_before# Value evaluateExpression(State)
     if (_self instanceof duc.uscript.uScript.BoolConstant){
-    	result = duc.uscript.execution.interpreter.expression.BoolConstantAspect._privk3_evaluateExpression(_self_, (duc.uscript.uScript.BoolConstant)_self,state);
+    	result = duc.uscript.execution.interpreter.expression.constants.BoolConstantAspect._privk3_evaluateExpression(_self_, (duc.uscript.uScript.BoolConstant)_self,state);
     };
     return (duc.uscript.execution.Value)result;
   }

@@ -62,6 +62,10 @@ class BooleanValue extends Value {
 	boolean value
 }
 
+class CharValue extends Value {
+	String value
+}
+
 class StringValue extends Value {
 	String value
 }

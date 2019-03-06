@@ -1,0 +1,16 @@
+package basics
+
+void main() {
+  int i1 = 90;
+  int i2 = 45;
+
+  int i3 = i1 + i2;
+  int i4 = i1 - i2;
+  int i5 = i1 * i2;
+  int i6 = i1 / i2;
+
+  print(i3);
+  print(i4);
+  print(i5);
+  print(i6);
+}
