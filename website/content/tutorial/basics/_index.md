@@ -77,3 +77,22 @@ void main() {
   bool b5 = !b1;
 }
 ```
+
+## Uncertain types
+In our language, we implement five different probability distribution to represent the uncertainty: 
+
+  - [Bernoulli](https://en.wikipedia.org/wiki/Bernoulli_distribution) for uncertain boolean
+  - [Gaussian](https://en.wikipedia.org/wiki/Normal_distribution), [Rayleigh](https://en.wikipedia.org/wiki/Rayleigh_distribution), [Binomial](https://en.wikipedia.org/wiki/Binomial_distribution) and [Dirac delta function](https://en.wikipedia.org/wiki/Dirac_delta_function) for uncertain numbers.
+
+The following table the mapping between distributions and data type.
+
+| Data type | Gaussian | Rayleigh | binomial| Dirac| Bernoulli|
+|---|---|---|---|---|---|
+| **float**| &#10003;| &#10003;|| &#10003;||
+| **double**| &#10003;| &#10003;|| &#10003;||
+| **short**|| |  &#10003;| &#10003;||
+| **integer**|| |  &#10003;| &#10003; ||
+| **long**|| |  &#10003;| &#10003; ||
+| **boolean**|| |  |  |&#10003;|
+
+

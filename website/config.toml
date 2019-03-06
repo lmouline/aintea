@@ -14,7 +14,7 @@ metaDataFormat = "yaml"
     github_doc_repository = "https://github.com/lmouline/uscript"
     github_doc_folder = "website"
 
-    css = ["css/warning_bootstrap.css", "css/code-style.css"]
+    css = ["css/warning_bootstrap.css", "css/code-style.css", "css/table.css"]
 
 
 [[menu.main]]
