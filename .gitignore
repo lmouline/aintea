@@ -67,3 +67,4 @@ website/themes/hugo-theme-techdoc/exampleSite
 # Xtend Eclipse plugin
 *.java._trace
 *.xtendbin
+*.jar
