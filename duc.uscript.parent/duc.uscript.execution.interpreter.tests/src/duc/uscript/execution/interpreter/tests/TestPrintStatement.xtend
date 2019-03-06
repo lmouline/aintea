@@ -61,4 +61,9 @@ class TestPrintStatement {
 		genericTest(true, #["true"])		
 	}
 	
+	@Test
+	def void testPrintCtstChar() {
+		genericTest("'c'", #["c"])		
+	}
+	
 }
