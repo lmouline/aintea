@@ -1,0 +1,14 @@
+package basics
+
+void main() {
+  bool b1 = true;
+  bool b2 = false;
+
+  bool b3 = b1 && b2;
+  bool b4 = b1 || b2;
+  bool b5 = !b1;
+
+  print(b3);
+  print(b4);
+  print(b5);
+}

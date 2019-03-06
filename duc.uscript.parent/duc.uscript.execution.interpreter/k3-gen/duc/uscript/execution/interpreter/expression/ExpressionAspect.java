@@ -38,6 +38,21 @@ public class ExpressionAspect {
     			result = duc.uscript.execution.interpreter.expression.arithmetic.PlusAspect.evaluateExpression((duc.uscript.uScript.Plus)_self,state);
     		} else
     		// EndInjectInto duc.uscript.execution.interpreter.expression.ExpressionAspect#Value evaluateExpression(State) from duc.uscript.execution.interpreter.expression.arithmetic.PlusAspect
+    	// BeginInjectInto duc.uscript.execution.interpreter.expression.ExpressionAspect#Value evaluateExpression(State) from duc.uscript.execution.interpreter.expression.bool.AndAspect
+    		if (_self instanceof duc.uscript.uScript.And){
+    			result = duc.uscript.execution.interpreter.expression.bool.AndAspect.evaluateExpression((duc.uscript.uScript.And)_self,state);
+    		} else
+    		// EndInjectInto duc.uscript.execution.interpreter.expression.ExpressionAspect#Value evaluateExpression(State) from duc.uscript.execution.interpreter.expression.bool.AndAspect
+    	// BeginInjectInto duc.uscript.execution.interpreter.expression.ExpressionAspect#Value evaluateExpression(State) from duc.uscript.execution.interpreter.expression.bool.NotAspect
+    		if (_self instanceof duc.uscript.uScript.Not){
+    			result = duc.uscript.execution.interpreter.expression.bool.NotAspect.evaluateExpression((duc.uscript.uScript.Not)_self,state);
+    		} else
+    		// EndInjectInto duc.uscript.execution.interpreter.expression.ExpressionAspect#Value evaluateExpression(State) from duc.uscript.execution.interpreter.expression.bool.NotAspect
+    	// BeginInjectInto duc.uscript.execution.interpreter.expression.ExpressionAspect#Value evaluateExpression(State) from duc.uscript.execution.interpreter.expression.bool.OrAspect
+    		if (_self instanceof duc.uscript.uScript.Or){
+    			result = duc.uscript.execution.interpreter.expression.bool.OrAspect.evaluateExpression((duc.uscript.uScript.Or)_self,state);
+    		} else
+    		// EndInjectInto duc.uscript.execution.interpreter.expression.ExpressionAspect#Value evaluateExpression(State) from duc.uscript.execution.interpreter.expression.bool.OrAspect
     	// BeginInjectInto duc.uscript.execution.interpreter.expression.ExpressionAspect#Value evaluateExpression(State) from duc.uscript.execution.interpreter.expression.constants.BoolConstantAspect
     		if (_self instanceof duc.uscript.uScript.BoolConstant){
     			result = duc.uscript.execution.interpreter.expression.constants.BoolConstantAspect.evaluateExpression((duc.uscript.uScript.BoolConstant)_self,state);

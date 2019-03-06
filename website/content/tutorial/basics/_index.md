@@ -62,3 +62,18 @@ void main() {
   int i6 = i1 / i2;
 }
 ```
+
+Same for boolean operation: and, or and not.
+
+```
+package basics
+
+void main() {
+  bool b1 = true;
+  bool b2 = false;
+
+  bool b3 = b1 && b2;
+  bool b4 = b1 || b2;
+  bool b5 = !b1;
+}
+```
