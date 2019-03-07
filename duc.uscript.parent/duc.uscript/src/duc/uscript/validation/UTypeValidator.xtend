@@ -75,9 +75,9 @@ class UTypeValidator extends AbstractUScriptValidator{
 		val genType = bin.genericType
 		
 		if(genType !== null) {
-			if(!(genType instanceof ShortTypeRef || genType instanceof IntegerTypeRef || genType instanceof LongTypeRef)) {
+			if(!(genType instanceof ByteTypeRef ||  genType instanceof ShortTypeRef || genType instanceof IntegerTypeRef || genType instanceof LongTypeRef)) {
 				error(
-					'''Binomial distribution can only be applied on (short, int, long). Actual: «genType.syntax»''',
+					'''Binomial distribution can only be applied on (byte, short, int, long). Actual: «genType.syntax»''',
 					bin,
 					UScriptPackage.Literals.UTYPE_REF__GENERIC_TYPE,
 					WRONG_UTYPE
@@ -149,6 +149,29 @@ class UTypeValidator extends AbstractUScriptValidator{
 			checkNumParam(newUT, 1, "Rayleigh")
 		}
 		
+	}
+	
+	private def dispatch checkUTypeCreation(BinomialRef type, NewUObject newUT) {
+		val hasError = checkNbParam(newUT, "Binomial", 2)
+		if(!hasError) {
+			checkDiscreteNumParam(newUT, 0, "Binomial")
+			checkNumParam(newUT, 1, "Binomial")
+		}
+	}
+	
+	private def boolean checkDiscreteNumParam(NewUObject newUT, int paramIdx, String distName) {
+		val Class arg1Type = type(newUT.args.get(paramIdx))
+		if(!isDiscreteNumber(arg1Type)) {
+			error(
+				'''«intToNiceString(paramIdx)» argument of the «distName» constructor needs to be a numeric expression. Actual: «arg1Type.name»''',
+				newUT,
+				UScriptPackage.Literals.NEW_UOBJECT__ARGS,
+				paramIdx,
+				WRONG_UTYPE_CONSTRUCTOR
+			)
+			return true
+		}
+		return false
 	}
 	
 	private def dispatch checkUTypeCreation(DiracRef type, NewUObject newUT) {

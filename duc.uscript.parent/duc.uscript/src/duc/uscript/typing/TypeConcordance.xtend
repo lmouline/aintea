@@ -14,6 +14,10 @@ class TypeConcordance {
 		return is(c, NUMERIC_TYPE) || is(c, UNCERTAIN_NUMERIC_TYPE)
 	}
 	
+	def static boolean isDiscreteNumber(Class c) {
+		return is(c, LONG_TYPE)
+	}
+	
 	def static boolean isCertainNumber(Class c) {
 		return is(c, NUMERIC_TYPE)
 	}
