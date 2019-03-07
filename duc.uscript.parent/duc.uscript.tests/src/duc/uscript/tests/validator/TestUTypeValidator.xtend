@@ -132,7 +132,7 @@ class TestUTypeValidator {
 			script.assertError(
 				UScriptPackage.eINSTANCE.typeRef, 
 				UTypeValidator.WRONG_UTYPE, 
-				'''Binomial distribution can only be applied on (short, int, long). Actual: «t»'''
+				'''Binomial distribution can only be applied on (byte, short, int, long). Actual: «t»'''
 			)
 		}
 	}
