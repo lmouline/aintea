@@ -117,7 +117,7 @@ class TestUTypeValidator {
 	
 	@Test
 	def void checkErrorsBin() {
-		val types= #["float", "double", "byte", "bool", "char", "string", "B"]
+		val types= #["float", "double", "bool", "char", "string", "B"]
 		
 		for (t : types) {
 			val script = '''
