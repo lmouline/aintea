@@ -15,7 +15,7 @@ import duc.uscript.uScript.IfStatement
 import duc.uscript.typing.TypeResolver
 import duc.uscript.typing.InternalTypeDcl
 import duc.uscript.uScript.Assignment
-import duc.uscript.UScriptLang
+import static duc.uscript.UScriptLang.loadLib
 import org.eclipse.emf.ecore.resource.ResourceSet
 import com.google.inject.Provider
 import static extension duc.uscript.UScriptModelHelper.getFullQualifiedNamed
@@ -25,7 +25,6 @@ import static extension duc.uscript.UScriptModelHelper.getFullQualifiedNamed
 class TestTypeExpressions {
 	@Inject extension ParseHelper<Script>
 	@Inject extension TypeResolver
-	@Inject	extension UScriptLang
 	@Inject Provider<ResourceSet> rsp
 	
 	@Test

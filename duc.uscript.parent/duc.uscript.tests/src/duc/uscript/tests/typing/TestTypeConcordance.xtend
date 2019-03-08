@@ -7,7 +7,7 @@ import static duc.uscript.typing.InternalTypeDcl.*
 import static duc.uscript.typing.TypeConcordance.*
 import com.google.inject.Inject
 import org.eclipse.xtext.testing.util.ParseHelper
-import duc.uscript.UScriptLang
+import static duc.uscript.UScriptLang.loadLib
 import org.eclipse.emf.ecore.resource.ResourceSet
 import com.google.inject.Provider
 import duc.uscript.uScript.Script
@@ -23,7 +23,6 @@ import org.junit.jupiter.api.BeforeEach
 @InjectWith(UScriptInjectorProvider)
 class TestTypeConcordance {
 	@Inject extension ParseHelper<Script>
-	@Inject	extension UScriptLang
 	@Inject Provider<ResourceSet> rsp
 	@Inject InternalTypeDcl internalType
 	

@@ -19,7 +19,7 @@ import duc.uscript.uScript.Assignment
 import duc.uscript.uScript.ForStatement
 import com.google.inject.Provider
 import org.eclipse.emf.ecore.resource.ResourceSet
-import duc.uscript.UScriptLang
+import static duc.uscript.UScriptLang.loadLib
 
 @ExtendWith(InjectionExtension)
 @InjectWith(UScriptInjectorProvider)
@@ -27,7 +27,6 @@ class TestUScriptScopeProvider {
 	@Inject extension ParseHelper<Script>
 	@Inject extension IScopeProvider
 	@Inject Provider<ResourceSet> rsp
-	@Inject	extension UScriptLang
 	
 	private def assertScope(EObject ctx, EReference ref, String expected) {
 		Assertions.assertEquals(expected, ctx.getScope(ref).allElements.map[name].join(", "))

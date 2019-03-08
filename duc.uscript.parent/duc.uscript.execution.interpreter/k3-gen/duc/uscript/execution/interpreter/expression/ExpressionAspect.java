@@ -13,6 +13,11 @@ public class ExpressionAspect {
   public static Value evaluateExpression(final Expression _self, final State state) {
     final duc.uscript.execution.interpreter.expression.ExpressionAspectExpressionAspectProperties _self_ = duc.uscript.execution.interpreter.expression.ExpressionAspectExpressionAspectContext.getSelf(_self);
     Object result = null;
+    	// BeginInjectInto duc.uscript.execution.interpreter.expression.ExpressionAspect#Value evaluateExpression(State) from duc.uscript.execution.interpreter.expression.NewUObjectAspect
+    		if (_self instanceof duc.uscript.uScript.NewUObject){
+    			result = duc.uscript.execution.interpreter.expression.NewUObjectAspect.evaluateExpression((duc.uscript.uScript.NewUObject)_self,state);
+    		} else
+    		// EndInjectInto duc.uscript.execution.interpreter.expression.ExpressionAspect#Value evaluateExpression(State) from duc.uscript.execution.interpreter.expression.NewUObjectAspect
     	// BeginInjectInto duc.uscript.execution.interpreter.expression.ExpressionAspect#Value evaluateExpression(State) from duc.uscript.execution.interpreter.expression.SymbolRefAspect
     		if (_self instanceof duc.uscript.uScript.SymbolRef){
     			result = duc.uscript.execution.interpreter.expression.SymbolRefAspect.evaluateExpression((duc.uscript.uScript.SymbolRef)_self,state);

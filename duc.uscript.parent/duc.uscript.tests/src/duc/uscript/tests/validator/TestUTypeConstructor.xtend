@@ -10,16 +10,16 @@ import org.eclipse.xtext.testing.validation.ValidationTestHelper
 import org.junit.jupiter.api.Test
 import duc.uscript.validation.UTypeValidator
 import duc.uscript.uScript.UScriptPackage
-import duc.uscript.UScriptLang
+import static duc.uscript.UScriptLang.loadLib
 import org.eclipse.emf.ecore.resource.ResourceSet
 import com.google.inject.Provider
+import static duc.uscript.UScriptLang.loadLib
 
 @ExtendWith(InjectionExtension)
 @InjectWith(UScriptInjectorProvider)
 class TestUTypeConstructor {
 	@Inject extension ParseHelper<Script>
 	@Inject extension ValidationTestHelper
-	@Inject	extension UScriptLang
 	@Inject Provider<ResourceSet> rsp
 	
 	// Bernoulli 

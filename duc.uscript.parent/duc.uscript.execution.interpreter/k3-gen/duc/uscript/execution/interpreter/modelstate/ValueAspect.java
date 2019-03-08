@@ -40,6 +40,11 @@ public class ValueAspect {
     			result = duc.uscript.execution.interpreter.modelstate.LongValueAspect.convertToString((duc.uscript.execution.LongValue)_self);
     		} else
     		// EndInjectInto duc.uscript.execution.interpreter.modelstate.ValueAspect#String convertToString() from duc.uscript.execution.interpreter.modelstate.LongValueAspect
+    	// BeginInjectInto duc.uscript.execution.interpreter.modelstate.ValueAspect#String convertToString() from duc.uscript.execution.interpreter.modelstate.ObjectRefValueAspect
+    		if (_self instanceof duc.uscript.execution.ObjectRefValue){
+    			result = duc.uscript.execution.interpreter.modelstate.ObjectRefValueAspect.convertToString((duc.uscript.execution.ObjectRefValue)_self);
+    		} else
+    		// EndInjectInto duc.uscript.execution.interpreter.modelstate.ValueAspect#String convertToString() from duc.uscript.execution.interpreter.modelstate.ObjectRefValueAspect
     	// BeginInjectInto duc.uscript.execution.interpreter.modelstate.ValueAspect#String convertToString() from duc.uscript.execution.interpreter.modelstate.ShortValueAspect
     		if (_self instanceof duc.uscript.execution.ShortValue){
     			result = duc.uscript.execution.interpreter.modelstate.ShortValueAspect.convertToString((duc.uscript.execution.ShortValue)_self);
@@ -90,6 +95,11 @@ public class ValueAspect {
     			result = duc.uscript.execution.interpreter.modelstate.LongValueAspect.copy((duc.uscript.execution.LongValue)_self);
     		} else
     		// EndInjectInto duc.uscript.execution.interpreter.modelstate.ValueAspect#Value copy() from duc.uscript.execution.interpreter.modelstate.LongValueAspect
+    	// BeginInjectInto duc.uscript.execution.interpreter.modelstate.ValueAspect#Value copy() from duc.uscript.execution.interpreter.modelstate.ObjectRefValueAspect
+    		if (_self instanceof duc.uscript.execution.ObjectRefValue){
+    			result = duc.uscript.execution.interpreter.modelstate.ObjectRefValueAspect.copy((duc.uscript.execution.ObjectRefValue)_self);
+    		} else
+    		// EndInjectInto duc.uscript.execution.interpreter.modelstate.ValueAspect#Value copy() from duc.uscript.execution.interpreter.modelstate.ObjectRefValueAspect
     	// BeginInjectInto duc.uscript.execution.interpreter.modelstate.ValueAspect#Value copy() from duc.uscript.execution.interpreter.modelstate.ShortValueAspect
     		if (_self instanceof duc.uscript.execution.ShortValue){
     			result = duc.uscript.execution.interpreter.modelstate.ShortValueAspect.copy((duc.uscript.execution.ShortValue)_self);

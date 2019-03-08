@@ -14,7 +14,7 @@ import duc.uscript.validation.CFValidator
 import static duc.uscript.typing.InternalTypeDcl.*
 import org.eclipse.xtext.diagnostics.Diagnostic
 import org.junit.jupiter.api.Assertions
-import duc.uscript.UScriptLang
+import static duc.uscript.UScriptLang.loadLib
 import com.google.inject.Provider
 import org.eclipse.emf.ecore.resource.ResourceSet
 
@@ -23,7 +23,6 @@ import org.eclipse.emf.ecore.resource.ResourceSet
 class TestCFValidator {
 	@Inject extension ParseHelper<Script>
 	@Inject extension ValidationTestHelper
-	@Inject	extension UScriptLang
 	@Inject Provider<ResourceSet> rsp
 	
 	

@@ -360,7 +360,6 @@ class TypeResolver {
 		newArray.getType.type
 	}
 	
-	
 	def dispatch Class type(TypeRef r) {
 		switch r {
 			ClassRef: r.referencedClass

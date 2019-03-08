@@ -4,6 +4,12 @@ import com.google.inject.Inject
 import duc.uscript.scoping.UScriptIndex
 import org.eclipse.emf.ecore.EObject
 import duc.uscript.uScript.Class
+import duc.uscript.uScript.UTypeRef
+import duc.uscript.uScript.GaussianRef
+import duc.uscript.uScript.RayleighRef
+import duc.uscript.uScript.BinomialRef
+import duc.uscript.uScript.DiracRef
+import duc.uscript.uScript.BernoulliRef
 
 class InternalTypeDcl {
 	@Inject extension UScriptIndex
@@ -62,13 +68,13 @@ class InternalTypeDcl {
 	public static final String BINOMIAL_SHORT_TYPE = LIB_PACK + ".BinomialShort"
 	public static final String BINOMIAL_BYTE_TYPE = LIB_PACK + ".BinomialByte"
 	
-	public static final String DIRAC_TYPE = LIB_PACK + ".DiracType"
-	public static final String DIRAC_LONG_TYPE = LIB_PACK + ".DiracLong"
-	public static final String DIRAC_INT_TYPE = LIB_PACK + ".DiracInt"
-	public static final String DIRAC_SHORT_TYPE = LIB_PACK + ".DiracShort"
-	public static final String DIRAC_BYTE_TYPE = LIB_PACK + ".DiracByte"
-	public static final String DIRAC_DOUBLE_TYPE = LIB_PACK + ".DiracDouble"
-	public static final String DIRAC_FLOAT_TYPE = LIB_PACK + ".DiracFloat"
+	public static final String DIRAC_TYPE = LIB_PACK + ".DiracDeltaFunctionType"
+	public static final String DIRAC_LONG_TYPE = LIB_PACK + ".DiracDeltaFunctionLong"
+	public static final String DIRAC_INT_TYPE = LIB_PACK + ".DiracDeltaFunctionInt"
+	public static final String DIRAC_SHORT_TYPE = LIB_PACK + ".DiracDeltaFunctionShort"
+	public static final String DIRAC_BYTE_TYPE = LIB_PACK + ".DiracDeltaFunctionByte"
+	public static final String DIRAC_DOUBLE_TYPE = LIB_PACK + ".DiracDeltaFunctionDouble"
+	public static final String DIRAC_FLOAT_TYPE = LIB_PACK + ".DiracDeltaFunctionFloat"
 	
 	def Class getStringClass(EObject ctx) {
 		return ctx.getClassFromFqn(STRING_TYPE)
@@ -211,7 +217,7 @@ class InternalTypeDcl {
 	}
 	
 	def Class getBinomialByteClass(EObject ctx) {
-		return ctx.getClassFromFqn(DIRAC_BYTE_TYPE)
+		return ctx.getClassFromFqn(BINOMIAL_BYTE_TYPE)
 	}
 	
 	def Class getLongArrayClass(EObject ctx) {
@@ -252,6 +258,56 @@ class InternalTypeDcl {
 	
 	def Class getNumericClass(EObject ctx) {
 		return ctx.getClassFromFqn(NUMERIC_TYPE)
+	}
+	
+	// Get distribution type
+	def dispatch Class getDistType(UTypeRef uType) {
+		throw new RuntimeException('''Not yet implemented for «uType»''')
+	}
+	
+	def dispatch Class getDistType(GaussianRef uType) {
+		return uType.gaussianDistClass
+	}
+	
+	def dispatch Class getDistType(RayleighRef uType) {
+		return uType.rayleighDistClass
+	}
+	
+	def dispatch Class getDistType(BinomialRef uType) {
+		return uType.binomialDistClass
+	}
+	
+	def dispatch Class getDistType(DiracRef uType) {
+		return uType.diracDistClass
+	}
+	
+	def dispatch Class getDistType(BernoulliRef uType) {
+		return uType.bernoulliDistClass
+	}
+	
+	// Get utype
+	def dispatch Class getUType(UTypeRef uType) {
+		throw new RuntimeException('''Not yet implemented for «uType»''')
+	}
+	
+	def dispatch Class getUType(GaussianRef uType) {
+		return uType.gaussianClass
+	}
+	
+	def dispatch Class getUType(RayleighRef uType) {
+		return uType.rayleighClass
+	}
+	
+	def dispatch Class getUType(BinomialRef uType) {
+		return uType.binomialClass
+	}
+	
+	def dispatch Class getUType(DiracRef uType) {
+		return uType.diracClass
+	}
+	
+	def dispatch Class getUType(BernoulliRef uType) {
+		return uType.bernoulliClass
 	}
 			
 }

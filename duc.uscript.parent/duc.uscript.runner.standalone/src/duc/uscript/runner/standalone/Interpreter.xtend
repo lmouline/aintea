@@ -16,6 +16,9 @@ import org.eclipse.xtext.diagnostics.Severity
 
 import static extension duc.uscript.execution.interpreter.ScriptAspect.*
 import java.io.PrintStream
+import duc.uscript.typing.InternalTypeDcl
+
+import static duc.uscript.UScriptLang.loadLib
 
 class Interpreter {
 	
@@ -23,9 +26,11 @@ class Interpreter {
 		val Injector injector = new UScriptStandaloneSetupGenerated().createInjectorAndDoEMFRegistration()
 		val ResourceSet rs = injector.getInstance(ResourceSet)
 		
+		loadLib(rs)
+		
 		val Resource resource = rs.createResource(URI.createFileURI(filePath))
 		resource.load(null)
-		
+
 		val IResourceValidator validator = injector.getInstance(IResourceValidator)
 		val List<Issue> issues = validator.validate(resource, CheckMode.ALL, CancelIndicator.NullImpl)
 		var parsingError = false
@@ -44,7 +49,7 @@ class Interpreter {
 		if(parsingError) {
 			return null
 		}
-		
+				
 		return resource.contents.get(0) as Script
 	}
 	

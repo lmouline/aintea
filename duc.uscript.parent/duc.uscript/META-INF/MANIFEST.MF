@@ -18,7 +18,6 @@ Require-Bundle: org.eclipse.xtext,
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: duc.uscript.serializer,
  duc.uscript.scoping,
- duc.uscript.generator,
  duc.uscript,
  duc.uscript.parser.antlr.internal,
  duc.uscript.uScript.impl,
@@ -28,5 +27,6 @@ Export-Package: duc.uscript.serializer,
  duc.uscript.services,
  duc.uscript.uScript.util,
  duc.uscript.typing,
- uscript.lang
+ uscript.lang,
+ duc.uscript.generator
 Import-Package: org.apache.log4j

@@ -5,7 +5,7 @@ import com.google.inject.Inject
 import org.eclipse.xtext.testing.util.ParseHelper
 import duc.uscript.uScript.Script
 import org.eclipse.xtext.testing.validation.ValidationTestHelper
-import duc.uscript.UScriptLang
+import static duc.uscript.UScriptLang.loadLib
 import org.eclipse.emf.ecore.resource.ResourceSet
 import com.google.inject.Provider
 import org.junit.jupiter.api.Test
@@ -17,7 +17,6 @@ import org.eclipse.xtext.testing.extensions.InjectionExtension
 class TestLib {
 	@Inject extension ParseHelper<Script>
 	@Inject extension ValidationTestHelper
-	@Inject	extension UScriptLang
 	@Inject Provider<ResourceSet> rsp
 
 	

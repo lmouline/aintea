@@ -41,45 +41,6 @@ class TypeConformance {
 		}
 		
 		return isCompatible;
-		
-	
-		
-		// Type equality
-//		if(left.name == right.name) {
-//			return true
-//		}
-		
-		// Hierarchy
-//		if(is(right, getFullQualifiedNamed(left))) {
-//			return true
-//		}
-		
-//		if(isGaussian(left) && isDirac(right)) {
-//			return false
-//		}
-//		
-//		if(isGaussian(right) && isDirac(left)) {
-//			return false
-//		}
-		
-		//Simplified
-//		if(isNumber(left) && isNumber(right)) {
-//			return true
-//		}
-		
-//		if(isBoolean(left) && isBoolean(right)) {
-//			return true
-//		}
-		
-//		if(isBoolean(left) && isNumber(right)) {
-//			return false;
-//		}
-		
-//		if(isBoolean(right) && isNumber(left)) {
-//			return false;
-//		}
-//		
-//		throw new RuntimeException('''Type conformance not defined for «left.name» and «right.name»''')
 	}
 	
 	
