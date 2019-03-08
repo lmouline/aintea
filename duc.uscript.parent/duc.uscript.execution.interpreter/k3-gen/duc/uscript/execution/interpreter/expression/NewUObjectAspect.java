@@ -3,6 +3,8 @@ package duc.uscript.execution.interpreter.expression;
 import com.google.common.collect.Iterables;
 import com.google.inject.Injector;
 import duc.uscript.UScriptStandaloneSetupGenerated;
+import duc.uscript.execution.BooleanValue;
+import duc.uscript.execution.DoubleValue;
 import duc.uscript.execution.ExecutionFactory;
 import duc.uscript.execution.FieldBinding;
 import duc.uscript.execution.ObjectInstance;
@@ -172,8 +174,17 @@ public class NewUObjectAspect extends ExpressionAspect {
   }
   
   protected static Value _privk3_createDistBool(final NewUObjectAspectNewUObjectAspectProperties _self_, final NewUObject _self, final State state, final InternalTypeDcl typeDcl, final TypeResolver typeResolver) {
-    final Value uValue = ExpressionAspect.evaluateExpression(_self.getArgs().get(0), state);
-    final Value probability = ExpressionAspect.evaluateExpression(_self.getArgs().get(1), state);
+    Value _evaluateExpression = ExpressionAspect.evaluateExpression(_self.getArgs().get(0), state);
+    final BooleanValue uValue = ((BooleanValue) _evaluateExpression);
+    Value _evaluateExpression_1 = ExpressionAspect.evaluateExpression(_self.getArgs().get(1), state);
+    final DoubleValue probability = ((DoubleValue) _evaluateExpression_1);
+    boolean _isValue = uValue.isValue();
+    boolean _not = (!_isValue);
+    if (_not) {
+      double _value = probability.getValue();
+      double _minus = (1 - _value);
+      probability.setValue(_minus);
+    }
     ObjectInstance _createObjectInstance = ExecutionFactory.eINSTANCE.createObjectInstance();
     final Procedure1<ObjectInstance> _function = (ObjectInstance it) -> {
       it.setType(typeDcl.getDistType(_self.getType()));

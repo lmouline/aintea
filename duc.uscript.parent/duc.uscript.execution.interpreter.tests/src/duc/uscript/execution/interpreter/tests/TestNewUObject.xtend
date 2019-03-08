@@ -87,14 +87,17 @@ class TestNewUObject {
 			import uscript.lang.*
 			
 			void main() {
-				Bernoulli<bool> g = new Bernoulli<bool>(true, 0.5);
+				Bernoulli<bool> g = new Bernoulli<bool>(true, 0.6);
+				Bernoulli<bool> g1 = new Bernoulli<bool>(false, 0.6);
 				print(g);
+				print(g1);
 			}
 		'''.parse(resourceSet)
 		
 		script.initialize(MOCK_OUT)
 		val state = script.execute
-		val expected = '''BernoulliBool(confidence:BernoulliDist(probability:0.5), value:true)'''
-		assertArrayEquals(#[expected],state.outputStream.stream.toArray)
+		val expected1 = '''BernoulliBool(confidence:BernoulliDist(probability:0.6), value:true)'''
+		val expected2 = '''BernoulliBool(confidence:BernoulliDist(probability:0.4), value:false)'''
+		assertArrayEquals(#[expected1, expected2],state.outputStream.stream.toArray)
 	}
 }

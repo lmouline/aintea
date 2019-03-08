@@ -96,4 +96,38 @@ The following table the mapping between distributions and data type.
 | **long**|| |  &#10003;| &#10003; ||
 | **boolean**|| |  |  |&#10003;|
 
+```
+package basics
+
+void main() {
+    Bernoulli<bool> b = new Bernoulli<bool>(true, 0.5);
+
+    Gaussian<float> gf = new Gaussian<float>(0.5, 0.8);
+    Gaussian<double> gd = new Gaussian<double>(0.5, 0.8);
+
+    Rayleigh<float> rf = new Rayleigh<float>(0.5, 0.8);
+    Rayleigh<double> rd = new Rayleigh<double>(0.5, 0.8);
+
+    Binomial<byte> bb = new Binomial<byte>(9, 5);
+    Binomial<short> bs = new Binomial<short>(9, 5);
+    Binomial<int> bi = new Binomial<int>(9, 5);
+    Binomial<long> bl = new Binomial<long>(9, 5);
+
+    DiracDeltaFct<float> df = new DiracDeltaFct<float>(0.5, 0.8);
+    DiracDeltaFct<double> dd = new DiracDeltaFct<double>(0.5, 0.8);
+    DiracDeltaFct<byte> db = new DiracDeltaFct<byte>(9, 5);
+    DiracDeltaFct<short> ds = new DiracDeltaFct<short>(9, 5);
+    DiracDeltaFct<int> di = new DiracDeltaFct<int>(9, 5);
+    DiracDeltaFct<long> dl = new DiracDeltaFct<long>(9, 5);
+}
+```
+
+On these new data types, we can apply usual operators as on certian types:
+  - arithmetic operators on uncertain numeric (Gaussian, Rayleigh, Binomial, Dirac)
+  - boolean operator on uncertain boolean (Bernoulli)
+
+
+
+
+
 

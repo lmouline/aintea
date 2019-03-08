@@ -11,15 +11,14 @@ import duc.uscript.uScript.BinomialRef
 import duc.uscript.uScript.DiracRef
 import duc.uscript.execution.ExecutionFactory
 import duc.uscript.uScript.Field
-import javax.inject.Inject
 import duc.uscript.typing.InternalTypeDcl
-import com.google.inject.Guice
 import com.google.inject.Injector
 import duc.uscript.UScriptStandaloneSetupGenerated
 import static extension duc.uscript.execution.interpreter.modelstate.ValueAspect.*
-import duc.uscript.uScript.DoubleTypeRef
 import duc.uscript.typing.TypeResolver
 import duc.uscript.uScript.BernoulliRef
+import duc.uscript.execution.BooleanValue
+import duc.uscript.execution.DoubleValue
 
 @Aspect(className=NewUObject)
 class NewUObjectAspect extends ExpressionAspect{
@@ -80,8 +79,12 @@ class NewUObjectAspect extends ExpressionAspect{
 	}
 		
 	private def static Value createDistBool(State state, InternalTypeDcl typeDcl, TypeResolver typeResolver) {
-		val uValue = _self.args.get(0).evaluateExpression(state)
-		val probability = _self.args.get(1).evaluateExpression(state)
+		val uValue = _self.args.get(0).evaluateExpression(state) as BooleanValue
+		val probability = _self.args.get(1).evaluateExpression(state) as DoubleValue
+		
+		if(!uValue.value) {
+			probability.value = 1 - probability.value
+		}
 				
 		val dist = ExecutionFactory::eINSTANCE.createObjectInstance => [
 			type = typeDcl.getDistType(_self.type)

@@ -11,15 +11,18 @@ import duc.uscript.uScript.Script
 import org.junit.jupiter.api.Test
 import java.io.OutputStream
 import duc.uscript.execution.State
+import static duc.uscript.UScriptLang.loadLib
 
 import static extension duc.uscript.execution.interpreter.ScriptAspect.*
 import static org.junit.jupiter.api.Assertions.assertArrayEquals
-
+import com.google.inject.Provider
+import org.eclipse.emf.ecore.resource.ResourceSet
 
 @ExtendWith(InjectionExtension)
 @InjectWith(UScriptInjectorProvider)
 class TestBoolExpression {
 	@Inject extension ParseHelper<Script>
+	@Inject Provider<ResourceSet> rsp
 	
 	val OutputStream DEFAULT_OUT = new MockOutputStream()
 	
@@ -78,5 +81,33 @@ class TestBoolExpression {
 		script.initialize(DEFAULT_OUT)
 		val State state = script.execute
 		assertArrayEquals(#["false", "true"], state.outputStream.stream.toArray)
+	}
+	
+	@Test
+	def void testuAnd() {
+		val resourceSet = rsp.get 
+		loadLib(resourceSet) 
+		
+		val script = '''
+		package test
+		
+		import uscript.lang.*
+		
+		void main() {
+			  Bernoulli<bool> b1 = new Bernoulli<bool>(true, 0.6);
+			  Bernoulli<bool> b2 = new Bernoulli<bool>(false, 0.7);
+			
+			  Bernoulli<bool> b3 = b1 && b2;
+			  Bernoulli<bool> b4 = b1 || b2;
+			  Bernoulli<bool> b5 = !b1;
+			  			
+			  print(b3);
+			  print(b4);
+			  print(b5);
+		}
+		'''.parse(resourceSet)
+		
+		script.initialize(System.out)
+		val State state = script.execute
 	}
 }

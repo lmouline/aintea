@@ -1,0 +1,16 @@
+package basics
+
+import uscript.lang.*
+
+void main() {
+  Bernoulli<bool> b1 = new Bernoulli<bool>(true, 0.6);
+  Bernoulli<bool> b2 = new Bernoulli<bool>(false, 0.7);
+
+  Bernoulli<bool> b3 = b1 && b2;
+  Bernoulli<bool> b4 = b1 || b2;
+  Bernoulli<bool> b5 = !b1;
+
+  print(b3);
+  print(b4);
+  print(b5);
+}
