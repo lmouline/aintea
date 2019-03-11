@@ -9,11 +9,6 @@ import duc.uscript.execution.BooleanValue
 import duc.uscript.execution.ExecutionFactory
 import duc.uscript.uScript.Not
 import duc.uscript.execution.ObjectRefValue
-import duc.uscript.execution.DoubleValue
-import com.google.inject.Injector
-import duc.uscript.UScriptStandaloneSetupGenerated
-import duc.uscript.typing.InternalTypeDcl
-import duc.uscript.uScript.Field
 import static duc.uscript.execution.interpreter.utils.BernoulliBoolUtils.*
 
 @Aspect(className=Not)
