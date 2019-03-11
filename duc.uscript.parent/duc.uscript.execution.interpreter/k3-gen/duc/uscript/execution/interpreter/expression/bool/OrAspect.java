@@ -30,14 +30,14 @@ public class OrAspect extends ExpressionAspect {
     return (duc.uscript.execution.Value)result;
   }
   
-  private static BooleanValue rightDispatch(final Or _self, final BooleanValue left, final Value right) {
+  private static Value rightDispatch(final Or _self, final BooleanValue left, final Value right, final State state) {
     final duc.uscript.execution.interpreter.expression.bool.OrAspectOrAspectProperties _self_ = duc.uscript.execution.interpreter.expression.bool.OrAspectOrAspectContext.getSelf(_self);
     Object result = null;
-    // #DispatchPointCut_before# BooleanValue rightDispatch(BooleanValue,Value)
+    // #DispatchPointCut_before# Value rightDispatch(BooleanValue,Value,State)
     if (_self instanceof duc.uscript.uScript.Or){
-    	result = duc.uscript.execution.interpreter.expression.bool.OrAspect._privk3_rightDispatch(_self_, (duc.uscript.uScript.Or)_self,left,right);
+    	result = duc.uscript.execution.interpreter.expression.bool.OrAspect._privk3_rightDispatch(_self_, (duc.uscript.uScript.Or)_self,left,right,state);
     };
-    return (duc.uscript.execution.BooleanValue)result;
+    return (duc.uscript.execution.Value)result;
   }
   
   private static ObjectRefValue rightDispatch(final Or _self, final ObjectRefValue left, final Value right, final State state) {
@@ -70,6 +70,26 @@ public class OrAspect extends ExpressionAspect {
     return (duc.uscript.execution.ObjectRefValue)result;
   }
   
+  private static ObjectRefValue private_or(final Or _self, final ObjectRefValue x, final BooleanValue y, final State state) {
+    final duc.uscript.execution.interpreter.expression.bool.OrAspectOrAspectProperties _self_ = duc.uscript.execution.interpreter.expression.bool.OrAspectOrAspectContext.getSelf(_self);
+    Object result = null;
+    // #DispatchPointCut_before# ObjectRefValue private_or(ObjectRefValue,BooleanValue,State)
+    if (_self instanceof duc.uscript.uScript.Or){
+    	result = duc.uscript.execution.interpreter.expression.bool.OrAspect._privk3_private_or(_self_, (duc.uscript.uScript.Or)_self,x,y,state);
+    };
+    return (duc.uscript.execution.ObjectRefValue)result;
+  }
+  
+  private static ObjectRefValue indepNonDisjoint(final Or _self, final State state, final DoubleValue probX, final DoubleValue probY, final BooleanValue valX, final BooleanValue valY) {
+    final duc.uscript.execution.interpreter.expression.bool.OrAspectOrAspectProperties _self_ = duc.uscript.execution.interpreter.expression.bool.OrAspectOrAspectContext.getSelf(_self);
+    Object result = null;
+    // #DispatchPointCut_before# ObjectRefValue indepNonDisjoint(State,DoubleValue,DoubleValue,BooleanValue,BooleanValue)
+    if (_self instanceof duc.uscript.uScript.Or){
+    	result = duc.uscript.execution.interpreter.expression.bool.OrAspect._privk3_indepNonDisjoint(_self_, (duc.uscript.uScript.Or)_self,state,probX,probY,valX,valY);
+    };
+    return (duc.uscript.execution.ObjectRefValue)result;
+  }
+  
   private static Value super_evaluateExpression(final Or _self, final State state) {
     final duc.uscript.execution.interpreter.expression.ExpressionAspectExpressionAspectProperties _self_ = duc.uscript.execution.interpreter.expression.ExpressionAspectExpressionAspectContext.getSelf(_self);
     return  duc.uscript.execution.interpreter.expression.ExpressionAspect._privk3_evaluateExpression(_self_, _self,state);
@@ -82,7 +102,7 @@ public class OrAspect extends ExpressionAspect {
     boolean _matched = false;
     if (left instanceof BooleanValue) {
       _matched=true;
-      _switchResult = OrAspect.rightDispatch(_self, ((BooleanValue)left), right);
+      _switchResult = OrAspect.rightDispatch(_self, ((BooleanValue)left), right, state);
     }
     if (!_matched) {
       if (left instanceof ObjectRefValue) {
@@ -98,12 +118,18 @@ public class OrAspect extends ExpressionAspect {
     return _switchResult;
   }
   
-  protected static BooleanValue _privk3_rightDispatch(final OrAspectOrAspectProperties _self_, final Or _self, final BooleanValue left, final Value right) {
-    BooleanValue _switchResult = null;
+  protected static Value _privk3_rightDispatch(final OrAspectOrAspectProperties _self_, final Or _self, final BooleanValue left, final Value right, final State state) {
+    Value _switchResult = null;
     boolean _matched = false;
     if (right instanceof BooleanValue) {
       _matched=true;
       _switchResult = OrAspect.private_or(_self, left, ((BooleanValue)right));
+    }
+    if (!_matched) {
+      if (right instanceof ObjectRefValue) {
+        _matched=true;
+        _switchResult = OrAspect.private_or(_self, ((ObjectRefValue)right), left, state);
+      }
     }
     if (!_matched) {
       String _name = right.getClass().getName();
@@ -116,9 +142,15 @@ public class OrAspect extends ExpressionAspect {
   protected static ObjectRefValue _privk3_rightDispatch(final OrAspectOrAspectProperties _self_, final Or _self, final ObjectRefValue left, final Value right, final State state) {
     ObjectRefValue _switchResult = null;
     boolean _matched = false;
-    if (right instanceof ObjectRefValue) {
+    if (right instanceof BooleanValue) {
       _matched=true;
-      _switchResult = OrAspect.private_or(_self, left, ((ObjectRefValue)right), state);
+      _switchResult = OrAspect.private_or(_self, left, ((BooleanValue)right), state);
+    }
+    if (!_matched) {
+      if (right instanceof ObjectRefValue) {
+        _matched=true;
+        _switchResult = OrAspect.private_or(_self, left, ((ObjectRefValue)right), state);
+      }
     }
     if (!_matched) {
       String _name = right.getClass().getName();
@@ -141,6 +173,28 @@ public class OrAspect extends ExpressionAspect {
     final BooleanValue valY = BernoulliBoolUtils.getValue(y);
     final DoubleValue probX = BernoulliBoolUtils.getProbability(x);
     final DoubleValue probY = BernoulliBoolUtils.getProbability(y);
+    return OrAspect.indepNonDisjoint(_self, state, probX, probY, valX, valY);
+  }
+  
+  protected static ObjectRefValue _privk3_private_or(final OrAspectOrAspectProperties _self_, final Or _self, final ObjectRefValue x, final BooleanValue y, final State state) {
+    final BooleanValue valX = BernoulliBoolUtils.getValue(x);
+    final DoubleValue probX = BernoulliBoolUtils.getProbability(x);
+    DoubleValue _createDoubleValue = ExecutionFactory.eINSTANCE.createDoubleValue();
+    final Procedure1<DoubleValue> _function = (DoubleValue it) -> {
+      int _xifexpression = (int) 0;
+      boolean _isValue = y.isValue();
+      if (_isValue) {
+        _xifexpression = 1;
+      } else {
+        _xifexpression = 0;
+      }
+      it.setValue(_xifexpression);
+    };
+    final DoubleValue probY = ObjectExtensions.<DoubleValue>operator_doubleArrow(_createDoubleValue, _function);
+    return OrAspect.indepNonDisjoint(_self, state, probX, probY, valX, y);
+  }
+  
+  protected static ObjectRefValue _privk3_indepNonDisjoint(final OrAspectOrAspectProperties _self_, final Or _self, final State state, final DoubleValue probX, final DoubleValue probY, final BooleanValue valX, final BooleanValue valY) {
     double _value = probX.getValue();
     double _value_1 = probY.getValue();
     double _plus = (_value + _value_1);

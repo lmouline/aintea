@@ -19,6 +19,7 @@ import duc.uscript.typing.TypeResolver
 import duc.uscript.uScript.BernoulliRef
 import duc.uscript.execution.BooleanValue
 import duc.uscript.execution.DoubleValue
+import static duc.uscript.execution.interpreter.utils.BernoulliBoolUtils.createBernoulliBool
 
 @Aspect(className=NewUObject)
 class NewUObjectAspect extends ExpressionAspect{
@@ -86,33 +87,7 @@ class NewUObjectAspect extends ExpressionAspect{
 			probability.value = 1 - probability.value
 		}
 				
-		val dist = ExecutionFactory::eINSTANCE.createObjectInstance => [
-			type = typeDcl.getDistType(_self.type)
-		]
-		dist.fieldbindings.add(ExecutionFactory::eINSTANCE.createFieldBinding => [
-			field = dist.type.members.filter(Field).get(0)
-			value = probability
-		])
-		state.objectsHeap.add(dist)
-		
-		val refDist = ExecutionFactory::eINSTANCE.createObjectRefValue => [
-			instance = dist
-		]
-		
-		val finalType = typeResolver.type(_self.type)
-		val result = ExecutionFactory::eINSTANCE.createObjectInstance => [
-			type = finalType
-		]
-		
-		result.fieldbindings.add(ExecutionFactory::eINSTANCE.createFieldBinding => [
-			field = typeDcl.getUType(_self.type).members.filter(Field).get(0)
-			value = refDist
-		])
-		result.fieldbindings.add(ExecutionFactory::eINSTANCE.createFieldBinding => [
-			field = finalType.members.filter(Field).get(0)
-			value = uValue
-		])
-		state.objectsHeap.add(result)
+		val result = createBernoulliBool(state, probability.value, uValue.value, _self)
 		
 		return ExecutionFactory::eINSTANCE.createObjectRefValue => [instance = result]
 	}

@@ -10,6 +10,7 @@ import duc.uscript.execution.BooleanValue
 import duc.uscript.execution.ExecutionFactory
 import duc.uscript.execution.ObjectRefValue
 import static duc.uscript.execution.interpreter.utils.BernoulliBoolUtils.*
+import duc.uscript.execution.DoubleValue
 
 @Aspect(className=And)
 class AndAspect extends ExpressionAspect{
@@ -21,23 +22,24 @@ class AndAspect extends ExpressionAspect{
 		
 		//Left dispatch		
 		return switch(left) {
-			BooleanValue: rightDispatch(_self, left, right)
+			BooleanValue: rightDispatch(_self, left, right, state)
 			ObjectRefValue: rightDispatch(_self, left, right, state)
 			default: throw new RuntimeException("Not yet implemented for " + left.class.name)
 		}
 	}
 	
 	//Right dispatch
-	private static def BooleanValue rightDispatch(BooleanValue left, Value right) {
+	private static def Value rightDispatch(BooleanValue left, Value right, State state) {
 		return switch(right) {
 			BooleanValue: private_and(_self, left, right)
+			ObjectRefValue: private_and(_self, right, left, state)
 			default: throw new RuntimeException("Not yet implemented for " + right.class.name)
 		}
 	}
 	
-	//Bernoulli<bool>
 	private static def ObjectRefValue rightDispatch(ObjectRefValue left, Value right, State state) {
 		return switch(right) {
+			BooleanValue: private_and(_self, left, right, state)
 			ObjectRefValue: private_and(_self, left, right, state)
 			default: throw new RuntimeException("Not yet implemented for " + right.class.name)
 		}
@@ -57,11 +59,33 @@ class AndAspect extends ExpressionAspect{
 		val probX = getProbability(x)
 		val probY = getProbability(y)
 								 
+		return indepNonDisjoint(_self, state, probX, probY, valX, valY)
+	}
+	
+	private static def ObjectRefValue private_and(ObjectRefValue x, BooleanValue y, State state) {
+		val valX = getValue(x)
+		
+		val probX = getProbability(x)
+		val probY = ExecutionFactory::eINSTANCE.createDoubleValue => [
+			value = if(y.value) {
+						1
+					} else {
+						0
+					}
+		]
+								 
+		return indepNonDisjoint(_self, state, probX, probY, valX, y)
+	}
+	
+	// All possible way to propagate uncertainty
+	private static def ObjectRefValue indepNonDisjoint(State state, DoubleValue probX, DoubleValue probY, 
+																BooleanValue valX, BooleanValue valY)
+	{
 		val result = createBernoulliBool(state, 
 									     probX.value * probY.value, 
 									     valX.value && valY.value, 
 									     _self)
-						 		
+		
 		return ExecutionFactory::eINSTANCE.createObjectRefValue => [instance = result]
 	}
 }

@@ -83,7 +83,7 @@ class TestBoolExpression {
 		assertArrayEquals(#["false", "true"], state.outputStream.stream.toArray)
 	}
 	
-	def void genericUOp(String op, double[] coeff, double[] expected, boolean[] expectedBool) {
+	def void genericUOp(String op, double[] coeff, double[] expected1, double[] expected2, boolean[] expectedBool) {
 		val resourceSet = rsp.get 
 		loadLib(resourceSet) 
 		
@@ -102,35 +102,73 @@ class TestBoolExpression {
 			  Bernoulli<bool> trueFalse = true1 «op» false1;
 			  Bernoulli<bool> falseTrue = false1 «op» true1;
 			  Bernoulli<bool> falseFalse = false1 «op» false2;
+			  
+			  Bernoulli<bool> trueTrue1 = true1 «op» true;
+			  Bernoulli<bool> trueFalse1 = true1 «op» false;
+			  Bernoulli<bool> falseTrue1 = false1 «op» true;
+			  Bernoulli<bool> falseFalse1 = false1 «op» false;
+			  
+			  Bernoulli<bool> trueTrue2 = true «op» true1;
+			  Bernoulli<bool> trueFalse2 = false «op» true1;
+			  Bernoulli<bool> falseTrue2 = true «op» false1;
+			  Bernoulli<bool> falseFalse2 = false «op» false1;
 			 			  			
 			  print(trueTrue);
 			  print(trueFalse);
 			  print(falseTrue);
 			  print(falseFalse);
+			  
+			  print(trueTrue1);
+			  print(trueFalse1);
+			  print(falseTrue1);
+			  print(falseFalse1);
+			  
+			  print(trueTrue2);
+			  print(trueFalse2);
+			  print(falseTrue2);
+			  print(falseFalse2);
 		}
 		'''.parse(resourceSet)
 		
 		script.initialize(DEFAULT_OUT)
 		val State state = script.execute
 		
-		val String trueTrue = '''BernoulliBool(confidence:BernoulliDist(probability:«expected.get(0)»), value:«expectedBool.get(0)»)'''
-		val String trueFalse = '''BernoulliBool(confidence:BernoulliDist(probability:«expected.get(1)»), value:«expectedBool.get(1)»)'''
-		val String falseTrue = '''BernoulliBool(confidence:BernoulliDist(probability:«expected.get(2)»), value:«expectedBool.get(2)»)'''
-		val String falseFalse = '''BernoulliBool(confidence:BernoulliDist(probability:«expected.get(3)»), value:«expectedBool.get(3)»)'''
+		val String trueTrue = '''BernoulliBool(confidence:BernoulliDist(probability:«expected1.get(0)»), value:«expectedBool.get(0)»)'''
+		val String trueFalse = '''BernoulliBool(confidence:BernoulliDist(probability:«expected1.get(1)»), value:«expectedBool.get(1)»)'''
+		val String falseTrue = '''BernoulliBool(confidence:BernoulliDist(probability:«expected1.get(2)»), value:«expectedBool.get(2)»)'''
+		val String falseFalse = '''BernoulliBool(confidence:BernoulliDist(probability:«expected1.get(3)»), value:«expectedBool.get(3)»)'''
 		
-		assertArrayEquals(#[trueTrue, trueFalse, falseTrue, falseFalse], state.outputStream.stream.toArray)
+		val String trueTrue1 = '''BernoulliBool(confidence:BernoulliDist(probability:«expected2.get(0)»), value:«expectedBool.get(0)»)'''
+		val String trueFalse1 = '''BernoulliBool(confidence:BernoulliDist(probability:«expected2.get(1)»), value:«expectedBool.get(1)»)'''
+		val String falseTrue1 = '''BernoulliBool(confidence:BernoulliDist(probability:«expected2.get(2)»), value:«expectedBool.get(2)»)'''
+		val String falseFalse1 = '''BernoulliBool(confidence:BernoulliDist(probability:«expected2.get(3)»), value:«expectedBool.get(3)»)'''
+		
+		assertArrayEquals(#[trueTrue, trueFalse, falseTrue, falseFalse,
+							trueTrue1, trueFalse1, falseTrue1, falseFalse1,
+							trueTrue1, trueFalse1, falseTrue1, falseFalse1],
+						  state.outputStream.stream.toArray)
 	}
 	
 	@Test
 	def void testuAnd() {
 		val expectedBool = #[true, false, false, false]
-		genericUOp("&&", #[0.6, 0.7, 0.4, 0.5], #[0.42, 0.36, 0.36, 0.3], expectedBool)
+		genericUOp("&&", 
+				   #[0.6, 0.7, 0.4, 0.5], 
+				   #[0.42, 0.36, 0.36, 0.3], 
+				   #[0.6, 0.0, 0.6, 0.0],
+				   expectedBool
+		)
 	}
 	
 	@Test
 	def void testuOr() {
 		val expectedBool = #[true, true, true, false]
-		genericUOp("||", #[0.6, 0.7, 0.4, 0.5], #[0.8799999999999999, 0.84, 0.84, 0.8], expectedBool)
+		genericUOp("||", 
+				   #[0.6, 0.7, 0.4, 0.5], 
+				   #[0.8799999999999999, 0.84, 0.84, 0.8], 
+				   #[1, 0.6, 1.0, 0.6], 
+				   expectedBool
+		)
 	}
 	
 	@Test

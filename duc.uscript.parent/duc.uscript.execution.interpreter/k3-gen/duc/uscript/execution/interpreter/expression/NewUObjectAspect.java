@@ -14,6 +14,7 @@ import duc.uscript.execution.Value;
 import duc.uscript.execution.interpreter.expression.ExpressionAspect;
 import duc.uscript.execution.interpreter.expression.NewUObjectAspectNewUObjectAspectProperties;
 import duc.uscript.execution.interpreter.modelstate.ValueAspect;
+import duc.uscript.execution.interpreter.utils.BernoulliBoolUtils;
 import duc.uscript.typing.InternalTypeDcl;
 import duc.uscript.typing.TypeResolver;
 import duc.uscript.uScript.BernoulliRef;
@@ -185,52 +186,11 @@ public class NewUObjectAspect extends ExpressionAspect {
       double _minus = (1 - _value);
       probability.setValue(_minus);
     }
-    ObjectInstance _createObjectInstance = ExecutionFactory.eINSTANCE.createObjectInstance();
-    final Procedure1<ObjectInstance> _function = (ObjectInstance it) -> {
-      it.setType(typeDcl.getDistType(_self.getType()));
-    };
-    final ObjectInstance dist = ObjectExtensions.<ObjectInstance>operator_doubleArrow(_createObjectInstance, _function);
-    EList<FieldBinding> _fieldbindings = dist.getFieldbindings();
-    FieldBinding _createFieldBinding = ExecutionFactory.eINSTANCE.createFieldBinding();
-    final Procedure1<FieldBinding> _function_1 = (FieldBinding it) -> {
-      it.setField(((Field[])Conversions.unwrapArray(Iterables.<Field>filter(dist.getType().getMembers(), Field.class), Field.class))[0]);
-      it.setValue(probability);
-    };
-    FieldBinding _doubleArrow = ObjectExtensions.<FieldBinding>operator_doubleArrow(_createFieldBinding, _function_1);
-    _fieldbindings.add(_doubleArrow);
-    state.getObjectsHeap().add(dist);
+    final ObjectInstance result = BernoulliBoolUtils.createBernoulliBool(state, probability.getValue(), uValue.isValue(), _self);
     ObjectRefValue _createObjectRefValue = ExecutionFactory.eINSTANCE.createObjectRefValue();
-    final Procedure1<ObjectRefValue> _function_2 = (ObjectRefValue it) -> {
-      it.setInstance(dist);
-    };
-    final ObjectRefValue refDist = ObjectExtensions.<ObjectRefValue>operator_doubleArrow(_createObjectRefValue, _function_2);
-    final duc.uscript.uScript.Class finalType = typeResolver.type(_self.getType());
-    ObjectInstance _createObjectInstance_1 = ExecutionFactory.eINSTANCE.createObjectInstance();
-    final Procedure1<ObjectInstance> _function_3 = (ObjectInstance it) -> {
-      it.setType(finalType);
-    };
-    final ObjectInstance result = ObjectExtensions.<ObjectInstance>operator_doubleArrow(_createObjectInstance_1, _function_3);
-    EList<FieldBinding> _fieldbindings_1 = result.getFieldbindings();
-    FieldBinding _createFieldBinding_1 = ExecutionFactory.eINSTANCE.createFieldBinding();
-    final Procedure1<FieldBinding> _function_4 = (FieldBinding it) -> {
-      it.setField(((Field[])Conversions.unwrapArray(Iterables.<Field>filter(typeDcl.getUType(_self.getType()).getMembers(), Field.class), Field.class))[0]);
-      it.setValue(refDist);
-    };
-    FieldBinding _doubleArrow_1 = ObjectExtensions.<FieldBinding>operator_doubleArrow(_createFieldBinding_1, _function_4);
-    _fieldbindings_1.add(_doubleArrow_1);
-    EList<FieldBinding> _fieldbindings_2 = result.getFieldbindings();
-    FieldBinding _createFieldBinding_2 = ExecutionFactory.eINSTANCE.createFieldBinding();
-    final Procedure1<FieldBinding> _function_5 = (FieldBinding it) -> {
-      it.setField(((Field[])Conversions.unwrapArray(Iterables.<Field>filter(finalType.getMembers(), Field.class), Field.class))[0]);
-      it.setValue(uValue);
-    };
-    FieldBinding _doubleArrow_2 = ObjectExtensions.<FieldBinding>operator_doubleArrow(_createFieldBinding_2, _function_5);
-    _fieldbindings_2.add(_doubleArrow_2);
-    state.getObjectsHeap().add(result);
-    ObjectRefValue _createObjectRefValue_1 = ExecutionFactory.eINSTANCE.createObjectRefValue();
-    final Procedure1<ObjectRefValue> _function_6 = (ObjectRefValue it) -> {
+    final Procedure1<ObjectRefValue> _function = (ObjectRefValue it) -> {
       it.setInstance(result);
     };
-    return ObjectExtensions.<ObjectRefValue>operator_doubleArrow(_createObjectRefValue_1, _function_6);
+    return ObjectExtensions.<ObjectRefValue>operator_doubleArrow(_createObjectRefValue, _function);
   }
 }
