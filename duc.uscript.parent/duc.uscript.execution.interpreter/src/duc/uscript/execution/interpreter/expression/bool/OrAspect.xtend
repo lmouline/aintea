@@ -9,11 +9,7 @@ import duc.uscript.execution.BooleanValue
 import duc.uscript.execution.ExecutionFactory
 import duc.uscript.uScript.Or
 import duc.uscript.execution.ObjectRefValue
-import duc.uscript.execution.DoubleValue
-import com.google.inject.Injector
-import duc.uscript.UScriptStandaloneSetupGenerated
-import duc.uscript.typing.InternalTypeDcl
-import duc.uscript.uScript.Field
+import static duc.uscript.execution.interpreter.utils.BernoulliBoolUtils.*
 
 @Aspect(className=Or)
 class OrAspect extends ExpressionAspect{
@@ -55,63 +51,16 @@ class OrAspect extends ExpressionAspect{
 	}
 	
 	private static def ObjectRefValue private_or(ObjectRefValue x, ObjectRefValue y, State state) {
-		val fieldBdgX = x.instance.fieldbindings
-		val fieldBdgY = y.instance.fieldbindings
+		val valX = getValue(x)
+		val valY = getValue(y)
 		
-		val valX = fieldBdgX.findFirst[field.name == "value"]
-							.value as BooleanValue
-		val valY = fieldBdgY.findFirst[field.name == "value"]
-		                    .value as BooleanValue
-		
-		val confX = fieldBdgX.findFirst[field.name == "confidence"]
-							 .value as ObjectRefValue
-		val probX = confX.instance
-						 .fieldbindings
-						 .findFirst[field.name == "probability"]
-						 .value as DoubleValue
-						 
-		val confY = fieldBdgY.findFirst[field.name == "confidence"]
-							 .value as ObjectRefValue
-		val probY = confY.instance
-						 .fieldbindings
-						 .findFirst[field.name == "probability"]
-						 .value as DoubleValue
-						 
-		val Injector injector = new UScriptStandaloneSetupGenerated().createInjector()
-		
-		val internalTypeDcl = injector.getInstance(InternalTypeDcl)
-									 			
-		val dist = ExecutionFactory::eINSTANCE.createObjectInstance => [
-			type = internalTypeDcl.getBernoulliDistClass(_self)
-		]
-		dist.fieldbindings.add(ExecutionFactory::eINSTANCE.createFieldBinding => [
-			field = dist.type.members.filter(Field).get(0)
-			value = ExecutionFactory::eINSTANCE.createDoubleValue => [
-				value = probX.value + probY.value - (probX.value * probY.value)
-			]
-		])
-		state.objectsHeap.add(dist)
-		
-		val refDist = ExecutionFactory::eINSTANCE.createObjectRefValue => [
-			instance = dist
-		]
-		
-		val finalType = internalTypeDcl.getBernoulliBoolClass(_self)
-		val result = ExecutionFactory::eINSTANCE.createObjectInstance => [
-			type = finalType
-		]
-		
-		result.fieldbindings.add(ExecutionFactory::eINSTANCE.createFieldBinding => [
-			field = internalTypeDcl.getBernoulliClass(_self).members.filter(Field).get(0)
-			value = refDist
-		])
-		result.fieldbindings.add(ExecutionFactory::eINSTANCE.createFieldBinding => [
-			field = finalType.members.filter(Field).get(0)
-			value = ExecutionFactory::eINSTANCE.createBooleanValue => [
-				value = valX.value || valY.value
-			]
-		])
-		state.objectsHeap.add(result)
+		val probX = getProbability(x)
+		val probY = getProbability(y)
+								 
+		val result = createBernoulliBool(state, 
+										 probX.value + probY.value - (probX.value * probY.value), 
+										 valX.value || valY.value, 
+										 _self)
 		
 		return ExecutionFactory::eINSTANCE.createObjectRefValue => [instance = result]
 	}

@@ -110,7 +110,7 @@ class TestBoolExpression {
 		}
 		'''.parse(resourceSet)
 		
-		script.initialize(System.out)
+		script.initialize(DEFAULT_OUT)
 		val State state = script.execute
 		
 		val String trueTrue = '''BernoulliBool(confidence:BernoulliDist(probability:«expected.get(0)»), value:«expectedBool.get(0)»)'''
