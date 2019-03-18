@@ -14,8 +14,8 @@ import duc.uscript.execution.Value;
 import duc.uscript.execution.interpreter.expression.ExpressionAspect;
 import duc.uscript.execution.interpreter.expression.arithmetic.MultiplicationAspectMultiplicationAspectProperties;
 import duc.uscript.execution.interpreter.utils.GaussianDoubleUtils;
-import duc.uscript.execution.interpreter.utils.SymbolSet;
 import duc.uscript.uScript.Multiplication;
+import duc.uscript.utils.SymbolSet;
 import fr.inria.diverse.k3.al.annotationprocessor.Aspect;
 import fr.inria.diverse.k3.al.annotationprocessor.OverrideAspectMethod;
 import org.eclipse.xtext.xbase.lib.ObjectExtensions;
@@ -333,7 +333,7 @@ public class MultiplicationAspect extends ExpressionAspect {
     if (_self instanceof duc.uscript.uScript.Multiplication){
     	result = duc.uscript.execution.interpreter.expression.arithmetic.MultiplicationAspect._privk3_findDependentVariables(_self_, (duc.uscript.uScript.Multiplication)_self,state);
     };
-    return (duc.uscript.execution.interpreter.utils.SymbolSet)result;
+    return (duc.uscript.utils.SymbolSet)result;
   }
   
   private static Value super_evaluateExpression(final Multiplication _self, final State state) {

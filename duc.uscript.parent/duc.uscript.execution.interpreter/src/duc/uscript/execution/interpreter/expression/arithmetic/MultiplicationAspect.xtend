@@ -15,7 +15,7 @@ import duc.uscript.execution.DoubleValue
 import duc.uscript.uScript.Multiplication
 import duc.uscript.execution.ObjectRefValue
 import duc.uscript.execution.interpreter.utils.GaussianDoubleUtils
-import duc.uscript.execution.interpreter.utils.SymbolSet
+import duc.uscript.utils.SymbolSet
 
 @Aspect(className=Multiplication)
 class MultiplicationAspect extends ExpressionAspect {

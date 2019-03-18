@@ -6,8 +6,8 @@ import duc.uscript.execution.State;
 import duc.uscript.execution.Value;
 import duc.uscript.execution.interpreter.expression.ExpressionAspect;
 import duc.uscript.execution.interpreter.expression.constants.LongConstantAspectLongConstantAspectProperties;
-import duc.uscript.execution.interpreter.utils.SymbolSet;
 import duc.uscript.uScript.LongConstant;
+import duc.uscript.utils.SymbolSet;
 import fr.inria.diverse.k3.al.annotationprocessor.Aspect;
 import fr.inria.diverse.k3.al.annotationprocessor.OverrideAspectMethod;
 import org.eclipse.xtext.xbase.lib.ObjectExtensions;
@@ -35,7 +35,7 @@ public class LongConstantAspect extends ExpressionAspect {
     if (_self instanceof duc.uscript.uScript.LongConstant){
     	result = duc.uscript.execution.interpreter.expression.constants.LongConstantAspect._privk3_findDependentVariables(_self_, (duc.uscript.uScript.LongConstant)_self,state);
     };
-    return (duc.uscript.execution.interpreter.utils.SymbolSet)result;
+    return (duc.uscript.utils.SymbolSet)result;
   }
   
   private static Value super_evaluateExpression(final LongConstant _self, final State state) {

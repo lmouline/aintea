@@ -5,6 +5,9 @@ import duc.uscript.uScript.Symbol
 import duc.uscript.uScript.Field
 import duc.uscript.uScript.NewObject
 import duc.uscript.uScript.MethodCall2
+import duc.uscript.utils.SymbolSet
+
+type SymbolSet wraps SymbolSet
 
 class Context {
 	contains Context child opposite parent
@@ -75,6 +78,7 @@ class NullValue extends Value {}
 class SymbolBindings {
 	contains Value value
 	refers Symbol[1] symbol
+	SymbolSet symbolSet
 }
 
 class FieldBinding {

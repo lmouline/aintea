@@ -13,7 +13,7 @@ import duc.uscript.execution.LongValue
 import duc.uscript.execution.FloatValue
 import duc.uscript.execution.DoubleValue
 import duc.uscript.uScript.Minus
-import duc.uscript.execution.interpreter.utils.SymbolSet
+import duc.uscript.utils.SymbolSet
 
 @Aspect(className=Minus)
 class MinusAspect extends ExpressionAspect {

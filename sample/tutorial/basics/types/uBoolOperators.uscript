@@ -7,7 +7,7 @@ void main() {
   Bernoulli<bool> b1 = new Bernoulli<bool>(t > 29, 1.);
   Bernoulli<bool> b2 = new Bernoulli<bool>(t > 7, 1.);
 
-  Bernoulli<bool> b3 = new Bernoulli<bool>(t > 29, 1.) && new Bernoulli<bool>(true, 1.);
+  Bernoulli<bool> b3 = b1 && b2;
 
   print(b1);
   print(b2);

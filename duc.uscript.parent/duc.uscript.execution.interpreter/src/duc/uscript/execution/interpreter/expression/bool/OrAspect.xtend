@@ -11,7 +11,7 @@ import duc.uscript.uScript.Or
 import duc.uscript.execution.ObjectRefValue
 import static duc.uscript.execution.interpreter.utils.BernoulliBoolUtils.*
 import duc.uscript.execution.DoubleValue
-import duc.uscript.execution.interpreter.utils.SymbolSet
+import duc.uscript.utils.SymbolSet
 
 @Aspect(className=Or)
 class OrAspect extends ExpressionAspect{

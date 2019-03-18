@@ -15,7 +15,6 @@ import duc.uscript.execution.interpreter.expression.ExpressionAspect;
 import duc.uscript.execution.interpreter.expression.NewUObjectAspectNewUObjectAspectProperties;
 import duc.uscript.execution.interpreter.modelstate.ValueAspect;
 import duc.uscript.execution.interpreter.utils.BernoulliBoolUtils;
-import duc.uscript.execution.interpreter.utils.SymbolSet;
 import duc.uscript.typing.InternalTypeDcl;
 import duc.uscript.typing.TypeResolver;
 import duc.uscript.uScript.BernoulliRef;
@@ -27,6 +26,7 @@ import duc.uscript.uScript.GaussianRef;
 import duc.uscript.uScript.NewUObject;
 import duc.uscript.uScript.RayleighRef;
 import duc.uscript.uScript.UTypeRef;
+import duc.uscript.utils.SymbolSet;
 import fr.inria.diverse.k3.al.annotationprocessor.Aspect;
 import fr.inria.diverse.k3.al.annotationprocessor.OverrideAspectMethod;
 import org.eclipse.emf.common.util.EList;
@@ -76,7 +76,7 @@ public class NewUObjectAspect extends ExpressionAspect {
     if (_self instanceof duc.uscript.uScript.NewUObject){
     	result = duc.uscript.execution.interpreter.expression.NewUObjectAspect._privk3_findDependentVariables(_self_, (duc.uscript.uScript.NewUObject)_self,state);
     };
-    return (duc.uscript.execution.interpreter.utils.SymbolSet)result;
+    return (duc.uscript.utils.SymbolSet)result;
   }
   
   private static Value super_evaluateExpression(final NewUObject _self, final State state) {

@@ -10,7 +10,7 @@ import duc.uscript.execution.ExecutionFactory
 import duc.uscript.uScript.Not
 import duc.uscript.execution.ObjectRefValue
 import static duc.uscript.execution.interpreter.utils.BernoulliBoolUtils.*
-import duc.uscript.execution.interpreter.utils.SymbolSet
+import duc.uscript.utils.SymbolSet
 
 @Aspect(className=Not)
 class NotAspect extends ExpressionAspect{

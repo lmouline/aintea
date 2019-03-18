@@ -1,4 +1,4 @@
-package duc.uscript.execution.interpreter.utils
+package duc.uscript.utils
 
 import duc.uscript.uScript.Symbol
 import java.util.Set

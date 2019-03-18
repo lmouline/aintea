@@ -10,7 +10,7 @@ import duc.uscript.execution.ShortValue
 import duc.uscript.execution.State
 import duc.uscript.execution.Value
 import duc.uscript.execution.interpreter.expression.ExpressionAspect
-import duc.uscript.execution.interpreter.utils.SymbolSet
+import duc.uscript.utils.SymbolSet
 import duc.uscript.uScript.Superior
 import fr.inria.diverse.k3.al.annotationprocessor.Aspect
 import fr.inria.diverse.k3.al.annotationprocessor.OverrideAspectMethod

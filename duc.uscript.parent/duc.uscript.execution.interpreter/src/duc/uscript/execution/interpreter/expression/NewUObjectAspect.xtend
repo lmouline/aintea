@@ -20,7 +20,7 @@ import duc.uscript.uScript.BernoulliRef
 import duc.uscript.execution.BooleanValue
 import duc.uscript.execution.DoubleValue
 import static duc.uscript.execution.interpreter.utils.BernoulliBoolUtils.createBernoulliBool
-import duc.uscript.execution.interpreter.utils.SymbolSet
+import duc.uscript.utils.SymbolSet
 import duc.uscript.uScript.Expression
 
 @Aspect(className=NewUObject)

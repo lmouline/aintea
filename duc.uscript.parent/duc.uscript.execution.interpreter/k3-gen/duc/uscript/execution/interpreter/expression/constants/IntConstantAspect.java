@@ -6,8 +6,8 @@ import duc.uscript.execution.State;
 import duc.uscript.execution.Value;
 import duc.uscript.execution.interpreter.expression.ExpressionAspect;
 import duc.uscript.execution.interpreter.expression.constants.IntConstantAspectIntConstantAspectProperties;
-import duc.uscript.execution.interpreter.utils.SymbolSet;
 import duc.uscript.uScript.IntConstant;
+import duc.uscript.utils.SymbolSet;
 import fr.inria.diverse.k3.al.annotationprocessor.Aspect;
 import fr.inria.diverse.k3.al.annotationprocessor.OverrideAspectMethod;
 import org.eclipse.xtext.xbase.lib.ObjectExtensions;
@@ -35,7 +35,7 @@ public class IntConstantAspect extends ExpressionAspect {
     if (_self instanceof duc.uscript.uScript.IntConstant){
     	result = duc.uscript.execution.interpreter.expression.constants.IntConstantAspect._privk3_findDependentVariables(_self_, (duc.uscript.uScript.IntConstant)_self,state);
     };
-    return (duc.uscript.execution.interpreter.utils.SymbolSet)result;
+    return (duc.uscript.utils.SymbolSet)result;
   }
   
   private static Value super_evaluateExpression(final IntConstant _self, final State state) {

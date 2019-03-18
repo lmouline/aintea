@@ -20,7 +20,7 @@ import duc.uscript.execution.CharValue
 import duc.uscript.execution.BooleanValue
 import duc.uscript.execution.ObjectRefValue
 import duc.uscript.execution.interpreter.utils.GaussianDoubleUtils
-import duc.uscript.execution.interpreter.utils.SymbolSet
+import duc.uscript.utils.SymbolSet
 
 @Aspect(className=Plus)
 class PlusAspect extends ExpressionAspect {

@@ -9,7 +9,7 @@ import duc.uscript.execution.State
 import static extension duc.uscript.execution.interpreter.modelstate.StateAspect.*
 import static extension duc.uscript.execution.interpreter.modelstate.ContextAspect.*
 import static extension duc.uscript.execution.interpreter.modelstate.ValueAspect.*
-import duc.uscript.execution.interpreter.utils.SymbolSet
+import duc.uscript.utils.SymbolSet
 
 @Aspect(className=SymbolRef)
 class SymbolRefAspect extends ExpressionAspect {
@@ -20,8 +20,11 @@ class SymbolRefAspect extends ExpressionAspect {
 	
 	@OverrideAspectMethod
 	def SymbolSet findDependentVariables(State state) {
+		val context = state.findCurrentContext
+		val existingBinding = context.findBinding(_self.symbol)
 		val result = new SymbolSet
 		result.add(_self.symbol)
+		result.addAll(existingBinding.symbolSet)
 		return result
 	}
 }

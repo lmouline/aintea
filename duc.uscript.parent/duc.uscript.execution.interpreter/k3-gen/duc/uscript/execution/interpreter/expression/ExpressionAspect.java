@@ -3,8 +3,8 @@ package duc.uscript.execution.interpreter.expression;
 import duc.uscript.execution.State;
 import duc.uscript.execution.Value;
 import duc.uscript.execution.interpreter.expression.ExpressionAspectExpressionAspectProperties;
-import duc.uscript.execution.interpreter.utils.SymbolSet;
 import duc.uscript.uScript.Expression;
+import duc.uscript.utils.SymbolSet;
 import fr.inria.diverse.k3.al.annotationprocessor.Aspect;
 import org.eclipse.xtend2.lib.StringConcatenation;
 
@@ -188,7 +188,25 @@ public class ExpressionAspect {
     if (_self instanceof duc.uscript.uScript.Expression){
     	result = duc.uscript.execution.interpreter.expression.ExpressionAspect._privk3_findDependentVariables(_self_, (duc.uscript.uScript.Expression)_self,state);
     };
-    return (duc.uscript.execution.interpreter.utils.SymbolSet)result;
+    return (duc.uscript.utils.SymbolSet)result;
+  }
+  
+  protected static SymbolSet dependentVariables(final Expression _self) {
+    final duc.uscript.execution.interpreter.expression.ExpressionAspectExpressionAspectProperties _self_ = duc.uscript.execution.interpreter.expression.ExpressionAspectExpressionAspectContext.getSelf(_self);
+    Object result = null;
+    // #DispatchPointCut_before# SymbolSet dependentVariables()
+    if (_self instanceof duc.uscript.uScript.Expression){
+    	result = duc.uscript.execution.interpreter.expression.ExpressionAspect._privk3_dependentVariables(_self_, (duc.uscript.uScript.Expression)_self);
+    };
+    return (duc.uscript.utils.SymbolSet)result;
+  }
+  
+  protected static void dependentVariables(final Expression _self, final SymbolSet dependentVariables) {
+    final duc.uscript.execution.interpreter.expression.ExpressionAspectExpressionAspectProperties _self_ = duc.uscript.execution.interpreter.expression.ExpressionAspectExpressionAspectContext.getSelf(_self);
+    // #DispatchPointCut_before# void dependentVariables(SymbolSet)
+    if (_self instanceof duc.uscript.uScript.Expression){
+    	duc.uscript.execution.interpreter.expression.ExpressionAspect._privk3_dependentVariables(_self_, (duc.uscript.uScript.Expression)_self,dependentVariables);
+    };
   }
   
   protected static Value _privk3_evaluateExpression(final ExpressionAspectExpressionAspectProperties _self_, final Expression _self, final State state) {
@@ -205,5 +223,42 @@ public class ExpressionAspect {
     String _name = _self.getClass().getName();
     _builder.append(_name);
     throw new RuntimeException(_builder.toString());
+  }
+  
+  protected static SymbolSet _privk3_dependentVariables(final ExpressionAspectExpressionAspectProperties _self_, final Expression _self) {
+    try {
+    	for (java.lang.reflect.Method m : _self.getClass().getMethods()) {
+    		if (m.getName().equals("getDependentVariables") &&
+    			m.getParameterTypes().length == 0) {
+    				Object ret = m.invoke(_self);
+    				if (ret != null) {
+    					return (duc.uscript.utils.SymbolSet) ret;
+    				} else {
+    					return null;
+    				}
+    		}
+    	}
+    } catch (Exception e) {
+    	// Chut !
+    }
+    return _self_.dependentVariables;
+  }
+  
+  protected static void _privk3_dependentVariables(final ExpressionAspectExpressionAspectProperties _self_, final Expression _self, final SymbolSet dependentVariables) {
+    boolean setterCalled = false;
+    try {
+    	for (java.lang.reflect.Method m : _self.getClass().getMethods()) {
+    		if (m.getName().equals("setDependentVariables")
+    				&& m.getParameterTypes().length == 1) {
+    			m.invoke(_self, dependentVariables);
+    			setterCalled = true;
+    		}
+    	}
+    } catch (Exception e) {
+    	// Chut !
+    }
+    if (!setterCalled) {
+    	_self_.dependentVariables = dependentVariables;
+    }
   }
 }

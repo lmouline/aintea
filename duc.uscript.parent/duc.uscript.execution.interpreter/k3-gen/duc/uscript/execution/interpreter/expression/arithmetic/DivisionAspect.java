@@ -14,8 +14,8 @@ import duc.uscript.execution.Value;
 import duc.uscript.execution.interpreter.expression.ExpressionAspect;
 import duc.uscript.execution.interpreter.expression.arithmetic.DivisionAspectDivisionAspectProperties;
 import duc.uscript.execution.interpreter.utils.GaussianDoubleUtils;
-import duc.uscript.execution.interpreter.utils.SymbolSet;
 import duc.uscript.uScript.Division;
+import duc.uscript.utils.SymbolSet;
 import fr.inria.diverse.k3.al.annotationprocessor.Aspect;
 import fr.inria.diverse.k3.al.annotationprocessor.OverrideAspectMethod;
 import org.eclipse.xtext.xbase.lib.ObjectExtensions;
@@ -333,7 +333,7 @@ public class DivisionAspect extends ExpressionAspect {
     if (_self instanceof duc.uscript.uScript.Division){
     	result = duc.uscript.execution.interpreter.expression.arithmetic.DivisionAspect._privk3_findDependentVariables(_self_, (duc.uscript.uScript.Division)_self,state);
     };
-    return (duc.uscript.execution.interpreter.utils.SymbolSet)result;
+    return (duc.uscript.utils.SymbolSet)result;
   }
   
   private static Value super_evaluateExpression(final Division _self, final State state) {

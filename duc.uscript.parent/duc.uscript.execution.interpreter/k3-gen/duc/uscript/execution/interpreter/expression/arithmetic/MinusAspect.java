@@ -11,8 +11,8 @@ import duc.uscript.execution.State;
 import duc.uscript.execution.Value;
 import duc.uscript.execution.interpreter.expression.ExpressionAspect;
 import duc.uscript.execution.interpreter.expression.arithmetic.MinusAspectMinusAspectProperties;
-import duc.uscript.execution.interpreter.utils.SymbolSet;
 import duc.uscript.uScript.Minus;
+import duc.uscript.utils.SymbolSet;
 import fr.inria.diverse.k3.al.annotationprocessor.Aspect;
 import fr.inria.diverse.k3.al.annotationprocessor.OverrideAspectMethod;
 import org.eclipse.xtext.xbase.lib.ObjectExtensions;
@@ -310,7 +310,7 @@ public class MinusAspect extends ExpressionAspect {
     if (_self instanceof duc.uscript.uScript.Minus){
     	result = duc.uscript.execution.interpreter.expression.arithmetic.MinusAspect._privk3_findDependentVariables(_self_, (duc.uscript.uScript.Minus)_self,state);
     };
-    return (duc.uscript.execution.interpreter.utils.SymbolSet)result;
+    return (duc.uscript.utils.SymbolSet)result;
   }
   
   private static Value super_evaluateExpression(final Minus _self, final State state) {

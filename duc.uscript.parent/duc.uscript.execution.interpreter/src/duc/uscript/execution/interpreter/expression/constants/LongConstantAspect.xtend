@@ -7,7 +7,7 @@ import duc.uscript.execution.Value
 import duc.uscript.execution.State
 import duc.uscript.execution.ExecutionFactory
 import duc.uscript.execution.interpreter.expression.ExpressionAspect
-import duc.uscript.execution.interpreter.utils.SymbolSet
+import duc.uscript.utils.SymbolSet
 
 @Aspect(className=LongConstant)
 class LongConstantAspect extends ExpressionAspect {

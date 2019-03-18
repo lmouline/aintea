@@ -15,6 +15,7 @@ import duc.uscript.uScript.Assignment;
 import duc.uscript.uScript.Symbol;
 import duc.uscript.uScript.SymbolRef;
 import duc.uscript.uScript.VariableDeclaration;
+import duc.uscript.utils.SymbolSet;
 import fr.inria.diverse.k3.al.annotationprocessor.Aspect;
 import fr.inria.diverse.k3.al.annotationprocessor.OverrideAspectMethod;
 import org.eclipse.xtext.xbase.lib.Exceptions;
@@ -43,11 +44,14 @@ public class AssigmentAspect extends AStatementAspect {
       final Context context = StateAspect.findCurrentContext(state);
       final Assignee assignee = _self.getAssignee();
       final Value right = ExpressionAspect.evaluateExpression(_self.getValue(), state);
+      final SymbolSet dependences = ExpressionAspect.findDependentVariables(_self.getValue(), state);
       boolean _matched = false;
       if (assignee instanceof SymbolRef) {
         _matched=true;
         final SymbolBindings existingBinding = ContextAspect.findBinding(context, ((SymbolRef)assignee).getSymbol());
         existingBinding.setValue(right);
+        existingBinding.getSymbolSet().clear();
+        existingBinding.setSymbolSet(dependences);
       }
       if (!_matched) {
         if (assignee instanceof VariableDeclaration) {
@@ -56,6 +60,7 @@ public class AssigmentAspect extends AStatementAspect {
           final Procedure1<SymbolBindings> _function = (SymbolBindings it) -> {
             it.setSymbol(((Symbol)assignee));
             it.setValue(right);
+            it.setSymbolSet(dependences);
           };
           final SymbolBindings binding = ObjectExtensions.<SymbolBindings>operator_doubleArrow(_createSymbolBindings, _function);
           context.getBindings().add(binding);

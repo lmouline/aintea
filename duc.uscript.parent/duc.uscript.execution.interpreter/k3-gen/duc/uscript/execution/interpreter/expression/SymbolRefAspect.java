@@ -1,14 +1,16 @@
 package duc.uscript.execution.interpreter.expression;
 
+import duc.uscript.execution.Context;
 import duc.uscript.execution.State;
+import duc.uscript.execution.SymbolBindings;
 import duc.uscript.execution.Value;
 import duc.uscript.execution.interpreter.expression.ExpressionAspect;
 import duc.uscript.execution.interpreter.expression.SymbolRefAspectSymbolRefAspectProperties;
 import duc.uscript.execution.interpreter.modelstate.ContextAspect;
 import duc.uscript.execution.interpreter.modelstate.StateAspect;
 import duc.uscript.execution.interpreter.modelstate.ValueAspect;
-import duc.uscript.execution.interpreter.utils.SymbolSet;
 import duc.uscript.uScript.SymbolRef;
+import duc.uscript.utils.SymbolSet;
 import fr.inria.diverse.k3.al.annotationprocessor.Aspect;
 import fr.inria.diverse.k3.al.annotationprocessor.OverrideAspectMethod;
 
@@ -34,7 +36,7 @@ public class SymbolRefAspect extends ExpressionAspect {
     if (_self instanceof duc.uscript.uScript.SymbolRef){
     	result = duc.uscript.execution.interpreter.expression.SymbolRefAspect._privk3_findDependentVariables(_self_, (duc.uscript.uScript.SymbolRef)_self,state);
     };
-    return (duc.uscript.execution.interpreter.utils.SymbolSet)result;
+    return (duc.uscript.utils.SymbolSet)result;
   }
   
   private static Value super_evaluateExpression(final SymbolRef _self, final State state) {
@@ -52,8 +54,11 @@ public class SymbolRefAspect extends ExpressionAspect {
   }
   
   protected static SymbolSet _privk3_findDependentVariables(final SymbolRefAspectSymbolRefAspectProperties _self_, final SymbolRef _self, final State state) {
+    final Context context = StateAspect.findCurrentContext(state);
+    final SymbolBindings existingBinding = ContextAspect.findBinding(context, _self.getSymbol());
     final SymbolSet result = new SymbolSet();
     result.add(_self.getSymbol());
+    result.addAll(existingBinding.getSymbolSet());
     return result;
   }
 }

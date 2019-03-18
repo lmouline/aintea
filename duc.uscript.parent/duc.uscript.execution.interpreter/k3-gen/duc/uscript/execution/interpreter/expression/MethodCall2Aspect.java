@@ -10,10 +10,10 @@ import duc.uscript.execution.interpreter.expression.ExpressionAspect;
 import duc.uscript.execution.interpreter.expression.MethodAspect;
 import duc.uscript.execution.interpreter.expression.MethodCall2AspectMethodCall2AspectProperties;
 import duc.uscript.execution.interpreter.modelstate.StateAspect;
-import duc.uscript.execution.interpreter.utils.SymbolSet;
 import duc.uscript.uScript.Expression;
 import duc.uscript.uScript.MethodCall2;
 import duc.uscript.uScript.Parameter;
+import duc.uscript.utils.SymbolSet;
 import fr.inria.diverse.k3.al.annotationprocessor.Aspect;
 import fr.inria.diverse.k3.al.annotationprocessor.OverrideAspectMethod;
 import org.eclipse.emf.common.util.EList;
@@ -42,7 +42,7 @@ public class MethodCall2Aspect extends ExpressionAspect {
     if (_self instanceof duc.uscript.uScript.MethodCall2){
     	result = duc.uscript.execution.interpreter.expression.MethodCall2Aspect._privk3_findDependentVariables(_self_, (duc.uscript.uScript.MethodCall2)_self,state);
     };
-    return (duc.uscript.execution.interpreter.utils.SymbolSet)result;
+    return (duc.uscript.utils.SymbolSet)result;
   }
   
   private static Value super_evaluateExpression(final MethodCall2 _self, final State state) {

@@ -10,8 +10,8 @@ import duc.uscript.execution.Value;
 import duc.uscript.execution.interpreter.expression.ExpressionAspect;
 import duc.uscript.execution.interpreter.expression.bool.AndAspectAndAspectProperties;
 import duc.uscript.execution.interpreter.utils.BernoulliBoolUtils;
-import duc.uscript.execution.interpreter.utils.SymbolSet;
 import duc.uscript.uScript.And;
+import duc.uscript.utils.SymbolSet;
 import fr.inria.diverse.k3.al.annotationprocessor.Aspect;
 import fr.inria.diverse.k3.al.annotationprocessor.OverrideAspectMethod;
 import org.eclipse.xtext.xbase.lib.ObjectExtensions;
@@ -28,7 +28,7 @@ public class AndAspect extends ExpressionAspect {
     if (_self instanceof duc.uscript.uScript.And){
     	result = duc.uscript.execution.interpreter.expression.bool.AndAspect._privk3_findDependentVariables(_self_, (duc.uscript.uScript.And)_self,state);
     };
-    return (duc.uscript.execution.interpreter.utils.SymbolSet)result;
+    return (duc.uscript.utils.SymbolSet)result;
   }
   
   @OverrideAspectMethod

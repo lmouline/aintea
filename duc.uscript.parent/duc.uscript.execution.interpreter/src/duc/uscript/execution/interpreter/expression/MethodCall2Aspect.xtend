@@ -9,7 +9,7 @@ import duc.uscript.uScript.MethodCall2
 
 import static extension duc.uscript.execution.interpreter.modelstate.StateAspect.*
 import static extension duc.uscript.execution.interpreter.expression.MethodAspect.*
-import duc.uscript.execution.interpreter.utils.SymbolSet
+import duc.uscript.utils.SymbolSet
 import duc.uscript.uScript.Expression
 
 @Aspect(className=MethodCall2)
