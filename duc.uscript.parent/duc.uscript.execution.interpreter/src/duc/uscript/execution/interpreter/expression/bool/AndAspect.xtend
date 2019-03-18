@@ -11,9 +11,18 @@ import duc.uscript.execution.ExecutionFactory
 import duc.uscript.execution.ObjectRefValue
 import static duc.uscript.execution.interpreter.utils.BernoulliBoolUtils.*
 import duc.uscript.execution.DoubleValue
+import duc.uscript.execution.interpreter.utils.SymbolSet
 
 @Aspect(className=And)
 class AndAspect extends ExpressionAspect{
+	@OverrideAspectMethod
+	def SymbolSet findDependentVariables(State state) {
+		val result = new SymbolSet
+		result.addAll(_self.left.findDependentVariables(state))
+		result.addAll(_self.right.findDependentVariables(state))
+		return result
+	}
+	
 	
 	@OverrideAspectMethod
 	def Value evaluateExpression(State state) {
@@ -58,8 +67,17 @@ class AndAspect extends ExpressionAspect{
 		
 		val probX = getProbability(x)
 		val probY = getProbability(y)
-								 
-		return indepNonDisjoint(_self, state, probX, probY, valX, valY)
+		
+		val SymbolSet depValLeft = _self.left.findDependentVariables(state)
+		val SymbolSet depValRight = _self.right.findDependentVariables(state)
+		
+		val isDependent = depValLeft.containsOne(depValRight)
+		
+		if(isDependent) {
+			return depNonDisjoint(_self, state, probX, probY, valX, valY)
+		} else {
+			return indepNonDisjoint(_self, state, probX, probY, valX, valY)
+		}
 	}
 	
 	private static def ObjectRefValue private_and(ObjectRefValue x, BooleanValue y, State state) {
@@ -88,4 +106,14 @@ class AndAspect extends ExpressionAspect{
 		
 		return ExecutionFactory::eINSTANCE.createObjectRefValue => [instance = result]
 	}
+	
+	private static def ObjectRefValue depNonDisjoint(State state, DoubleValue probX, DoubleValue probY, 
+																BooleanValue valX, BooleanValue valY) {
+		throw new UnsupportedOperationException("And operator cannot be applied on dependent and non-disjoint elements.")									
+	
+	
+	}
+																
+	
+	
 }

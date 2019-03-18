@@ -1,12 +1,16 @@
 package duc.uscript.execution.interpreter.modelstate;
 
+import duc.uscript.execution.Call;
 import duc.uscript.execution.Context;
 import duc.uscript.execution.ExecutionFactory;
 import duc.uscript.execution.Frame;
+import duc.uscript.execution.ObjectInstance;
 import duc.uscript.execution.State;
 import duc.uscript.execution.interpreter.modelstate.FrameAspect;
 import duc.uscript.execution.interpreter.modelstate.StateAspectStateAspectProperties;
 import fr.inria.diverse.k3.al.annotationprocessor.Aspect;
+import org.eclipse.xtext.xbase.lib.ObjectExtensions;
+import org.eclipse.xtext.xbase.lib.Procedures.Procedure1;
 
 @Aspect(className = State.class)
 @SuppressWarnings("all")
@@ -52,6 +56,22 @@ public class StateAspect {
     // #DispatchPointCut_before# void print(String)
     if (_self instanceof duc.uscript.execution.State){
     	duc.uscript.execution.interpreter.modelstate.StateAspect._privk3_print(_self_, (duc.uscript.execution.State)_self,string);
+    };
+  }
+  
+  public static void pushNewFrame(final State _self, final ObjectInstance receiver, final Call c, final Context ctx) {
+    final duc.uscript.execution.interpreter.modelstate.StateAspectStateAspectProperties _self_ = duc.uscript.execution.interpreter.modelstate.StateAspectStateAspectContext.getSelf(_self);
+    // #DispatchPointCut_before# void pushNewFrame(ObjectInstance,Call,Context)
+    if (_self instanceof duc.uscript.execution.State){
+    	duc.uscript.execution.interpreter.modelstate.StateAspect._privk3_pushNewFrame(_self_, (duc.uscript.execution.State)_self,receiver,c,ctx);
+    };
+  }
+  
+  public static void popCurrentFrame(final State _self) {
+    final duc.uscript.execution.interpreter.modelstate.StateAspectStateAspectProperties _self_ = duc.uscript.execution.interpreter.modelstate.StateAspectStateAspectContext.getSelf(_self);
+    // #DispatchPointCut_before# void popCurrentFrame()
+    if (_self instanceof duc.uscript.execution.State){
+    	duc.uscript.execution.interpreter.modelstate.StateAspect._privk3_popCurrentFrame(_self_, (duc.uscript.execution.State)_self);
     };
   }
   
@@ -132,6 +152,28 @@ public class StateAspect {
   
   protected static void _privk3_print(final StateAspectStateAspectProperties _self_, final State _self, final String string) {
     _self.getOutputStream().getStream().add(string);
+  }
+  
+  protected static void _privk3_pushNewFrame(final StateAspectStateAspectProperties _self_, final State _self, final ObjectInstance receiver, final Call c, final Context ctx) {
+    Frame _createFrame = ExecutionFactory.eINSTANCE.createFrame();
+    final Procedure1<Frame> _function = (Frame it) -> {
+      it.setInstance(receiver);
+      it.setCall(c);
+      it.setRootContext(ctx);
+    };
+    final Frame newFrame = ObjectExtensions.<Frame>operator_doubleArrow(_createFrame, _function);
+    Frame _findCurrentFrame = StateAspect.findCurrentFrame(_self);
+    _findCurrentFrame.setChild(newFrame);
+    StateAspect.frame(_self, newFrame);
+    StateAspect.context(_self, null);
+  }
+  
+  protected static void _privk3_popCurrentFrame(final StateAspectStateAspectProperties _self_, final State _self) {
+    final Frame newCurrent = StateAspect.findCurrentFrame(_self).getParent();
+    Frame _findCurrentFrame = StateAspect.findCurrentFrame(_self);
+    _findCurrentFrame.setParent(null);
+    StateAspect.context(_self, null);
+    StateAspect.frame(_self, newCurrent);
   }
   
   protected static Context _privk3_context(final StateAspectStateAspectProperties _self_, final State _self) {

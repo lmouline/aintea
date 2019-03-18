@@ -97,12 +97,12 @@ public class BernoulliBoolUtils {
       return Boolean.valueOf(Objects.equal(_name, "confidence"));
     };
     Value _value = IterableExtensions.<FieldBinding>findFirst(bernoulliBool.getInstance().getFieldbindings(), _function).getValue();
-    final ObjectRefValue confY = ((ObjectRefValue) _value);
+    final ObjectRefValue confidence = ((ObjectRefValue) _value);
     final Function1<FieldBinding, Boolean> _function_1 = (FieldBinding it) -> {
       String _name = it.getField().getName();
       return Boolean.valueOf(Objects.equal(_name, "probability"));
     };
-    Value _value_1 = IterableExtensions.<FieldBinding>findFirst(confY.getInstance().getFieldbindings(), _function_1).getValue();
+    Value _value_1 = IterableExtensions.<FieldBinding>findFirst(confidence.getInstance().getFieldbindings(), _function_1).getValue();
     return ((DoubleValue) _value_1);
   }
 }

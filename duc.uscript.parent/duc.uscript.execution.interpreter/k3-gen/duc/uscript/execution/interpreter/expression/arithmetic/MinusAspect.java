@@ -11,6 +11,7 @@ import duc.uscript.execution.State;
 import duc.uscript.execution.Value;
 import duc.uscript.execution.interpreter.expression.ExpressionAspect;
 import duc.uscript.execution.interpreter.expression.arithmetic.MinusAspectMinusAspectProperties;
+import duc.uscript.execution.interpreter.utils.SymbolSet;
 import duc.uscript.uScript.Minus;
 import fr.inria.diverse.k3.al.annotationprocessor.Aspect;
 import fr.inria.diverse.k3.al.annotationprocessor.OverrideAspectMethod;
@@ -299,6 +300,17 @@ public class MinusAspect extends ExpressionAspect {
     	result = duc.uscript.execution.interpreter.expression.arithmetic.MinusAspect._privk3_p(_self_, (duc.uscript.uScript.Minus)_self,x,y);
     };
     return (duc.uscript.execution.DoubleValue)result;
+  }
+  
+  @OverrideAspectMethod
+  public static SymbolSet findDependentVariables(final Minus _self, final State state) {
+    final duc.uscript.execution.interpreter.expression.arithmetic.MinusAspectMinusAspectProperties _self_ = duc.uscript.execution.interpreter.expression.arithmetic.MinusAspectMinusAspectContext.getSelf(_self);
+    Object result = null;
+    // #DispatchPointCut_before# SymbolSet findDependentVariables(State)
+    if (_self instanceof duc.uscript.uScript.Minus){
+    	result = duc.uscript.execution.interpreter.expression.arithmetic.MinusAspect._privk3_findDependentVariables(_self_, (duc.uscript.uScript.Minus)_self,state);
+    };
+    return (duc.uscript.execution.interpreter.utils.SymbolSet)result;
   }
   
   private static Value super_evaluateExpression(final Minus _self, final State state) {
@@ -950,5 +962,17 @@ public class MinusAspect extends ExpressionAspect {
       it.setValue(_minus);
     };
     return ObjectExtensions.<DoubleValue>operator_doubleArrow(_createDoubleValue, _function);
+  }
+  
+  private static SymbolSet super_findDependentVariables(final Minus _self, final State state) {
+    final duc.uscript.execution.interpreter.expression.ExpressionAspectExpressionAspectProperties _self_ = duc.uscript.execution.interpreter.expression.ExpressionAspectExpressionAspectContext.getSelf(_self);
+    return  duc.uscript.execution.interpreter.expression.ExpressionAspect._privk3_findDependentVariables(_self_, _self,state);
+  }
+  
+  protected static SymbolSet _privk3_findDependentVariables(final MinusAspectMinusAspectProperties _self_, final Minus _self, final State state) {
+    final SymbolSet result = new SymbolSet();
+    result.addAll(ExpressionAspect.findDependentVariables(_self.getLeft(), state));
+    result.addAll(ExpressionAspect.findDependentVariables(_self.getRight(), state));
+    return result;
   }
 }

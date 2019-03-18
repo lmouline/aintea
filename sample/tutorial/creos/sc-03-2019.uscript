@@ -1,0 +1,26 @@
+// A simple example that compute add the consumption of two persons.
+package smartgrid
+
+import uscript.lang.*
+
+Gaussian<double> compute_load_dead_end() {
+	double cable_load_max = 500;
+	
+	Gaussian<double> consumption_customer1 = new Gaussian<double>(150., 50.);
+	Gaussian<double> consumption_customer2 = new Gaussian<double>(300., 67.);
+	
+	Gaussian<double> load_cable = consumption_customer1 + consumption_customer2;
+	Gaussian<double> percentage_load = (load_cable * 100) / cable_load_max;
+	
+	return percentage_load;
+}
+
+void main() {
+	Gaussian<double> load = compute_load_dead_end();
+	print(load);
+}
+
+
+
+
+

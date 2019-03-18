@@ -13,6 +13,9 @@ import duc.uscript.execution.LongValue
 import duc.uscript.execution.FloatValue
 import duc.uscript.execution.DoubleValue
 import duc.uscript.uScript.Division
+import duc.uscript.execution.ObjectRefValue
+import duc.uscript.execution.interpreter.utils.GaussianDoubleUtils
+import duc.uscript.execution.interpreter.utils.SymbolSet
 
 @Aspect(className=Division)
 class DivisionAspect extends ExpressionAspect {
@@ -30,6 +33,8 @@ class DivisionAspect extends ExpressionAspect {
 			LongValue: left_plus(_self, left, right)
 			FloatValue: left_plus(_self, left, right)
 			DoubleValue: left_plus(_self, left, right)
+			ObjectRefValue: left_plus(_self, state, left, right)
+			default: throw new RuntimeException("Add operator not implemented for " + left.class.name)
 		}
 	}
 	
@@ -42,6 +47,7 @@ class DivisionAspect extends ExpressionAspect {
 			LongValue: p(_self, left, right, true)
 			FloatValue: p(_self, left, right, true)
 			DoubleValue: p(_self, left, right, true)
+			default: throw new RuntimeException("Add operator not implemented for " + right.class.name)
 		}
 	}	
 	
@@ -53,6 +59,7 @@ class DivisionAspect extends ExpressionAspect {
 			LongValue: p(_self, left, right, true)
 			FloatValue: p(_self, left, right, true)
 			DoubleValue: p(_self, left, right, true)
+			default: throw new RuntimeException("Add operator not implemented for " + right.class.name)
 		}
 	}
 	
@@ -64,6 +71,7 @@ class DivisionAspect extends ExpressionAspect {
 			LongValue: p(_self, left, right, true)
 			FloatValue: p(_self, left, right, true)
 			DoubleValue: p(_self, left, right, true)
+			default: throw new RuntimeException("Add operator not implemented for " + right.class.name)
 		}
 	}
 	
@@ -75,6 +83,7 @@ class DivisionAspect extends ExpressionAspect {
 			LongValue: p(_self, left, right, true)
 			FloatValue: p(_self, left, right, true)
 			DoubleValue: p(_self, left, right, true)
+			default: throw new RuntimeException("Add operator not implemented for " + right.class.name)
 		}
 	}
 	
@@ -86,6 +95,7 @@ class DivisionAspect extends ExpressionAspect {
 			LongValue: p(_self, right, left, false)
 			FloatValue: p(_self, left, right, true)
 			DoubleValue: p(_self, left, right, true)
+			default: throw new RuntimeException("Add operator not implemented for " + right.class.name)
 		}
 	}
 	
@@ -97,6 +107,14 @@ class DivisionAspect extends ExpressionAspect {
 			LongValue: p(_self, right, left, false)
 			FloatValue: p(_self, right, left, false)
 			DoubleValue: p(_self, left, right)
+			default: throw new RuntimeException("Add operator not implemented for " + right.class.name)
+		}
+	}
+	
+	private static def Value left_plus(State state, ObjectRefValue left, Value right) {
+		return switch(right) {
+			IntegerValue: p(_self, state, left, right)
+			default: throw new RuntimeException("Add operator not implemented for " + right.class.name)
 		}
 	}
 	
@@ -303,6 +321,29 @@ class DivisionAspect extends ExpressionAspect {
 		return ExecutionFactory::eINSTANCE.createDoubleValue => [
 				value = x.value / y.value
 			]
+	}
+	
+	private def ObjectRefValue p(State state, ObjectRefValue x, IntegerValue y) {
+		val valX = GaussianDoubleUtils.getValue(x)
+		val meanX = GaussianDoubleUtils.getMean(x)
+		val varX = GaussianDoubleUtils.getVariance(x)
+		
+		val result = GaussianDoubleUtils.createGaussianDouble(state,
+															  meanX.value / y.value,
+															  varX.value * 1 / (y.value * y.value),
+															  valX.value / y.value,
+															  _self
+		)
+		
+		return ExecutionFactory::eINSTANCE.createObjectRefValue => [instance = result]
+	}
+	
+	@OverrideAspectMethod
+	def SymbolSet findDependentVariables(State state) {
+		val result = new SymbolSet
+		result.addAll(_self.left.findDependentVariables(state))
+		result.addAll(_self.right.findDependentVariables(state))
+		return result
 	}
 	
 	

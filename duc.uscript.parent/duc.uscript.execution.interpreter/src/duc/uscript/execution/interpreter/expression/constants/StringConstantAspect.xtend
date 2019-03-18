@@ -7,6 +7,7 @@ import duc.uscript.execution.Value
 import duc.uscript.execution.State
 import duc.uscript.execution.ExecutionFactory
 import duc.uscript.execution.interpreter.expression.ExpressionAspect
+import duc.uscript.execution.interpreter.utils.SymbolSet
 
 @Aspect(className=StringConstant)
 class StringConstantAspect extends ExpressionAspect {
@@ -16,5 +17,10 @@ class StringConstantAspect extends ExpressionAspect {
 		return ExecutionFactory::eINSTANCE.createStringValue => [
 			value = _self.value
 		]
+	}
+	
+	@OverrideAspectMethod
+	def SymbolSet findDependentVariables(State state) {
+		return new SymbolSet
 	}
 }

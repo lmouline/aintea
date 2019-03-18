@@ -13,6 +13,7 @@ import duc.uscript.execution.LongValue
 import duc.uscript.execution.FloatValue
 import duc.uscript.execution.DoubleValue
 import duc.uscript.uScript.Minus
+import duc.uscript.execution.interpreter.utils.SymbolSet
 
 @Aspect(className=Minus)
 class MinusAspect extends ExpressionAspect {
@@ -303,6 +304,14 @@ class MinusAspect extends ExpressionAspect {
 		return ExecutionFactory::eINSTANCE.createDoubleValue => [
 				value = x.value - y.value
 			]
+	}
+	
+	@OverrideAspectMethod
+	def SymbolSet findDependentVariables(State state) {
+		val result = new SymbolSet
+		result.addAll(_self.left.findDependentVariables(state))
+		result.addAll(_self.right.findDependentVariables(state))
+		return result
 	}
 	
 	

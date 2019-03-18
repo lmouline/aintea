@@ -7,6 +7,7 @@ import duc.uscript.execution.Value
 import duc.uscript.execution.State
 import duc.uscript.execution.ExecutionFactory
 import duc.uscript.execution.interpreter.expression.ExpressionAspect
+import duc.uscript.execution.interpreter.utils.SymbolSet
 
 @Aspect(className=LongConstant)
 class LongConstantAspect extends ExpressionAspect {
@@ -16,5 +17,10 @@ class LongConstantAspect extends ExpressionAspect {
 			val strValue = _self.value.substring(0, _self.value.length - 1)
 			value = Long.parseLong(strValue)
 		]
+	}
+	
+	@OverrideAspectMethod
+	def SymbolSet findDependentVariables(State state) {
+		return new SymbolSet
 	}
 }

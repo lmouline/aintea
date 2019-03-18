@@ -10,6 +10,7 @@ import duc.uscript.execution.Value;
 import duc.uscript.execution.interpreter.expression.ExpressionAspect;
 import duc.uscript.execution.interpreter.expression.bool.AndAspectAndAspectProperties;
 import duc.uscript.execution.interpreter.utils.BernoulliBoolUtils;
+import duc.uscript.execution.interpreter.utils.SymbolSet;
 import duc.uscript.uScript.And;
 import fr.inria.diverse.k3.al.annotationprocessor.Aspect;
 import fr.inria.diverse.k3.al.annotationprocessor.OverrideAspectMethod;
@@ -19,6 +20,17 @@ import org.eclipse.xtext.xbase.lib.Procedures.Procedure1;
 @Aspect(className = And.class)
 @SuppressWarnings("all")
 public class AndAspect extends ExpressionAspect {
+  @OverrideAspectMethod
+  public static SymbolSet findDependentVariables(final And _self, final State state) {
+    final duc.uscript.execution.interpreter.expression.bool.AndAspectAndAspectProperties _self_ = duc.uscript.execution.interpreter.expression.bool.AndAspectAndAspectContext.getSelf(_self);
+    Object result = null;
+    // #DispatchPointCut_before# SymbolSet findDependentVariables(State)
+    if (_self instanceof duc.uscript.uScript.And){
+    	result = duc.uscript.execution.interpreter.expression.bool.AndAspect._privk3_findDependentVariables(_self_, (duc.uscript.uScript.And)_self,state);
+    };
+    return (duc.uscript.execution.interpreter.utils.SymbolSet)result;
+  }
+  
   @OverrideAspectMethod
   public static Value evaluateExpression(final And _self, final State state) {
     final duc.uscript.execution.interpreter.expression.bool.AndAspectAndAspectProperties _self_ = duc.uscript.execution.interpreter.expression.bool.AndAspectAndAspectContext.getSelf(_self);
@@ -88,6 +100,28 @@ public class AndAspect extends ExpressionAspect {
     	result = duc.uscript.execution.interpreter.expression.bool.AndAspect._privk3_indepNonDisjoint(_self_, (duc.uscript.uScript.And)_self,state,probX,probY,valX,valY);
     };
     return (duc.uscript.execution.ObjectRefValue)result;
+  }
+  
+  private static ObjectRefValue depNonDisjoint(final And _self, final State state, final DoubleValue probX, final DoubleValue probY, final BooleanValue valX, final BooleanValue valY) {
+    final duc.uscript.execution.interpreter.expression.bool.AndAspectAndAspectProperties _self_ = duc.uscript.execution.interpreter.expression.bool.AndAspectAndAspectContext.getSelf(_self);
+    Object result = null;
+    // #DispatchPointCut_before# ObjectRefValue depNonDisjoint(State,DoubleValue,DoubleValue,BooleanValue,BooleanValue)
+    if (_self instanceof duc.uscript.uScript.And){
+    	result = duc.uscript.execution.interpreter.expression.bool.AndAspect._privk3_depNonDisjoint(_self_, (duc.uscript.uScript.And)_self,state,probX,probY,valX,valY);
+    };
+    return (duc.uscript.execution.ObjectRefValue)result;
+  }
+  
+  private static SymbolSet super_findDependentVariables(final And _self, final State state) {
+    final duc.uscript.execution.interpreter.expression.ExpressionAspectExpressionAspectProperties _self_ = duc.uscript.execution.interpreter.expression.ExpressionAspectExpressionAspectContext.getSelf(_self);
+    return  duc.uscript.execution.interpreter.expression.ExpressionAspect._privk3_findDependentVariables(_self_, _self,state);
+  }
+  
+  protected static SymbolSet _privk3_findDependentVariables(final AndAspectAndAspectProperties _self_, final And _self, final State state) {
+    final SymbolSet result = new SymbolSet();
+    result.addAll(ExpressionAspect.findDependentVariables(_self.getLeft(), state));
+    result.addAll(ExpressionAspect.findDependentVariables(_self.getRight(), state));
+    return result;
   }
   
   private static Value super_evaluateExpression(final And _self, final State state) {
@@ -173,7 +207,14 @@ public class AndAspect extends ExpressionAspect {
     final BooleanValue valY = BernoulliBoolUtils.getValue(y);
     final DoubleValue probX = BernoulliBoolUtils.getProbability(x);
     final DoubleValue probY = BernoulliBoolUtils.getProbability(y);
-    return AndAspect.indepNonDisjoint(_self, state, probX, probY, valX, valY);
+    final SymbolSet depValLeft = ExpressionAspect.findDependentVariables(_self.getLeft(), state);
+    final SymbolSet depValRight = ExpressionAspect.findDependentVariables(_self.getRight(), state);
+    final boolean isDependent = depValLeft.containsOne(depValRight);
+    if (isDependent) {
+      return AndAspect.depNonDisjoint(_self, state, probX, probY, valX, valY);
+    } else {
+      return AndAspect.indepNonDisjoint(_self, state, probX, probY, valX, valY);
+    }
   }
   
   protected static ObjectRefValue _privk3_private_and(final AndAspectAndAspectProperties _self_, final And _self, final ObjectRefValue x, final BooleanValue y, final State state) {
@@ -205,5 +246,9 @@ public class AndAspect extends ExpressionAspect {
       it.setInstance(result);
     };
     return ObjectExtensions.<ObjectRefValue>operator_doubleArrow(_createObjectRefValue, _function);
+  }
+  
+  protected static ObjectRefValue _privk3_depNonDisjoint(final AndAspectAndAspectProperties _self_, final And _self, final State state, final DoubleValue probX, final DoubleValue probY, final BooleanValue valX, final BooleanValue valY) {
+    throw new UnsupportedOperationException("And operator cannot be applied on dependent and non-disjoint elements.");
   }
 }

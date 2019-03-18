@@ -2,6 +2,36 @@ package smartgrid
 
 import uscript.lang.*
 
+//class Substation {
+//	Fuse[] fuses;
+//	Gaussian<double> load;
+//	
+//	Bernoulli<bool> isDisconnected() {
+//		if(fuses.length == 0) {
+//			return new Bernoulli<bool>(true, 1);
+//		}
+//		
+//		Fuse f = fuses[0];
+//		Bernoulli<bool> isConn = f.isClosed;
+//		
+//		for(int i=1; i<fuses.length; i = i + 1) {
+//			f = fuses[i];
+//			isConn = isConn || f.isClosed;
+//		}
+//		
+//		return !isConn;
+//	}
+//}
+
+class Fuse {
+	Bernoulli<bool> isClosed;
+	Cable cable;
+}
+
+class Cable{
+	Gaussian<double> load;
+}
+
 class Substation {
 	Fuse[] fuses;
 	Gaussian<double> load;
@@ -21,15 +51,6 @@ class Substation {
 		
 		return !isConn;
 	}
-}
-
-class Fuse {
-	Bernoulli<bool> isClosed;
-	Cable cable;
-}
-
-class Cable{
-	Gaussian<double> load;
 }
 
 void ComputeLoadNoCable(Substation substation) {

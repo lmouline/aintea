@@ -4,7 +4,7 @@ package duc.uscript.execution
 import duc.uscript.uScript.Symbol
 import duc.uscript.uScript.Field
 import duc.uscript.uScript.NewObject
-import duc.uscript.uScript.MethodCall
+import duc.uscript.uScript.MethodCall2
 
 class Context {
 	contains Context child opposite parent
@@ -88,8 +88,8 @@ class NewCall extends Call {
 	refers NewObject[1] ^new
 }
 
-class MethodCall2 extends Call {
-	refers MethodCall[1] methodcall
+class MethodCall3 extends Call {
+	refers MethodCall2[1] methodcall
 }
 
 class ObjectInstance {

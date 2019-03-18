@@ -11,6 +11,7 @@ import duc.uscript.uScript.Or
 import duc.uscript.execution.ObjectRefValue
 import static duc.uscript.execution.interpreter.utils.BernoulliBoolUtils.*
 import duc.uscript.execution.DoubleValue
+import duc.uscript.execution.interpreter.utils.SymbolSet
 
 @Aspect(className=Or)
 class OrAspect extends ExpressionAspect{
@@ -88,5 +89,13 @@ class OrAspect extends ExpressionAspect{
 									     _self)
 		
 		return ExecutionFactory::eINSTANCE.createObjectRefValue => [instance = result]
+	}
+	
+	@OverrideAspectMethod
+	def SymbolSet findDependentVariables(State state) {
+		val result = new SymbolSet
+		result.addAll(_self.left.findDependentVariables(state))
+		result.addAll(_self.right.findDependentVariables(state))
+		return result
 	}
 }

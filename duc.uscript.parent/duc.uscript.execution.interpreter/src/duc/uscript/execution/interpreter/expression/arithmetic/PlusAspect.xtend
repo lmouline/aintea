@@ -18,6 +18,9 @@ import duc.uscript.execution.DoubleValue
 import static extension duc.uscript.execution.interpreter.modelstate.ValueAspect.convertToString
 import duc.uscript.execution.CharValue
 import duc.uscript.execution.BooleanValue
+import duc.uscript.execution.ObjectRefValue
+import duc.uscript.execution.interpreter.utils.GaussianDoubleUtils
+import duc.uscript.execution.interpreter.utils.SymbolSet
 
 @Aspect(className=Plus)
 class PlusAspect extends ExpressionAspect {
@@ -38,6 +41,8 @@ class PlusAspect extends ExpressionAspect {
 			CharValue: p(_self, left, right)
 			BooleanValue: left_plus(_self, left, right)
 			StringValue: p(_self, left, right)
+			ObjectRefValue: left_plus(_self, state, left, right)
+			default: throw new RuntimeException("Add operator not implemented for " + left.class.name)
 		}
 	}
 	
@@ -52,6 +57,7 @@ class PlusAspect extends ExpressionAspect {
 			DoubleValue: p(_self, left, right)
 			CharValue: p(_self, left, right)
 			StringValue: p(_self, left, right)
+			default: throw new RuntimeException("Add operator not implemented for " + right.class.name)
 		}
 	}	
 	
@@ -65,6 +71,7 @@ class PlusAspect extends ExpressionAspect {
 			DoubleValue: p(_self, left, right)
 			CharValue: p(_self, left, right)
 			StringValue: p(_self, left, right)
+			default: throw new RuntimeException("Add operator not implemented for " + right.class.name)
 		}
 	}
 	
@@ -78,6 +85,7 @@ class PlusAspect extends ExpressionAspect {
 			DoubleValue: p(_self, left, right)
 			CharValue: p(_self, left, right)
 			StringValue: p(_self, left, right)
+			default: throw new RuntimeException("Add operator not implemented for " + right.class.name)
 		}
 	}
 	
@@ -91,6 +99,7 @@ class PlusAspect extends ExpressionAspect {
 			DoubleValue: p(_self, left, right)
 			CharValue: p(_self, left, right)
 			StringValue: p(_self, left, right)
+			default: throw new RuntimeException("Add operator not implemented for " + right.class.name)
 		}
 	}
 	
@@ -104,6 +113,7 @@ class PlusAspect extends ExpressionAspect {
 			DoubleValue: p(_self, left, right)
 			CharValue: p(_self, left, right)
 			StringValue: p(_self, left, right)
+			default: throw new RuntimeException("Add operator not implemented for " + right.class.name)
 		}
 	}
 	
@@ -117,12 +127,21 @@ class PlusAspect extends ExpressionAspect {
 			DoubleValue: p(_self, left, right)
 			CharValue: p(_self, left, right)
 			StringValue: p(_self, left, right)
+			default: throw new RuntimeException("Add operator not implemented for " + right.class.name)
 		}
 	}
 	
 	private static def Value left_plus(BooleanValue left, Value right) {
 		return switch(right) {
 			StringValue: p(_self, left, right)
+			default: throw new RuntimeException("Add operator not implemented for " + right.class.name)
+		}
+	}
+	
+	private static def Value left_plus(State state, ObjectRefValue left, Value right) {
+		return switch(right) {
+			ObjectRefValue: p(_self, state, left, right)
+			default: throw new RuntimeException("Add operator not implemented for " + right.class.name)
 		}
 	}
 		
@@ -281,6 +300,33 @@ class PlusAspect extends ExpressionAspect {
 		return ExecutionFactory::eINSTANCE.createDoubleValue => [
 				value = x.value + y.value
 			]
+	}
+	
+	private def ObjectRefValue p(State state, ObjectRefValue x, ObjectRefValue y) {
+		val valX = GaussianDoubleUtils.getValue(x)
+		val valY = GaussianDoubleUtils.getValue(y)
+		
+		val meanX = GaussianDoubleUtils.getMean(x)
+		val meanY = GaussianDoubleUtils.getMean(y)
+		
+		val varX = GaussianDoubleUtils.getVariance(x)
+		val varY = GaussianDoubleUtils.getVariance(y)
+		
+		val result = GaussianDoubleUtils.createGaussianDouble(state,
+															  meanX.value + meanY.value,
+															  varX.value + varY.value,
+															  valX.value + valY.value,
+															  _self)
+		
+		return ExecutionFactory::eINSTANCE.createObjectRefValue => [instance = result]
+	}
+	
+	@OverrideAspectMethod
+	def SymbolSet findDependentVariables(State state) {
+		val result = new SymbolSet
+		result.addAll(_self.left.findDependentVariables(state))
+		result.addAll(_self.right.findDependentVariables(state))
+		return result
 	}
 	
 	

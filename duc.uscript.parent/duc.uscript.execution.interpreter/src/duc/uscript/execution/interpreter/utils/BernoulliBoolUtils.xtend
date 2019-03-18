@@ -61,11 +61,11 @@ class BernoulliBoolUtils {
 	}
 	
 	def static DoubleValue getProbability(ObjectRefValue bernoulliBool) {
-		val confY = bernoulliBool.instance
+		val confidence = bernoulliBool.instance
 								 .fieldbindings
 								 .findFirst[field.name == "confidence"]
 							 	 .value as ObjectRefValue
-		return confY.instance
+		return confidence.instance
 						 .fieldbindings
 						 .findFirst[field.name == "probability"]
 						 .value as DoubleValue

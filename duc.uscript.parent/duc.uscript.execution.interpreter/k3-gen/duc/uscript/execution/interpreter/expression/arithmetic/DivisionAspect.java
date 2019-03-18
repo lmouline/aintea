@@ -6,11 +6,15 @@ import duc.uscript.execution.ExecutionFactory;
 import duc.uscript.execution.FloatValue;
 import duc.uscript.execution.IntegerValue;
 import duc.uscript.execution.LongValue;
+import duc.uscript.execution.ObjectInstance;
+import duc.uscript.execution.ObjectRefValue;
 import duc.uscript.execution.ShortValue;
 import duc.uscript.execution.State;
 import duc.uscript.execution.Value;
 import duc.uscript.execution.interpreter.expression.ExpressionAspect;
 import duc.uscript.execution.interpreter.expression.arithmetic.DivisionAspectDivisionAspectProperties;
+import duc.uscript.execution.interpreter.utils.GaussianDoubleUtils;
+import duc.uscript.execution.interpreter.utils.SymbolSet;
 import duc.uscript.uScript.Division;
 import fr.inria.diverse.k3.al.annotationprocessor.Aspect;
 import fr.inria.diverse.k3.al.annotationprocessor.OverrideAspectMethod;
@@ -87,6 +91,16 @@ public class DivisionAspect extends ExpressionAspect {
     // #DispatchPointCut_before# Value left_plus(DoubleValue,Value)
     if (_self instanceof duc.uscript.uScript.Division){
     	result = duc.uscript.execution.interpreter.expression.arithmetic.DivisionAspect._privk3_left_plus(_self_, (duc.uscript.uScript.Division)_self,left,right);
+    };
+    return (duc.uscript.execution.Value)result;
+  }
+  
+  private static Value left_plus(final Division _self, final State state, final ObjectRefValue left, final Value right) {
+    final duc.uscript.execution.interpreter.expression.arithmetic.DivisionAspectDivisionAspectProperties _self_ = duc.uscript.execution.interpreter.expression.arithmetic.DivisionAspectDivisionAspectContext.getSelf(_self);
+    Object result = null;
+    // #DispatchPointCut_before# Value left_plus(State,ObjectRefValue,Value)
+    if (_self instanceof duc.uscript.uScript.Division){
+    	result = duc.uscript.execution.interpreter.expression.arithmetic.DivisionAspect._privk3_left_plus(_self_, (duc.uscript.uScript.Division)_self,state,left,right);
     };
     return (duc.uscript.execution.Value)result;
   }
@@ -301,6 +315,27 @@ public class DivisionAspect extends ExpressionAspect {
     return (duc.uscript.execution.DoubleValue)result;
   }
   
+  private static ObjectRefValue p(final Division _self, final State state, final ObjectRefValue x, final IntegerValue y) {
+    final duc.uscript.execution.interpreter.expression.arithmetic.DivisionAspectDivisionAspectProperties _self_ = duc.uscript.execution.interpreter.expression.arithmetic.DivisionAspectDivisionAspectContext.getSelf(_self);
+    Object result = null;
+    // #DispatchPointCut_before# ObjectRefValue p(State,ObjectRefValue,IntegerValue)
+    if (_self instanceof duc.uscript.uScript.Division){
+    	result = duc.uscript.execution.interpreter.expression.arithmetic.DivisionAspect._privk3_p(_self_, (duc.uscript.uScript.Division)_self,state,x,y);
+    };
+    return (duc.uscript.execution.ObjectRefValue)result;
+  }
+  
+  @OverrideAspectMethod
+  public static SymbolSet findDependentVariables(final Division _self, final State state) {
+    final duc.uscript.execution.interpreter.expression.arithmetic.DivisionAspectDivisionAspectProperties _self_ = duc.uscript.execution.interpreter.expression.arithmetic.DivisionAspectDivisionAspectContext.getSelf(_self);
+    Object result = null;
+    // #DispatchPointCut_before# SymbolSet findDependentVariables(State)
+    if (_self instanceof duc.uscript.uScript.Division){
+    	result = duc.uscript.execution.interpreter.expression.arithmetic.DivisionAspect._privk3_findDependentVariables(_self_, (duc.uscript.uScript.Division)_self,state);
+    };
+    return (duc.uscript.execution.interpreter.utils.SymbolSet)result;
+  }
+  
   private static Value super_evaluateExpression(final Division _self, final State state) {
     final duc.uscript.execution.interpreter.expression.ExpressionAspectExpressionAspectProperties _self_ = duc.uscript.execution.interpreter.expression.ExpressionAspectExpressionAspectContext.getSelf(_self);
     return  duc.uscript.execution.interpreter.expression.ExpressionAspect._privk3_evaluateExpression(_self_, _self,state);
@@ -345,6 +380,17 @@ public class DivisionAspect extends ExpressionAspect {
         _switchResult = DivisionAspect.left_plus(_self, ((DoubleValue)left), right);
       }
     }
+    if (!_matched) {
+      if (left instanceof ObjectRefValue) {
+        _matched=true;
+        _switchResult = DivisionAspect.left_plus(_self, state, ((ObjectRefValue)left), right);
+      }
+    }
+    if (!_matched) {
+      String _name = left.getClass().getName();
+      String _plus = ("Add operator not implemented for " + _name);
+      throw new RuntimeException(_plus);
+    }
     return _switchResult;
   }
   
@@ -384,6 +430,11 @@ public class DivisionAspect extends ExpressionAspect {
         _matched=true;
         _switchResult = DivisionAspect.p(_self, left, ((DoubleValue)right), true);
       }
+    }
+    if (!_matched) {
+      String _name = right.getClass().getName();
+      String _plus = ("Add operator not implemented for " + _name);
+      throw new RuntimeException(_plus);
     }
     return _switchResult;
   }
@@ -425,6 +476,11 @@ public class DivisionAspect extends ExpressionAspect {
         _switchResult = DivisionAspect.p(_self, left, ((DoubleValue)right), true);
       }
     }
+    if (!_matched) {
+      String _name = right.getClass().getName();
+      String _plus = ("Add operator not implemented for " + _name);
+      throw new RuntimeException(_plus);
+    }
     return _switchResult;
   }
   
@@ -464,6 +520,11 @@ public class DivisionAspect extends ExpressionAspect {
         _matched=true;
         _switchResult = DivisionAspect.p(_self, left, ((DoubleValue)right), true);
       }
+    }
+    if (!_matched) {
+      String _name = right.getClass().getName();
+      String _plus = ("Add operator not implemented for " + _name);
+      throw new RuntimeException(_plus);
     }
     return _switchResult;
   }
@@ -505,6 +566,11 @@ public class DivisionAspect extends ExpressionAspect {
         _switchResult = DivisionAspect.p(_self, left, ((DoubleValue)right), true);
       }
     }
+    if (!_matched) {
+      String _name = right.getClass().getName();
+      String _plus = ("Add operator not implemented for " + _name);
+      throw new RuntimeException(_plus);
+    }
     return _switchResult;
   }
   
@@ -545,6 +611,11 @@ public class DivisionAspect extends ExpressionAspect {
         _switchResult = DivisionAspect.p(_self, left, ((DoubleValue)right), true);
       }
     }
+    if (!_matched) {
+      String _name = right.getClass().getName();
+      String _plus = ("Add operator not implemented for " + _name);
+      throw new RuntimeException(_plus);
+    }
     return _switchResult;
   }
   
@@ -584,6 +655,26 @@ public class DivisionAspect extends ExpressionAspect {
         _matched=true;
         _switchResult = DivisionAspect.p(_self, left, ((DoubleValue)right));
       }
+    }
+    if (!_matched) {
+      String _name = right.getClass().getName();
+      String _plus = ("Add operator not implemented for " + _name);
+      throw new RuntimeException(_plus);
+    }
+    return _switchResult;
+  }
+  
+  protected static Value _privk3_left_plus(final DivisionAspectDivisionAspectProperties _self_, final Division _self, final State state, final ObjectRefValue left, final Value right) {
+    ObjectRefValue _switchResult = null;
+    boolean _matched = false;
+    if (right instanceof IntegerValue) {
+      _matched=true;
+      _switchResult = DivisionAspect.p(_self, state, left, ((IntegerValue)right));
+    }
+    if (!_matched) {
+      String _name = right.getClass().getName();
+      String _plus = ("Add operator not implemented for " + _name);
+      throw new RuntimeException(_plus);
     }
     return _switchResult;
   }
@@ -950,5 +1041,41 @@ public class DivisionAspect extends ExpressionAspect {
       it.setValue(_divide);
     };
     return ObjectExtensions.<DoubleValue>operator_doubleArrow(_createDoubleValue, _function);
+  }
+  
+  protected static ObjectRefValue _privk3_p(final DivisionAspectDivisionAspectProperties _self_, final Division _self, final State state, final ObjectRefValue x, final IntegerValue y) {
+    final DoubleValue valX = GaussianDoubleUtils.getValue(x);
+    final DoubleValue meanX = GaussianDoubleUtils.getMean(x);
+    final DoubleValue varX = GaussianDoubleUtils.getVariance(x);
+    double _value = meanX.getValue();
+    int _value_1 = y.getValue();
+    double _divide = (_value / _value_1);
+    double _value_2 = varX.getValue();
+    double _multiply = (_value_2 * 1);
+    int _value_3 = y.getValue();
+    int _value_4 = y.getValue();
+    int _multiply_1 = (_value_3 * _value_4);
+    double _divide_1 = (_multiply / _multiply_1);
+    double _value_5 = valX.getValue();
+    int _value_6 = y.getValue();
+    double _divide_2 = (_value_5 / _value_6);
+    final ObjectInstance result = GaussianDoubleUtils.createGaussianDouble(state, _divide, _divide_1, _divide_2, _self);
+    ObjectRefValue _createObjectRefValue = ExecutionFactory.eINSTANCE.createObjectRefValue();
+    final Procedure1<ObjectRefValue> _function = (ObjectRefValue it) -> {
+      it.setInstance(result);
+    };
+    return ObjectExtensions.<ObjectRefValue>operator_doubleArrow(_createObjectRefValue, _function);
+  }
+  
+  private static SymbolSet super_findDependentVariables(final Division _self, final State state) {
+    final duc.uscript.execution.interpreter.expression.ExpressionAspectExpressionAspectProperties _self_ = duc.uscript.execution.interpreter.expression.ExpressionAspectExpressionAspectContext.getSelf(_self);
+    return  duc.uscript.execution.interpreter.expression.ExpressionAspect._privk3_findDependentVariables(_self_, _self,state);
+  }
+  
+  protected static SymbolSet _privk3_findDependentVariables(final DivisionAspectDivisionAspectProperties _self_, final Division _self, final State state) {
+    final SymbolSet result = new SymbolSet();
+    result.addAll(ExpressionAspect.findDependentVariables(_self.getLeft(), state));
+    result.addAll(ExpressionAspect.findDependentVariables(_self.getRight(), state));
+    return result;
   }
 }

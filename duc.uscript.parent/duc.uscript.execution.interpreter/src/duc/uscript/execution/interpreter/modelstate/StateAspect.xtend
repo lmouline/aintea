@@ -7,6 +7,8 @@ import duc.uscript.execution.ExecutionFactory
 import duc.uscript.execution.Frame
 
 import static extension duc.uscript.execution.interpreter.modelstate.FrameAspect.*
+import duc.uscript.execution.ObjectInstance
+import duc.uscript.execution.Call
 
 @Aspect(className=State)
 class StateAspect {
@@ -47,5 +49,24 @@ class StateAspect {
 	
 	def void print(String string) {
 		_self.outputStream.stream.add(string)
+	}
+	
+	def void pushNewFrame(ObjectInstance receiver, Call c, Context ctx) {
+		val newFrame = ExecutionFactory::eINSTANCE.createFrame => [
+			instance = receiver
+			call = c
+			rootContext = ctx
+		]
+		
+		_self.findCurrentFrame.child = newFrame
+		_self.frame = newFrame
+		_self.context = null
+	}
+	
+	def void popCurrentFrame() {
+		val newCurrent = _self.findCurrentFrame.parent
+		_self.findCurrentFrame.parent = null;
+		_self.context = null
+		_self.frame = newCurrent
 	}
 }

@@ -10,6 +10,7 @@ import duc.uscript.execution.Value;
 import duc.uscript.execution.interpreter.expression.ExpressionAspect;
 import duc.uscript.execution.interpreter.expression.bool.NotAspectNotAspectProperties;
 import duc.uscript.execution.interpreter.utils.BernoulliBoolUtils;
+import duc.uscript.execution.interpreter.utils.SymbolSet;
 import duc.uscript.uScript.Not;
 import fr.inria.diverse.k3.al.annotationprocessor.Aspect;
 import fr.inria.diverse.k3.al.annotationprocessor.OverrideAspectMethod;
@@ -48,6 +49,17 @@ public class NotAspect extends ExpressionAspect {
     	result = duc.uscript.execution.interpreter.expression.bool.NotAspect._privk3_private_not(_self_, (duc.uscript.uScript.Not)_self,x,state);
     };
     return (duc.uscript.execution.ObjectRefValue)result;
+  }
+  
+  @OverrideAspectMethod
+  public static SymbolSet findDependentVariables(final Not _self, final State state) {
+    final duc.uscript.execution.interpreter.expression.bool.NotAspectNotAspectProperties _self_ = duc.uscript.execution.interpreter.expression.bool.NotAspectNotAspectContext.getSelf(_self);
+    Object result = null;
+    // #DispatchPointCut_before# SymbolSet findDependentVariables(State)
+    if (_self instanceof duc.uscript.uScript.Not){
+    	result = duc.uscript.execution.interpreter.expression.bool.NotAspect._privk3_findDependentVariables(_self_, (duc.uscript.uScript.Not)_self,state);
+    };
+    return (duc.uscript.execution.interpreter.utils.SymbolSet)result;
   }
   
   private static Value super_evaluateExpression(final Not _self, final State state) {
@@ -100,5 +112,16 @@ public class NotAspect extends ExpressionAspect {
       it.setInstance(result);
     };
     return ObjectExtensions.<ObjectRefValue>operator_doubleArrow(_createObjectRefValue, _function);
+  }
+  
+  private static SymbolSet super_findDependentVariables(final Not _self, final State state) {
+    final duc.uscript.execution.interpreter.expression.ExpressionAspectExpressionAspectProperties _self_ = duc.uscript.execution.interpreter.expression.ExpressionAspectExpressionAspectContext.getSelf(_self);
+    return  duc.uscript.execution.interpreter.expression.ExpressionAspect._privk3_findDependentVariables(_self_, _self,state);
+  }
+  
+  protected static SymbolSet _privk3_findDependentVariables(final NotAspectNotAspectProperties _self_, final Not _self, final State state) {
+    final SymbolSet result = new SymbolSet();
+    result.addAll(ExpressionAspect.findDependentVariables(_self.getExpression(), state));
+    return result;
   }
 }

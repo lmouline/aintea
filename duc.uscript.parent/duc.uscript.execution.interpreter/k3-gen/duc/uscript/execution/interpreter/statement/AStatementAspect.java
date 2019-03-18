@@ -26,6 +26,11 @@ public class AStatementAspect {
     			duc.uscript.execution.interpreter.statement.PrintStatementAspect.evaluateStatement((duc.uscript.uScript.PrintStatement)_self,state);
     		} else
     		// EndInjectInto duc.uscript.execution.interpreter.statement.AStatementAspect#void evaluateStatement(State) from duc.uscript.execution.interpreter.statement.PrintStatementAspect
+    	// BeginInjectInto duc.uscript.execution.interpreter.statement.AStatementAspect#void evaluateStatement(State) from duc.uscript.execution.interpreter.statement.ReturnAspect
+    		if (_self instanceof duc.uscript.uScript.Return){
+    			duc.uscript.execution.interpreter.statement.ReturnAspect.evaluateStatement((duc.uscript.uScript.Return)_self,state);
+    		} else
+    		// EndInjectInto duc.uscript.execution.interpreter.statement.AStatementAspect#void evaluateStatement(State) from duc.uscript.execution.interpreter.statement.ReturnAspect
     // #DispatchPointCut_before# void evaluateStatement(State)
     if (_self instanceof duc.uscript.uScript.Statement){
     	duc.uscript.execution.interpreter.statement.AStatementAspect._privk3_evaluateStatement(_self_, (duc.uscript.uScript.Statement)_self,state);

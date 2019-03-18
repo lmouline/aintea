@@ -123,8 +123,35 @@ void main() {
 ```
 
 On these new data types, we can apply usual operators as on certian types:
+
   - arithmetic operators on uncertain numeric (Gaussian, Rayleigh, Binomial, Dirac)
   - boolean operator on uncertain boolean (Bernoulli)
+
+**Boolean operators:**
+
+There is three different ways to propagate the uncertain through operators, depending on the dependence and join of the booleans:
+  - both variables are disjoint
+  - they are independent and non-disjoint
+  - they are dependent and non-disjoint
+
+Two variables are defined dependent if they are, directly or indirectly, defined based on, at least, one common variable (uncertain or not).
+We call two variables disjoint when they do not share the same a common set of possible values.
+
+ 
+
+
+```
+package basics
+
+void main() {
+  Bernoulli<bool> b1 = new Bernoulli<bool>(true, 0.6);
+  Bernoulli<bool> b2 = new Bernoulli<bool>(false, 0.7);
+
+  Bernoulli<bool> b3 = b1 && b2;
+  Bernoulli<bool> b4 = b1 || b2;
+  Bernoulli<bool> b5 = !b1;
+}
+```
 
 
 

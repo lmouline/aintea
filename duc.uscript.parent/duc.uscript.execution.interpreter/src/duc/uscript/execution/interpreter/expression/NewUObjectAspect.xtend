@@ -20,6 +20,8 @@ import duc.uscript.uScript.BernoulliRef
 import duc.uscript.execution.BooleanValue
 import duc.uscript.execution.DoubleValue
 import static duc.uscript.execution.interpreter.utils.BernoulliBoolUtils.createBernoulliBool
+import duc.uscript.execution.interpreter.utils.SymbolSet
+import duc.uscript.uScript.Expression
 
 @Aspect(className=NewUObject)
 class NewUObjectAspect extends ExpressionAspect{
@@ -90,5 +92,16 @@ class NewUObjectAspect extends ExpressionAspect{
 		val result = createBernoulliBool(state, probability.value, uValue.value, _self)
 		
 		return ExecutionFactory::eINSTANCE.createObjectRefValue => [instance = result]
+	}
+	
+	@OverrideAspectMethod
+	def SymbolSet findDependentVariables(State state) {
+		val result = new SymbolSet
+		
+		for(Expression arg: _self.args) {
+			result.addAll(findDependentVariables(arg, state))
+		}
+		
+		return result
 	}
 }

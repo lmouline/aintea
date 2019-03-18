@@ -16,7 +16,6 @@ import org.eclipse.xtext.diagnostics.Severity
 
 import static extension duc.uscript.execution.interpreter.ScriptAspect.*
 import java.io.PrintStream
-import duc.uscript.typing.InternalTypeDcl
 
 import static duc.uscript.UScriptLang.loadLib
 
