@@ -15,6 +15,7 @@ import duc.uscript.uScript.Assignment;
 import duc.uscript.uScript.Symbol;
 import duc.uscript.uScript.SymbolRef;
 import duc.uscript.uScript.VariableDeclaration;
+import duc.uscript.utils.Range;
 import duc.uscript.utils.SymbolSet;
 import fr.inria.diverse.k3.al.annotationprocessor.Aspect;
 import fr.inria.diverse.k3.al.annotationprocessor.OverrideAspectMethod;
@@ -45,6 +46,7 @@ public class AssigmentAspect extends AStatementAspect {
       final Assignee assignee = _self.getAssignee();
       final Value right = ExpressionAspect.evaluateExpression(_self.getValue(), state);
       final SymbolSet dependences = ExpressionAspect.findDependentVariables(_self.getValue(), state);
+      final Range valueRange = ExpressionAspect.findRange(_self.getValue(), state);
       boolean _matched = false;
       if (assignee instanceof SymbolRef) {
         _matched=true;
@@ -56,6 +58,7 @@ public class AssigmentAspect extends AStatementAspect {
           existingBinding.getSymbolSet().clear();
         }
         existingBinding.setSymbolSet(dependences);
+        existingBinding.setRange(valueRange);
       }
       if (!_matched) {
         if (assignee instanceof VariableDeclaration) {
@@ -65,6 +68,7 @@ public class AssigmentAspect extends AStatementAspect {
             it.setSymbol(((Symbol)assignee));
             it.setValue(right);
             it.setSymbolSet(dependences);
+            it.setRange(valueRange);
           };
           final SymbolBindings binding = ObjectExtensions.<SymbolBindings>operator_doubleArrow(_createSymbolBindings, _function);
           context.getBindings().add(binding);

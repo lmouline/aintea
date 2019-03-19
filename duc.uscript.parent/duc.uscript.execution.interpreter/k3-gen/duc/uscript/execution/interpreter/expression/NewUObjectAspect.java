@@ -26,6 +26,7 @@ import duc.uscript.uScript.GaussianRef;
 import duc.uscript.uScript.NewUObject;
 import duc.uscript.uScript.RayleighRef;
 import duc.uscript.uScript.UTypeRef;
+import duc.uscript.utils.Range;
 import duc.uscript.utils.SymbolSet;
 import fr.inria.diverse.k3.al.annotationprocessor.Aspect;
 import fr.inria.diverse.k3.al.annotationprocessor.OverrideAspectMethod;
@@ -77,6 +78,17 @@ public class NewUObjectAspect extends ExpressionAspect {
     	result = duc.uscript.execution.interpreter.expression.NewUObjectAspect._privk3_findDependentVariables(_self_, (duc.uscript.uScript.NewUObject)_self,state);
     };
     return (duc.uscript.utils.SymbolSet)result;
+  }
+  
+  @OverrideAspectMethod
+  public static Range findRange(final NewUObject _self, final State state) {
+    final duc.uscript.execution.interpreter.expression.NewUObjectAspectNewUObjectAspectProperties _self_ = duc.uscript.execution.interpreter.expression.NewUObjectAspectNewUObjectAspectContext.getSelf(_self);
+    Object result = null;
+    // #DispatchPointCut_before# Range findRange(State)
+    if (_self instanceof duc.uscript.uScript.NewUObject){
+    	result = duc.uscript.execution.interpreter.expression.NewUObjectAspect._privk3_findRange(_self_, (duc.uscript.uScript.NewUObject)_self,state);
+    };
+    return (duc.uscript.utils.Range)result;
   }
   
   private static Value super_evaluateExpression(final NewUObject _self, final State state) {
@@ -219,5 +231,14 @@ public class NewUObjectAspect extends ExpressionAspect {
       result.addAll(ExpressionAspect.findDependentVariables(arg, state));
     }
     return result;
+  }
+  
+  private static Range super_findRange(final NewUObject _self, final State state) {
+    final duc.uscript.execution.interpreter.expression.ExpressionAspectExpressionAspectProperties _self_ = duc.uscript.execution.interpreter.expression.ExpressionAspectExpressionAspectContext.getSelf(_self);
+    return  duc.uscript.execution.interpreter.expression.ExpressionAspect._privk3_findRange(_self_, _self,state);
+  }
+  
+  protected static Range _privk3_findRange(final NewUObjectAspectNewUObjectAspectProperties _self_, final NewUObject _self, final State state) {
+    return ExpressionAspect.findRange(_self.getArgs().get(0), state);
   }
 }

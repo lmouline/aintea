@@ -11,6 +11,8 @@ import duc.uscript.execution.interpreter.expression.ExpressionAspect;
 import duc.uscript.execution.interpreter.expression.bool.AndAspectAndAspectProperties;
 import duc.uscript.execution.interpreter.utils.BernoulliBoolUtils;
 import duc.uscript.uScript.And;
+import duc.uscript.utils.Range;
+import duc.uscript.utils.SimpleRange;
 import duc.uscript.utils.SymbolSet;
 import fr.inria.diverse.k3.al.annotationprocessor.Aspect;
 import fr.inria.diverse.k3.al.annotationprocessor.OverrideAspectMethod;
@@ -112,6 +114,16 @@ public class AndAspect extends ExpressionAspect {
     return (duc.uscript.execution.ObjectRefValue)result;
   }
   
+  private static ObjectRefValue disjoint(final And _self, final State state, final DoubleValue probX, final DoubleValue probY, final BooleanValue valX, final BooleanValue valY) {
+    final duc.uscript.execution.interpreter.expression.bool.AndAspectAndAspectProperties _self_ = duc.uscript.execution.interpreter.expression.bool.AndAspectAndAspectContext.getSelf(_self);
+    Object result = null;
+    // #DispatchPointCut_before# ObjectRefValue disjoint(State,DoubleValue,DoubleValue,BooleanValue,BooleanValue)
+    if (_self instanceof duc.uscript.uScript.And){
+    	result = duc.uscript.execution.interpreter.expression.bool.AndAspect._privk3_disjoint(_self_, (duc.uscript.uScript.And)_self,state,probX,probY,valX,valY);
+    };
+    return (duc.uscript.execution.ObjectRefValue)result;
+  }
+  
   private static SymbolSet super_findDependentVariables(final And _self, final State state) {
     final duc.uscript.execution.interpreter.expression.ExpressionAspectExpressionAspectProperties _self_ = duc.uscript.execution.interpreter.expression.ExpressionAspectExpressionAspectContext.getSelf(_self);
     return  duc.uscript.execution.interpreter.expression.ExpressionAspect._privk3_findDependentVariables(_self_, _self,state);
@@ -209,12 +221,19 @@ public class AndAspect extends ExpressionAspect {
     final DoubleValue probY = BernoulliBoolUtils.getProbability(y);
     final SymbolSet depValLeft = ExpressionAspect.findDependentVariables(_self.getLeft(), state);
     final SymbolSet depValRight = ExpressionAspect.findDependentVariables(_self.getRight(), state);
-    final boolean isDependent = depValLeft.containsOne(depValRight);
-    if (isDependent) {
-      return AndAspect.depNonDisjoint(_self, state, probX, probY, valX, valY);
-    } else {
-      return AndAspect.indepNonDisjoint(_self, state, probX, probY, valX, valY);
+    Range _findRange = ExpressionAspect.findRange(_self.getLeft(), state);
+    final SimpleRange leftRange = ((SimpleRange) _findRange);
+    Range _findRange_1 = ExpressionAspect.findRange(_self.getRight(), state);
+    final SimpleRange rightRange = ((SimpleRange) _findRange_1);
+    final boolean areDependent = depValLeft.containsOne(depValRight);
+    final boolean areDisjoint = leftRange.intersectionIsNull(rightRange);
+    if (areDisjoint) {
+      return AndAspect.disjoint(_self, state, probX, probY, valX, valY);
     }
+    if (areDependent) {
+      return AndAspect.depNonDisjoint(_self, state, probX, probY, valX, valY);
+    }
+    return AndAspect.indepNonDisjoint(_self, state, probX, probY, valX, valY);
   }
   
   protected static ObjectRefValue _privk3_private_and(final AndAspectAndAspectProperties _self_, final And _self, final ObjectRefValue x, final BooleanValue y, final State state) {
@@ -250,5 +269,16 @@ public class AndAspect extends ExpressionAspect {
   
   protected static ObjectRefValue _privk3_depNonDisjoint(final AndAspectAndAspectProperties _self_, final And _self, final State state, final DoubleValue probX, final DoubleValue probY, final BooleanValue valX, final BooleanValue valY) {
     throw new UnsupportedOperationException("And operator cannot be applied on dependent and non-disjoint elements.");
+  }
+  
+  protected static ObjectRefValue _privk3_disjoint(final AndAspectAndAspectProperties _self_, final And _self, final State state, final DoubleValue probX, final DoubleValue probY, final BooleanValue valX, final BooleanValue valY) {
+    final ObjectInstance result = BernoulliBoolUtils.createBernoulliBool(state, 
+      0, 
+      false, _self);
+    ObjectRefValue _createObjectRefValue = ExecutionFactory.eINSTANCE.createObjectRefValue();
+    final Procedure1<ObjectRefValue> _function = (ObjectRefValue it) -> {
+      it.setInstance(result);
+    };
+    return ObjectExtensions.<ObjectRefValue>operator_doubleArrow(_createObjectRefValue, _function);
   }
 }

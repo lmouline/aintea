@@ -4,8 +4,9 @@ import uscript.lang.*
 
 void main() {
   double t = 18;
-  Bernoulli<bool> b1 = new Bernoulli<bool>(t > 29, 1.);
-  Bernoulli<bool> b2 = new Bernoulli<bool>(t > 7, 1.);
+  double t2 = 8;
+  Bernoulli<bool> b1 = new Bernoulli<bool>(t > 17, 0.6);
+  Bernoulli<bool> b2 = new Bernoulli<bool>(t < 9, 0.6);
 
   Bernoulli<bool> b3 = b1 && b2;
 

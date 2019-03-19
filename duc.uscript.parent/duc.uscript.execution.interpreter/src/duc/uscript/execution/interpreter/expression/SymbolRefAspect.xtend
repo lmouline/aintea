@@ -10,6 +10,7 @@ import static extension duc.uscript.execution.interpreter.modelstate.StateAspect
 import static extension duc.uscript.execution.interpreter.modelstate.ContextAspect.*
 import static extension duc.uscript.execution.interpreter.modelstate.ValueAspect.*
 import duc.uscript.utils.SymbolSet
+import duc.uscript.utils.Range
 
 @Aspect(className=SymbolRef)
 class SymbolRefAspect extends ExpressionAspect {
@@ -26,5 +27,12 @@ class SymbolRefAspect extends ExpressionAspect {
 		result.add(_self.symbol)
 		result.addAll(existingBinding.symbolSet)
 		return result
+	}
+	
+	@OverrideAspectMethod
+	def Range findRange(State state) {
+		val context = state.findCurrentContext
+		val existingBinding = context.findBinding(_self.symbol)
+		return existingBinding.range
 	}
 }

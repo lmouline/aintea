@@ -22,9 +22,11 @@ import duc.uscript.execution.DoubleValue
 import static duc.uscript.execution.interpreter.utils.BernoulliBoolUtils.createBernoulliBool
 import duc.uscript.utils.SymbolSet
 import duc.uscript.uScript.Expression
+import duc.uscript.utils.Range
 
 @Aspect(className=NewUObject)
 class NewUObjectAspect extends ExpressionAspect{
+	
 	@OverrideAspectMethod
 	def Value evaluateExpression(State state) {
 		val Injector injector = new UScriptStandaloneSetupGenerated().createInjectorAndDoEMFRegistration()
@@ -103,5 +105,10 @@ class NewUObjectAspect extends ExpressionAspect{
 		}
 		
 		return result
+	}
+	
+	@OverrideAspectMethod
+	def Range findRange(State state) {
+		return _self.args.get(0).findRange(state)
 	}
 }

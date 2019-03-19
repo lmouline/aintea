@@ -12,6 +12,8 @@ import duc.uscript.execution.ObjectRefValue
 import static duc.uscript.execution.interpreter.utils.BernoulliBoolUtils.*
 import duc.uscript.execution.DoubleValue
 import duc.uscript.utils.SymbolSet
+import duc.uscript.utils.Range
+import duc.uscript.utils.SimpleRange
 
 @Aspect(className=And)
 class AndAspect extends ExpressionAspect{
@@ -71,13 +73,22 @@ class AndAspect extends ExpressionAspect{
 		val SymbolSet depValLeft = _self.left.findDependentVariables(state)
 		val SymbolSet depValRight = _self.right.findDependentVariables(state)
 		
-		val isDependent = depValLeft.containsOne(depValRight)
+		val SimpleRange leftRange = _self.left.findRange(state) as SimpleRange
+		val SimpleRange rightRange = _self.right.findRange(state) as SimpleRange
 		
-		if(isDependent) {
-			return depNonDisjoint(_self, state, probX, probY, valX, valY)
-		} else {
-			return indepNonDisjoint(_self, state, probX, probY, valX, valY)
+		val areDependent = depValLeft.containsOne(depValRight)
+		val areDisjoint = leftRange.intersectionIsNull(rightRange)
+		
+		if(areDisjoint) {
+			return disjoint(_self, state, probX, probY, valX, valY)
 		}
+		
+		if(areDependent) {
+			return depNonDisjoint(_self, state, probX, probY, valX, valY)
+		}
+		
+		return indepNonDisjoint(_self, state, probX, probY, valX, valY)
+		
 	}
 	
 	private static def ObjectRefValue private_and(ObjectRefValue x, BooleanValue y, State state) {
@@ -113,6 +124,18 @@ class AndAspect extends ExpressionAspect{
 	
 	
 	}
+	
+	private static def ObjectRefValue disjoint(State state, DoubleValue probX, DoubleValue probY, 
+																BooleanValue valX, BooleanValue valY)
+	{
+		val result = createBernoulliBool(state, 
+									     0, 
+									     false, 
+									     _self)
+		
+		return ExecutionFactory::eINSTANCE.createObjectRefValue => [instance = result]
+	}
+	
 																
 	
 	

@@ -13,6 +13,7 @@ import duc.uscript.uScript.VariableDeclaration
 import duc.uscript.execution.ExecutionFactory
 import duc.uscript.uScript.SymbolRef
 import duc.uscript.utils.SymbolSet
+import duc.uscript.utils.Range
 
 @Aspect(className=Assignment)
 class AssigmentAspect extends AStatementAspect {
@@ -24,6 +25,10 @@ class AssigmentAspect extends AStatementAspect {
 		val right = _self.value.evaluateExpression(state)
 		
 		val SymbolSet dependences = _self.value.findDependentVariables(state)
+		
+		//misleading name, not really the range of the value but the range
+		// of values which can result if the value.....
+		val Range valueRange = _self.value.findRange(state)   
 					
 		switch (assignee) {
 			SymbolRef: {
@@ -33,12 +38,14 @@ class AssigmentAspect extends AStatementAspect {
 					existingBinding.symbolSet.clear()
 				}
 				existingBinding.symbolSet = dependences
+				existingBinding.range = valueRange
 			}
 			VariableDeclaration: {
 				val binding = ExecutionFactory::eINSTANCE.createSymbolBindings => [
 					symbol = assignee
 					value = right
 					symbolSet = dependences
+					range = valueRange
 				]
 				context.bindings.add(binding)
 			}

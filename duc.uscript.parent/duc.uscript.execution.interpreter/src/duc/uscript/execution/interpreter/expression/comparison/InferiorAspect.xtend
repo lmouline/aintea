@@ -11,7 +11,6 @@ import duc.uscript.execution.State
 import duc.uscript.execution.Value
 import duc.uscript.execution.interpreter.expression.ExpressionAspect
 import duc.uscript.utils.SymbolSet
-import duc.uscript.uScript.Superior
 import fr.inria.diverse.k3.al.annotationprocessor.Aspect
 import fr.inria.diverse.k3.al.annotationprocessor.OverrideAspectMethod
 import duc.uscript.execution.BooleanValue
@@ -21,24 +20,25 @@ import duc.uscript.uScript.IntConstant
 import duc.uscript.utils.RangeFactory
 import duc.uscript.uScript.LongConstant
 import static extension duc.uscript.utils.LongConstantUtils.*
+import duc.uscript.uScript.Inferior
 
-@Aspect(className=Superior)
-class SuperiorAspect extends ExpressionAspect {
+@Aspect(className=Inferior)
+class InferiorAspect extends ExpressionAspect {
 	@OverrideAspectMethod
 	def Range findRange(State state) {
 		
 		val left = _self.left
 		switch(left) {
-			DoubleConstant: return RangeFactory.createRangeWithUpper(left.value, false)
-			IntConstant: return RangeFactory.createRangeWithUpper(left.value, false)
-			LongConstant: return RangeFactory.createRangeWithUpper(left.parseValue, false)
+			DoubleConstant: return RangeFactory.createRangeWithLower(left.value, false)
+			IntConstant: return RangeFactory.createRangeWithLower(left.value, false)
+			LongConstant: return RangeFactory.createRangeWithLower(left.parseValue, false)
 		}
 		
 		val right = _self.right
 		switch(right) {
-			DoubleConstant: return RangeFactory.createRangeWithLower(right.value, false)
-			IntConstant: return RangeFactory.createRangeWithLower(right.value, false)
-			LongConstant: return RangeFactory.createRangeWithLower(right.parseValue, false)
+			DoubleConstant: return RangeFactory.createRangeWithUpper(right.value, false)
+			IntConstant: return RangeFactory.createRangeWithUpper(right.value, false)
+			LongConstant: return RangeFactory.createRangeWithUpper(right.parseValue, false)
 		}
 			
 		return RangeFactory.createFullRange()
@@ -145,9 +145,9 @@ class SuperiorAspect extends ExpressionAspect {
 	private def BooleanValue superior(ByteValue x, ByteValue y, boolean inverse) {
 		return ExecutionFactory::eINSTANCE.createBooleanValue => [
 				if(inverse) {
-					value = y.value > x.value
+					value = y.value < x.value
 				} else {
-					value = x.value > y.value
+					value = x.value < y.value
 				}
 			]
 	}
@@ -155,9 +155,9 @@ class SuperiorAspect extends ExpressionAspect {
 	private def BooleanValue superior(ByteValue x, ShortValue y, boolean inverse) {
 		return ExecutionFactory::eINSTANCE.createBooleanValue => [
 				if(inverse) {
-					value = y.value > x.value
+					value = y.value < x.value
 				} else {
-					value = x.value > y.value
+					value = x.value < y.value
 				}
 			]
 	}
@@ -165,9 +165,9 @@ class SuperiorAspect extends ExpressionAspect {
 	private def BooleanValue superior(ByteValue x, IntegerValue y, boolean inverse) {
 		return ExecutionFactory::eINSTANCE.createBooleanValue => [
 				if(inverse) {
-					value = y.value > x.value
+					value = y.value < x.value
 				} else {
-					value = x.value > y.value
+					value = x.value < y.value
 				}
 			]
 	}
@@ -175,9 +175,9 @@ class SuperiorAspect extends ExpressionAspect {
 	private def BooleanValue superior(ByteValue x, LongValue y, boolean inverse) {
 		return ExecutionFactory::eINSTANCE.createBooleanValue => [
 				if(inverse) {
-					value = y.value > x.value
+					value = y.value < x.value
 				} else {
-					value = x.value > y.value
+					value = x.value < y.value
 				}
 			]
 	}
@@ -185,9 +185,9 @@ class SuperiorAspect extends ExpressionAspect {
 	private def BooleanValue superior(ByteValue x, FloatValue y, boolean inverse) {
 		return ExecutionFactory::eINSTANCE.createBooleanValue => [
 				if(inverse) {
-					value = y.value > x.value
+					value = y.value < x.value
 				} else {
-					value = x.value > y.value
+					value = x.value < y.value
 				}
 			]
 	}
@@ -195,9 +195,9 @@ class SuperiorAspect extends ExpressionAspect {
 	private def BooleanValue superior(ByteValue x, DoubleValue y, boolean inverse) {
 		return ExecutionFactory::eINSTANCE.createBooleanValue => [
 				if(inverse) {
-					value = y.value > x.value
+					value = y.value < x.value
 				} else {
-					value = x.value > y.value
+					value = x.value < y.value
 				}
 			]
 	}
@@ -205,9 +205,9 @@ class SuperiorAspect extends ExpressionAspect {
 	private def BooleanValue superior(ShortValue x, ShortValue y, boolean inverse) {
 		return ExecutionFactory::eINSTANCE.createBooleanValue => [
 				if(inverse) {
-					value = y.value > x.value
+					value = y.value < x.value
 				} else {
-					value = x.value > y.value
+					value = x.value < y.value
 				}
 			]
 	}
@@ -215,9 +215,9 @@ class SuperiorAspect extends ExpressionAspect {
 	private def BooleanValue superior(ShortValue x, IntegerValue y, boolean inverse) {
 		return ExecutionFactory::eINSTANCE.createBooleanValue => [
 				if(inverse) {
-					value = y.value > x.value
+					value = y.value < x.value
 				} else {
-					value = x.value > y.value
+					value = x.value < y.value
 				}
 			]
 	}
@@ -225,9 +225,9 @@ class SuperiorAspect extends ExpressionAspect {
 	private def BooleanValue superior(ShortValue x, LongValue y, boolean inverse) {
 		return ExecutionFactory::eINSTANCE.createBooleanValue => [
 				if(inverse) {
-					value = y.value > x.value
+					value = y.value < x.value
 				} else {
-					value = x.value > y.value
+					value = x.value < y.value
 				}
 			]
 	}
@@ -235,9 +235,9 @@ class SuperiorAspect extends ExpressionAspect {
 	private def BooleanValue superior(ShortValue x, FloatValue y, boolean inverse) {
 		return ExecutionFactory::eINSTANCE.createBooleanValue => [
 				if(inverse) {
-					value = y.value > x.value
+					value = y.value < x.value
 				} else {
-					value = x.value > y.value
+					value = x.value < y.value
 				}
 			]
 	}
@@ -245,9 +245,9 @@ class SuperiorAspect extends ExpressionAspect {
 	private def BooleanValue superior(ShortValue x, DoubleValue y, boolean inverse) {
 		return ExecutionFactory::eINSTANCE.createBooleanValue => [
 				if(inverse) {
-					value = y.value > x.value
+					value = y.value < x.value
 				} else {
-					value = x.value > y.value
+					value = x.value < y.value
 				}
 			]
 	}
@@ -255,9 +255,9 @@ class SuperiorAspect extends ExpressionAspect {
 	private def BooleanValue superior(IntegerValue x, IntegerValue y, boolean inverse) {
 		return ExecutionFactory::eINSTANCE.createBooleanValue => [
 				if(inverse) {
-					value = y.value > x.value
+					value = y.value < x.value
 				} else {
-					value = x.value > y.value
+					value = x.value < y.value
 				}
 			]
 	}
@@ -265,9 +265,9 @@ class SuperiorAspect extends ExpressionAspect {
 	private def BooleanValue superior(IntegerValue x, LongValue y, boolean inverse) {
 		return ExecutionFactory::eINSTANCE.createBooleanValue => [
 				if(inverse) {
-					value = y.value > x.value
+					value = y.value < x.value
 				} else {
-					value = x.value > y.value
+					value = x.value < y.value
 				}
 			]
 	}
@@ -275,9 +275,9 @@ class SuperiorAspect extends ExpressionAspect {
 	private def BooleanValue superior(IntegerValue x, FloatValue y, boolean inverse) {
 		return ExecutionFactory::eINSTANCE.createBooleanValue => [
 				if(inverse) {
-					value = y.value > x.value
+					value = y.value < x.value
 				} else {
-					value = x.value > y.value
+					value = x.value < y.value
 				}
 			]
 	}
@@ -285,9 +285,9 @@ class SuperiorAspect extends ExpressionAspect {
 	private def BooleanValue superior(IntegerValue x, DoubleValue y, boolean inverse) {
 		return ExecutionFactory::eINSTANCE.createBooleanValue => [
 				if(inverse) {
-					value = y.value > x.value
+					value = y.value < x.value
 				} else {
-					value = x.value > y.value
+					value = x.value < y.value
 				}
 			]
 	}
@@ -295,9 +295,9 @@ class SuperiorAspect extends ExpressionAspect {
 	private def BooleanValue superior(LongValue x, LongValue y, boolean inverse) {
 		return ExecutionFactory::eINSTANCE.createBooleanValue => [
 				if(inverse) {
-					value = y.value > x.value
+					value = y.value < x.value
 				} else {
-					value = x.value > y.value
+					value = x.value < y.value
 				}
 			]
 	}
@@ -305,9 +305,9 @@ class SuperiorAspect extends ExpressionAspect {
 	private def BooleanValue superior(LongValue x, FloatValue y, boolean inverse) {
 		return ExecutionFactory::eINSTANCE.createBooleanValue => [
 				if(inverse) {
-					value = y.value > x.value
+					value = y.value < x.value
 				} else {
-					value = x.value > y.value
+					value = x.value < y.value
 				}
 			]
 	}
@@ -315,9 +315,9 @@ class SuperiorAspect extends ExpressionAspect {
 	private def BooleanValue superior(LongValue x, DoubleValue y, boolean inverse) {
 		return ExecutionFactory::eINSTANCE.createBooleanValue => [
 				if(inverse) {
-					value = y.value > x.value
+					value = y.value < x.value
 				} else {
-					value = x.value > y.value
+					value = x.value < y.value
 				}
 			]
 	}
@@ -325,9 +325,9 @@ class SuperiorAspect extends ExpressionAspect {
 	private def BooleanValue superior(FloatValue x, FloatValue y, boolean inverse) {
 		return ExecutionFactory::eINSTANCE.createBooleanValue => [
 				if(inverse) {
-					value = y.value > x.value
+					value = y.value < x.value
 				} else {
-					value = x.value > y.value
+					value = x.value < y.value
 				}
 			]
 	}
@@ -335,9 +335,9 @@ class SuperiorAspect extends ExpressionAspect {
 	private def BooleanValue superior(FloatValue x, DoubleValue y, boolean inverse) {
 		return ExecutionFactory::eINSTANCE.createBooleanValue => [
 				if(inverse) {
-					value = y.value > x.value
+					value = y.value < x.value
 				} else {
-					value = x.value > y.value
+					value = x.value < y.value
 				}
 			]
 	}
@@ -345,9 +345,9 @@ class SuperiorAspect extends ExpressionAspect {
 	private def BooleanValue superior(DoubleValue x, DoubleValue y, boolean inverse) {
 		return ExecutionFactory::eINSTANCE.createBooleanValue => [
 				if(inverse) {
-					value = y.value > x.value
+					value = y.value < x.value
 				} else {
-					value = x.value > y.value
+					value = x.value < y.value
 				}
 			]
 	}

@@ -12,7 +12,14 @@ import duc.uscript.execution.State;
 import duc.uscript.execution.Value;
 import duc.uscript.execution.interpreter.expression.ExpressionAspect;
 import duc.uscript.execution.interpreter.expression.comparison.SuperiorAspectSuperiorAspectProperties;
+import duc.uscript.uScript.DoubleConstant;
+import duc.uscript.uScript.Expression;
+import duc.uscript.uScript.IntConstant;
+import duc.uscript.uScript.LongConstant;
 import duc.uscript.uScript.Superior;
+import duc.uscript.utils.LongConstantUtils;
+import duc.uscript.utils.Range;
+import duc.uscript.utils.RangeFactory;
 import duc.uscript.utils.SymbolSet;
 import fr.inria.diverse.k3.al.annotationprocessor.Aspect;
 import fr.inria.diverse.k3.al.annotationprocessor.OverrideAspectMethod;
@@ -22,6 +29,17 @@ import org.eclipse.xtext.xbase.lib.Procedures.Procedure1;
 @Aspect(className = Superior.class)
 @SuppressWarnings("all")
 public class SuperiorAspect extends ExpressionAspect {
+  @OverrideAspectMethod
+  public static Range findRange(final Superior _self, final State state) {
+    final duc.uscript.execution.interpreter.expression.comparison.SuperiorAspectSuperiorAspectProperties _self_ = duc.uscript.execution.interpreter.expression.comparison.SuperiorAspectSuperiorAspectContext.getSelf(_self);
+    Object result = null;
+    // #DispatchPointCut_before# Range findRange(State)
+    if (_self instanceof duc.uscript.uScript.Superior){
+    	result = duc.uscript.execution.interpreter.expression.comparison.SuperiorAspect._privk3_findRange(_self_, (duc.uscript.uScript.Superior)_self,state);
+    };
+    return (duc.uscript.utils.Range)result;
+  }
+  
   @OverrideAspectMethod
   public static SymbolSet findDependentVariables(final Superior _self, final State state) {
     final duc.uscript.execution.interpreter.expression.comparison.SuperiorAspectSuperiorAspectProperties _self_ = duc.uscript.execution.interpreter.expression.comparison.SuperiorAspectSuperiorAspectContext.getSelf(_self);
@@ -312,6 +330,51 @@ public class SuperiorAspect extends ExpressionAspect {
     	result = duc.uscript.execution.interpreter.expression.comparison.SuperiorAspect._privk3_superior(_self_, (duc.uscript.uScript.Superior)_self,x,y,inverse);
     };
     return (duc.uscript.execution.BooleanValue)result;
+  }
+  
+  private static Range super_findRange(final Superior _self, final State state) {
+    final duc.uscript.execution.interpreter.expression.ExpressionAspectExpressionAspectProperties _self_ = duc.uscript.execution.interpreter.expression.ExpressionAspectExpressionAspectContext.getSelf(_self);
+    return  duc.uscript.execution.interpreter.expression.ExpressionAspect._privk3_findRange(_self_, _self,state);
+  }
+  
+  protected static Range _privk3_findRange(final SuperiorAspectSuperiorAspectProperties _self_, final Superior _self, final State state) {
+    final Expression left = _self.getLeft();
+    boolean _matched = false;
+    if (left instanceof DoubleConstant) {
+      _matched=true;
+      return RangeFactory.createRangeWithUpper(((DoubleConstant)left).getValue(), false);
+    }
+    if (!_matched) {
+      if (left instanceof IntConstant) {
+        _matched=true;
+        return RangeFactory.createRangeWithUpper(((IntConstant)left).getValue(), false);
+      }
+    }
+    if (!_matched) {
+      if (left instanceof LongConstant) {
+        _matched=true;
+        return RangeFactory.createRangeWithUpper(LongConstantUtils.parseValue(((LongConstant)left)), false);
+      }
+    }
+    final Expression right = _self.getRight();
+    boolean _matched_1 = false;
+    if (right instanceof DoubleConstant) {
+      _matched_1=true;
+      return RangeFactory.createRangeWithLower(((DoubleConstant)right).getValue(), false);
+    }
+    if (!_matched_1) {
+      if (right instanceof IntConstant) {
+        _matched_1=true;
+        return RangeFactory.createRangeWithLower(((IntConstant)right).getValue(), false);
+      }
+    }
+    if (!_matched_1) {
+      if (right instanceof LongConstant) {
+        _matched_1=true;
+        return RangeFactory.createRangeWithLower(LongConstantUtils.parseValue(((LongConstant)right)), false);
+      }
+    }
+    return RangeFactory.createFullRange();
   }
   
   private static SymbolSet super_findDependentVariables(final Superior _self, final State state) {
