@@ -50,7 +50,11 @@ public class AssigmentAspect extends AStatementAspect {
         _matched=true;
         final SymbolBindings existingBinding = ContextAspect.findBinding(context, ((SymbolRef)assignee).getSymbol());
         existingBinding.setValue(right);
-        existingBinding.getSymbolSet().clear();
+        SymbolSet _symbolSet = existingBinding.getSymbolSet();
+        boolean _tripleNotEquals = (_symbolSet != null);
+        if (_tripleNotEquals) {
+          existingBinding.getSymbolSet().clear();
+        }
         existingBinding.setSymbolSet(dependences);
       }
       if (!_matched) {

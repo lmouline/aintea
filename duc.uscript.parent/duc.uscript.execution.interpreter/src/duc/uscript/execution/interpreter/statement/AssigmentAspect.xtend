@@ -29,7 +29,9 @@ class AssigmentAspect extends AStatementAspect {
 			SymbolRef: {
 				val existingBinding = context.findBinding(assignee.symbol)
 				existingBinding.value = right
-				existingBinding.symbolSet.clear()
+				if(existingBinding.symbolSet !== null) {
+					existingBinding.symbolSet.clear()
+				}
 				existingBinding.symbolSet = dependences
 			}
 			VariableDeclaration: {
