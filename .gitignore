@@ -67,4 +67,4 @@ website/themes/hugo-theme-techdoc/exampleSite
 # Xtend Eclipse plugin
 *.java._trace
 *.xtendbin
-*.jar
+/duc.uscript.parent/duc.uscript.runner.standalone/standalone.jar
