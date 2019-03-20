@@ -1,0 +1,24 @@
+package basics
+
+import uscript.lang.*
+
+void main() {
+  Gaussian<double> g1 = new Gaussian<double>(15., 4.);
+  Gaussian<double> g2 = new Gaussian<double>(15., 4.);
+
+  Bernoulli<bool> b1 = g1 > 17;
+  Bernoulli<bool> b2 = g2 < 10; 
+
+  Bernoulli<bool> b3 = b1 && b2;
+  Bernoulli<bool> b4 = b1 || b2;
+  Bernoulli<bool> b5 = !b1;
+
+  print(g1);
+  print("");
+  print(b1);
+  print(b2);
+  print("");
+  print(b3);
+  print(b4);
+  print(b5);
+}

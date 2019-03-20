@@ -135,17 +135,24 @@ There is three different ways to propagate the uncertain through operators, depe
   - they are dependent and non-disjoint
 
 Two variables are defined dependent if they are, directly or indirectly, defined based on, at least, one common variable (uncertain or not).
-We call two variables disjoint when they do not share the same a common set of possible values.
+We call two variables disjoint when they do not have a common set of possible values.
 
- 
 
+ <div class="warning">
+  **Warning!** Current algorithm to detect (in)dependence and (dis)joint variables considers only the simple cases. Further works needs to be done to implement a full algorithm.
+  **The algorithm works only for boolean values computed from a comparison operator between a certain number and a constant.**
+</div>
+
+Here an example of boolean operators between two dependent and disjoint uncertain booleans:
 
 ```
 package basics
 
 void main() {
-  Bernoulli<bool> b1 = new Bernoulli<bool>(true, 0.6);
-  Bernoulli<bool> b2 = new Bernoulli<bool>(false, 0.7);
+  Gaussian<double> t = new Gaussian<double(15., 2.);
+
+  Bernoulli<bool> b1 = t > 17; //
+  Bernoulli<bool> b2 = t < 9 //
 
   Bernoulli<bool> b3 = b1 && b2;
   Bernoulli<bool> b4 = b1 || b2;
