@@ -12,7 +12,6 @@ import duc.uscript.execution.ObjectRefValue
 import static duc.uscript.execution.interpreter.utils.BernoulliBoolUtils.*
 import duc.uscript.execution.DoubleValue
 import duc.uscript.utils.SymbolSet
-import duc.uscript.utils.Range
 import duc.uscript.utils.SimpleRange
 
 @Aspect(className=And)

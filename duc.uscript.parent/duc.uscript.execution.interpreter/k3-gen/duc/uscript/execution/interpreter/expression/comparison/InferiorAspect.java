@@ -7,11 +7,15 @@ import duc.uscript.execution.ExecutionFactory;
 import duc.uscript.execution.FloatValue;
 import duc.uscript.execution.IntegerValue;
 import duc.uscript.execution.LongValue;
+import duc.uscript.execution.ObjectInstance;
+import duc.uscript.execution.ObjectRefValue;
 import duc.uscript.execution.ShortValue;
 import duc.uscript.execution.State;
 import duc.uscript.execution.Value;
 import duc.uscript.execution.interpreter.expression.ExpressionAspect;
 import duc.uscript.execution.interpreter.expression.comparison.InferiorAspectInferiorAspectProperties;
+import duc.uscript.execution.interpreter.utils.BernoulliBoolUtils;
+import duc.uscript.execution.interpreter.utils.GaussianDoubleUtils;
 import duc.uscript.uScript.DoubleConstant;
 import duc.uscript.uScript.Expression;
 import duc.uscript.uScript.Inferior;
@@ -23,6 +27,7 @@ import duc.uscript.utils.RangeFactory;
 import duc.uscript.utils.SymbolSet;
 import fr.inria.diverse.k3.al.annotationprocessor.Aspect;
 import fr.inria.diverse.k3.al.annotationprocessor.OverrideAspectMethod;
+import org.apache.commons.math3.distribution.NormalDistribution;
 import org.eclipse.xtext.xbase.lib.ObjectExtensions;
 import org.eclipse.xtext.xbase.lib.Procedures.Procedure1;
 
@@ -118,6 +123,16 @@ public class InferiorAspect extends ExpressionAspect {
     // #DispatchPointCut_before# Value rightDispatch(DoubleValue,Value)
     if (_self instanceof duc.uscript.uScript.Inferior){
     	result = duc.uscript.execution.interpreter.expression.comparison.InferiorAspect._privk3_rightDispatch(_self_, (duc.uscript.uScript.Inferior)_self,left,right);
+    };
+    return (duc.uscript.execution.Value)result;
+  }
+  
+  private static Value rightDispatch(final Inferior _self, final State state, final ObjectRefValue left, final Value right) {
+    final duc.uscript.execution.interpreter.expression.comparison.InferiorAspectInferiorAspectProperties _self_ = duc.uscript.execution.interpreter.expression.comparison.InferiorAspectInferiorAspectContext.getSelf(_self);
+    Object result = null;
+    // #DispatchPointCut_before# Value rightDispatch(State,ObjectRefValue,Value)
+    if (_self instanceof duc.uscript.uScript.Inferior){
+    	result = duc.uscript.execution.interpreter.expression.comparison.InferiorAspect._privk3_rightDispatch(_self_, (duc.uscript.uScript.Inferior)_self,state,left,right);
     };
     return (duc.uscript.execution.Value)result;
   }
@@ -332,6 +347,16 @@ public class InferiorAspect extends ExpressionAspect {
     return (duc.uscript.execution.BooleanValue)result;
   }
   
+  private static Value superior(final Inferior _self, final State state, final IntegerValue x, final ObjectRefValue y, final boolean inverse) {
+    final duc.uscript.execution.interpreter.expression.comparison.InferiorAspectInferiorAspectProperties _self_ = duc.uscript.execution.interpreter.expression.comparison.InferiorAspectInferiorAspectContext.getSelf(_self);
+    Object result = null;
+    // #DispatchPointCut_before# Value superior(State,IntegerValue,ObjectRefValue,boolean)
+    if (_self instanceof duc.uscript.uScript.Inferior){
+    	result = duc.uscript.execution.interpreter.expression.comparison.InferiorAspect._privk3_superior(_self_, (duc.uscript.uScript.Inferior)_self,state,x,y,inverse);
+    };
+    return (duc.uscript.execution.Value)result;
+  }
+  
   private static Range super_findRange(final Inferior _self, final State state) {
     final duc.uscript.execution.interpreter.expression.ExpressionAspectExpressionAspectProperties _self_ = duc.uscript.execution.interpreter.expression.ExpressionAspectExpressionAspectContext.getSelf(_self);
     return  duc.uscript.execution.interpreter.expression.ExpressionAspect._privk3_findRange(_self_, _self,state);
@@ -434,8 +459,14 @@ public class InferiorAspect extends ExpressionAspect {
       }
     }
     if (!_matched) {
+      if (left instanceof ObjectRefValue) {
+        _matched=true;
+        _switchResult = InferiorAspect.rightDispatch(_self, state, ((ObjectRefValue)left), right);
+      }
+    }
+    if (!_matched) {
       String _name = left.getClass().getName();
-      String _plus = ("Add operator not implemented for " + _name);
+      String _plus = ("Inferior operator not implemented for " + _name);
       throw new RuntimeException(_plus);
     }
     return _switchResult;
@@ -480,7 +511,7 @@ public class InferiorAspect extends ExpressionAspect {
     }
     if (!_matched) {
       String _name = left.getClass().getName();
-      String _plus = ("Add operator not implemented for " + _name);
+      String _plus = ("Inferior operator not implemented for " + _name);
       throw new RuntimeException(_plus);
     }
     return _switchResult;
@@ -525,7 +556,7 @@ public class InferiorAspect extends ExpressionAspect {
     }
     if (!_matched) {
       String _name = left.getClass().getName();
-      String _plus = ("Add operator not implemented for " + _name);
+      String _plus = ("Inferior operator not implemented for " + _name);
       throw new RuntimeException(_plus);
     }
     return _switchResult;
@@ -570,7 +601,7 @@ public class InferiorAspect extends ExpressionAspect {
     }
     if (!_matched) {
       String _name = left.getClass().getName();
-      String _plus = ("Add operator not implemented for " + _name);
+      String _plus = ("Inferior operator not implemented for " + _name);
       throw new RuntimeException(_plus);
     }
     return _switchResult;
@@ -615,7 +646,7 @@ public class InferiorAspect extends ExpressionAspect {
     }
     if (!_matched) {
       String _name = left.getClass().getName();
-      String _plus = ("Add operator not implemented for " + _name);
+      String _plus = ("Inferior operator not implemented for " + _name);
       throw new RuntimeException(_plus);
     }
     return _switchResult;
@@ -660,7 +691,7 @@ public class InferiorAspect extends ExpressionAspect {
     }
     if (!_matched) {
       String _name = left.getClass().getName();
-      String _plus = ("Add operator not implemented for " + _name);
+      String _plus = ("Inferior operator not implemented for " + _name);
       throw new RuntimeException(_plus);
     }
     return _switchResult;
@@ -705,7 +736,22 @@ public class InferiorAspect extends ExpressionAspect {
     }
     if (!_matched) {
       String _name = left.getClass().getName();
-      String _plus = ("Add operator not implemented for " + _name);
+      String _plus = ("Inferior operator not implemented for " + _name);
+      throw new RuntimeException(_plus);
+    }
+    return _switchResult;
+  }
+  
+  protected static Value _privk3_rightDispatch(final InferiorAspectInferiorAspectProperties _self_, final Inferior _self, final State state, final ObjectRefValue left, final Value right) {
+    Value _switchResult = null;
+    boolean _matched = false;
+    if (right instanceof IntegerValue) {
+      _matched=true;
+      _switchResult = InferiorAspect.superior(_self, state, ((IntegerValue)right), left, true);
+    }
+    if (!_matched) {
+      String _name = left.getClass().getName();
+      String _plus = ("Superior operator not implemented for " + _name);
       throw new RuntimeException(_plus);
     }
     return _switchResult;
@@ -1087,5 +1133,35 @@ public class InferiorAspect extends ExpressionAspect {
       }
     };
     return ObjectExtensions.<BooleanValue>operator_doubleArrow(_createBooleanValue, _function);
+  }
+  
+  protected static Value _privk3_superior(final InferiorAspectInferiorAspectProperties _self_, final Inferior _self, final State state, final IntegerValue x, final ObjectRefValue y, final boolean inverse) {
+    final int intValue = x.getValue();
+    final double meanGauss = GaussianDoubleUtils.getMean(y).getValue();
+    final double valueGauss = GaussianDoubleUtils.getValue(y).getValue();
+    final double variance = GaussianDoubleUtils.getVariance(y).getValue();
+    final double std = Math.sqrt(variance);
+    final NormalDistribution apacheGaussian = new NormalDistribution(meanGauss, std);
+    double _xifexpression = (double) 0;
+    if (inverse) {
+      _xifexpression = apacheGaussian.cumulativeProbability(intValue);
+    } else {
+      double _cumulativeProbability = apacheGaussian.cumulativeProbability(intValue);
+      _xifexpression = (1 - _cumulativeProbability);
+    }
+    final double prob = _xifexpression;
+    boolean _xifexpression_1 = false;
+    if (inverse) {
+      _xifexpression_1 = (valueGauss < intValue);
+    } else {
+      _xifexpression_1 = (intValue < valueGauss);
+    }
+    final boolean value = _xifexpression_1;
+    final ObjectInstance bernoulli = BernoulliBoolUtils.createBernoulliBool(state, prob, value, _self);
+    ObjectRefValue _createObjectRefValue = ExecutionFactory.eINSTANCE.createObjectRefValue();
+    final Procedure1<ObjectRefValue> _function = (ObjectRefValue it) -> {
+      it.setInstance(bernoulli);
+    };
+    return ObjectExtensions.<ObjectRefValue>operator_doubleArrow(_createObjectRefValue, _function);
   }
 }

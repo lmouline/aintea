@@ -12,9 +12,18 @@ import duc.uscript.execution.ObjectRefValue
 import static duc.uscript.execution.interpreter.utils.BernoulliBoolUtils.*
 import duc.uscript.execution.DoubleValue
 import duc.uscript.utils.SymbolSet
+import duc.uscript.utils.SimpleRange
 
 @Aspect(className=Or)
 class OrAspect extends ExpressionAspect{
+	
+	@OverrideAspectMethod
+	def SymbolSet findDependentVariables(State state) {
+		val result = new SymbolSet
+		result.addAll(_self.left.findDependentVariables(state))
+		result.addAll(_self.right.findDependentVariables(state))
+		return result
+	}
 	
 	@OverrideAspectMethod
 	def Value evaluateExpression(State state) {
@@ -60,7 +69,24 @@ class OrAspect extends ExpressionAspect{
 		
 		val probX = getProbability(x)
 		val probY = getProbability(y)
-								 
+		
+		val SymbolSet depValLeft = _self.left.findDependentVariables(state)
+		val SymbolSet depValRight = _self.right.findDependentVariables(state)
+		
+		val SimpleRange leftRange = _self.left.findRange(state) as SimpleRange
+		val SimpleRange rightRange = _self.right.findRange(state) as SimpleRange
+		
+		val areDependent = depValLeft.containsOne(depValRight)
+		val areDisjoint = leftRange.intersectionIsNull(rightRange)
+		
+		if(areDisjoint) {
+			return disjoint(_self, state, probX, probY, valX, valY)
+		}
+		
+		if(areDependent) {
+			return depNonDisjoint(_self, state, probX, probY, valX, valY)
+		}
+		
 		return indepNonDisjoint(_self, state, probX, probY, valX, valY)
 	}
 	
@@ -91,11 +117,21 @@ class OrAspect extends ExpressionAspect{
 		return ExecutionFactory::eINSTANCE.createObjectRefValue => [instance = result]
 	}
 	
-	@OverrideAspectMethod
-	def SymbolSet findDependentVariables(State state) {
-		val result = new SymbolSet
-		result.addAll(_self.left.findDependentVariables(state))
-		result.addAll(_self.right.findDependentVariables(state))
-		return result
+	private static def ObjectRefValue depNonDisjoint(State state, DoubleValue probX, DoubleValue probY, 
+																BooleanValue valX, BooleanValue valY)
+	{
+		throw new UnsupportedOperationException("Or operator cannot be applied on dependent and non-disjoint elements.")
 	}
+	
+	private static def ObjectRefValue disjoint(State state, DoubleValue probX, DoubleValue probY, 
+																BooleanValue valX, BooleanValue valY)
+	{
+		val result = createBernoulliBool(state, 
+									     probX.value + probY.value, 
+									     valX.value || valY.value, 
+									     _self)
+		
+		return ExecutionFactory::eINSTANCE.createObjectRefValue => [instance = result]
+	}
+	
 }

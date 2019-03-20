@@ -11,6 +11,8 @@ import duc.uscript.execution.interpreter.expression.ExpressionAspect;
 import duc.uscript.execution.interpreter.expression.bool.OrAspectOrAspectProperties;
 import duc.uscript.execution.interpreter.utils.BernoulliBoolUtils;
 import duc.uscript.uScript.Or;
+import duc.uscript.utils.Range;
+import duc.uscript.utils.SimpleRange;
 import duc.uscript.utils.SymbolSet;
 import fr.inria.diverse.k3.al.annotationprocessor.Aspect;
 import fr.inria.diverse.k3.al.annotationprocessor.OverrideAspectMethod;
@@ -20,6 +22,17 @@ import org.eclipse.xtext.xbase.lib.Procedures.Procedure1;
 @Aspect(className = Or.class)
 @SuppressWarnings("all")
 public class OrAspect extends ExpressionAspect {
+  @OverrideAspectMethod
+  public static SymbolSet findDependentVariables(final Or _self, final State state) {
+    final duc.uscript.execution.interpreter.expression.bool.OrAspectOrAspectProperties _self_ = duc.uscript.execution.interpreter.expression.bool.OrAspectOrAspectContext.getSelf(_self);
+    Object result = null;
+    // #DispatchPointCut_before# SymbolSet findDependentVariables(State)
+    if (_self instanceof duc.uscript.uScript.Or){
+    	result = duc.uscript.execution.interpreter.expression.bool.OrAspect._privk3_findDependentVariables(_self_, (duc.uscript.uScript.Or)_self,state);
+    };
+    return (duc.uscript.utils.SymbolSet)result;
+  }
+  
   @OverrideAspectMethod
   public static Value evaluateExpression(final Or _self, final State state) {
     final duc.uscript.execution.interpreter.expression.bool.OrAspectOrAspectProperties _self_ = duc.uscript.execution.interpreter.expression.bool.OrAspectOrAspectContext.getSelf(_self);
@@ -91,15 +104,36 @@ public class OrAspect extends ExpressionAspect {
     return (duc.uscript.execution.ObjectRefValue)result;
   }
   
-  @OverrideAspectMethod
-  public static SymbolSet findDependentVariables(final Or _self, final State state) {
+  private static ObjectRefValue depNonDisjoint(final Or _self, final State state, final DoubleValue probX, final DoubleValue probY, final BooleanValue valX, final BooleanValue valY) {
     final duc.uscript.execution.interpreter.expression.bool.OrAspectOrAspectProperties _self_ = duc.uscript.execution.interpreter.expression.bool.OrAspectOrAspectContext.getSelf(_self);
     Object result = null;
-    // #DispatchPointCut_before# SymbolSet findDependentVariables(State)
+    // #DispatchPointCut_before# ObjectRefValue depNonDisjoint(State,DoubleValue,DoubleValue,BooleanValue,BooleanValue)
     if (_self instanceof duc.uscript.uScript.Or){
-    	result = duc.uscript.execution.interpreter.expression.bool.OrAspect._privk3_findDependentVariables(_self_, (duc.uscript.uScript.Or)_self,state);
+    	result = duc.uscript.execution.interpreter.expression.bool.OrAspect._privk3_depNonDisjoint(_self_, (duc.uscript.uScript.Or)_self,state,probX,probY,valX,valY);
     };
-    return (duc.uscript.utils.SymbolSet)result;
+    return (duc.uscript.execution.ObjectRefValue)result;
+  }
+  
+  private static ObjectRefValue disjoint(final Or _self, final State state, final DoubleValue probX, final DoubleValue probY, final BooleanValue valX, final BooleanValue valY) {
+    final duc.uscript.execution.interpreter.expression.bool.OrAspectOrAspectProperties _self_ = duc.uscript.execution.interpreter.expression.bool.OrAspectOrAspectContext.getSelf(_self);
+    Object result = null;
+    // #DispatchPointCut_before# ObjectRefValue disjoint(State,DoubleValue,DoubleValue,BooleanValue,BooleanValue)
+    if (_self instanceof duc.uscript.uScript.Or){
+    	result = duc.uscript.execution.interpreter.expression.bool.OrAspect._privk3_disjoint(_self_, (duc.uscript.uScript.Or)_self,state,probX,probY,valX,valY);
+    };
+    return (duc.uscript.execution.ObjectRefValue)result;
+  }
+  
+  private static SymbolSet super_findDependentVariables(final Or _self, final State state) {
+    final duc.uscript.execution.interpreter.expression.ExpressionAspectExpressionAspectProperties _self_ = duc.uscript.execution.interpreter.expression.ExpressionAspectExpressionAspectContext.getSelf(_self);
+    return  duc.uscript.execution.interpreter.expression.ExpressionAspect._privk3_findDependentVariables(_self_, _self,state);
+  }
+  
+  protected static SymbolSet _privk3_findDependentVariables(final OrAspectOrAspectProperties _self_, final Or _self, final State state) {
+    final SymbolSet result = new SymbolSet();
+    result.addAll(ExpressionAspect.findDependentVariables(_self.getLeft(), state));
+    result.addAll(ExpressionAspect.findDependentVariables(_self.getRight(), state));
+    return result;
   }
   
   private static Value super_evaluateExpression(final Or _self, final State state) {
@@ -185,6 +219,20 @@ public class OrAspect extends ExpressionAspect {
     final BooleanValue valY = BernoulliBoolUtils.getValue(y);
     final DoubleValue probX = BernoulliBoolUtils.getProbability(x);
     final DoubleValue probY = BernoulliBoolUtils.getProbability(y);
+    final SymbolSet depValLeft = ExpressionAspect.findDependentVariables(_self.getLeft(), state);
+    final SymbolSet depValRight = ExpressionAspect.findDependentVariables(_self.getRight(), state);
+    Range _findRange = ExpressionAspect.findRange(_self.getLeft(), state);
+    final SimpleRange leftRange = ((SimpleRange) _findRange);
+    Range _findRange_1 = ExpressionAspect.findRange(_self.getRight(), state);
+    final SimpleRange rightRange = ((SimpleRange) _findRange_1);
+    final boolean areDependent = depValLeft.containsOne(depValRight);
+    final boolean areDisjoint = leftRange.intersectionIsNull(rightRange);
+    if (areDisjoint) {
+      return OrAspect.disjoint(_self, state, probX, probY, valX, valY);
+    }
+    if (areDependent) {
+      return OrAspect.depNonDisjoint(_self, state, probX, probY, valX, valY);
+    }
     return OrAspect.indepNonDisjoint(_self, state, probX, probY, valX, valY);
   }
   
@@ -223,15 +271,20 @@ public class OrAspect extends ExpressionAspect {
     return ObjectExtensions.<ObjectRefValue>operator_doubleArrow(_createObjectRefValue, _function);
   }
   
-  private static SymbolSet super_findDependentVariables(final Or _self, final State state) {
-    final duc.uscript.execution.interpreter.expression.ExpressionAspectExpressionAspectProperties _self_ = duc.uscript.execution.interpreter.expression.ExpressionAspectExpressionAspectContext.getSelf(_self);
-    return  duc.uscript.execution.interpreter.expression.ExpressionAspect._privk3_findDependentVariables(_self_, _self,state);
+  protected static ObjectRefValue _privk3_depNonDisjoint(final OrAspectOrAspectProperties _self_, final Or _self, final State state, final DoubleValue probX, final DoubleValue probY, final BooleanValue valX, final BooleanValue valY) {
+    throw new UnsupportedOperationException("Or operator cannot be applied on dependent and non-disjoint elements.");
   }
   
-  protected static SymbolSet _privk3_findDependentVariables(final OrAspectOrAspectProperties _self_, final Or _self, final State state) {
-    final SymbolSet result = new SymbolSet();
-    result.addAll(ExpressionAspect.findDependentVariables(_self.getLeft(), state));
-    result.addAll(ExpressionAspect.findDependentVariables(_self.getRight(), state));
-    return result;
+  protected static ObjectRefValue _privk3_disjoint(final OrAspectOrAspectProperties _self_, final Or _self, final State state, final DoubleValue probX, final DoubleValue probY, final BooleanValue valX, final BooleanValue valY) {
+    double _value = probX.getValue();
+    double _value_1 = probY.getValue();
+    double _plus = (_value + _value_1);
+    final ObjectInstance result = BernoulliBoolUtils.createBernoulliBool(state, _plus, 
+      (valX.isValue() || valY.isValue()), _self);
+    ObjectRefValue _createObjectRefValue = ExecutionFactory.eINSTANCE.createObjectRefValue();
+    final Procedure1<ObjectRefValue> _function = (ObjectRefValue it) -> {
+      it.setInstance(result);
+    };
+    return ObjectExtensions.<ObjectRefValue>operator_doubleArrow(_createObjectRefValue, _function);
   }
 }

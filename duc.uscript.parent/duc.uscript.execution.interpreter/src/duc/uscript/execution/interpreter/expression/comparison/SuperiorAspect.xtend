@@ -21,6 +21,11 @@ import duc.uscript.uScript.IntConstant
 import duc.uscript.utils.RangeFactory
 import duc.uscript.uScript.LongConstant
 import static extension duc.uscript.utils.LongConstantUtils.*
+import org.apache.commons.math3.distribution.NormalDistribution
+import duc.uscript.execution.ObjectRefValue
+import duc.uscript.execution.interpreter.utils.GaussianDoubleUtils
+import duc.uscript.execution.interpreter.utils.BernoulliBoolUtils
+import java.util.concurrent.ExecutionException
 
 @Aspect(className=Superior)
 class SuperiorAspect extends ExpressionAspect {
@@ -64,7 +69,8 @@ class SuperiorAspect extends ExpressionAspect {
 			LongValue: rightDispatch(_self, left, right)
 			FloatValue: rightDispatch(_self, left, right)
 			DoubleValue: rightDispatch(_self, left, right)
-			default: throw new RuntimeException("Add operator not implemented for " + left.class.name)
+			ObjectRefValue: rightDispatch(_self, state, left, right)
+			default: throw new RuntimeException("Superior operator not implemented for " + left.class.name)
 		}
 	}
 	
@@ -77,7 +83,7 @@ class SuperiorAspect extends ExpressionAspect {
 			LongValue: superior(_self, left, right, false)
 			FloatValue: superior(_self, left, right, false)
 			DoubleValue: superior(_self, left, right, false)
-			default: throw new RuntimeException("Add operator not implemented for " + left.class.name)
+			default: throw new RuntimeException("Superior operator not implemented for " + left.class.name)
 		}
 	}
 	
@@ -89,7 +95,7 @@ class SuperiorAspect extends ExpressionAspect {
 			LongValue: superior(_self, left, right, false)
 			FloatValue: superior(_self, left, right, false)
 			DoubleValue: superior(_self, left, right, false)
-			default: throw new RuntimeException("Add operator not implemented for " + left.class.name)
+			default: throw new RuntimeException("Superior operator not implemented for " + left.class.name)
 		}
 	}
 	
@@ -101,7 +107,7 @@ class SuperiorAspect extends ExpressionAspect {
 			LongValue: superior(_self, left, right, false)
 			FloatValue: superior(_self, left, right, false)
 			DoubleValue: superior(_self, left, right, false)
-			default: throw new RuntimeException("Add operator not implemented for " + left.class.name)
+			default: throw new RuntimeException("Superior operator not implemented for " + left.class.name)
 		}
 	}
 	
@@ -113,7 +119,7 @@ class SuperiorAspect extends ExpressionAspect {
 			LongValue: superior(_self, left, right, false)
 			FloatValue: superior(_self, left, right, false)
 			DoubleValue: superior(_self, left, right, false)
-			default: throw new RuntimeException("Add operator not implemented for " + left.class.name)
+			default: throw new RuntimeException("Superior operator not implemented for " + left.class.name)
 		}
 	}
 	
@@ -125,7 +131,7 @@ class SuperiorAspect extends ExpressionAspect {
 			LongValue: superior(_self, right, left, true)
 			FloatValue: superior(_self, left, right, false)
 			DoubleValue: superior(_self, left, right, false)
-			default: throw new RuntimeException("Add operator not implemented for " + left.class.name)
+			default: throw new RuntimeException("Superior operator not implemented for " + left.class.name)
 		}
 	}
 	
@@ -137,7 +143,14 @@ class SuperiorAspect extends ExpressionAspect {
 			LongValue: superior(_self, right, left, true)
 			FloatValue: superior(_self, right, left, true)
 			DoubleValue: superior(_self, left, right, false)
-			default: throw new RuntimeException("Add operator not implemented for " + left.class.name)
+			default: throw new RuntimeException("Superior operator not implemented for " + left.class.name)
+		}
+	}
+	
+	private static def Value rightDispatch(State state, ObjectRefValue left, Value right) {
+		switch(right) {
+			IntegerValue: superior(_self, state, right, left, true)
+			default: throw new RuntimeException("Superior operator not implemented for " + left.class.name)
 		}
 	}
 	
@@ -290,6 +303,38 @@ class SuperiorAspect extends ExpressionAspect {
 					value = x.value > y.value
 				}
 			]
+	}
+	
+	private def Value superior(State state, IntegerValue x, ObjectRefValue y, boolean inverse) {
+		val intValue = x.value
+		
+		val meanGauss = GaussianDoubleUtils.getMean(y).value
+		val valueGauss = GaussianDoubleUtils.getValue(y).value
+		val variance = GaussianDoubleUtils.getVariance(y).value
+		val std = Math.sqrt(variance)
+		
+		val NormalDistribution apacheGaussian = new NormalDistribution(meanGauss, std)
+		
+		val prob = if(inverse){
+			1 - apacheGaussian.cumulativeProbability(intValue)
+		} else {
+			apacheGaussian.cumulativeProbability(intValue)
+		}
+		
+		
+		val value = if(inverse) {
+			valueGauss > intValue
+		} else {
+			intValue > valueGauss
+		}
+		val bernoulli = BernoulliBoolUtils.createBernoulliBool(state,
+															   prob,
+															   value,
+															   _self)
+		
+		return ExecutionFactory::eINSTANCE.createObjectRefValue => [
+			instance = bernoulli
+		]		
 	}
 	
 	private def BooleanValue superior(LongValue x, LongValue y, boolean inverse) {
