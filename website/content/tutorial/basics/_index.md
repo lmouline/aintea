@@ -13,7 +13,6 @@ In this tutorial, we will go trhough all the functionalities offer by the langua
 All the final code is accessible on [GitHub](https://github.com/lmouline/uscript/tree/master/sample/tutorial/basics)
 
 
-
 # Hellow World
 
 In our language, the `print` function allow to write to the output stream.
@@ -149,10 +148,10 @@ Here an example of boolean operators between two dependent and disjoint uncertai
 package basics
 
 void main() {
-  Gaussian<double> t = new Gaussian<double(15., 2.);
+  Gaussian<double> g1 = new Gaussian<double>(15., 4.);
 
-  Bernoulli<bool> b1 = t > 17; //
-  Bernoulli<bool> b2 = t < 9 //
+  Bernoulli<bool> b1 = g1 > 17;
+  Bernoulli<bool> b2 = g1 < 10; 
 
   Bernoulli<bool> b3 = b1 && b2;
   Bernoulli<bool> b4 = b1 || b2;
@@ -160,7 +159,64 @@ void main() {
 }
 ```
 
+Here an example of boolean operators between two independent and disjoint uncertain booleans:
 
+```
+package basics
+
+import uscript.lang.*
+
+void main() {
+  Gaussian<double> g1 = new Gaussian<double>(15., 4.);
+  Gaussian<double> g2 = new Gaussian<double>(15., 4.);
+
+  Bernoulli<bool> b1 = g1 > 17;
+  Bernoulli<bool> b2 = g2 < 10; 
+
+  Bernoulli<bool> b3 = b1 && b2;
+  Bernoulli<bool> b4 = b1 || b2;
+  Bernoulli<bool> b5 = !b1;
+}
+```
+
+Here an example of boolean operators between two dependent and non-disjoint uncertain booleans:
+
+```
+package basics
+
+import uscript.lang.*
+
+void main() {
+  Gaussian<double> g1 = new Gaussian<double>(15., 4.);
+  
+  Bernoulli<bool> b1 = g1 > 17;
+  Bernoulli<bool> b2 = g1 < 20; 
+
+  //Bernoulli<bool> b3 = b1 && b2; //raise an error
+  //Bernoulli<bool> b4 = b1 || b2; //raise an error
+  Bernoulli<bool> b5 = !b1;
+}
+```
+
+Here an example of boolean operators between two independent and non-disjoint uncertain booleans:
+
+```
+package basics
+
+import uscript.lang.*
+
+void main() {
+  Gaussian<double> g1 = new Gaussian<double>(15., 4.);
+  Gaussian<double> g2 = new Gaussian<double>(15., 4.);
+  
+  Bernoulli<bool> b1 = g1 > 17;
+  Bernoulli<bool> b2 = g2 < 20; 
+
+  Bernoulli<bool> b3 = b1 && b2; 
+  Bernoulli<bool> b4 = b1 || b2; 
+  Bernoulli<bool> b5 = !b1;
+}
+```
 
 
 
