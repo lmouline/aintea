@@ -16,11 +16,26 @@ public class ExpressionAspect {
   public static Value evaluateExpression(final Expression _self, final State state) {
     final duc.uscript.execution.interpreter.expression.ExpressionAspectExpressionAspectProperties _self_ = duc.uscript.execution.interpreter.expression.ExpressionAspectExpressionAspectContext.getSelf(_self);
     Object result = null;
+    	// BeginInjectInto duc.uscript.execution.interpreter.expression.ExpressionAspect#Value evaluateExpression(State) from duc.uscript.execution.interpreter.expression.ArrayAccessImpl
+    		if (_self instanceof duc.uscript.uScript.ArrayAccess){
+    			result = duc.uscript.execution.interpreter.expression.ArrayAccessImpl.evaluateExpression((duc.uscript.uScript.ArrayAccess)_self,state);
+    		} else
+    		// EndInjectInto duc.uscript.execution.interpreter.expression.ExpressionAspect#Value evaluateExpression(State) from duc.uscript.execution.interpreter.expression.ArrayAccessImpl
+    	// BeginInjectInto duc.uscript.execution.interpreter.expression.ExpressionAspect#Value evaluateExpression(State) from duc.uscript.execution.interpreter.expression.FieldAccessAspect
+    		if (_self instanceof duc.uscript.uScript.FieldAccess){
+    			result = duc.uscript.execution.interpreter.expression.FieldAccessAspect.evaluateExpression((duc.uscript.uScript.FieldAccess)_self,state);
+    		} else
+    		// EndInjectInto duc.uscript.execution.interpreter.expression.ExpressionAspect#Value evaluateExpression(State) from duc.uscript.execution.interpreter.expression.FieldAccessAspect
     	// BeginInjectInto duc.uscript.execution.interpreter.expression.ExpressionAspect#Value evaluateExpression(State) from duc.uscript.execution.interpreter.expression.MethodCall2Aspect
     		if (_self instanceof duc.uscript.uScript.MethodCall2){
     			result = duc.uscript.execution.interpreter.expression.MethodCall2Aspect.evaluateExpression((duc.uscript.uScript.MethodCall2)_self,state);
     		} else
     		// EndInjectInto duc.uscript.execution.interpreter.expression.ExpressionAspect#Value evaluateExpression(State) from duc.uscript.execution.interpreter.expression.MethodCall2Aspect
+    	// BeginInjectInto duc.uscript.execution.interpreter.expression.ExpressionAspect#Value evaluateExpression(State) from duc.uscript.execution.interpreter.expression.NewArrayAspect
+    		if (_self instanceof duc.uscript.uScript.NewArray){
+    			result = duc.uscript.execution.interpreter.expression.NewArrayAspect.evaluateExpression((duc.uscript.uScript.NewArray)_self,state);
+    		} else
+    		// EndInjectInto duc.uscript.execution.interpreter.expression.ExpressionAspect#Value evaluateExpression(State) from duc.uscript.execution.interpreter.expression.NewArrayAspect
     	// BeginInjectInto duc.uscript.execution.interpreter.expression.ExpressionAspect#Value evaluateExpression(State) from duc.uscript.execution.interpreter.expression.NewObjectAspect
     		if (_self instanceof duc.uscript.uScript.NewObject){
     			result = duc.uscript.execution.interpreter.expression.NewObjectAspect.evaluateExpression((duc.uscript.uScript.NewObject)_self,state);
@@ -116,11 +131,26 @@ public class ExpressionAspect {
   public static SymbolSet findDependentVariables(final Expression _self, final State state) {
     final duc.uscript.execution.interpreter.expression.ExpressionAspectExpressionAspectProperties _self_ = duc.uscript.execution.interpreter.expression.ExpressionAspectExpressionAspectContext.getSelf(_self);
     Object result = null;
+    	// BeginInjectInto duc.uscript.execution.interpreter.expression.ExpressionAspect#SymbolSet findDependentVariables(State) from duc.uscript.execution.interpreter.expression.ArrayAccessImpl
+    		if (_self instanceof duc.uscript.uScript.ArrayAccess){
+    			result = duc.uscript.execution.interpreter.expression.ArrayAccessImpl.findDependentVariables((duc.uscript.uScript.ArrayAccess)_self,state);
+    		} else
+    		// EndInjectInto duc.uscript.execution.interpreter.expression.ExpressionAspect#SymbolSet findDependentVariables(State) from duc.uscript.execution.interpreter.expression.ArrayAccessImpl
+    	// BeginInjectInto duc.uscript.execution.interpreter.expression.ExpressionAspect#SymbolSet findDependentVariables(State) from duc.uscript.execution.interpreter.expression.FieldAccessAspect
+    		if (_self instanceof duc.uscript.uScript.FieldAccess){
+    			result = duc.uscript.execution.interpreter.expression.FieldAccessAspect.findDependentVariables((duc.uscript.uScript.FieldAccess)_self,state);
+    		} else
+    		// EndInjectInto duc.uscript.execution.interpreter.expression.ExpressionAspect#SymbolSet findDependentVariables(State) from duc.uscript.execution.interpreter.expression.FieldAccessAspect
     	// BeginInjectInto duc.uscript.execution.interpreter.expression.ExpressionAspect#SymbolSet findDependentVariables(State) from duc.uscript.execution.interpreter.expression.MethodCall2Aspect
     		if (_self instanceof duc.uscript.uScript.MethodCall2){
     			result = duc.uscript.execution.interpreter.expression.MethodCall2Aspect.findDependentVariables((duc.uscript.uScript.MethodCall2)_self,state);
     		} else
     		// EndInjectInto duc.uscript.execution.interpreter.expression.ExpressionAspect#SymbolSet findDependentVariables(State) from duc.uscript.execution.interpreter.expression.MethodCall2Aspect
+    	// BeginInjectInto duc.uscript.execution.interpreter.expression.ExpressionAspect#SymbolSet findDependentVariables(State) from duc.uscript.execution.interpreter.expression.NewArrayAspect
+    		if (_self instanceof duc.uscript.uScript.NewArray){
+    			result = duc.uscript.execution.interpreter.expression.NewArrayAspect.findDependentVariables((duc.uscript.uScript.NewArray)_self,state);
+    		} else
+    		// EndInjectInto duc.uscript.execution.interpreter.expression.ExpressionAspect#SymbolSet findDependentVariables(State) from duc.uscript.execution.interpreter.expression.NewArrayAspect
     	// BeginInjectInto duc.uscript.execution.interpreter.expression.ExpressionAspect#SymbolSet findDependentVariables(State) from duc.uscript.execution.interpreter.expression.NewObjectAspect
     		if (_self instanceof duc.uscript.uScript.NewObject){
     			result = duc.uscript.execution.interpreter.expression.NewObjectAspect.findDependentVariables((duc.uscript.uScript.NewObject)_self,state);

@@ -16,6 +16,7 @@ void main() {
 	
 	Fuse[] subs_fuses = new Fuse[1];
 	subs_fuses[0] = fuse_subs;
+	subs.fuses = subs_fuses;
 	
 	
 	Fuse fuse_end = new Fuse();

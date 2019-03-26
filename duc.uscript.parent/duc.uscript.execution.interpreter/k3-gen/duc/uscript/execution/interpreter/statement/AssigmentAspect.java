@@ -1,8 +1,11 @@
 package duc.uscript.execution.interpreter.statement;
 
+import duc.uscript.execution.ArrayInstance;
+import duc.uscript.execution.ArrayRefValue;
 import duc.uscript.execution.Context;
 import duc.uscript.execution.ExecutionFactory;
 import duc.uscript.execution.FieldBinding;
+import duc.uscript.execution.IntegerValue;
 import duc.uscript.execution.ObjectInstance;
 import duc.uscript.execution.ObjectRefValue;
 import duc.uscript.execution.State;
@@ -14,6 +17,7 @@ import duc.uscript.execution.interpreter.modelstate.ContextAspect;
 import duc.uscript.execution.interpreter.modelstate.StateAspect;
 import duc.uscript.execution.interpreter.statement.AStatementAspect;
 import duc.uscript.execution.interpreter.statement.AssigmentAspectAssignmentAspectProperties;
+import duc.uscript.uScript.ArrayAccess;
 import duc.uscript.uScript.Assignee;
 import duc.uscript.uScript.Assignment;
 import duc.uscript.uScript.Field;
@@ -112,6 +116,16 @@ public class AssigmentAspect extends AStatementAspect {
             final FieldBinding binding = ObjectExtensions.<FieldBinding>operator_doubleArrow(_createFieldBinding, _function_1);
             realReceiver.getFieldbindings().add(binding);
           }
+        }
+      }
+      if (!_matched) {
+        if (assignee instanceof ArrayAccess) {
+          _matched=true;
+          Value _evaluateExpression = ExpressionAspect.evaluateExpression(((ArrayAccess)assignee).getObject(), state);
+          final ArrayInstance array = ((ArrayRefValue) _evaluateExpression).getInstance();
+          Value _evaluateExpression_1 = ExpressionAspect.evaluateExpression(((ArrayAccess)assignee).getIndex(), state);
+          final int index = ((IntegerValue) _evaluateExpression_1).getValue();
+          array.getValue().set(index, right);
         }
       }
       if (!_matched) {

@@ -3,6 +3,7 @@ package duc.uscript.execution.interpreter.modelstate;
 import duc.uscript.execution.Value;
 import duc.uscript.execution.interpreter.modelstate.ValueAspectValueAspectProperties;
 import fr.inria.diverse.k3.al.annotationprocessor.Aspect;
+import org.eclipse.xtend2.lib.StringConcatenation;
 
 @Aspect(className = Value.class)
 @SuppressWarnings("all")
@@ -10,6 +11,11 @@ public class ValueAspect {
   public static String convertToString(final Value _self) {
     final duc.uscript.execution.interpreter.modelstate.ValueAspectValueAspectProperties _self_ = duc.uscript.execution.interpreter.modelstate.ValueAspectValueAspectContext.getSelf(_self);
     Object result = null;
+    	// BeginInjectInto duc.uscript.execution.interpreter.modelstate.ValueAspect#String convertToString() from duc.uscript.execution.interpreter.modelstate.ArrayRefValueAspect
+    		if (_self instanceof duc.uscript.execution.ArrayRefValue){
+    			result = duc.uscript.execution.interpreter.modelstate.ArrayRefValueAspect.convertToString((duc.uscript.execution.ArrayRefValue)_self);
+    		} else
+    		// EndInjectInto duc.uscript.execution.interpreter.modelstate.ValueAspect#String convertToString() from duc.uscript.execution.interpreter.modelstate.ArrayRefValueAspect
     	// BeginInjectInto duc.uscript.execution.interpreter.modelstate.ValueAspect#String convertToString() from duc.uscript.execution.interpreter.modelstate.BooleanValueAspect
     		if (_self instanceof duc.uscript.execution.BooleanValue){
     			result = duc.uscript.execution.interpreter.modelstate.BooleanValueAspect.convertToString((duc.uscript.execution.BooleanValue)_self);
@@ -40,6 +46,11 @@ public class ValueAspect {
     			result = duc.uscript.execution.interpreter.modelstate.LongValueAspect.convertToString((duc.uscript.execution.LongValue)_self);
     		} else
     		// EndInjectInto duc.uscript.execution.interpreter.modelstate.ValueAspect#String convertToString() from duc.uscript.execution.interpreter.modelstate.LongValueAspect
+    	// BeginInjectInto duc.uscript.execution.interpreter.modelstate.ValueAspect#String convertToString() from duc.uscript.execution.interpreter.modelstate.NullValueAspect
+    		if (_self instanceof duc.uscript.execution.NullValue){
+    			result = duc.uscript.execution.interpreter.modelstate.NullValueAspect.convertToString((duc.uscript.execution.NullValue)_self);
+    		} else
+    		// EndInjectInto duc.uscript.execution.interpreter.modelstate.ValueAspect#String convertToString() from duc.uscript.execution.interpreter.modelstate.NullValueAspect
     	// BeginInjectInto duc.uscript.execution.interpreter.modelstate.ValueAspect#String convertToString() from duc.uscript.execution.interpreter.modelstate.ObjectRefValueAspect
     		if (_self instanceof duc.uscript.execution.ObjectRefValue){
     			result = duc.uscript.execution.interpreter.modelstate.ObjectRefValueAspect.convertToString((duc.uscript.execution.ObjectRefValue)_self);
@@ -65,6 +76,11 @@ public class ValueAspect {
   public static Value copy(final Value _self) {
     final duc.uscript.execution.interpreter.modelstate.ValueAspectValueAspectProperties _self_ = duc.uscript.execution.interpreter.modelstate.ValueAspectValueAspectContext.getSelf(_self);
     Object result = null;
+    	// BeginInjectInto duc.uscript.execution.interpreter.modelstate.ValueAspect#Value copy() from duc.uscript.execution.interpreter.modelstate.ArrayRefValueAspect
+    		if (_self instanceof duc.uscript.execution.ArrayRefValue){
+    			result = duc.uscript.execution.interpreter.modelstate.ArrayRefValueAspect.copy((duc.uscript.execution.ArrayRefValue)_self);
+    		} else
+    		// EndInjectInto duc.uscript.execution.interpreter.modelstate.ValueAspect#Value copy() from duc.uscript.execution.interpreter.modelstate.ArrayRefValueAspect
     	// BeginInjectInto duc.uscript.execution.interpreter.modelstate.ValueAspect#Value copy() from duc.uscript.execution.interpreter.modelstate.BooleanValueAspect
     		if (_self instanceof duc.uscript.execution.BooleanValue){
     			result = duc.uscript.execution.interpreter.modelstate.BooleanValueAspect.copy((duc.uscript.execution.BooleanValue)_self);
@@ -95,6 +111,11 @@ public class ValueAspect {
     			result = duc.uscript.execution.interpreter.modelstate.LongValueAspect.copy((duc.uscript.execution.LongValue)_self);
     		} else
     		// EndInjectInto duc.uscript.execution.interpreter.modelstate.ValueAspect#Value copy() from duc.uscript.execution.interpreter.modelstate.LongValueAspect
+    	// BeginInjectInto duc.uscript.execution.interpreter.modelstate.ValueAspect#Value copy() from duc.uscript.execution.interpreter.modelstate.NullValueAspect
+    		if (_self instanceof duc.uscript.execution.NullValue){
+    			result = duc.uscript.execution.interpreter.modelstate.NullValueAspect.copy((duc.uscript.execution.NullValue)_self);
+    		} else
+    		// EndInjectInto duc.uscript.execution.interpreter.modelstate.ValueAspect#Value copy() from duc.uscript.execution.interpreter.modelstate.NullValueAspect
     	// BeginInjectInto duc.uscript.execution.interpreter.modelstate.ValueAspect#Value copy() from duc.uscript.execution.interpreter.modelstate.ObjectRefValueAspect
     		if (_self instanceof duc.uscript.execution.ObjectRefValue){
     			result = duc.uscript.execution.interpreter.modelstate.ObjectRefValueAspect.copy((duc.uscript.execution.ObjectRefValue)_self);
@@ -118,10 +139,18 @@ public class ValueAspect {
   }
   
   protected static String _privk3_convertToString(final ValueAspectValueAspectProperties _self_, final Value _self) {
-    throw new RuntimeException("Not implemented");
+    StringConcatenation _builder = new StringConcatenation();
+    _builder.append("convertToString is not defined for ");
+    String _name = _self.getClass().getName();
+    _builder.append(_name);
+    throw new RuntimeException(_builder.toString());
   }
   
   protected static Value _privk3_copy(final ValueAspectValueAspectProperties _self_, final Value _self) {
-    throw new RuntimeException("Not implemented");
+    StringConcatenation _builder = new StringConcatenation();
+    _builder.append("copy is not defined for ");
+    String _name = _self.getClass().getName();
+    _builder.append(_name);
+    throw new RuntimeException(_builder.toString());
   }
 }

@@ -20,6 +20,9 @@ import java.lang.invoke.MethodHandles.Lookup
 import duc.uscript.uScript.FieldAccess
 import duc.uscript.uScript.Field
 import duc.uscript.execution.ObjectRefValue
+import duc.uscript.uScript.ArrayAccess
+import duc.uscript.execution.ArrayRefValue
+import duc.uscript.execution.IntegerValue
 
 @Aspect(className=Assignment)
 class AssigmentAspect extends AStatementAspect {
@@ -72,11 +75,11 @@ class AssigmentAspect extends AStatementAspect {
 					realReceiver.fieldbindings.add(binding)
 				}
 			}
-//			ArrayAccess: {
-//				val array = (assignee.object.evaluateExpression(state) as ArrayRefValue).instance
-//				val index = (assignee.index.evaluateExpression(state) as IntegerValue).value
-//				array.value.set(index,right) 
-//			}
+			ArrayAccess: {
+				val array = (assignee.object.evaluateExpression(state) as ArrayRefValue).instance
+				val index = (assignee.index.evaluateExpression(state) as IntegerValue).value
+				array.value.set(index,right) 
+			}
 			default: throw new Exception("Cannot assign a value to " + assignee)
 		}
 	}
