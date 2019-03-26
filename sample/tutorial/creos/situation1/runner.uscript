@@ -1,0 +1,36 @@
+package smartgrid.situation1
+
+import smartgrid.situation1.*
+import uscript.lang.*
+
+void main() {
+	Substation subs = new Substation();
+	DeadEndCabinet end = new DeadEndCabinet();
+	
+	Cable cable = new Cable();
+	
+	Fuse fuse_subs = new Fuse();
+	fuse_subs.cable = cable;
+	cable.start = fuse_subs;
+	fuse_subs.entity = subs;
+	
+	Fuse[] subs_fuses = new Fuse[1];
+	subs_fuses[0] = fuse_subs;
+	
+	
+	Fuse fuse_end = new Fuse();
+	fuse_end.cable = cable;
+	cable.end = fuse_end;
+	fuse_end.entity = end;
+	
+	Fuse[] end_fuses = new Fuse[1];
+	end_fuses[0] = fuse_end;
+	
+	Customer[] customers = new Customer[2];
+	cable.customers = customers;
+	customers[0] = new Customer();
+	customers[1] = new Customer();
+	
+	computeLoad(subs);
+	print(subs);
+}

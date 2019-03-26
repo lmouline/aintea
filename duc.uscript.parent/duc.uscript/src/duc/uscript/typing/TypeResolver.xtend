@@ -321,8 +321,6 @@ class TypeResolver {
 	}
 	
 	def dispatch Class type(StringConstant stringCst) {
-		println('''ResourceSet: «stringCst.eResource.resourceSet»''')
-		println('''TypeResolver.type(«stringCst») => «stringCst.stringClass»''')
 		return stringCst.stringClass
 	}
 	

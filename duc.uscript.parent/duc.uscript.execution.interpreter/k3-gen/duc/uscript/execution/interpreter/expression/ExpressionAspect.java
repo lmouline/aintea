@@ -21,6 +21,11 @@ public class ExpressionAspect {
     			result = duc.uscript.execution.interpreter.expression.MethodCall2Aspect.evaluateExpression((duc.uscript.uScript.MethodCall2)_self,state);
     		} else
     		// EndInjectInto duc.uscript.execution.interpreter.expression.ExpressionAspect#Value evaluateExpression(State) from duc.uscript.execution.interpreter.expression.MethodCall2Aspect
+    	// BeginInjectInto duc.uscript.execution.interpreter.expression.ExpressionAspect#Value evaluateExpression(State) from duc.uscript.execution.interpreter.expression.NewObjectAspect
+    		if (_self instanceof duc.uscript.uScript.NewObject){
+    			result = duc.uscript.execution.interpreter.expression.NewObjectAspect.evaluateExpression((duc.uscript.uScript.NewObject)_self,state);
+    		} else
+    		// EndInjectInto duc.uscript.execution.interpreter.expression.ExpressionAspect#Value evaluateExpression(State) from duc.uscript.execution.interpreter.expression.NewObjectAspect
     	// BeginInjectInto duc.uscript.execution.interpreter.expression.ExpressionAspect#Value evaluateExpression(State) from duc.uscript.execution.interpreter.expression.NewUObjectAspect
     		if (_self instanceof duc.uscript.uScript.NewUObject){
     			result = duc.uscript.execution.interpreter.expression.NewUObjectAspect.evaluateExpression((duc.uscript.uScript.NewUObject)_self,state);
@@ -116,6 +121,11 @@ public class ExpressionAspect {
     			result = duc.uscript.execution.interpreter.expression.MethodCall2Aspect.findDependentVariables((duc.uscript.uScript.MethodCall2)_self,state);
     		} else
     		// EndInjectInto duc.uscript.execution.interpreter.expression.ExpressionAspect#SymbolSet findDependentVariables(State) from duc.uscript.execution.interpreter.expression.MethodCall2Aspect
+    	// BeginInjectInto duc.uscript.execution.interpreter.expression.ExpressionAspect#SymbolSet findDependentVariables(State) from duc.uscript.execution.interpreter.expression.NewObjectAspect
+    		if (_self instanceof duc.uscript.uScript.NewObject){
+    			result = duc.uscript.execution.interpreter.expression.NewObjectAspect.findDependentVariables((duc.uscript.uScript.NewObject)_self,state);
+    		} else
+    		// EndInjectInto duc.uscript.execution.interpreter.expression.ExpressionAspect#SymbolSet findDependentVariables(State) from duc.uscript.execution.interpreter.expression.NewObjectAspect
     	// BeginInjectInto duc.uscript.execution.interpreter.expression.ExpressionAspect#SymbolSet findDependentVariables(State) from duc.uscript.execution.interpreter.expression.NewUObjectAspect
     		if (_self instanceof duc.uscript.uScript.NewUObject){
     			result = duc.uscript.execution.interpreter.expression.NewUObjectAspect.findDependentVariables((duc.uscript.uScript.NewUObject)_self,state);

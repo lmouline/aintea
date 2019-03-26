@@ -17,18 +17,70 @@ import org.eclipse.xtext.diagnostics.Severity
 import static extension duc.uscript.execution.interpreter.ScriptAspect.*
 import java.io.PrintStream
 
-import static duc.uscript.UScriptLang.loadLib
+import duc.uscript.UScriptLang
+import java.io.File
+import java.nio.file.Files
+import java.nio.file.Path
+import java.nio.file.Paths
+import java.nio.file.FileVisitor
+import java.io.IOException
+import java.nio.file.attribute.BasicFileAttributes
+import java.nio.file.FileVisitResult
 
 class Interpreter {
 	
-	private static def Script parse(String filePath, OutputStream out) {
+	private static def void loadClassPath(String[] classPaths, ResourceSet rs) {
+		if(classPaths !== null) {
+			for (String classPath : classPaths) {
+				val File file = new File(classPath)
+				if(file.exists) {
+					if(file.isDirectory) {
+						Files.walkFileTree(Paths.get(file.absolutePath), new FileVisitor<Path>() {
+							
+							override postVisitDirectory(Path dir, IOException exc) throws IOException {
+								FileVisitResult.CONTINUE;
+							}
+							
+							override preVisitDirectory(Path dir, BasicFileAttributes attrs) throws IOException {
+								FileVisitResult.CONTINUE;
+							}
+							
+							override visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+								val Resource resource = rs.createResource(URI.createFileURI(file.toAbsolutePath.toString))
+								resource.load(null)
+								FileVisitResult.CONTINUE
+							}
+							
+							override visitFileFailed(Path file, IOException exc) throws IOException {
+								System.err.print("Visit failed for " + file)
+								FileVisitResult.CONTINUE
+							}
+							
+						})
+					} else {
+						val Resource resource = rs.createResource(URI.createFileURI(file.absolutePath))
+						resource.load(null)
+					}
+				}
+			}
+		}
+	}
+	
+	private static def Script parse(String filePath, String[] classPath, OutputStream out) {
 		val Injector injector = new UScriptStandaloneSetupGenerated().createInjectorAndDoEMFRegistration()
 		val ResourceSet rs = injector.getInstance(ResourceSet)
 		
-		loadLib(rs)
+		UScriptLang.loadLib(rs)
 		
-		val Resource resource = rs.createResource(URI.createFileURI(filePath))
-		resource.load(null)
+		loadClassPath(classPath, rs)
+		
+		
+		val URI uriScript = URI.createFileURI(new File(filePath).absolutePath)
+		var Resource resource = rs.getResource(uriScript, true)
+		if(resource === null) {
+			resource = rs.createResource(uriScript)
+			resource.load(null)
+		}
 
 		val IResourceValidator validator = injector.getInstance(IResourceValidator)
 		val List<Issue> issues = validator.validate(resource, CheckMode.ALL, CancelIndicator.NullImpl)
@@ -53,7 +105,11 @@ class Interpreter {
 	}
 	
 	def static execute(String filePath, OutputStream out) {
-		var Script script = parse(filePath, out);
+		execute(filePath, out, #[]);
+	}
+	
+	def static execute(String filePath, OutputStream out, String... classPath) {
+		var Script script = parse(filePath, classPath, out);
 		if(script !== null) {
 			try {
 				script.initialize(out)

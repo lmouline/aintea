@@ -1,4 +1,4 @@
-package smartgrid
+package smartgrid.situation1
 
 import uscript.lang.*
 
@@ -19,6 +19,13 @@ class Fuse {
 
 class Cable{
 	Gaussian<double> load;
+	Fuse start;
+	Fuse end;
+	Customer[] customers;
+}
+
+class Customer {
+	Gaussian<double> consumption;
 }
 
 

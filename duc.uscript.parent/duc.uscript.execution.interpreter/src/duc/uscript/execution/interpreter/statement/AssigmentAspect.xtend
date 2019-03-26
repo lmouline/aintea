@@ -8,12 +8,18 @@ import duc.uscript.execution.State
 import static extension duc.uscript.execution.interpreter.modelstate.StateAspect.*
 import static extension duc.uscript.execution.interpreter.expression.ExpressionAspect.*
 import static extension duc.uscript.execution.interpreter.modelstate.ContextAspect.*
+import static extension duc.uscript.execution.interpreter.expression.MethodCall2Aspect.*
 
 import duc.uscript.uScript.VariableDeclaration
 import duc.uscript.execution.ExecutionFactory
 import duc.uscript.uScript.SymbolRef
 import duc.uscript.utils.SymbolSet
 import duc.uscript.utils.Range
+import duc.uscript.uScript.MethodCall2
+import java.lang.invoke.MethodHandles.Lookup
+import duc.uscript.uScript.FieldAccess
+import duc.uscript.uScript.Field
+import duc.uscript.execution.ObjectRefValue
 
 @Aspect(className=Assignment)
 class AssigmentAspect extends AStatementAspect {
@@ -49,26 +55,29 @@ class AssigmentAspect extends AStatementAspect {
 				]
 				context.bindings.add(binding)
 			}
-//			FieldAccess: {
-//				val f = assignee.field as Field
-//				val realReceiver = (assignee.receiver.evaluateExpression(state) as ObjectRefValue).instance
-//				val existingBinding = realReceiver.fieldbindings.findFirst[it.field === f]
-//				if (existingBinding !== null) {
-//					existingBinding.value = right
-//				} else {
-//					val binding = MinijavadynamicdataFactory::eINSTANCE.createFieldBinding => [
-//						field = f
-//						value = right
-//					]
-//					realReceiver.fieldbindings.add(binding)
-//				}
-//			}
+			MethodCall2: {
+				assignee.evaluateExpression(state)
+			}
+			FieldAccess: {
+				val f = assignee.field as Field
+				val realReceiver = (assignee.receiver.evaluateExpression(state) as ObjectRefValue).instance
+				val existingBinding = realReceiver.fieldbindings.findFirst[it.field === f]
+				if (existingBinding !== null) {
+					existingBinding.value = right
+				} else {
+					val binding = ExecutionFactory::eINSTANCE.createFieldBinding => [
+						field = f
+						value = right
+					]
+					realReceiver.fieldbindings.add(binding)
+				}
+			}
 //			ArrayAccess: {
 //				val array = (assignee.object.evaluateExpression(state) as ArrayRefValue).instance
 //				val index = (assignee.index.evaluateExpression(state) as IntegerValue).value
 //				array.value.set(index,right) 
 //			}
-			default: throw new Exception("Cannot assign a value to "+assignee)
+			default: throw new Exception("Cannot assign a value to " + assignee)
 		}
 	}
 }

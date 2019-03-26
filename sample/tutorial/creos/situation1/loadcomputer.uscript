@@ -1,0 +1,52 @@
+package smartgrid.situation1
+
+import smartgrid.situation1.*
+import uscript.lang.*
+
+void computeLoad(Substation substation) {
+	Fuse[] subs_fuses = substation.fuses;
+	Fuse fuse = subs_fuses[0];
+	
+	Cable cable = fuse.cable;
+	
+	if(!(fuse.isClosed[1])) { //confident that the fuse is open
+		substation.load = new Gaussian<double>(0., 0.0001);
+		cable.load = new Gaussian<double>(0., 0.0001);
+	} else {
+		Customer[] customers = cable.customers;
+		if(customers.length == 0) {
+			substation.load = new Gaussian<double>(0., 0.0001);
+			cable.load = new Gaussian<double>(0., 0.0001);
+		} else {
+			Customer c = customers[0];
+			cable.load = c.consumption;
+			
+			for(int i=1; i<customers.length; i=i+1) {
+				Customer c = customers[i];
+				cable.load = cable.load + c.consumption;
+			}
+			
+			Bernoulli<bool> isClosed = fuse.isClosed;
+			Bernoulli bern_isClosed = isClosed.confidence;
+			double prob_isClosed = bern_isClosed.probability;
+			
+			Gaussian<double> load = cable.load;
+			Gaussian gauss_load = load.confidence;
+			
+			// Way to propagate uncertainty from boolean to numbers
+			// This choice is arbitrary
+			// With the division, we increase the std and so the range of values
+			// on which we have a confidence
+			gauss_load.standardDeviation = gauss_load.standardDeviation / prob_isClosed;
+			
+			
+			substation.load = new Gaussian<double>(gauss_load.mean, gauss_load.standardDeviation);
+		}
+	}
+	
+	Fuse endFuse = cable.end;
+	Entity endEntity = endFuse.entity;
+	endEntity.load = new Gaussian<double>(0., 0.0001);
+	
+	
+}

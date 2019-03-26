@@ -2,16 +2,23 @@ package duc.uscript.execution.interpreter.statement;
 
 import duc.uscript.execution.Context;
 import duc.uscript.execution.ExecutionFactory;
+import duc.uscript.execution.FieldBinding;
+import duc.uscript.execution.ObjectInstance;
+import duc.uscript.execution.ObjectRefValue;
 import duc.uscript.execution.State;
 import duc.uscript.execution.SymbolBindings;
 import duc.uscript.execution.Value;
 import duc.uscript.execution.interpreter.expression.ExpressionAspect;
+import duc.uscript.execution.interpreter.expression.MethodCall2Aspect;
 import duc.uscript.execution.interpreter.modelstate.ContextAspect;
 import duc.uscript.execution.interpreter.modelstate.StateAspect;
 import duc.uscript.execution.interpreter.statement.AStatementAspect;
 import duc.uscript.execution.interpreter.statement.AssigmentAspectAssignmentAspectProperties;
 import duc.uscript.uScript.Assignee;
 import duc.uscript.uScript.Assignment;
+import duc.uscript.uScript.Field;
+import duc.uscript.uScript.FieldAccess;
+import duc.uscript.uScript.MethodCall2;
 import duc.uscript.uScript.Symbol;
 import duc.uscript.uScript.SymbolRef;
 import duc.uscript.uScript.VariableDeclaration;
@@ -20,6 +27,8 @@ import duc.uscript.utils.SymbolSet;
 import fr.inria.diverse.k3.al.annotationprocessor.Aspect;
 import fr.inria.diverse.k3.al.annotationprocessor.OverrideAspectMethod;
 import org.eclipse.xtext.xbase.lib.Exceptions;
+import org.eclipse.xtext.xbase.lib.Functions.Function1;
+import org.eclipse.xtext.xbase.lib.IterableExtensions;
 import org.eclipse.xtext.xbase.lib.ObjectExtensions;
 import org.eclipse.xtext.xbase.lib.Procedures.Procedure1;
 
@@ -72,6 +81,37 @@ public class AssigmentAspect extends AStatementAspect {
           };
           final SymbolBindings binding = ObjectExtensions.<SymbolBindings>operator_doubleArrow(_createSymbolBindings, _function);
           context.getBindings().add(binding);
+        }
+      }
+      if (!_matched) {
+        if (assignee instanceof MethodCall2) {
+          _matched=true;
+          MethodCall2Aspect.evaluateExpression(((MethodCall2)assignee), state);
+        }
+      }
+      if (!_matched) {
+        if (assignee instanceof FieldAccess) {
+          _matched=true;
+          Field _field = ((FieldAccess)assignee).getField();
+          final Field f = ((Field) _field);
+          Value _evaluateExpression = ExpressionAspect.evaluateExpression(((FieldAccess)assignee).getReceiver(), state);
+          final ObjectInstance realReceiver = ((ObjectRefValue) _evaluateExpression).getInstance();
+          final Function1<FieldBinding, Boolean> _function = (FieldBinding it) -> {
+            Field _field_1 = it.getField();
+            return Boolean.valueOf((_field_1 == f));
+          };
+          final FieldBinding existingBinding = IterableExtensions.<FieldBinding>findFirst(realReceiver.getFieldbindings(), _function);
+          if ((existingBinding != null)) {
+            existingBinding.setValue(right);
+          } else {
+            FieldBinding _createFieldBinding = ExecutionFactory.eINSTANCE.createFieldBinding();
+            final Procedure1<FieldBinding> _function_1 = (FieldBinding it) -> {
+              it.setField(f);
+              it.setValue(right);
+            };
+            final FieldBinding binding = ObjectExtensions.<FieldBinding>operator_doubleArrow(_createFieldBinding, _function_1);
+            realReceiver.getFieldbindings().add(binding);
+          }
         }
       }
       if (!_matched) {

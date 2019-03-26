@@ -4,7 +4,10 @@ import static duc.uscript.runner.standalone.Interpreter.*
 
 class Runner {
 	def static void main(String[] args) {
-		execute("../../sample/tutorial/basics/types/ubool/indepNonDisjoint.uscript", System.out)
-//		execute("../../sample/tutorial/creos/sc-03-2019.uscript", System.out)
+//		execute("../../sample/tutorial/basics/types/ubool/indepNonDisjoint.uscript", System.out)
+
+		execute("../../sample/tutorial/creos/situation1/runner.uscript", 
+				System.out,
+				"../../sample/tutorial/creos/situation1")
 	}
 }

@@ -1,7 +1,7 @@
 ---
 title: "Basics"
 date: 2019-02-27
-lastmod: 2019-03-05
+lastmod: 2019-03-21
 draft: false
 ---
 
