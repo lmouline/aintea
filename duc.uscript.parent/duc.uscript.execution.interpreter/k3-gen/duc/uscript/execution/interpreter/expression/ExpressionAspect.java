@@ -21,6 +21,11 @@ public class ExpressionAspect {
     			result = duc.uscript.execution.interpreter.expression.ArrayAccessImpl.evaluateExpression((duc.uscript.uScript.ArrayAccess)_self,state);
     		} else
     		// EndInjectInto duc.uscript.execution.interpreter.expression.ExpressionAspect#Value evaluateExpression(State) from duc.uscript.execution.interpreter.expression.ArrayAccessImpl
+    	// BeginInjectInto duc.uscript.execution.interpreter.expression.ExpressionAspect#Value evaluateExpression(State) from duc.uscript.execution.interpreter.expression.ArrayLengthAspect
+    		if (_self instanceof duc.uscript.uScript.ArrayLength){
+    			result = duc.uscript.execution.interpreter.expression.ArrayLengthAspect.evaluateExpression((duc.uscript.uScript.ArrayLength)_self,state);
+    		} else
+    		// EndInjectInto duc.uscript.execution.interpreter.expression.ExpressionAspect#Value evaluateExpression(State) from duc.uscript.execution.interpreter.expression.ArrayLengthAspect
     	// BeginInjectInto duc.uscript.execution.interpreter.expression.ExpressionAspect#Value evaluateExpression(State) from duc.uscript.execution.interpreter.expression.FieldAccessAspect
     		if (_self instanceof duc.uscript.uScript.FieldAccess){
     			result = duc.uscript.execution.interpreter.expression.FieldAccessAspect.evaluateExpression((duc.uscript.uScript.FieldAccess)_self,state);
@@ -86,6 +91,11 @@ public class ExpressionAspect {
     			result = duc.uscript.execution.interpreter.expression.bool.OrAspect.evaluateExpression((duc.uscript.uScript.Or)_self,state);
     		} else
     		// EndInjectInto duc.uscript.execution.interpreter.expression.ExpressionAspect#Value evaluateExpression(State) from duc.uscript.execution.interpreter.expression.bool.OrAspect
+    	// BeginInjectInto duc.uscript.execution.interpreter.expression.ExpressionAspect#Value evaluateExpression(State) from duc.uscript.execution.interpreter.expression.comparison.EqualityAspect
+    		if (_self instanceof duc.uscript.uScript.Equality){
+    			result = duc.uscript.execution.interpreter.expression.comparison.EqualityAspect.evaluateExpression((duc.uscript.uScript.Equality)_self,state);
+    		} else
+    		// EndInjectInto duc.uscript.execution.interpreter.expression.ExpressionAspect#Value evaluateExpression(State) from duc.uscript.execution.interpreter.expression.comparison.EqualityAspect
     	// BeginInjectInto duc.uscript.execution.interpreter.expression.ExpressionAspect#Value evaluateExpression(State) from duc.uscript.execution.interpreter.expression.comparison.InferiorAspect
     		if (_self instanceof duc.uscript.uScript.Inferior){
     			result = duc.uscript.execution.interpreter.expression.comparison.InferiorAspect.evaluateExpression((duc.uscript.uScript.Inferior)_self,state);
@@ -136,6 +146,11 @@ public class ExpressionAspect {
     			result = duc.uscript.execution.interpreter.expression.ArrayAccessImpl.findDependentVariables((duc.uscript.uScript.ArrayAccess)_self,state);
     		} else
     		// EndInjectInto duc.uscript.execution.interpreter.expression.ExpressionAspect#SymbolSet findDependentVariables(State) from duc.uscript.execution.interpreter.expression.ArrayAccessImpl
+    	// BeginInjectInto duc.uscript.execution.interpreter.expression.ExpressionAspect#SymbolSet findDependentVariables(State) from duc.uscript.execution.interpreter.expression.ArrayLengthAspect
+    		if (_self instanceof duc.uscript.uScript.ArrayLength){
+    			result = duc.uscript.execution.interpreter.expression.ArrayLengthAspect.findDependentVariables((duc.uscript.uScript.ArrayLength)_self,state);
+    		} else
+    		// EndInjectInto duc.uscript.execution.interpreter.expression.ExpressionAspect#SymbolSet findDependentVariables(State) from duc.uscript.execution.interpreter.expression.ArrayLengthAspect
     	// BeginInjectInto duc.uscript.execution.interpreter.expression.ExpressionAspect#SymbolSet findDependentVariables(State) from duc.uscript.execution.interpreter.expression.FieldAccessAspect
     		if (_self instanceof duc.uscript.uScript.FieldAccess){
     			result = duc.uscript.execution.interpreter.expression.FieldAccessAspect.findDependentVariables((duc.uscript.uScript.FieldAccess)_self,state);
@@ -201,6 +216,11 @@ public class ExpressionAspect {
     			result = duc.uscript.execution.interpreter.expression.bool.OrAspect.findDependentVariables((duc.uscript.uScript.Or)_self,state);
     		} else
     		// EndInjectInto duc.uscript.execution.interpreter.expression.ExpressionAspect#SymbolSet findDependentVariables(State) from duc.uscript.execution.interpreter.expression.bool.OrAspect
+    	// BeginInjectInto duc.uscript.execution.interpreter.expression.ExpressionAspect#SymbolSet findDependentVariables(State) from duc.uscript.execution.interpreter.expression.comparison.EqualityAspect
+    		if (_self instanceof duc.uscript.uScript.Equality){
+    			result = duc.uscript.execution.interpreter.expression.comparison.EqualityAspect.findDependentVariables((duc.uscript.uScript.Equality)_self,state);
+    		} else
+    		// EndInjectInto duc.uscript.execution.interpreter.expression.ExpressionAspect#SymbolSet findDependentVariables(State) from duc.uscript.execution.interpreter.expression.comparison.EqualityAspect
     	// BeginInjectInto duc.uscript.execution.interpreter.expression.ExpressionAspect#SymbolSet findDependentVariables(State) from duc.uscript.execution.interpreter.expression.comparison.InferiorAspect
     		if (_self instanceof duc.uscript.uScript.Inferior){
     			result = duc.uscript.execution.interpreter.expression.comparison.InferiorAspect.findDependentVariables((duc.uscript.uScript.Inferior)_self,state);

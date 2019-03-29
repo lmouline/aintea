@@ -21,6 +21,16 @@ public class AStatementAspect {
     			duc.uscript.execution.interpreter.statement.BlockAspect.evaluateStatement((duc.uscript.uScript.Block)_self,state);
     		} else
     		// EndInjectInto duc.uscript.execution.interpreter.statement.AStatementAspect#void evaluateStatement(State) from duc.uscript.execution.interpreter.statement.BlockAspect
+    	// BeginInjectInto duc.uscript.execution.interpreter.statement.AStatementAspect#void evaluateStatement(State) from duc.uscript.execution.interpreter.statement.ForStatementAspect
+    		if (_self instanceof duc.uscript.uScript.ForStatement){
+    			duc.uscript.execution.interpreter.statement.ForStatementAspect.evaluateStatement((duc.uscript.uScript.ForStatement)_self,state);
+    		} else
+    		// EndInjectInto duc.uscript.execution.interpreter.statement.AStatementAspect#void evaluateStatement(State) from duc.uscript.execution.interpreter.statement.ForStatementAspect
+    	// BeginInjectInto duc.uscript.execution.interpreter.statement.AStatementAspect#void evaluateStatement(State) from duc.uscript.execution.interpreter.statement.IfStatementAspect
+    		if (_self instanceof duc.uscript.uScript.IfStatement){
+    			duc.uscript.execution.interpreter.statement.IfStatementAspect.evaluateStatement((duc.uscript.uScript.IfStatement)_self,state);
+    		} else
+    		// EndInjectInto duc.uscript.execution.interpreter.statement.AStatementAspect#void evaluateStatement(State) from duc.uscript.execution.interpreter.statement.IfStatementAspect
     	// BeginInjectInto duc.uscript.execution.interpreter.statement.AStatementAspect#void evaluateStatement(State) from duc.uscript.execution.interpreter.statement.PrintStatementAspect
     		if (_self instanceof duc.uscript.uScript.PrintStatement){
     			duc.uscript.execution.interpreter.statement.PrintStatementAspect.evaluateStatement((duc.uscript.uScript.PrintStatement)_self,state);

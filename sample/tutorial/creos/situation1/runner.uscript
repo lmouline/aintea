@@ -11,8 +11,9 @@ void main() {
 	
 	Fuse fuse_subs = new Fuse();
 	fuse_subs.cable = cable;
-	cable.start = fuse_subs;
 	fuse_subs.entity = subs;
+	fuse_subs.isClosed = new Bernoulli<bool>(true, 1.);
+	cable.start = fuse_subs;
 	
 	Fuse[] subs_fuses = new Fuse[1];
 	subs_fuses[0] = fuse_subs;
@@ -21,16 +22,21 @@ void main() {
 	
 	Fuse fuse_end = new Fuse();
 	fuse_end.cable = cable;
-	cable.end = fuse_end;
 	fuse_end.entity = end;
+	fuse_end.isClosed = new Bernoulli<bool>(true, 1.);
+	cable.end = fuse_end;
 	
 	Fuse[] end_fuses = new Fuse[1];
 	end_fuses[0] = fuse_end;
 	
 	Customer[] customers = new Customer[2];
 	cable.customers = customers;
-	customers[0] = new Customer();
-	customers[1] = new Customer();
+	Customer c = new Customer();
+	c.consumption = new Gaussian<double>(110., 12.);
+	customers[0] = c;
+	Customer c1 = new Customer();
+	c1.consumption = new Gaussian<double>(110., 12.);
+	customers[1] = c1;
 	
 	computeLoad(subs);
 	print(subs);

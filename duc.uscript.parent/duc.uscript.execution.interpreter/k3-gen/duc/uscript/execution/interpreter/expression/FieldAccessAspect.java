@@ -12,6 +12,7 @@ import duc.uscript.uScript.FieldAccess;
 import duc.uscript.utils.SymbolSet;
 import fr.inria.diverse.k3.al.annotationprocessor.Aspect;
 import fr.inria.diverse.k3.al.annotationprocessor.OverrideAspectMethod;
+import org.eclipse.xtext.xbase.lib.Exceptions;
 import org.eclipse.xtext.xbase.lib.Functions.Function1;
 import org.eclipse.xtext.xbase.lib.IterableExtensions;
 
@@ -49,12 +50,22 @@ public class FieldAccessAspect extends ExpressionAspect {
     Value _evaluateExpression = ExpressionAspect.evaluateExpression(_self.getReceiver(), state);
     ObjectInstance _instance = ((ObjectRefValue) _evaluateExpression).getInstance();
     final ObjectInstance realReceiver = ((ObjectInstance) _instance);
-    final Function1<FieldBinding, Boolean> _function = (FieldBinding it) -> {
-      String _name = it.getField().getName();
-      String _name_1 = _self.getField().getName();
-      return Boolean.valueOf(Objects.equal(_name, _name_1));
-    };
-    return IterableExtensions.<FieldBinding>findFirst(realReceiver.getFieldbindings(), _function).getValue();
+    try {
+      final Function1<FieldBinding, Boolean> _function = (FieldBinding it) -> {
+        String _name = it.getField().getName();
+        String _name_1 = _self.getField().getName();
+        return Boolean.valueOf(Objects.equal(_name, _name_1));
+      };
+      return IterableExtensions.<FieldBinding>findFirst(realReceiver.getFieldbindings(), _function).getValue();
+    } catch (final Throwable _t) {
+      if (_t instanceof NullPointerException) {
+        final NullPointerException e = (NullPointerException)_t;
+        e.printStackTrace();
+      } else {
+        throw Exceptions.sneakyThrow(_t);
+      }
+    }
+    return null;
   }
   
   private static SymbolSet super_findDependentVariables(final FieldAccess _self, final State state) {

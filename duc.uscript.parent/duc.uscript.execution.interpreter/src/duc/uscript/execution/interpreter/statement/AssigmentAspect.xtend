@@ -16,7 +16,6 @@ import duc.uscript.uScript.SymbolRef
 import duc.uscript.utils.SymbolSet
 import duc.uscript.utils.Range
 import duc.uscript.uScript.MethodCall2
-import java.lang.invoke.MethodHandles.Lookup
 import duc.uscript.uScript.FieldAccess
 import duc.uscript.uScript.Field
 import duc.uscript.execution.ObjectRefValue

@@ -15,7 +15,14 @@ class FieldAccessAspect extends ExpressionAspect {
 	@OverrideAspectMethod
 	def Value evaluateExpression(State state) {
 		val realReceiver = (_self.receiver.evaluateExpression(state) as ObjectRefValue).instance as ObjectInstance
-		return realReceiver.fieldbindings.findFirst[it.field.name == _self.field.name].value
+		
+		try {
+			return realReceiver.fieldbindings.findFirst[it.field.name == _self.field.name].value
+		} catch(NullPointerException e) {
+			e.printStackTrace()
+		}
+		
+		return null
 	}
 	
 	@OverrideAspectMethod
