@@ -6,11 +6,11 @@ draft: false
 ---
 
 <div class="warning">
-  <strong>Warning!</strong> Due to <a href="https://github.com/lmouline/uscript/issues/1">Issue 1</a>, the import to the uscript lib should be added to any script: <pre>import uscript.lang.*</pre>
+  <strong>Warning!</strong> Due to <a href="https://github.com/lmouline/aintea/issues/1">Issue 1</a>, the import to the aintea lib should be added to any script: <pre>import aintea.lang.*</pre>
 </div>
 
 In this tutorial we will see how to implement a simplified version of a load apprximation script.
-The final code of this tutorial can be accessible on [GitHub](https://github.com/lmouline/uscript/tree/master/sample/tutorial/creos).
+The final code of this tutorial can be accessible on [GitHub](https://github.com/lmouline/aintea/tree/master/sample/tutorial/creos).
 
 
 # Introduction
@@ -24,11 +24,11 @@ The final code of this tutorial can be accessible on [GitHub](https://github.com
 
 # Step 1 - Definition of the classes
 
-`smartgrid.uscript` file:
+`smartgrid.aintea` file:
 ```
 package smartgrid
 
-import uscript.lang.*
+import aintea.lang.*
 
 class Entity {
   Fuse[] fuses;

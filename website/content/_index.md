@@ -8,6 +8,6 @@ draft: false
   <strong>Warning!</strong> The site is under construction
 </div>
 
-# UScript language
+# Ain'tea language
 
 

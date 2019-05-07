@@ -6,11 +6,11 @@ draft: false
 ---
 
 <div class="warning">
-  <strong>Warning!</strong> Due to <a href="https://github.com/lmouline/uscript/issues/1">Issue 1</a>, the import to the uscript lib should be added to any script: <pre>import uscript.lang.*</pre>
+  <strong>Warning!</strong> Due to <a href="https://github.com/lmouline/aintea/issues/1">Issue 1</a>, the import to the Ain'tea lib should be added to any script: <pre>import aintea.lang.*</pre>
 </div>
 
 In this tutorial, we will go trhough all the functionalities offer by the language.
-All the final code is accessible on [GitHub](https://github.com/lmouline/uscript/tree/master/sample/tutorial/basics)
+All the final code is accessible on [GitHub](https://github.com/lmouline/aintea/tree/master/sample/tutorial/basics)
 
 
 # Hellow World
@@ -164,7 +164,7 @@ Here an example of boolean operators between two independent and disjoint uncert
 ```
 package basics
 
-import uscript.lang.*
+import aintea.lang.*
 
 void main() {
   Gaussian<double> g1 = new Gaussian<double>(15., 4.);
@@ -184,7 +184,7 @@ Here an example of boolean operators between two dependent and non-disjoint unce
 ```
 package basics
 
-import uscript.lang.*
+import aintea.lang.*
 
 void main() {
   Gaussian<double> g1 = new Gaussian<double>(15., 4.);
@@ -203,7 +203,7 @@ Here an example of boolean operators between two independent and non-disjoint un
 ```
 package basics
 
-import uscript.lang.*
+import aintea.lang.*
 
 void main() {
   Gaussian<double> g1 = new Gaussian<double>(15., 4.);
