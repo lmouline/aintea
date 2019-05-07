@@ -15,6 +15,7 @@ import duc.uscript.execution.interpreter.expression.ExpressionAspect;
 import duc.uscript.execution.interpreter.expression.MethodCall2Aspect;
 import duc.uscript.execution.interpreter.modelstate.ContextAspect;
 import duc.uscript.execution.interpreter.modelstate.StateAspect;
+import duc.uscript.execution.interpreter.modelstate.ValueAspect;
 import duc.uscript.execution.interpreter.statement.AStatementAspect;
 import duc.uscript.execution.interpreter.statement.AssigmentAspectAssignmentAspectProperties;
 import duc.uscript.uScript.ArrayAccess;
@@ -57,7 +58,7 @@ public class AssigmentAspect extends AStatementAspect {
     try {
       final Context context = StateAspect.findCurrentContext(state);
       final Assignee assignee = _self.getAssignee();
-      final Value right = ExpressionAspect.evaluateExpression(_self.getValue(), state);
+      final Value right = ValueAspect.copy(ExpressionAspect.evaluateExpression(_self.getValue(), state));
       final SymbolSet dependences = ExpressionAspect.findDependentVariables(_self.getValue(), state);
       final Range valueRange = ExpressionAspect.findRange(_self.getValue(), state);
       boolean _matched = false;

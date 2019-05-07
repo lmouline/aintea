@@ -12,7 +12,7 @@ void main() {
 	Fuse fuse_subs = new Fuse();
 	fuse_subs.cable = cable;
 	fuse_subs.entity = subs;
-	fuse_subs.isClosed = new Bernoulli<bool>(true, 1.);
+	fuse_subs.isClosed = new Bernoulli<bool>(true, 0.8);
 	cable.start = fuse_subs;
 	
 	Fuse[] subs_fuses = new Fuse[1];
@@ -40,4 +40,11 @@ void main() {
 	
 	computeLoad(subs);
 	print(subs);
+	
+	Fuse[] fuses = subs.fuses;
+	Fuse f = fuses[0];
+	Cable cable1 = f.cable;
+	Fuse f2 = cable1.end;
+	print(f2.entity);
+	
 }

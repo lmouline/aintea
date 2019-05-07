@@ -7,8 +7,6 @@ import duc.uscript.execution.interpreter.modelstate.ArrayRefValueAspectArrayRefV
 import duc.uscript.execution.interpreter.modelstate.ValueAspect;
 import fr.inria.diverse.k3.al.annotationprocessor.Aspect;
 import fr.inria.diverse.k3.al.annotationprocessor.OverrideAspectMethod;
-import org.eclipse.emf.common.util.EList;
-import org.eclipse.xtext.xbase.lib.Conversions;
 import org.eclipse.xtext.xbase.lib.ObjectExtensions;
 import org.eclipse.xtext.xbase.lib.Procedures.Procedure1;
 
@@ -43,22 +41,8 @@ public class ArrayRefValueAspect extends ValueAspect {
   }
   
   protected static String _privk3_convertToString(final ArrayRefValueAspectArrayRefValueAspectProperties _self_, final ArrayRefValue _self) {
-    final StringBuilder result = new StringBuilder();
-    result.append("[");
-    final EList<Value> values = _self.getInstance().getValue();
-    for (int i = 0; (i < ((Object[])Conversions.unwrapArray(values, Object.class)).length); i++) {
-      {
-        result.append(ValueAspect.convertToString(values.get(i)));
-        int _length = ((Object[])Conversions.unwrapArray(values, Object.class)).length;
-        int _minus = (_length - 1);
-        boolean _lessThan = (i < _minus);
-        if (_lessThan) {
-          result.append(", ");
-        }
-      }
-    }
-    result.append("]");
-    return result.toString();
+    String _simpleName = _self.getInstance().getClass().getSimpleName();
+    return ("Array@" + _simpleName);
   }
   
   private static Value super_copy(final ArrayRefValue _self) {

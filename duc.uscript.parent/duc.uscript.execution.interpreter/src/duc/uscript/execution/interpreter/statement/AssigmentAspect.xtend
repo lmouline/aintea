@@ -9,6 +9,7 @@ import static extension duc.uscript.execution.interpreter.modelstate.StateAspect
 import static extension duc.uscript.execution.interpreter.expression.ExpressionAspect.*
 import static extension duc.uscript.execution.interpreter.modelstate.ContextAspect.*
 import static extension duc.uscript.execution.interpreter.expression.MethodCall2Aspect.*
+import static extension duc.uscript.execution.interpreter.modelstate.ValueAspect.copy
 
 import duc.uscript.uScript.VariableDeclaration
 import duc.uscript.execution.ExecutionFactory
@@ -30,7 +31,7 @@ class AssigmentAspect extends AStatementAspect {
 	def void evaluateStatement(State state) {
 		val context = state.findCurrentContext
 		val assignee = _self.assignee
-		val right = _self.value.evaluateExpression(state)
+		val right = _self.value.evaluateExpression(state).copy
 		
 		val SymbolSet dependences = _self.value.findDependentVariables(state)
 		

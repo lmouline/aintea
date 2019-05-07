@@ -26,6 +26,11 @@ public class ExpressionAspect {
     			result = duc.uscript.execution.interpreter.expression.ArrayLengthAspect.evaluateExpression((duc.uscript.uScript.ArrayLength)_self,state);
     		} else
     		// EndInjectInto duc.uscript.execution.interpreter.expression.ExpressionAspect#Value evaluateExpression(State) from duc.uscript.execution.interpreter.expression.ArrayLengthAspect
+    	// BeginInjectInto duc.uscript.execution.interpreter.expression.ExpressionAspect#Value evaluateExpression(State) from duc.uscript.execution.interpreter.expression.ExistExprAspect
+    		if (_self instanceof duc.uscript.uScript.ExistExpr){
+    			result = duc.uscript.execution.interpreter.expression.ExistExprAspect.evaluateExpression((duc.uscript.uScript.ExistExpr)_self,state);
+    		} else
+    		// EndInjectInto duc.uscript.execution.interpreter.expression.ExpressionAspect#Value evaluateExpression(State) from duc.uscript.execution.interpreter.expression.ExistExprAspect
     	// BeginInjectInto duc.uscript.execution.interpreter.expression.ExpressionAspect#Value evaluateExpression(State) from duc.uscript.execution.interpreter.expression.FieldAccessAspect
     		if (_self instanceof duc.uscript.uScript.FieldAccess){
     			result = duc.uscript.execution.interpreter.expression.FieldAccessAspect.evaluateExpression((duc.uscript.uScript.FieldAccess)_self,state);
@@ -151,6 +156,11 @@ public class ExpressionAspect {
     			result = duc.uscript.execution.interpreter.expression.ArrayLengthAspect.findDependentVariables((duc.uscript.uScript.ArrayLength)_self,state);
     		} else
     		// EndInjectInto duc.uscript.execution.interpreter.expression.ExpressionAspect#SymbolSet findDependentVariables(State) from duc.uscript.execution.interpreter.expression.ArrayLengthAspect
+    	// BeginInjectInto duc.uscript.execution.interpreter.expression.ExpressionAspect#SymbolSet findDependentVariables(State) from duc.uscript.execution.interpreter.expression.ExistExprAspect
+    		if (_self instanceof duc.uscript.uScript.ExistExpr){
+    			result = duc.uscript.execution.interpreter.expression.ExistExprAspect.findDependentVariables((duc.uscript.uScript.ExistExpr)_self,state);
+    		} else
+    		// EndInjectInto duc.uscript.execution.interpreter.expression.ExpressionAspect#SymbolSet findDependentVariables(State) from duc.uscript.execution.interpreter.expression.ExistExprAspect
     	// BeginInjectInto duc.uscript.execution.interpreter.expression.ExpressionAspect#SymbolSet findDependentVariables(State) from duc.uscript.execution.interpreter.expression.FieldAccessAspect
     		if (_self instanceof duc.uscript.uScript.FieldAccess){
     			result = duc.uscript.execution.interpreter.expression.FieldAccessAspect.findDependentVariables((duc.uscript.uScript.FieldAccess)_self,state);

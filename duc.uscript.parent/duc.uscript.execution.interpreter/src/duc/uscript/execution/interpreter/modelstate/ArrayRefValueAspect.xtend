@@ -12,20 +12,21 @@ class ArrayRefValueAspect extends ValueAspect{
 	
 	@OverrideAspectMethod
 	def String convertToString() {
-		val StringBuilder result = new StringBuilder()
-		result.append('[')
-		
-		val EList<Value> values = _self.instance.value
-		
-		for(var i=0; i<values.length; i++) {
-			result.append(values.get(i).convertToString)
-			if(i < values.length - 1) {
-				result.append(", ")
-			}
-		}
-		
-		result.append(']')
-		return result.toString
+//		val StringBuilder result = new StringBuilder()
+//		result.append('[')
+//		
+//		val EList<Value> values = _self.instance.value
+//		
+//		for(var i=0; i<values.length; i++) {
+//			result.append(values.get(i).convertToString)
+//			if(i < values.length - 1) {
+//				result.append(", ")
+//			}
+//		}
+//		
+//		result.append(']')
+//		return result.toString
+		return "Array@" + _self.instance.class.simpleName
 	}
 	
 	@OverrideAspectMethod

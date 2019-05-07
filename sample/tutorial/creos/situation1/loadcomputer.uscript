@@ -9,7 +9,7 @@ void computeLoad(Substation substation) {
 	
 	Cable cable = fuse.cable;
 	
-	if(!(fuse.isClosed[1])) { //confident that the fuse is open
+	if(exist(fuse.isClosed, 1.) && !(fuse.isClosed[1])) { //confident that the fuse is open
 		substation.load = new Gaussian<double>(0., 0.0001);
 		cable.load = new Gaussian<double>(0., 0.0001);
 	} else {
@@ -38,8 +38,7 @@ void computeLoad(Substation substation) {
 			// With the division, we increase the std and so the range of values
 			// on which we have a confidence
 			gauss_load.standardDeviation = gauss_load.standardDeviation / prob_isClosed;
-			
-			
+		
 			substation.load = new Gaussian<double>(gauss_load.mean, gauss_load.standardDeviation);
 		}
 	}
