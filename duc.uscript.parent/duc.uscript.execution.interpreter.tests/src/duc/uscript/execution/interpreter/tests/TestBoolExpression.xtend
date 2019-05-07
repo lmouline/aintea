@@ -90,7 +90,7 @@ class TestBoolExpression {
 		val script = '''
 		package test
 		
-		import uscript.lang.*
+		import aintea.lang.*
 		
 		void main() {
 			  Bernoulli<bool> true1 = new Bernoulli<bool>(true, «coeff.get(0)»);
@@ -179,7 +179,7 @@ class TestBoolExpression {
 		val script = '''
 		package test
 		
-		import uscript.lang.*
+		import aintea.lang.*
 		
 		void main() {
 			Bernoulli<bool> trueBool = new Bernoulli<bool>(true, 0.4);

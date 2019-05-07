@@ -32,7 +32,7 @@ class TestNewUObject {
 		val script = '''
 			package test
 			
-			import uscript.lang.*
+			import aintea.lang.*
 			
 			void main() {
 				«distDcl»<«type»> g = new «distDcl»<«type»>(5, 0.5);
@@ -84,7 +84,7 @@ class TestNewUObject {
 		val script = '''
 			package test
 			
-			import uscript.lang.*
+			import aintea.lang.*
 			
 			void main() {
 				Bernoulli<bool> g = new Bernoulli<bool>(true, 0.6);
