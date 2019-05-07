@@ -1,7 +1,7 @@
 package smartgrid.situation1
 
 import smartgrid.situation1.*
-import uscript.lang.*
+import aintea.lang.*
 
 void main() {
 	Substation subs = new Substation();

@@ -1,7 +1,7 @@
 package smartgrid.situation1
 
 import smartgrid.situation1.*
-import uscript.lang.*
+import aintea.lang.*
 
 void computeLoad(Substation substation) {
 	Fuse[] subs_fuses = substation.fuses;
@@ -37,9 +37,9 @@ void computeLoad(Substation substation) {
 			// This choice is arbitrary
 			// With the division, we increase the std and so the range of values
 			// on which we have a confidence
-			gauss_load.standardDeviation = gauss_load.standardDeviation / prob_isClosed;
+			gauss_load.variance = gauss_load.variance / prob_isClosed;
 		
-			substation.load = new Gaussian<double>(gauss_load.mean, gauss_load.standardDeviation);
+			substation.load = new Gaussian<double>(gauss_load.mean, gauss_load.variance);
 		}
 	}
 	

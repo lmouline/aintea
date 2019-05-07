@@ -1,6 +1,6 @@
 package smartgrid.situation1
 
-import uscript.lang.*
+import aintea.lang.*
 
 class Entity {
 	Fuse[] fuses;

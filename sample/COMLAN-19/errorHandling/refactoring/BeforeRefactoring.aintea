@@ -1,6 +1,6 @@
 package smart.grid
 
-import uscript.lang.*
+import aintea.lang.*
 
 class Substation {
 	Fuse[] fuses;
@@ -29,7 +29,7 @@ class Substation {
 			Fuse f = fuses[i];
 			noCableConn = noCableConn && f.isClosed;
 		}
-		
+				
 		Bernoulli conf = noCableConn.confidence;
 		this.load = new DiracDeltaFct<double>(0, conf.probability);
 	}

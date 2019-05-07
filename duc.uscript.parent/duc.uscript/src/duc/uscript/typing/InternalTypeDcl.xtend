@@ -14,7 +14,7 @@ import duc.uscript.uScript.BernoulliRef
 class InternalTypeDcl {
 	@Inject extension UScriptIndex
 	
-	public static final String LIB_PACK = "uscript.lang"
+	public static final String LIB_PACK = "aintea.lang"
 	
 	public static final String PRIMITIVE_TYPE = LIB_PACK + ".Primitive"
 	public static final String STRING_TYPE = LIB_PACK + ".String"

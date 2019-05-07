@@ -1,6 +1,6 @@
 package basics
 
-import uscript.lang.*
+import aintea.lang.*
 
 void main() {
   Gaussian<double> g1 = new Gaussian<double>(15., 4.);

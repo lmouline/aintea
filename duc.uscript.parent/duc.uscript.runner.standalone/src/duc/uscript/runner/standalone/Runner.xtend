@@ -6,7 +6,7 @@ class Runner {
 	def static void main(String[] args) {
 //		execute("../../sample/tutorial/basics/types/ubool/indepNonDisjoint.uscript", System.out)
 
-		execute("../../sample/tutorial/creos/situation1/runner.uscript", 
+		execute("../../sample/tutorial/creos/situation1/runner.aintea", 
 				System.out,
 				"../../sample/tutorial/creos/situation1")
 				

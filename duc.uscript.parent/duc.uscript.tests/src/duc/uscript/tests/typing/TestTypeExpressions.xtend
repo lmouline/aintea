@@ -32,7 +32,7 @@ class TestTypeExpressions {
 		val scriptText = '''
 			package myPack
 			
-			import uscript.lang.*
+			import aintea.lang.*
 			
 			class A {}
 			

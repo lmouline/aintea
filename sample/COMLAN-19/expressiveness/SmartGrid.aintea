@@ -1,6 +1,6 @@
 package smartgrid
 
-import uscript.lang.*
+import aintea.lang.*
 
 //class Substation {
 //	Fuse[] fuses;
@@ -72,7 +72,7 @@ void ComputeLoadNoCable(Substation substation) {
 	}
 	
 	Bernoulli bern = noCableConn.confidence;
-	substation.load = new Gaussian<double>(0, bern.variance);
+	substation.load = new Gaussian<double>(0, bern.probability);
 }
 
 void ComputeLoad(Substation substation) {

@@ -36,7 +36,7 @@ class TestTypeConcordance {
 		val emptyScript = '''
 			package a
 			
-			import uscript.lang.*
+			import aintea.lang.*
 			
 			class A {}
 		'''.parse(resourceSet)

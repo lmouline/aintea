@@ -1,4 +1,4 @@
-package uscript.lang
+package aintea.lang
 
 class Primitive {}
 
@@ -33,12 +33,23 @@ class BernoulliDist {
 
 class GaussianDist {
 	double mean;
-	double standardDeviation;
+	double variance;
 }
 
-class RayleighDist {}
-class BinomialDist {}
-class DiracDeltaFunction {}
+class RayleighDist {
+	double mean;
+	double variance;
+}
+
+class BinomialDist {
+	double mean;
+	double variance;
+}
+
+class DiracDeltaFunction {
+	double shift;
+	double confidence;
+}
 
 class UncertainType {}
 
@@ -96,30 +107,32 @@ class BinomialByte extends BinomialType {
 	byte value;
 }
 
-class DiracType extends UncertainNumeric {
+class DiracDeltaFunctionType extends UncertainNumeric {
 	DiracDeltaFunction confidence;
 }
 
-class DiracLong extends DiracType {
+class DiracDeltaFunctionLong extends DiracDeltaFunctionType {
 	long value;
 }
 
-class DiracInt extends DiracType {
+class DiracDeltaFunctionInt extends DiracDeltaFunctionType {
 	int value;
 }
 
-class DiracShort extends DiracType {
+class DiracDeltaFunctionShort extends DiracDeltaFunctionType {
 	short value;
 }
 
-class DiracByte extends DiracType {
+class DiracDeltaFunctionByte extends DiracDeltaFunctionType {
 	byte value;
 }
 
-class DiracDouble extends DiracType {
+class DiracDeltaFunctionDouble extends DiracDeltaFunctionType {
 	double value;
 }
 
-class DiracFloat extends DiracType {
+class DiracDeltaFunctionFloat extends DiracDeltaFunctionType {
 	float value;
 }
+
+

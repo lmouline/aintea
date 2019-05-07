@@ -34,7 +34,7 @@ Workflow {
 		}
 		language = StandardLanguage {
 			name = "duc.uscript.UScript"
-			fileExtensions = "uscript"
+			fileExtensions = "aintea"
 			
 			serializer = {
 				generateStub = false

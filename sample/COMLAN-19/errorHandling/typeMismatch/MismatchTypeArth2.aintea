@@ -1,6 +1,6 @@
 package errorHandling.type.mismatch
 
-import uscript.lang.*
+import aintea.lang.*
 
 void main() {	
 	Gaussian<float> g1 = new Gaussian<float>(5, " ");

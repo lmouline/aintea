@@ -28,7 +28,7 @@ class TestDangling {
 		val script = '''
 			package a	
 			
-			import uscript.lang.*
+			import aintea.lang.*
 				
 			void m() {
 				Bernoulli<bool> b = new Bernoulli<bool>(true, 0.5);

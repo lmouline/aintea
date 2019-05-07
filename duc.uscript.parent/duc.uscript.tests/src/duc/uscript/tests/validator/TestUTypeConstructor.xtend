@@ -71,7 +71,7 @@ class TestUTypeConstructor {
 			val script = '''
 				package myPack
 				
-				import uscript.lang.*
+				import aintea.lang.*
 				
 				class A {}
 				
@@ -102,7 +102,7 @@ class TestUTypeConstructor {
 			val script = '''
 				package myPack
 				
-				import uscript.lang.*
+				import aintea.lang.*
 				
 				class A {}
 				
@@ -168,7 +168,7 @@ class TestUTypeConstructor {
 			val script = '''
 				package myPack
 				
-				import uscript.lang.*
+				import aintea.lang.*
 				
 				class A {}
 				
@@ -199,7 +199,7 @@ class TestUTypeConstructor {
 			val script = '''
 				package myPack
 				
-				import uscript.lang.*
+				import aintea.lang.*
 				
 				class A {}
 				
@@ -265,7 +265,7 @@ class TestUTypeConstructor {
 			val script = '''
 				package myPack
 				
-				import uscript.lang.*
+				import aintea.lang.*
 				
 				class A {}
 				
@@ -296,7 +296,7 @@ class TestUTypeConstructor {
 			val script = '''
 				package myPack
 				
-				import uscript.lang.*
+				import aintea.lang.*
 				
 				class A {}
 				
@@ -362,7 +362,7 @@ class TestUTypeConstructor {
 			val script = '''
 				package myPack
 				
-				import uscript.lang.*
+				import aintea.lang.*
 				
 				class A {}
 				
@@ -393,7 +393,7 @@ class TestUTypeConstructor {
 			val script = '''
 				package myPack
 				
-				import uscript.lang.*
+				import aintea.lang.*
 				
 				class A {}
 				

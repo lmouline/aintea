@@ -1,6 +1,6 @@
 package basics
 
-import uscript.lang.*
+import aintea.lang.*
 
 void main() {
     print("Hello world!");

@@ -8,7 +8,7 @@ class UScriptImportedNamespaceAwareLocalScopeProvider extends ImportedNamespaceA
 	
 	override getImplicitImports(boolean ignoreCase) {
 		newArrayList(new ImportNormalizer(
-			QualifiedName.create("uscript", "lang"),
+			QualifiedName.create("aintea", "lang"),
 			true,
 			ignoreCase
 		))

@@ -1,4 +1,4 @@
-package uscript.lang
+package aintea.lang
 
 class Primitive {}
 
@@ -134,5 +134,3 @@ class DiracDeltaFunctionDouble extends DiracDeltaFunctionType {
 class DiracDeltaFunctionFloat extends DiracDeltaFunctionType {
 	float value;
 }
-
-

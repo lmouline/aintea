@@ -70,7 +70,7 @@ class TestCFValidator {
 			val script = '''
 				package myPack
 				
-				import uscript.lang.*
+				import aintea.lang.*
 				
 				class A {}
 				
