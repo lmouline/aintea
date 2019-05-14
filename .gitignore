@@ -68,3 +68,9 @@ website/themes/hugo-theme-techdoc/exampleSite
 *.java._trace
 *.xtendbin
 /duc.uscript.parent/duc.uscript.runner.standalone/standalone.jar
+
+motivation/code-sample/c-sharp/**/**/bin
+motivation/code-sample/motivation/code-sample/motivation/code-sample/motivation/code-sample/c-sharp/**/**/packages
+motivation/code-sample/motivation/code-sample/motivation/code-sample/c-sharp/**/**/obj
+motivation/code-sample/motivation/code-sample/c-sharp/**/**/x86
+motivation/code-sample/c-sharp/**/**/.vs
