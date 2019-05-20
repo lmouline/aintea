@@ -8,11 +8,9 @@ import duc.uscript.execution.State
 import duc.uscript.utils.SymbolSet
 import duc.uscript.execution.ObjectRefValue
 import duc.uscript.execution.DoubleValue
-import duc.uscript.uScript.BernoulliRef
 import duc.uscript.execution.BooleanValue
 import duc.uscript.execution.interpreter.utils.BernoulliBoolUtils
 import duc.uscript.execution.ExecutionFactory
-import duc.uscript.typing.InternalTypeDcl
 
 @Aspect(className=ExistExpr)
 class ExistExprAspect extends ExpressionAspect {

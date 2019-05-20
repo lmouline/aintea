@@ -42,8 +42,7 @@ class ArrayAccessImpl extends ExpressionAspect {
 	
 	private static def Value confidenceOperator(ObjectRefValue bernRef, Value givenConf, State state) {
 		val double conf = BernoulliBoolUtils.getProbability(bernRef).value
-		val boolean uValue = BernoulliBoolUtils.getValue(bernRef).value
-		
+				
 		val threshold = if (givenConf instanceof IntegerValue) {
 			givenConf.value
 		} else if(givenConf instanceof DoubleValue) {

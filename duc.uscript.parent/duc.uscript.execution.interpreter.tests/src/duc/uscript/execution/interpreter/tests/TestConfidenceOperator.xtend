@@ -17,7 +17,6 @@ import static org.junit.jupiter.api.Assertions.assertArrayEquals
 import static org.junit.jupiter.api.Assertions.assertThrows
 import com.google.inject.Provider
 import org.eclipse.emf.ecore.resource.ResourceSet
-import org.junit.jupiter.api.function.Executable
 
 @ExtendWith(InjectionExtension)
 @InjectWith(UScriptInjectorProvider)
