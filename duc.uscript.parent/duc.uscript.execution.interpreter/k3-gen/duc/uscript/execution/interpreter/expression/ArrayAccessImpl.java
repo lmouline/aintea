@@ -2,6 +2,7 @@ package duc.uscript.execution.interpreter.expression;
 
 import duc.uscript.execution.ArrayRefValue;
 import duc.uscript.execution.BooleanValue;
+import duc.uscript.execution.DoubleValue;
 import duc.uscript.execution.ExecutionFactory;
 import duc.uscript.execution.IntegerValue;
 import duc.uscript.execution.ObjectRefValue;
@@ -43,20 +44,20 @@ public class ArrayAccessImpl extends ExpressionAspect {
     return (duc.uscript.execution.Value)result;
   }
   
-  private static Value realAccess(final ArrayAccess _self, final ArrayRefValue arrayRef, final int index, final State state) {
+  private static Value realAccess(final ArrayAccess _self, final ArrayRefValue arrayRef, final Value index, final State state) {
     final duc.uscript.execution.interpreter.expression.ArrayAccessImplArrayAccessAspectProperties _self_ = duc.uscript.execution.interpreter.expression.ArrayAccessImplArrayAccessAspectContext.getSelf(_self);
     Object result = null;
-    // #DispatchPointCut_before# Value realAccess(ArrayRefValue,int,State)
+    // #DispatchPointCut_before# Value realAccess(ArrayRefValue,Value,State)
     if (_self instanceof duc.uscript.uScript.ArrayAccess){
     	result = duc.uscript.execution.interpreter.expression.ArrayAccessImpl._privk3_realAccess(_self_, (duc.uscript.uScript.ArrayAccess)_self,arrayRef,index,state);
     };
     return (duc.uscript.execution.Value)result;
   }
   
-  private static Value confidenceOperator(final ArrayAccess _self, final ObjectRefValue bernRef, final int givenConf, final State state) {
+  private static Value confidenceOperator(final ArrayAccess _self, final ObjectRefValue bernRef, final Value givenConf, final State state) {
     final duc.uscript.execution.interpreter.expression.ArrayAccessImplArrayAccessAspectProperties _self_ = duc.uscript.execution.interpreter.expression.ArrayAccessImplArrayAccessAspectContext.getSelf(_self);
     Object result = null;
-    // #DispatchPointCut_before# Value confidenceOperator(ObjectRefValue,int,State)
+    // #DispatchPointCut_before# Value confidenceOperator(ObjectRefValue,Value,State)
     if (_self instanceof duc.uscript.uScript.ArrayAccess){
     	result = duc.uscript.execution.interpreter.expression.ArrayAccessImpl._privk3_confidenceOperator(_self_, (duc.uscript.uScript.ArrayAccess)_self,bernRef,givenConf,state);
     };
@@ -79,8 +80,7 @@ public class ArrayAccessImpl extends ExpressionAspect {
   
   protected static Value _privk3_evaluateExpression(final ArrayAccessImplArrayAccessAspectProperties _self_, final ArrayAccess _self, final State state) {
     final Value arrayRef = ExpressionAspect.evaluateExpression(_self.getObject(), state);
-    Value _evaluateExpression = ExpressionAspect.evaluateExpression(_self.getIndex(), state);
-    final int index = ((IntegerValue) _evaluateExpression).getValue();
+    final Value index = ExpressionAspect.evaluateExpression(_self.getIndex(), state);
     Value _switchResult = null;
     boolean _matched = false;
     if (arrayRef instanceof ArrayRefValue) {
@@ -96,19 +96,38 @@ public class ArrayAccessImpl extends ExpressionAspect {
     return _switchResult;
   }
   
-  protected static Value _privk3_realAccess(final ArrayAccessImplArrayAccessAspectProperties _self_, final ArrayAccess _self, final ArrayRefValue arrayRef, final int index, final State state) {
-    return ValueAspect.copy(arrayRef.getInstance().getValue().get(index));
+  protected static Value _privk3_realAccess(final ArrayAccessImplArrayAccessAspectProperties _self_, final ArrayAccess _self, final ArrayRefValue arrayRef, final Value index, final State state) {
+    final int int_idx = ((IntegerValue) index).getValue();
+    return ValueAspect.copy(arrayRef.getInstance().getValue().get(int_idx));
   }
   
-  protected static Value _privk3_confidenceOperator(final ArrayAccessImplArrayAccessAspectProperties _self_, final ArrayAccess _self, final ObjectRefValue bernRef, final int givenConf, final State state) {
+  protected static Value _privk3_confidenceOperator(final ArrayAccessImplArrayAccessAspectProperties _self_, final ArrayAccess _self, final ObjectRefValue bernRef, final Value givenConf, final State state) {
     final double conf = BernoulliBoolUtils.getProbability(bernRef).getValue();
     final boolean uValue = BernoulliBoolUtils.getValue(bernRef).isValue();
+    double _xifexpression = (double) 0;
+    if ((givenConf instanceof IntegerValue)) {
+      _xifexpression = ((IntegerValue)givenConf).getValue();
+    } else {
+      double _xifexpression_1 = (double) 0;
+      if ((givenConf instanceof DoubleValue)) {
+        _xifexpression_1 = ((DoubleValue)givenConf).getValue();
+      }
+      _xifexpression = _xifexpression_1;
+    }
+    final double threshold = _xifexpression;
+    if (((conf < threshold) && ((1 - conf) < threshold))) {
+      throw new RuntimeException("No value exists with such a confidence");
+    }
     BooleanValue _createBooleanValue = ExecutionFactory.eINSTANCE.createBooleanValue();
     final Procedure1<BooleanValue> _function = (BooleanValue it) -> {
-      if (uValue) {
-        it.setValue((conf >= givenConf));
+      if ((conf > (1 - conf))) {
+        it.setValue(true);
       } else {
-        it.setValue((conf < givenConf));
+        if ((conf < (1 - conf))) {
+          it.setValue(false);
+        } else {
+          throw new RuntimeException("confidence value equals 0.5: no choice possible.");
+        }
       }
     };
     return ObjectExtensions.<BooleanValue>operator_doubleArrow(_createBooleanValue, _function);

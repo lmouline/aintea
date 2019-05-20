@@ -40,7 +40,7 @@ class ExistExprAspect extends ExpressionAspect {
 		val double prob = BernoulliBoolUtils.getProbability(bernRef).value
 		
 		return ExecutionFactory::eINSTANCE.createBooleanValue => [
-			value = prob >= conf
+			value = prob >= conf && (1-prob) >= conf
 		]
 	}
 	
