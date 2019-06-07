@@ -3,22 +3,29 @@ package basics
 import aintea.lang.*
 
 void main() {
-  Gaussian<double> g1 = new Gaussian<double>(15., 4.);
-  Gaussian<double> g2 = new Gaussian<double>(15., 4.);
-  
-  Bernoulli<bool> b1 = g1 > 17;
-  Bernoulli<bool> b2 = g2 < 20; 
+//  Gaussian<double> g1 = new Gaussian<double>(15., 4.);
+//  Gaussian<double> g2 = new Gaussian<double>(15., 4.);
+//  
+//  Bernoulli<bool> b1 = g1 > 17;
+//  Bernoulli<bool> b2 = g2 < 20; 
+//
+//  Bernoulli<bool> b3 = b1 && b2; 
+//  Bernoulli<bool> b4 = b1 || b2; 
+//  Bernoulli<bool> b5 = !b1;
+//
+//  print(g1);
+//  print("");
+//  print(b1);
+//  print(b2);
+//  print("");
+//  print(b3);
+//  print(b4);
+//  print(b5);
 
-  Bernoulli<bool> b3 = b1 && b2; 
-  Bernoulli<bool> b4 = b1 || b2; 
-  Bernoulli<bool> b5 = !b1;
-
-  print(g1);
-  print("");
-  print(b1);
-  print(b2);
-  print("");
-  print(b3);
-  print(b4);
-  print(b5);
+	Bernoulli<bool> b1 = new Bernoulli<bool>(true, 0.3);
+	Bernoulli<bool> b2 = new Bernoulli<bool>(false, 0.55);
+	
+	Bernoulli<bool> b3 = b1 == b2;
+	
+	print(b3);
 }

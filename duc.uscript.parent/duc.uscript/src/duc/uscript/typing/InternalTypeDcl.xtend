@@ -220,6 +220,10 @@ class InternalTypeDcl {
 		return ctx.getClassFromFqn(BINOMIAL_BYTE_TYPE)
 	}
 	
+	def Class getArrayClass(EObject ctx) {
+		return ctx.getClassFromFqn(ARRAY_TYPE)
+	}
+	
 	def Class getLongArrayClass(EObject ctx) {
 		return ctx.getClassFromFqn(LONG_ARRAY_TYPE)
 	}

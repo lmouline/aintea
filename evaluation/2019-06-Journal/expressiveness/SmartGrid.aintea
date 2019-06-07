@@ -72,6 +72,20 @@ void ComputeLoadNoCable(Substation substation) {
 	}
 	
 	Bernoulli bern = noCableConn.confidence;
+	if(bern.probability >= 0.97) {
+		substation.load = new Gaussian<double>(0, 0.0289);
+	} else {
+		if(bern.probability >= 0.95) {
+			substation.load = new Gaussian<double>(0, 0.0625);
+		} else {
+			if(bern.probability >= 0.68) {
+				substation.load = new Gaussian<double>(0, 0.5);
+			} else {
+				substation.load = new Gaussian<double>(0, 25);
+			}
+		}
+	}
+	
 	substation.load = new Gaussian<double>(0, bern.probability);
 }
 

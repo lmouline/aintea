@@ -1,0 +1,11 @@
+package overview
+
+import aintea.lang.*
+
+Gaussian<double> average(Gaussian<double>[] arrays) {
+	Gaussian<int> sum = arrays[0];
+	for(int i=1;i<arrays.length; i = i +1) {
+		sum = sum + arrays[1];
+	}
+	return sum / arrays.length;
+}

@@ -77,7 +77,7 @@ public class ExistExprAspect extends ExpressionAspect {
     final double prob = BernoulliBoolUtils.getProbability(bernRef).getValue();
     BooleanValue _createBooleanValue = ExecutionFactory.eINSTANCE.createBooleanValue();
     final Procedure1<BooleanValue> _function = (BooleanValue it) -> {
-      it.setValue((prob >= conf));
+      it.setValue(((prob >= conf) && ((1 - prob) >= conf)));
     };
     return ObjectExtensions.<BooleanValue>operator_doubleArrow(_createBooleanValue, _function);
   }

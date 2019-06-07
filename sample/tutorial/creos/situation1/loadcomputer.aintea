@@ -35,7 +35,7 @@ void computeLoad(Substation substation) {
 			
 			// Way to propagate uncertainty from boolean to numbers
 			// This choice is arbitrary
-			// With the division, we increase the std and so the range of values
+			// With the division, we increase the variance and so the range of values
 			// on which we have a confidence
 			gauss_load.variance = gauss_load.variance / prob_isClosed;
 		

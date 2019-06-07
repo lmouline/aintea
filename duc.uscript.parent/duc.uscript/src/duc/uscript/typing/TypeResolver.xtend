@@ -382,6 +382,15 @@ class TypeResolver {
 					DoubleTypeRef: r.doubleArrayClass
 					ByteTypeRef: r.byteArrayClass
 					LongTypeRef: r.longArrayClass
+					default: r.arrayClass
+//					GaussianRef: {
+//						switch (r.typeRef as GaussianRef).genericType {
+//							DoubleTypeRef: r.gaussianDoubleClass
+//							FloatTypeRef: r.gaussianFloatClass
+//							default: r.gaussianDistClass
+//						}
+//					}
+//					default: throw new RuntimeException("Array Type ref not managed for " + r.typeRef.type.name)
 				}
 			}
 			GaussianRef: {

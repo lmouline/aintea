@@ -76,11 +76,19 @@ class Interpreter {
 		
 		
 		val URI uriScript = URI.createFileURI(new File(filePath).absolutePath)
-		var Resource resource = rs.getResource(uriScript, true)
-		if(resource === null) {
+		var Resource resource;
+		
+//		try { 
+//			resource = rs.getResource(uriScript, true)
+//		} catch (RuntimeException re) {
+//			resource = rs.createResource(uriScript)
+//			resource.load(null)
+//		}
+		
+//		if(resource === null) {
 			resource = rs.createResource(uriScript)
 			resource.load(null)
-		}
+//		}
 
 		val IResourceValidator validator = injector.getInstance(IResourceValidator)
 		val List<Issue> issues = validator.validate(resource, CheckMode.ALL, CancelIndicator.NullImpl)

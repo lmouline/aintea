@@ -103,7 +103,6 @@ public class ArrayAccessImpl extends ExpressionAspect {
   
   protected static Value _privk3_confidenceOperator(final ArrayAccessImplArrayAccessAspectProperties _self_, final ArrayAccess _self, final ObjectRefValue bernRef, final Value givenConf, final State state) {
     final double conf = BernoulliBoolUtils.getProbability(bernRef).getValue();
-    final boolean uValue = BernoulliBoolUtils.getValue(bernRef).isValue();
     double _xifexpression = (double) 0;
     if ((givenConf instanceof IntegerValue)) {
       _xifexpression = ((IntegerValue)givenConf).getValue();
