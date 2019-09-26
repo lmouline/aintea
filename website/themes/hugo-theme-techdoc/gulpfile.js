@@ -47,7 +47,10 @@ gulp.task('lint:sass', function() {
         }
       },
       reporters: [
-        { formatter: 'string', console: true }
+        {
+          formatter: 'string',
+          console: true
+        }
       ]
     }));
 });
@@ -62,7 +65,7 @@ gulp.task('sass:style', function() {
     }))
     .pipe($.sass({
       outputStyle: 'expanded'
-    }).on( 'error', $.sass.logError ) )
+    }).on( 'error', $.sass.logError ))
     .pipe($.autoprefixer({
         browsers: ['last 2 versions'],
         cascade: false
@@ -75,7 +78,7 @@ gulp.task('sass:style', function() {
 
 gulp.task('javascript', function() {
   return gulp.src(src_paths.script)
-    .pipe($.uglify().on('error', $.util.log))
+    .pipe($.uglify().on( 'error', $.util.log ))
     .pipe($.rename({ suffix: '.min' }))
     .pipe(gulp.dest(dest_paths.script));
 });
@@ -96,13 +99,18 @@ gulp.task('browser-sync', function() {
   gulp.watch(src_paths.sass, ['default']).on('change', reload);
 });
 
-gulp.task('lint', gulp.series('lint:sass', 'lint:javascript'));
-gulp.task('sass', gulp.series('sass:style'));
-gulp.task('script', gulp.series('javascript'));
-gulp.task('serve', gulp.series('browser-sync'));
+gulp.task('lint', ['lint:sass', 'lint:javascript']);
+gulp.task('sass', ['sass:style']);
+gulp.task('script', ['javascript']);
+gulp.task('serve', ['browser-sync']);
 
-gulp.task('default', gulp.series('lint', 'sass', 'script'), function(callback) {
+gulp.task('default', function(callback) {
+  runSequence(
+    'lint',
+    'sass',
+    'script',
     callback
+  );
 });
 
 gulp.task('watch', function() {

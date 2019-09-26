@@ -21,9 +21,7 @@
 <script src="{{"js/functions.min.js" | absURL}}"></script>
 <script src="https://cdn.jsdelivr.net/npm/jquery.easing@1.4.1/jquery.easing.min.js"></script>
 <script src="{{"js/jquery.backtothetop/jquery.backtothetop.min.js" | absURL}}"></script>
+{{- partial "meta/google-analytics-async.html" . -}}
 {{- partial "meta/tag-manager.html" . -}}
-{{range .Site.Params.css}}
-<link rel="stylesheet" href="{{$.Site.BaseURL}}{{.}}">
-{{end}}
-
+{{- partial "meta/google-site-verification.html" . -}}
 

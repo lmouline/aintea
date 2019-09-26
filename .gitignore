@@ -74,3 +74,7 @@ motivation/code-sample/motivation/code-sample/motivation/code-sample/motivation/
 motivation/code-sample/motivation/code-sample/motivation/code-sample/c-sharp/**/**/obj
 motivation/code-sample/motivation/code-sample/c-sharp/**/**/x86
 motivation/code-sample/c-sharp/**/**/.vs
+
+
+.git
+website/themes/**/.gitignore
