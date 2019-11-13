@@ -41,6 +41,11 @@ public class ExpressionAspect {
     			result = duc.uscript.execution.interpreter.expression.MethodCall2Aspect.evaluateExpression((duc.uscript.uScript.MethodCall2)_self,state);
     		} else
     		// EndInjectInto duc.uscript.execution.interpreter.expression.ExpressionAspect#Value evaluateExpression(State) from duc.uscript.execution.interpreter.expression.MethodCall2Aspect
+    	// BeginInjectInto duc.uscript.execution.interpreter.expression.ExpressionAspect#Value evaluateExpression(State) from duc.uscript.execution.interpreter.expression.NegAspectImpl
+    		if (_self instanceof duc.uscript.uScript.Neg){
+    			result = duc.uscript.execution.interpreter.expression.NegAspectImpl.evaluateExpression((duc.uscript.uScript.Neg)_self,state);
+    		} else
+    		// EndInjectInto duc.uscript.execution.interpreter.expression.ExpressionAspect#Value evaluateExpression(State) from duc.uscript.execution.interpreter.expression.NegAspectImpl
     	// BeginInjectInto duc.uscript.execution.interpreter.expression.ExpressionAspect#Value evaluateExpression(State) from duc.uscript.execution.interpreter.expression.NewArrayAspect
     		if (_self instanceof duc.uscript.uScript.NewArray){
     			result = duc.uscript.execution.interpreter.expression.NewArrayAspect.evaluateExpression((duc.uscript.uScript.NewArray)_self,state);
