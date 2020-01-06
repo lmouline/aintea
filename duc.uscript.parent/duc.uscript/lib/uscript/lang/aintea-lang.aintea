@@ -24,6 +24,9 @@ class DoubleArray extends Array{}
 class ShortArray extends Array{}
 class FloatArray extends Array{}
 class CharArray extends Array{}
+class UsrDefArray extends Array {
+	
+}
 
 class Null{}
 
@@ -134,5 +137,3 @@ class DiracDeltaFunctionDouble extends DiracDeltaFunctionType {
 class DiracDeltaFunctionFloat extends DiracDeltaFunctionType {
 	float value;
 }
-
-

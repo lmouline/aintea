@@ -38,6 +38,7 @@ class InternalTypeDcl {
 	public static final String DOUBLE_ARRAY_TYPE = LIB_PACK + ".DoubleArray"
 	public static final String FLOAT_ARRAY_TYPE = LIB_PACK + ".FloatArray"
 	public static final String BOOL_ARRAY_TYPE = LIB_PACK + ".BooleanArray"
+	public static final String USR_DEF_ARRAY_TYPE = LIB_PACK + ".UsrDefArray"
 	
 	public static final String NULL_TYPE = LIB_PACK + ".Null"
 	

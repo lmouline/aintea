@@ -1,0 +1,7 @@
+package thesis.example
+
+import uscript.lang.*
+
+void main() {
+	Bernoulli<bool> ubool = new Bernoulli<bool>(true, 0.1);
+}

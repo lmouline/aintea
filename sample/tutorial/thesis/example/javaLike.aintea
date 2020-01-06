@@ -1,0 +1,59 @@
+package thesis.example
+
+import uscript.lang.*
+
+class SmartGrid {
+    double globalConsumption;
+    double globalProduction;
+
+    Customer[] customers;
+
+	//not working as method call from object is not yet implemented
+	//can use the avgCustProdbis function
+    double avgCustProd() { 
+    	Customer[] cs = this.customers;
+	    int i;
+	    double sum = 0;
+        for(i=0; i<cs.length; i=i+1) {
+        	Customer c = cs[i];
+    	    sum = sum + c.production;
+        }
+   	    return sum / cs.length;    
+   	}
+}
+
+class Customer {
+    string name;
+
+    double production;
+}
+
+double avgCustProdbis(SmartGrid sg) {
+	Customer[] cs = sg.customers;
+	int i;
+	double sum = 0;
+    for(i=0; i<cs.length; i=i+1) {
+    	Customer c = cs[i];
+    	sum = sum + c.production;
+    }
+   	return sum / cs.length;
+}
+
+void main() {
+	Customer c1 = new Customer();
+	c1.production = 10.5;
+	
+	Customer c2 = new Customer();
+	c2.production = 9.3;
+	
+	Customer c3 = new Customer();
+	c3.production = 0.2;
+	
+	SmartGrid sg = new SmartGrid();
+	sg.customers = new Customer[3];
+	sg.customers[0] = c1;
+	sg.customers[1] = c2;
+	sg.customers[2] = c3;
+	
+	print(avgCustProdbis(sg));
+}

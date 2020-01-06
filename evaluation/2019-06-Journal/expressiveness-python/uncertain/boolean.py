@@ -12,7 +12,7 @@ class UBoolean:
     def __str__(self):
         return "UBoolean(" + str(self.confidence.getP()) + ")"
 
-    def __add__(self, other):
+    def __and__(self, other):
         if isinstance(other, UBoolean):
             return UBoolean(ot.Bernoulli(self.confidence.getP() * other.confidence.getP()))
         return NotImplemented

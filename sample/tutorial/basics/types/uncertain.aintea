@@ -10,11 +10,15 @@ void main() {
 
     Rayleigh<float> rf = new Rayleigh<float>(0.5, 0.8);
     Rayleigh<double> rd = new Rayleigh<double>(0.5, 0.8);
+    
+    Bernoulli<bool> bern = exist(rd, 0.8);
 
     Binomial<byte> bb = new Binomial<byte>(9, 5);
     Binomial<short> bs = new Binomial<short>(9, 5);
     Binomial<int> bi = new Binomial<int>(9, 5);
-    Binomial<long> bl = new Binomial<long>(9, 5);
+    Binomial<long> bl = new Binomial<long>(9, 5L);
+    
+    Bernoulli<bool> bern = exist(rd, 0.8);
 
     DiracDeltaFct<float> df = new DiracDeltaFct<float>(0.5, 0.8);
     DiracDeltaFct<double> dd = new DiracDeltaFct<double>(0.5, 0.8);
@@ -23,6 +27,7 @@ void main() {
     DiracDeltaFct<int> di = new DiracDeltaFct<int>(9, 5);
     DiracDeltaFct<long> dl = new DiracDeltaFct<long>(9, 5);
     
+   
     print(b);
     print(gf);
     print(gd);

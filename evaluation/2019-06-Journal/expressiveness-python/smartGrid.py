@@ -49,7 +49,11 @@ def compute_load_no_cable(substation):
     for fuse in substation.fuses[1:]:
         no_cable_conn = no_cable_conn & fuse.isClosed
 
-    substation.load = ot.Normal(0, no_cable_conn.getStandardDeviation()*no_cable_conn.getStandardDeviation())
+    std = no_cable_conn.confidence.getStandardDeviation()[0]
+    print(no_cable_conn.confidence.getP())
+    if std == 0:
+        std = 0.001
+    substation.load = ot.Normal(0, std*std)
 
 
 def compute_load(substation):

@@ -59,10 +59,22 @@ import duc.uscript.uScript.This
 import org.eclipse.emf.ecore.EObject
 import duc.uscript.uScript.VariableDeclaration
 import duc.uscript.uScript.NewArray
+import java.util.HashMap
+import java.util.Map
+import duc.uscript.uScript.UScriptFactory
 
 class TypeResolver {
 	@Inject extension InternalTypeDcl
 	@Inject extension UScriptIndex
+	
+	
+	protected static val factory = UScriptFactory.eINSTANCE
+	
+	///// Dictionary Array<->Class
+	// class name -> class array type
+	public static val Map<String, Class> CLASS_ARRAY_TYPE = new HashMap
+	// class array type name -> class
+	public static val Map<String, Class> CLASS_ARRAY_TYPE_REVERSE = new HashMap
 			
 	def dispatch Class type(Expression e) {
 		throw new RuntimeException('''Expression «e» not condisered in the type resolver''')
@@ -382,15 +394,9 @@ class TypeResolver {
 					DoubleTypeRef: r.doubleArrayClass
 					ByteTypeRef: r.byteArrayClass
 					LongTypeRef: r.longArrayClass
-					default: r.arrayClass
-//					GaussianRef: {
-//						switch (r.typeRef as GaussianRef).genericType {
-//							DoubleTypeRef: r.gaussianDoubleClass
-//							FloatTypeRef: r.gaussianFloatClass
-//							default: r.gaussianDistClass
-//						}
-//					}
-//					default: throw new RuntimeException("Array Type ref not managed for " + r.typeRef.type.name)
+					ClassRef: getOrCreateClassRefType(r.typeRef as ClassRef)
+					default: throw new RuntimeException("type(TypeRef r) not implemented for actual type: " + r.typeRef)
+//					default: r.arrayClass
 				}
 			}
 			GaussianRef: {
@@ -434,6 +440,16 @@ class TypeResolver {
 				}
 			}
 			default: throw new RuntimeException('''Type not implemented in [Class type(TypeRef r)] function: «r»''')
+		}
+	}
+	
+	protected def getOrCreateClassRefType(ClassRef typeRef) {
+		val className = typeRef.referencedClass.fullQualifiedNamed
+		var res = CLASS_ARRAY_TYPE.get(className)
+		if (res === null) {
+			res = factory.createClass => [ name = '''«className»ArrayType''' ]
+			CLASS_ARRAY_TYPE.put(className, res)
+			CLASS_ARRAY_TYPE_REVERSE.put('''«className»ArrayType''', typeRef.referencedClass)
 		}
 	}
 	

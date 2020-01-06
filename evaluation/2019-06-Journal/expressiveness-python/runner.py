@@ -18,7 +18,7 @@ if __name__ == '__main__':
     fuse3.cable = cable3
 
     substation = sg.Substation(fuse1, fuse2, fuse3)
-    sg.compute_load(substation)
+    sg.compute_load_no_cable(substation)
     print(substation)
 
 
