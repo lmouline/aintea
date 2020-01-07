@@ -1,0 +1,37 @@
+package sample.smartcity
+
+class City {
+	Gaussian<double> avgCO2;
+	Gaussian<double> avgTemperature;
+	
+	District[] districts;
+}
+
+class District {
+	string name;
+	Gaussian<double> avgCO2;
+	Gaussian<double> avgTemperature;
+	
+	Binomial<int> nbTrafficJams;	
+}
+
+class Sensor {
+	Position position;
+}
+
+class Position {
+	double latitude;
+	double longitude;
+}
+
+class TemperatureSensor extends Sensor {
+	Gaussian<double> temperature;
+}
+
+class CO2Sensor extends Sensor {
+	Gaussian<double> CO2;
+}
+
+class TrafficJamDetector extends Sensor {
+	Bernoulli<bool> isTrafficJam;
+}
