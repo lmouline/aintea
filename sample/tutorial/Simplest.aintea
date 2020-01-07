@@ -2,26 +2,26 @@ package overview
 
 import aintea.lang.*
 
-//Gaussian<double> average(Gaussian<double>[] arrays) {
-//	Gaussian<double> sum = arrays[0];
-////	for(int i=1;i<arrays.length; i = i +1) {
-////		sum = sum + arrays[1];
-////	}
-////	return sum / arrays.length;
-//}
-
-class A {}
-
-
-
 void main() {
-//	int[] intArr;
-//	intArr = new int[10];
-//	int t = intArr[0];
+	MultipleChoice<double> multInt = new MultipleChoice<double>();
+	multInt.possibilities = new DoubleChoice[3];
+	DoubleChoice[] intPoss = multInt.possibilities;
+	
+	DoubleChoice i1 = new DoubleChoice();
+	i1.value = 14;
+	i1.confidence = 0.5;
+	intPoss[0] = i1;
+	
+	DoubleChoice i2 = new DoubleChoice();
+	i2.value = 24.5;
+	i2.confidence = 0.2;
+	intPoss[0] = i2;
+	
+	DoubleChoice i3 = new DoubleChoice();
+	i3.value = 25;
+	i3.confidence = 0.3;
+	intPoss[0] = i3;
 	
 	
-	A[] aas = new A[10];
-	aas[0] = new A();
-	
-	print(aas[0]);
+	print(multInt);
 }
