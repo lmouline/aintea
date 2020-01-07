@@ -24,6 +24,7 @@ import duc.uscript.uScript.NewUObject
 import duc.uscript.uScript.Class
 import com.google.inject.Inject
 import static extension duc.uscript.UScriptModelHelper.getFullQualifiedNamed
+import duc.uscript.uScript.MultipleChoiceRef
 
 class UTypeValidator extends AbstractUScriptValidator{
 	@Inject extension TypeResolver
@@ -105,6 +106,24 @@ class UTypeValidator extends AbstractUScriptValidator{
 	}
 	
 	@Check
+	def checkMultChoicesNbr(MultipleChoiceRef mlt) {
+		val genType = mlt.genericType
+		
+		if(genType !== null) {
+			if(!(genType instanceof ShortTypeRef || genType instanceof IntegerTypeRef || genType instanceof LongTypeRef ||
+				genType instanceof FloatTypeRef || genType instanceof DoubleTypeRef || genType instanceof ByteTypeRef)) {
+					
+				error(
+					'''MultipleChoice can only be applied on (short, int, long, float, double, byte). Actual: «genType.syntax»''',
+					mlt,
+					UScriptPackage.Literals.UTYPE_REF__GENERIC_TYPE,
+					WRONG_UTYPE
+				)
+			}
+		}
+	}
+	
+	@Check
 	def checkNewUObj(NewUObject newUT) {
 		checkUTypeCreation(newUT.type, newUT)
 	}
@@ -157,6 +176,10 @@ class UTypeValidator extends AbstractUScriptValidator{
 			checkDiscreteNumParam(newUT, 0, "Binomial")
 			checkNumParam(newUT, 1, "Binomial")
 		}
+	}
+	
+	private def dispatch checkUTypeCreation(MultipleChoiceRef type, NewUObject newUT) {
+		checkNbParam(newUT, "MultipleChoice", 0)
 	}
 	
 	private def boolean checkDiscreteNumParam(NewUObject newUT, int paramIdx, String distName) {

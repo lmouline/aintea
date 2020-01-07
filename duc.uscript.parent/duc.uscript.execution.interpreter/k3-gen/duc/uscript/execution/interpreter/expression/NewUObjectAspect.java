@@ -23,10 +23,12 @@ import duc.uscript.uScript.DiracRef;
 import duc.uscript.uScript.Expression;
 import duc.uscript.uScript.Field;
 import duc.uscript.uScript.GaussianRef;
+import duc.uscript.uScript.MultipleChoiceRef;
 import duc.uscript.uScript.NewUObject;
 import duc.uscript.uScript.RayleighRef;
 import duc.uscript.uScript.UTypeRef;
 import duc.uscript.utils.Range;
+import duc.uscript.utils.RangeFactory;
 import duc.uscript.utils.SymbolSet;
 import fr.inria.diverse.k3.al.annotationprocessor.Aspect;
 import fr.inria.diverse.k3.al.annotationprocessor.OverrideAspectMethod;
@@ -65,6 +67,16 @@ public class NewUObjectAspect extends ExpressionAspect {
     // #DispatchPointCut_before# Value createDistBool(State,InternalTypeDcl,TypeResolver)
     if (_self instanceof duc.uscript.uScript.NewUObject){
     	result = duc.uscript.execution.interpreter.expression.NewUObjectAspect._privk3_createDistBool(_self_, (duc.uscript.uScript.NewUObject)_self,state,typeDcl,typeResolver);
+    };
+    return (duc.uscript.execution.Value)result;
+  }
+  
+  private static Value createMultChoices(final NewUObject _self, final State state, final InternalTypeDcl typeDcl, final TypeResolver typeResolver) {
+    final duc.uscript.execution.interpreter.expression.NewUObjectAspectNewUObjectAspectProperties _self_ = duc.uscript.execution.interpreter.expression.NewUObjectAspectNewUObjectAspectContext.getSelf(_self);
+    Object result = null;
+    // #DispatchPointCut_before# Value createMultChoices(State,InternalTypeDcl,TypeResolver)
+    if (_self instanceof duc.uscript.uScript.NewUObject){
+    	result = duc.uscript.execution.interpreter.expression.NewUObjectAspect._privk3_createMultChoices(_self_, (duc.uscript.uScript.NewUObject)_self,state,typeDcl,typeResolver);
     };
     return (duc.uscript.execution.Value)result;
   }
@@ -129,6 +141,12 @@ public class NewUObjectAspect extends ExpressionAspect {
       if (_type instanceof BernoulliRef) {
         _matched=true;
         _switchResult = NewUObjectAspect.createDistBool(_self, state, internalTypeDcl, typeResolver);
+      }
+    }
+    if (!_matched) {
+      if (_type instanceof MultipleChoiceRef) {
+        _matched=true;
+        _switchResult = NewUObjectAspect.createMultChoices(_self, state, internalTypeDcl, typeResolver);
       }
     }
     if (!_matched) {
@@ -219,6 +237,20 @@ public class NewUObjectAspect extends ExpressionAspect {
     return ObjectExtensions.<ObjectRefValue>operator_doubleArrow(_createObjectRefValue, _function);
   }
   
+  protected static Value _privk3_createMultChoices(final NewUObjectAspectNewUObjectAspectProperties _self_, final NewUObject _self, final State state, final InternalTypeDcl typeDcl, final TypeResolver typeResolver) {
+    ObjectInstance _createObjectInstance = ExecutionFactory.eINSTANCE.createObjectInstance();
+    final Procedure1<ObjectInstance> _function = (ObjectInstance it) -> {
+      it.setType(typeResolver.type(_self.getType()));
+    };
+    final ObjectInstance res = ObjectExtensions.<ObjectInstance>operator_doubleArrow(_createObjectInstance, _function);
+    state.getObjectsHeap().add(res);
+    ObjectRefValue _createObjectRefValue = ExecutionFactory.eINSTANCE.createObjectRefValue();
+    final Procedure1<ObjectRefValue> _function_1 = (ObjectRefValue it) -> {
+      it.setInstance(res);
+    };
+    return ObjectExtensions.<ObjectRefValue>operator_doubleArrow(_createObjectRefValue, _function_1);
+  }
+  
   private static SymbolSet super_findDependentVariables(final NewUObject _self, final State state) {
     final duc.uscript.execution.interpreter.expression.ExpressionAspectExpressionAspectProperties _self_ = duc.uscript.execution.interpreter.expression.ExpressionAspectExpressionAspectContext.getSelf(_self);
     return  duc.uscript.execution.interpreter.expression.ExpressionAspect._privk3_findDependentVariables(_self_, _self,state);
@@ -239,6 +271,12 @@ public class NewUObjectAspect extends ExpressionAspect {
   }
   
   protected static Range _privk3_findRange(final NewUObjectAspectNewUObjectAspectProperties _self_, final NewUObject _self, final State state) {
-    return ExpressionAspect.findRange(_self.getArgs().get(0), state);
+    int _size = _self.getArgs().size();
+    boolean _greaterThan = (_size > 0);
+    if (_greaterThan) {
+      return ExpressionAspect.findRange(_self.getArgs().get(0), state);
+    } else {
+      return RangeFactory.createFullRange();
+    }
   }
 }

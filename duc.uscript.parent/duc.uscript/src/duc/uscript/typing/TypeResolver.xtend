@@ -63,6 +63,7 @@ import java.util.HashMap
 import java.util.Map
 import duc.uscript.uScript.UScriptFactory
 import duc.uscript.uScript.UTypeRef
+import duc.uscript.uScript.MultipleChoiceRef
 
 class TypeResolver {
 	@Inject extension InternalTypeDcl
@@ -264,6 +265,10 @@ class TypeResolver {
 			return arrayAccess.boolClass
 		}
 		
+		if(typeElmt.fullQualifiedNamed === null) {
+			return arrayAccess.nullClass 
+		}
+		
 		return switch(typeElmt.fullQualifiedNamed) {
 			case STRING_ARRAY_TYPE: arrayAccess.stringClass
 			case BYTE_ARRAY_TYPE: arrayAccess.byteClass
@@ -451,6 +456,17 @@ class TypeResolver {
 				switch r.genericType {
 					BooleanTypeRef: r.bernoulliBoolClass
 					default: r.bernoulliDistClass
+				}
+			}
+			MultipleChoiceRef: {
+				switch r.genericType {
+					ByteTypeRef: r.multChoiceByteClass
+					ShortTypeRef: r.multChoiceShortClass
+					IntegerTypeRef: r.multChoiceIntClass
+					LongTypeRef: r.multChoiceLongClass
+					DoubleTypeRef: r.multChoiceDoubleClass
+					FloatTypeRef: r.multChoiceFloatClass
+					default: r.multChoiceClass
 				}
 			}
 			default: throw new RuntimeException('''Type not implemented in [Class type(TypeRef r)] function: «r»''')

@@ -137,3 +137,51 @@ class DiracDeltaFunctionDouble extends DiracDeltaFunctionType {
 class DiracDeltaFunctionFloat extends DiracDeltaFunctionType {
 	float value;
 }
+
+class MultChoicesType extends UncertainNumeric {}
+
+class Choice {
+	double confidence;
+}
+
+class ByteChoice extends Choice {
+	byte value;	
+}
+class MultChoicesByte extends MultChoicesType {
+	ByteChoice[] possibilities; 
+}
+
+class ShortChoice extends Choice {
+	short value;	
+}
+class MultChoicesShort extends MultChoicesType {
+	ShortChoice[] possibilities; 
+}
+
+class IntChoice extends Choice {
+	int value;	
+}
+class MultChoicesInt extends MultChoicesType {
+	IntChoice[] possibilities; 
+}
+
+class LongChoice extends Choice {
+	long value;	
+}
+class MultChoicesLong extends MultChoicesType {
+	LongChoice[] possibilities; 
+}
+
+class FloatChoice extends Choice {
+	float value;	
+}
+class MultChoicesFloat extends MultChoicesType {
+	FloatChoice[] possibilities; 
+}
+
+class DoubleChoice extends Choice {
+	double value;	
+}
+class MultChoicesDouble extends MultChoicesType {
+	DoubleChoice[] possibilities; 
+}

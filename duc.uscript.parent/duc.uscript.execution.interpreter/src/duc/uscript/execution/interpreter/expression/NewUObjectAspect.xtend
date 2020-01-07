@@ -23,6 +23,8 @@ import static duc.uscript.execution.interpreter.utils.BernoulliBoolUtils.createB
 import duc.uscript.utils.SymbolSet
 import duc.uscript.uScript.Expression
 import duc.uscript.utils.Range
+import duc.uscript.uScript.MultipleChoiceRef
+import duc.uscript.utils.RangeFactory
 
 @Aspect(className=NewUObject)
 class NewUObjectAspect extends ExpressionAspect{
@@ -40,6 +42,7 @@ class NewUObjectAspect extends ExpressionAspect{
 			BinomialRef: createDistNumeric(_self, state, internalTypeDcl, typeResolver)
 			DiracRef: createDistNumeric(_self, state, internalTypeDcl, typeResolver)
 			BernoulliRef: createDistBool(_self, state, internalTypeDcl, typeResolver)
+			MultipleChoiceRef: createMultChoices(_self, state, internalTypeDcl, typeResolver)
 			default: throw new RuntimeException("Not yet implemented for " + _self.type.class.name)
 		}
 	}
@@ -96,6 +99,16 @@ class NewUObjectAspect extends ExpressionAspect{
 		return ExecutionFactory::eINSTANCE.createObjectRefValue => [instance = result]
 	}
 	
+	private def static Value createMultChoices(State state, InternalTypeDcl typeDcl, TypeResolver typeResolver) {
+		val res = ExecutionFactory::eINSTANCE.createObjectInstance => [
+			type = typeResolver.type(_self.type)
+		]
+		state.objectsHeap.add(res)
+		
+		return ExecutionFactory::eINSTANCE.createObjectRefValue => [instance = res]
+		
+	}
+	
 	@OverrideAspectMethod
 	def SymbolSet findDependentVariables(State state) {
 		val result = new SymbolSet
@@ -109,6 +122,10 @@ class NewUObjectAspect extends ExpressionAspect{
 	
 	@OverrideAspectMethod
 	def Range findRange(State state) {
-		return _self.args.get(0).findRange(state)
+		if(_self.args.size > 0) {
+			return _self.args.get(0).findRange(state)
+		} else {
+			return RangeFactory.createFullRange()
+		}
 	}
 }
