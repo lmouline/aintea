@@ -30,11 +30,7 @@ class TypeConformance {
 	
 	def static boolean isConformant(Class left, Class right) {
 		val compatibleTypes = conformType(left)
-		
-		if(compatibleTypes.empty) {
-			throw new RuntimeException('''Conformance map not fill for «left.name»''');
-		}
-		
+				
 		var boolean isCompatible = false;
 		for(String s: compatibleTypes) {
 			isCompatible = isCompatible || is(right, s); 

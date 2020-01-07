@@ -62,6 +62,7 @@ import duc.uscript.uScript.NewArray
 import java.util.HashMap
 import java.util.Map
 import duc.uscript.uScript.UScriptFactory
+import duc.uscript.uScript.UTypeRef
 
 class TypeResolver {
 	@Inject extension InternalTypeDcl
@@ -367,7 +368,20 @@ class TypeResolver {
 	}
 	
 	def dispatch Class type(NewArray newArray) {
-		newArray.getType.type
+//		newArray.getType.type
+		switch (newArray.getType) {
+			ByteTypeRef: newArray.byteArrayClass
+			ShortTypeRef: newArray.shortArrayClass
+			IntegerTypeRef: newArray.intArrayClass
+			LongTypeRef: newArray.longArrayClass
+			FloatTypeRef: newArray.floatArrayClass
+			DoubleTypeRef: newArray.doubleArrayClass
+			BooleanTypeRef: newArray.boolArrayClass
+			StringTypeRef: newArray.stringArrayClass
+			CharTypeRef: newArray.charArrayClass
+			ClassRef: getOrCreateClassRefType(newArray.getType as ClassRef)
+			default: throw new RuntimeException('''Array type not managed for «newArray.getType»''')
+		}
 	}
 	
 	def dispatch Class type(TypeRef r) {
@@ -395,8 +409,8 @@ class TypeResolver {
 					ByteTypeRef: r.byteArrayClass
 					LongTypeRef: r.longArrayClass
 					ClassRef: getOrCreateClassRefType(r.typeRef as ClassRef)
+					UTypeRef: getOrCreateUClassRefType(r.typeRef as UTypeRef)
 					default: throw new RuntimeException("type(TypeRef r) not implemented for actual type: " + r.typeRef)
-//					default: r.arrayClass
 				}
 			}
 			GaussianRef: {
@@ -450,6 +464,26 @@ class TypeResolver {
 			res = factory.createClass => [ name = '''«className»ArrayType''' ]
 			CLASS_ARRAY_TYPE.put(className, res)
 			CLASS_ARRAY_TYPE_REVERSE.put('''«className»ArrayType''', typeRef.referencedClass)
+		}
+	}
+	
+	protected def getOrCreateUClassRefType(UTypeRef utypeRef) {
+		val class = switch(utypeRef) {
+			GaussianRef: {
+				switch(utypeRef.genericType) {
+					DoubleTypeRef: utypeRef.gaussianDoubleClass
+					default: throw new RuntimeException('''getOrCreateUClassRefType(UTypeRef utypeRef) not yet implemented for (Gaussian<«utypeRef.genericType»>)''')
+				}
+			}
+			default: throw new RuntimeException('''getOrCreateUClassRefType(UTypeRef utypeRef) not yet implemented for («utypeRef»)''')
+		}
+		val className = class.fullQualifiedNamed
+		
+		var res = CLASS_ARRAY_TYPE.get(className)
+		if (res === null) {
+			res = factory.createClass => [ name = '''«className»ArrayType''' ]
+			CLASS_ARRAY_TYPE.put(className, res)
+			CLASS_ARRAY_TYPE_REVERSE.put('''«className»ArrayType''', class)
 		}
 	}
 	

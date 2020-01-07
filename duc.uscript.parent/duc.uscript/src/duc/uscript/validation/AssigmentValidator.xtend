@@ -6,6 +6,7 @@ import com.google.inject.Inject
 import duc.uscript.typing.TypeResolver
 import static duc.uscript.typing.TypeConformance.*
 import duc.uscript.uScript.UScriptPackage
+import static extension duc.uscript.UScriptModelHelper.getFullQualifiedNamed
 
 class AssigmentValidator extends AbstractUScriptValidator {
 	
@@ -24,7 +25,7 @@ class AssigmentValidator extends AbstractUScriptValidator {
 			
 			if(!isConformant(typeAss, typeExpr)) {
 				error(
-					'''«typeExpr.name» is not compatible with «typeAss.name». Compatible types are: «conformType(typeAss)»''',
+					'''«typeExpr.fullQualifiedNamed» is not compatible with «typeAss.fullQualifiedNamed». Compatible types are: «conformType(typeAss)»''',
 					assgnt,
 					UScriptPackage.Literals.ASSIGNMENT__VALUE,
 					TYPES_NOT_CONFORM
