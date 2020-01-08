@@ -77,21 +77,21 @@ class InternalTypeDcl {
 	public static final String DIRAC_DOUBLE_TYPE = LIB_PACK + ".DiracDeltaFunctionDouble"
 	public static final String DIRAC_FLOAT_TYPE = LIB_PACK + ".DiracDeltaFunctionFloat"
 	
-	public static final String MULTCHOICE_TYPE = LIB_PACK + ".MultChoicesType"
-	public static final String MULTCHOICE_BYTE_TYPE = LIB_PACK + ".MultChoicesByte"
-	public static final String MULTCHOICE_SHORT_TYPE = LIB_PACK + ".MultChoicesShort"
-	public static final String MULTCHOICE_INT_TYPE = LIB_PACK + ".MultChoicesInt"
-	public static final String MULTCHOICE_LONG_TYPE = LIB_PACK + ".MultChoicesLong"
-	public static final String MULTCHOICE_FLOAT_TYPE = LIB_PACK + ".MultChoicesFloat"
-	public static final String MULTCHOICE_DOUBLE_TYPE = LIB_PACK + ".MultChoicesDouble"
+	public static final String MULTPOSS_TYPE = LIB_PACK + ".MultPossibilitiesType"
+	public static final String MULTPOSS_BYTE_TYPE = LIB_PACK + ".MultPossibilitiesByte"
+	public static final String MULTPOSS_SHORT_TYPE = LIB_PACK + ".MultPossibilitiesShort"
+	public static final String MULTPOSS_INT_TYPE = LIB_PACK + ".MultPossibilitiesInt"
+	public static final String MULTPOSS_LONG_TYPE = LIB_PACK + ".MultPossibilitiesLong"
+	public static final String MULTPOSS_FLOAT_TYPE = LIB_PACK + ".MultPossibilitiesFloat"
+	public static final String MULTPOSS_DOUBLE_TYPE = LIB_PACK + ".MultPossibilitiesDouble"
 
-	public static final String CHOICE_TYPE = LIB_PACK + ".Choice"
-	public static final String CHOICE_BYTE_TYPE = LIB_PACK + ".ByteChoice"
-	public static final String CHOICE_SHORT_TYPE = LIB_PACK + ".ShortChoice"
-	public static final String CHOICE_INT_TYPE = LIB_PACK + ".IntChoice"
-	public static final String CHOICE_LONG_TYPE = LIB_PACK + ".LongChoice"
-	public static final String CHOICE_FLOAT_TYPE = LIB_PACK + ".FloatChoice"
-	public static final String CHOICE_DOUBLE_TYPE = LIB_PACK + ".DoubleChoice"
+//	public static final String POSSIBILITY_TYPE = LIB_PACK + ".Possibility"
+//	public static final String POSSIBILITY_BYTE_TYPE = LIB_PACK + ".BytePossibility"
+//	public static final String POSSIBILITY_SHORT_TYPE = LIB_PACK + ".ShortPossibility"
+//	public static final String POSSIBILITY_INT_TYPE = LIB_PACK + ".IntPossibility"
+//	public static final String POSSIBILITY_LONG_TYPE = LIB_PACK + ".LongPossibility"
+//	public static final String POSSIBILITY_FLOAT_TYPE = LIB_PACK + ".FloatPossibility"
+//	public static final String POSSIBILITY_DOUBLE_TYPE = LIB_PACK + ".DoublePossibility"
 	
 	
 	
@@ -240,31 +240,31 @@ class InternalTypeDcl {
 	}
 	
 	def Class getMultChoiceClass(EObject ctx) {
-		return ctx.getClassFromFqn(MULTCHOICE_TYPE)
+		return ctx.getClassFromFqn(MULTPOSS_TYPE)
 	}
 	
 	def Class getMultChoiceByteClass(EObject ctx) {
-		return ctx.getClassFromFqn(MULTCHOICE_BYTE_TYPE)
+		return ctx.getClassFromFqn(MULTPOSS_BYTE_TYPE)
 	}
 	
 	def Class getMultChoiceShortClass(EObject ctx) {
-		return ctx.getClassFromFqn(MULTCHOICE_SHORT_TYPE)
+		return ctx.getClassFromFqn(MULTPOSS_SHORT_TYPE)
 	}
 	
 	def Class getMultChoiceIntClass(EObject ctx) {
-		return ctx.getClassFromFqn(MULTCHOICE_INT_TYPE)
+		return ctx.getClassFromFqn(MULTPOSS_INT_TYPE)
 	}
 	
 	def Class getMultChoiceLongClass(EObject ctx) {
-		return ctx.getClassFromFqn(MULTCHOICE_LONG_TYPE)
+		return ctx.getClassFromFqn(MULTPOSS_LONG_TYPE)
 	}
 	
 	def Class getMultChoiceFloatClass(EObject ctx) {
-		return ctx.getClassFromFqn(MULTCHOICE_FLOAT_TYPE)
+		return ctx.getClassFromFqn(MULTPOSS_FLOAT_TYPE)
 	}
 	
 	def Class getMultChoiceDoubleClass(EObject ctx) {
-		return ctx.getClassFromFqn(MULTCHOICE_DOUBLE_TYPE)
+		return ctx.getClassFromFqn(MULTPOSS_DOUBLE_TYPE)
 	}
 	
 	def Class getArrayClass(EObject ctx) {

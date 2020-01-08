@@ -63,7 +63,7 @@ import java.util.HashMap
 import java.util.Map
 import duc.uscript.uScript.UScriptFactory
 import duc.uscript.uScript.UTypeRef
-import duc.uscript.uScript.MultipleChoiceRef
+import duc.uscript.uScript.MultPossibilitiesRef
 
 class TypeResolver {
 	@Inject extension InternalTypeDcl
@@ -458,7 +458,7 @@ class TypeResolver {
 					default: r.bernoulliDistClass
 				}
 			}
-			MultipleChoiceRef: {
+			MultPossibilitiesRef: {
 				switch r.genericType {
 					ByteTypeRef: r.multChoiceByteClass
 					ShortTypeRef: r.multChoiceShortClass

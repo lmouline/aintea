@@ -23,7 +23,7 @@ import duc.uscript.uScript.DiracRef;
 import duc.uscript.uScript.Expression;
 import duc.uscript.uScript.Field;
 import duc.uscript.uScript.GaussianRef;
-import duc.uscript.uScript.MultipleChoiceRef;
+import duc.uscript.uScript.MultPossibilitiesRef;
 import duc.uscript.uScript.NewUObject;
 import duc.uscript.uScript.RayleighRef;
 import duc.uscript.uScript.UTypeRef;
@@ -144,7 +144,7 @@ public class NewUObjectAspect extends ExpressionAspect {
       }
     }
     if (!_matched) {
-      if (_type instanceof MultipleChoiceRef) {
+      if (_type instanceof MultPossibilitiesRef) {
         _matched=true;
         _switchResult = NewUObjectAspect.createMultChoices(_self, state, internalTypeDcl, typeResolver);
       }

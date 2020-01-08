@@ -12,7 +12,7 @@ class District {
 	Gaussian<double> avgCO2;
 	Gaussian<double> avgTemperature;
 	
-	Binomial<int> nbTrafficJams;	
+	MultipleChoice<int> nbTrafficJams;	
 }
 
 class Sensor {

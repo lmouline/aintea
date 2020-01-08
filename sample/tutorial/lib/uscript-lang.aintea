@@ -138,50 +138,50 @@ class DiracDeltaFunctionFloat extends DiracDeltaFunctionType {
 	float value;
 }
 
-class MultChoicesType extends UncertainNumeric {}
+class MultPossibilitiesType extends UncertainNumeric {}
 
-class Choice {
+class Possibility {
 	double confidence;
 }
 
-class ByteChoice extends Choice {
+class BytePossibility extends Possibility {
 	byte value;	
 }
-class MultChoicesByte extends MultChoicesType {
-	ByteChoice[] possibilities; 
+class MultPossibilitiesByte extends MultPossibilitiesType {
+	BytePossibility[] possibilities; 
 }
 
-class ShortChoice extends Choice {
+class ShortPossibility extends Possibility {
 	short value;	
 }
-class MultChoicesShort extends MultChoicesType {
-	ShortChoice[] possibilities; 
+class MultPossibilitiesShort extends MultPossibilitiesType {
+	ShortPossibility[] possibilities; 
 }
 
-class IntChoice extends Choice {
+class IntPossibility extends Possibility {
 	int value;	
 }
-class MultChoicesInt extends MultChoicesType {
-	IntChoice[] possibilities; 
+class MultPossibilitiesInt extends MultPossibilitiesType {
+	IntPossibility[] possibilities; 
 }
 
-class LongChoice extends Choice {
+class LongPossibility extends Possibility {
 	long value;	
 }
-class MultChoicesLong extends MultChoicesType {
-	LongChoice[] possibilities; 
+class MultPossibilitiesLong extends MultPossibilitiesType {
+	LongPossibility[] possibilities; 
 }
 
-class FloatChoice extends Choice {
+class FloatPossibility extends Possibility {
 	float value;	
 }
-class MultChoicesFloat extends MultChoicesType {
-	FloatChoice[] possibilities; 
+class MultPossibilitiesFloat extends MultPossibilitiesType {
+	FloatPossibility[] possibilities; 
 }
 
-class DoubleChoice extends Choice {
+class DoublePossibility extends Possibility {
 	double value;	
 }
-class MultChoicesDouble extends MultChoicesType {
-	DoubleChoice[] possibilities; 
+class MultPossibilitiesDouble extends MultPossibilitiesType {
+	DoublePossibility[] possibilities; 
 }

@@ -24,7 +24,7 @@ import duc.uscript.uScript.NewUObject
 import duc.uscript.uScript.Class
 import com.google.inject.Inject
 import static extension duc.uscript.UScriptModelHelper.getFullQualifiedNamed
-import duc.uscript.uScript.MultipleChoiceRef
+import duc.uscript.uScript.MultPossibilitiesRef
 
 class UTypeValidator extends AbstractUScriptValidator{
 	@Inject extension TypeResolver
@@ -106,7 +106,7 @@ class UTypeValidator extends AbstractUScriptValidator{
 	}
 	
 	@Check
-	def checkMultChoicesNbr(MultipleChoiceRef mlt) {
+	def checkMultChoicesNbr(MultPossibilitiesRef mlt) {
 		val genType = mlt.genericType
 		
 		if(genType !== null) {
@@ -178,7 +178,7 @@ class UTypeValidator extends AbstractUScriptValidator{
 		}
 	}
 	
-	private def dispatch checkUTypeCreation(MultipleChoiceRef type, NewUObject newUT) {
+	private def dispatch checkUTypeCreation(MultPossibilitiesRef type, NewUObject newUT) {
 		checkNbParam(newUT, "MultipleChoice", 0)
 	}
 	

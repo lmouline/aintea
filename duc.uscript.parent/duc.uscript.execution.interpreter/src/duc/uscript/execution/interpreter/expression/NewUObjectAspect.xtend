@@ -23,8 +23,8 @@ import static duc.uscript.execution.interpreter.utils.BernoulliBoolUtils.createB
 import duc.uscript.utils.SymbolSet
 import duc.uscript.uScript.Expression
 import duc.uscript.utils.Range
-import duc.uscript.uScript.MultipleChoiceRef
 import duc.uscript.utils.RangeFactory
+import duc.uscript.uScript.MultPossibilitiesRef
 
 @Aspect(className=NewUObject)
 class NewUObjectAspect extends ExpressionAspect{
@@ -42,7 +42,7 @@ class NewUObjectAspect extends ExpressionAspect{
 			BinomialRef: createDistNumeric(_self, state, internalTypeDcl, typeResolver)
 			DiracRef: createDistNumeric(_self, state, internalTypeDcl, typeResolver)
 			BernoulliRef: createDistBool(_self, state, internalTypeDcl, typeResolver)
-			MultipleChoiceRef: createMultChoices(_self, state, internalTypeDcl, typeResolver)
+			MultPossibilitiesRef: createMultChoices(_self, state, internalTypeDcl, typeResolver)
 			default: throw new RuntimeException("Not yet implemented for " + _self.type.class.name)
 		}
 	}
