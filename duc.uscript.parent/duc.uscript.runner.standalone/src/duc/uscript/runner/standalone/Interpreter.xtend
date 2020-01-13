@@ -46,8 +46,10 @@ class Interpreter {
 							}
 							
 							override visitFile(Path file, BasicFileAttributes attrs) throws IOException {
-								val Resource resource = rs.createResource(URI.createFileURI(file.toAbsolutePath.toString))
-								resource.load(null)
+								if(file.toString().endsWith(".aintea")) {
+									val Resource resource = rs.createResource(URI.createFileURI(file.toAbsolutePath.toString))
+									resource.load(null)
+								}
 								FileVisitResult.CONTINUE
 							}
 							
@@ -77,17 +79,16 @@ class Interpreter {
 		
 		val URI uriScript = URI.createFileURI(new File(filePath).absolutePath)
 		var Resource resource;
-		
-//		try { 
-//			resource = rs.getResource(uriScript, true)
-//		} catch (RuntimeException re) {
-//			resource = rs.createResource(uriScript)
-//			resource.load(null)
-//		}
-		
-//		if(resource === null) {
+		try { 
+			resource = rs.getResource(uriScript, true)
+		} catch (RuntimeException re) {
 			resource = rs.createResource(uriScript)
 			resource.load(null)
+		}
+		
+//		if(resource === null) {
+//			resource = rs.createResource(uriScript)
+//			resource.load(null)
 //		}
 
 		val IResourceValidator validator = injector.getInstance(IResourceValidator)
