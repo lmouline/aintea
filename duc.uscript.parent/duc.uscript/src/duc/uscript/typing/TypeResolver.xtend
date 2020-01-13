@@ -390,6 +390,7 @@ class TypeResolver {
 			StringTypeRef: newArray.stringArrayClass
 			CharTypeRef: newArray.charArrayClass
 			ClassRef: getOrCreateClassRefType(newArray.getType as ClassRef)
+			UTypeRef: getOrCreateUClassRefType(newArray.getType as UTypeRef)
 			default: throw new RuntimeException('''Array type not managed for «newArray.getType»''')
 		}
 	}
@@ -493,6 +494,12 @@ class TypeResolver {
 			GaussianRef: {
 				switch(utypeRef.genericType) {
 					DoubleTypeRef: utypeRef.gaussianDoubleClass
+					default: throw new RuntimeException('''getOrCreateUClassRefType(UTypeRef utypeRef) not yet implemented for (Gaussian<«utypeRef.genericType»>)''')
+				}
+			}
+			BernoulliRef: {
+				switch(utypeRef.genericType) {
+					BooleanTypeRef: utypeRef.bernoulliBoolClass
 					default: throw new RuntimeException('''getOrCreateUClassRefType(UTypeRef utypeRef) not yet implemented for (Gaussian<«utypeRef.genericType»>)''')
 				}
 			}

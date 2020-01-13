@@ -85,13 +85,13 @@ class InternalTypeDcl {
 	public static final String MULTPOSS_FLOAT_TYPE = LIB_PACK + ".MultPossibilitiesFloat"
 	public static final String MULTPOSS_DOUBLE_TYPE = LIB_PACK + ".MultPossibilitiesDouble"
 
-//	public static final String POSSIBILITY_TYPE = LIB_PACK + ".Possibility"
-//	public static final String POSSIBILITY_BYTE_TYPE = LIB_PACK + ".BytePossibility"
-//	public static final String POSSIBILITY_SHORT_TYPE = LIB_PACK + ".ShortPossibility"
-//	public static final String POSSIBILITY_INT_TYPE = LIB_PACK + ".IntPossibility"
-//	public static final String POSSIBILITY_LONG_TYPE = LIB_PACK + ".LongPossibility"
-//	public static final String POSSIBILITY_FLOAT_TYPE = LIB_PACK + ".FloatPossibility"
-//	public static final String POSSIBILITY_DOUBLE_TYPE = LIB_PACK + ".DoublePossibility"
+	public static final String POSSIBILITY_TYPE = LIB_PACK + ".Possibility"
+	public static final String POSSIBILITY_BYTE_TYPE = LIB_PACK + ".BytePossibility"
+	public static final String POSSIBILITY_SHORT_TYPE = LIB_PACK + ".ShortPossibility"
+	public static final String POSSIBILITY_INT_TYPE = LIB_PACK + ".IntPossibility"
+	public static final String POSSIBILITY_LONG_TYPE = LIB_PACK + ".LongPossibility"
+	public static final String POSSIBILITY_FLOAT_TYPE = LIB_PACK + ".FloatPossibility"
+	public static final String POSSIBILITY_DOUBLE_TYPE = LIB_PACK + ".DoublePossibility"
 	
 	
 	
@@ -239,6 +239,7 @@ class InternalTypeDcl {
 		return ctx.getClassFromFqn(BINOMIAL_BYTE_TYPE)
 	}
 	
+	// Multiple possibilities
 	def Class getMultChoiceClass(EObject ctx) {
 		return ctx.getClassFromFqn(MULTPOSS_TYPE)
 	}
@@ -266,6 +267,21 @@ class InternalTypeDcl {
 	def Class getMultChoiceDoubleClass(EObject ctx) {
 		return ctx.getClassFromFqn(MULTPOSS_DOUBLE_TYPE)
 	}
+	
+	// Possibilities
+	def Class getPossibilityClass(EObject ctx) {
+		return ctx.getClassFromFqn(POSSIBILITY_TYPE)
+	}
+	
+	def Class getDoublePossibilityClass(EObject ctx) {
+		return ctx.getClassFromFqn(POSSIBILITY_DOUBLE_TYPE)
+	}
+	
+	def Class getIntPossibilityClass(EObject ctx) {
+		return ctx.getClassFromFqn(POSSIBILITY_INT_TYPE)
+	}
+	
+	//
 	
 	def Class getArrayClass(EObject ctx) {
 		return ctx.getClassFromFqn(ARRAY_TYPE)
