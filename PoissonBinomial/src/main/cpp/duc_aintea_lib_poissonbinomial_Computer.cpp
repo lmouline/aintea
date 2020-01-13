@@ -7,7 +7,7 @@ using namespace std;
 
 void dft_pmf(fftw_complex* out, int m, jdouble* pp);
 
-JNIEXPORT jdoubleArray JNICALL Java_duc_aintea_lib_poissonbinomial_Computer_compute(JNIEnv *env, jobject, jdoubleArray probs) {
+JNIEXPORT jdoubleArray JNICALL Java_duc_aintea_lib_poissonbinomial_Computer_compute(JNIEnv *env, jclass, jdoubleArray probs) {
     // Convert jdoubleArray into jdouble*
     if(probs == NULL) return NULL;
     jsize size_array_res = env->GetArrayLength(probs) + 1;

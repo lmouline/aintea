@@ -39,6 +39,6 @@ public class Computer {
         }
     }
 
-    public native double[] compute(double[] probs);
+    public static native double[] compute(double[] probs);
 
 }

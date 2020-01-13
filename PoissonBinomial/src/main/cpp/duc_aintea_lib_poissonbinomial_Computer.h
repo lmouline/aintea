@@ -13,7 +13,7 @@ extern "C" {
  * Signature: ([D)[D
  */
 JNIEXPORT jdoubleArray JNICALL Java_duc_aintea_lib_poissonbinomial_Computer_compute
-  (JNIEnv *, jobject, jdoubleArray);
+  (JNIEnv *, jclass, jdoubleArray);
 
 #ifdef __cplusplus
 }
