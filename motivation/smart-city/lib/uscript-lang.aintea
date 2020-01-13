@@ -24,6 +24,9 @@ class DoubleArray extends Array{}
 class ShortArray extends Array{}
 class FloatArray extends Array{}
 class CharArray extends Array{}
+class UsrDefArray extends Array {
+	
+}
 
 class Null{}
 
@@ -133,4 +136,52 @@ class DiracDeltaFunctionDouble extends DiracDeltaFunctionType {
 
 class DiracDeltaFunctionFloat extends DiracDeltaFunctionType {
 	float value;
+}
+
+class MultPossibilitiesType extends UncertainNumeric {}
+
+class Possibility {
+	double confidence;
+}
+
+class BytePossibility extends Possibility {
+	byte value;	
+}
+class MultPossibilitiesByte extends MultPossibilitiesType {
+	BytePossibility[] possibilities; 
+}
+
+class ShortPossibility extends Possibility {
+	short value;	
+}
+class MultPossibilitiesShort extends MultPossibilitiesType {
+	ShortPossibility[] possibilities; 
+}
+
+class IntPossibility extends Possibility {
+	int value;	
+}
+class MultPossibilitiesInt extends MultPossibilitiesType {
+	IntPossibility[] possibilities; 
+}
+
+class LongPossibility extends Possibility {
+	long value;	
+}
+class MultPossibilitiesLong extends MultPossibilitiesType {
+	LongPossibility[] possibilities; 
+}
+
+class FloatPossibility extends Possibility {
+	float value;	
+}
+class MultPossibilitiesFloat extends MultPossibilitiesType {
+	FloatPossibility[] possibilities; 
+}
+
+class DoublePossibility extends Possibility {
+	double value;	
+}
+class MultPossibilitiesDouble extends MultPossibilitiesType {
+	DoublePossibility[] possibilities; 
 }

@@ -1,18 +1,45 @@
 package sample.smartcity
 
+import aintea.lang.*
+
 class City {
-	Gaussian<double> avgCO2;
-	Gaussian<double> avgTemperature;
-	
+	string name;
 	District[] districts;
 }
 
 class District {
 	string name;
-	Gaussian<double> avgCO2;
-	Gaussian<double> avgTemperature;
 	
-	MultipleChoice<int> nbTrafficJams;	
+	TemperatureSensor[] tempSensors;
+	CO2Sensor[] co2Sensors;
+	TrafficJamDetector[] trafficJamDetectors;
+	
+	Gaussian<double> avgCO2() {
+		Gaussian<double> sum = co2Sensors[0];
+		for(int i=1;i<co2Sensors.length; i = i + 1) {
+			CO2Sensor s = co2Sensors[i];
+			sum = sum + s.CO2;
+		}
+		return sum / co2Sensors.length;
+	}
+	
+	Gaussian<double> avgTemperature() {
+		Gaussian<double> sum = tempSensors[0];
+		for(int i=1;i<tempSensors.length; i = i + 1) {
+			TemperatureSensor s = tempSensors[i];
+			sum = sum + s.temperature;
+		}
+		return sum / tempSensors.length;
+	}
+	
+	MultPossibilities<int> nbTrafficJams() {
+		Bernoulli<bool>[] situation = new Bernoulli<bool>[trafficJamDetectors.length];
+		for(int i=0; i < situation.length; i = i + 1) {
+			TrafficJamDetector dtc = trafficJamDetectors[i];
+			situation[i] = dtc.isTrafficJam;
+		}
+		return computeNbTrue(situation);
+	}
 }
 
 class Sensor {

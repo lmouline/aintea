@@ -1,0 +1,35 @@
+package sample.smartcity
+
+import sample.smartcity.*
+import aintea.lang.*
+
+void main() {
+	City city = new City();
+	city.name = "MyCity";
+	
+	District d1 = new District();
+	d1.name = "d1";
+	
+	TrafficJamDetector[] dtcsD1 = new TrafficJamDetector[3];
+	d1.trafficJamDetectors = dtcsD1;
+	
+	TrafficJamDetector tjDtc1 = new TrafficJamDetector();
+	tjDtc1.isTrafficJam = new Bernoulli<bool>(true, 0.3);
+	dtcsD1[0] = tjDtc1;
+
+	TrafficJamDetector tjDtc2 = new TrafficJamDetector();
+	tjDtc2.isTrafficJam = new Bernoulli<bool>(true, 0.7);
+	dtcsD1[1] = tjDtc2;
+
+	TrafficJamDetector tjDtc3 = new TrafficJamDetector();
+	tjDtc3.isTrafficJam = new Bernoulli<bool>(true, 0.3);
+	dtcsD1[2] = tjDtc3;
+	
+	MultPossibilities<int> nbTrafficJam = d1.nbTrafficJams();
+	IntPossibility[] poss = nbTrafficJam.possibilities;
+	print(poss.length);
+	for(int i=0; i<poss.length; i = i + 1) {
+		print(poss[i]);
+	}
+	
+}
