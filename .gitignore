@@ -6,6 +6,7 @@
 **/*/src-gen
 **/*/model/generated
 target
+*.iml
 
 .antlr-generator-3.2.0-patch.jar
 releases

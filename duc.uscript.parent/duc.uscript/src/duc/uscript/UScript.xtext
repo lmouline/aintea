@@ -215,7 +215,8 @@ TerminalExpression returns Expression:
 	{MethodCall2} method=[Method] '(' (args+=Expression (',' args+=Expression)*)? ')'|
 	{ExistExpr} 'exist' '(' expr=Expression',' confidence=Expression ')' |
 	{DrawExpr} '$' '(' expr=Expression ')' |
-	{CastExpr} {CastExpr.expr=current} 'as' type=[Class|QualifiedName]
+	{CastExpr} {CastExpr.expr=current} 'as' type=[Class|QualifiedName] |
+	{ComputeNbTrueExpr} 'computeNbTrue' '(' expr=Expression ')'
 ;
 
 Symbol:

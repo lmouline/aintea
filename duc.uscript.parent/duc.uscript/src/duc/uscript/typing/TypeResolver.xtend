@@ -64,6 +64,7 @@ import java.util.Map
 import duc.uscript.uScript.UScriptFactory
 import duc.uscript.uScript.UTypeRef
 import duc.uscript.uScript.MultPossibilitiesRef
+import duc.uscript.uScript.ComputeNbTrueExpr
 
 class TypeResolver {
 	@Inject extension InternalTypeDcl
@@ -366,6 +367,10 @@ class TypeResolver {
 	
 	def dispatch Class type(ExistExpr exist) {
 		exist.boolClass
+	}
+	
+	def dispatch Class type(ComputeNbTrueExpr compute) {
+		compute.multChoiceIntClass
 	}
 	
 	def dispatch Class type(VariableDeclaration varDcl) {
