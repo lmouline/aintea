@@ -1,5 +1,6 @@
 package duc.uscript.execution.interpreter.expression;
 
+import com.google.common.base.Objects;
 import duc.uscript.execution.Context;
 import duc.uscript.execution.ExecutionFactory;
 import duc.uscript.execution.FieldBinding;
@@ -20,7 +21,12 @@ import duc.uscript.uScript.Parameter;
 import duc.uscript.utils.SymbolSet;
 import fr.inria.diverse.k3.al.annotationprocessor.Aspect;
 import fr.inria.diverse.k3.al.annotationprocessor.OverrideAspectMethod;
+import java.util.List;
+import java.util.function.Consumer;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.xtext.xbase.lib.Functions.Function1;
+import org.eclipse.xtext.xbase.lib.IterableExtensions;
+import org.eclipse.xtext.xbase.lib.ListExtensions;
 import org.eclipse.xtext.xbase.lib.ObjectExtensions;
 import org.eclipse.xtext.xbase.lib.Procedures.Procedure1;
 
@@ -92,6 +98,24 @@ public class MethodCallAspect extends ExpressionAspect {
     StateAspect.pushNewFrame(state, receiver, call, ctx);
     MethodAspect.call(method, state);
     final Value returnValue = StateAspect.findCurrentFrame(state).getValue();
+    final Function1<SymbolBindings, String> _function_1 = (SymbolBindings it) -> {
+      return it.getSymbol().getName();
+    };
+    final List<String> names = ListExtensions.<SymbolBindings, String>map(ctx.getBindings(), _function_1);
+    final Function1<SymbolBindings, Boolean> _function_2 = (SymbolBindings it) -> {
+      return Boolean.valueOf(names.contains(it.getSymbol().getName()));
+    };
+    final Consumer<SymbolBindings> _function_3 = (SymbolBindings it) -> {
+      final Value value = it.getValue();
+      final String name = it.getSymbol().getName();
+      final Function1<FieldBinding, Boolean> _function_4 = (FieldBinding it_1) -> {
+        String _name = it_1.getField().getName();
+        return Boolean.valueOf(Objects.equal(_name, name));
+      };
+      FieldBinding _findFirst = IterableExtensions.<FieldBinding>findFirst(receiver.getFieldbindings(), _function_4);
+      _findFirst.setValue(value);
+    };
+    IterableExtensions.<SymbolBindings>filter(ctx.getBindings(), _function_2).forEach(_function_3);
     StateAspect.popCurrentFrame(state);
     return returnValue;
   }

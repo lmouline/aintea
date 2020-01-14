@@ -11,6 +11,7 @@ import duc.uscript.execution.ObjectRefValue
 import duc.uscript.execution.ExecutionFactory
 import static extension duc.uscript.execution.interpreter.modelstate.StateAspect.*
 import static extension duc.uscript.execution.interpreter.expression.MethodAspect.*
+import static extension duc.uscript.execution.interpreter.modelstate.ValueAspect.copy
 
 @Aspect(className=MethodCall)
 class MethodCallAspect extends ExpressionAspect {
@@ -29,8 +30,7 @@ class MethodCallAspect extends ExpressionAspect {
 			]
 			ctx.bindings.add(binding)
 		}
-		
-		
+		 
 		for(fieldBdg: receiver.fieldbindings) {
 			val smbBdg = ExecutionFactory::eINSTANCE.createSymbolBindings => [
 				symbol = fieldBdg.field
@@ -45,6 +45,20 @@ class MethodCallAspect extends ExpressionAspect {
 		state.pushNewFrame(receiver, call, ctx)
 		method.call(state)
 		val returnValue = state.findCurrentFrame.value
+		
+		val names = ctx.bindings.map[it.symbol.name]
+		ctx.bindings
+			.filter[names.contains(it.symbol.name)]
+			.forEach[
+				val value = it.value
+				val name = it.symbol.name
+				receiver.fieldbindings
+						.findFirst[it.field.name == name]
+						.value = value
+			]
+		
+		
+		
 		state.popCurrentFrame
 		
 		return returnValue

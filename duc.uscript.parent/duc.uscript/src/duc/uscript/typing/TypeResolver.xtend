@@ -219,7 +219,7 @@ class TypeResolver {
 		val leftClass = left.getClassFromFqn(getTypeFromUType(left))
 		val rightClass = left.getClassFromFqn(getTypeFromUType(right))
 		val uTypeName = uTypeArth(left, right).fullQualifiedNamed
-		val type = certainTypeArth(leftClass, rightClass)
+		val type = certainTypeArth(leftClass, rightClass).fullQualifiedNamed
 		
 		if(uTypeName == GAUSSIAN_TYPE) {
 			if(type == FLOAT_TYPE) {
@@ -238,7 +238,7 @@ class TypeResolver {
 				return left.rayleighDoubleClass
 			}
 		} else if(uTypeName == MULTPOSS_TYPE) {
-			if(type.fullQualifiedNamed ==  INT_TYPE) {
+			if(type ==  INT_TYPE) {
 				return left.multChoiceIntClass
 			}
 		}

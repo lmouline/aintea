@@ -108,6 +108,6 @@ class TypeConcordance {
 			return BOOL_TYPE
 		}
 		
-		throw new RuntimeException("Certain type unknown for " + c.name)
+		throw new RuntimeException("Certain type unknown for " + fqn)
 	}
 }
