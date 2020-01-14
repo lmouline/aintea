@@ -1,9 +1,13 @@
 package duc.uscript.execution.interpreter.expression.comparison;
 
+import com.google.common.base.Objects;
+import duc.uscript.execution.ArrayInstance;
+import duc.uscript.execution.ArrayRefValue;
 import duc.uscript.execution.BooleanValue;
 import duc.uscript.execution.ByteValue;
 import duc.uscript.execution.DoubleValue;
 import duc.uscript.execution.ExecutionFactory;
+import duc.uscript.execution.FieldBinding;
 import duc.uscript.execution.FloatValue;
 import duc.uscript.execution.IntegerValue;
 import duc.uscript.execution.LongValue;
@@ -16,6 +20,7 @@ import duc.uscript.execution.interpreter.expression.ExpressionAspect;
 import duc.uscript.execution.interpreter.expression.comparison.SuperiorAspectSuperiorAspectProperties;
 import duc.uscript.execution.interpreter.utils.BernoulliBoolUtils;
 import duc.uscript.execution.interpreter.utils.GaussianDoubleUtils;
+import duc.uscript.typing.TypeConcordance;
 import duc.uscript.uScript.DoubleConstant;
 import duc.uscript.uScript.Expression;
 import duc.uscript.uScript.IntConstant;
@@ -28,6 +33,9 @@ import duc.uscript.utils.SymbolSet;
 import fr.inria.diverse.k3.al.annotationprocessor.Aspect;
 import fr.inria.diverse.k3.al.annotationprocessor.OverrideAspectMethod;
 import org.apache.commons.math3.distribution.NormalDistribution;
+import org.eclipse.xtend2.lib.StringConcatenation;
+import org.eclipse.xtext.xbase.lib.Functions.Function1;
+import org.eclipse.xtext.xbase.lib.IterableExtensions;
 import org.eclipse.xtext.xbase.lib.ObjectExtensions;
 import org.eclipse.xtext.xbase.lib.Procedures.Procedure1;
 
@@ -293,6 +301,26 @@ public class SuperiorAspect extends ExpressionAspect {
     // #DispatchPointCut_before# Value superior(State,IntegerValue,ObjectRefValue,boolean)
     if (_self instanceof duc.uscript.uScript.Superior){
     	result = duc.uscript.execution.interpreter.expression.comparison.SuperiorAspect._privk3_superior(_self_, (duc.uscript.uScript.Superior)_self,state,x,y,inverse);
+    };
+    return (duc.uscript.execution.Value)result;
+  }
+  
+  private static Value superiorGauss(final Superior _self, final State state, final IntegerValue x, final ObjectRefValue y, final boolean inverse) {
+    final duc.uscript.execution.interpreter.expression.comparison.SuperiorAspectSuperiorAspectProperties _self_ = duc.uscript.execution.interpreter.expression.comparison.SuperiorAspectSuperiorAspectContext.getSelf(_self);
+    Object result = null;
+    // #DispatchPointCut_before# Value superiorGauss(State,IntegerValue,ObjectRefValue,boolean)
+    if (_self instanceof duc.uscript.uScript.Superior){
+    	result = duc.uscript.execution.interpreter.expression.comparison.SuperiorAspect._privk3_superiorGauss(_self_, (duc.uscript.uScript.Superior)_self,state,x,y,inverse);
+    };
+    return (duc.uscript.execution.Value)result;
+  }
+  
+  private static Value superiorMultPoss(final Superior _self, final State state, final IntegerValue x, final ObjectRefValue y, final boolean inverse) {
+    final duc.uscript.execution.interpreter.expression.comparison.SuperiorAspectSuperiorAspectProperties _self_ = duc.uscript.execution.interpreter.expression.comparison.SuperiorAspectSuperiorAspectContext.getSelf(_self);
+    Object result = null;
+    // #DispatchPointCut_before# Value superiorMultPoss(State,IntegerValue,ObjectRefValue,boolean)
+    if (_self instanceof duc.uscript.uScript.Superior){
+    	result = duc.uscript.execution.interpreter.expression.comparison.SuperiorAspect._privk3_superiorMultPoss(_self_, (duc.uscript.uScript.Superior)_self,state,x,y,inverse);
     };
     return (duc.uscript.execution.Value)result;
   }
@@ -1028,7 +1056,44 @@ public class SuperiorAspect extends ExpressionAspect {
   }
   
   protected static Value _privk3_superior(final SuperiorAspectSuperiorAspectProperties _self_, final Superior _self, final State state, final IntegerValue x, final ObjectRefValue y, final boolean inverse) {
+    boolean _isGaussian = TypeConcordance.isGaussian(y.getInstance().getType());
+    if (_isGaussian) {
+      return SuperiorAspect.superiorGauss(_self, state, x, y, inverse);
+    } else {
+      boolean _isMultPoss = TypeConcordance.isMultPoss(y.getInstance().getType());
+      if (_isMultPoss) {
+        return SuperiorAspect.superiorMultPoss(_self, state, x, y, inverse);
+      } else {
+        String _xifexpression = null;
+        if (inverse) {
+          StringConcatenation _builder = new StringConcatenation();
+          duc.uscript.uScript.Class _type = y.getInstance().getType();
+          _builder.append(_type);
+          _builder.append(" > ");
+          String _name = IntegerValue.class.getName();
+          _builder.append(_name);
+          _xifexpression = _builder.toString();
+        } else {
+          StringConcatenation _builder_1 = new StringConcatenation();
+          String _name_1 = IntegerValue.class.getName();
+          _builder_1.append(_name_1);
+          _builder_1.append(" > ");
+          duc.uscript.uScript.Class _type_1 = y.getInstance().getType();
+          _builder_1.append(_type_1);
+          _xifexpression = _builder_1.toString();
+        }
+        final String message = _xifexpression;
+        StringConcatenation _builder_2 = new StringConcatenation();
+        _builder_2.append(message);
+        _builder_2.append(" not yet implemented.");
+        throw new RuntimeException(_builder_2.toString());
+      }
+    }
+  }
+  
+  protected static Value _privk3_superiorGauss(final SuperiorAspectSuperiorAspectProperties _self_, final Superior _self, final State state, final IntegerValue x, final ObjectRefValue y, final boolean inverse) {
     final int intValue = x.getValue();
+    y.getInstance().getType();
     final double meanGauss = GaussianDoubleUtils.getMean(y).getValue();
     final double valueGauss = GaussianDoubleUtils.getValue(y).getValue();
     final double variance = GaussianDoubleUtils.getVariance(y).getValue();
@@ -1055,6 +1120,40 @@ public class SuperiorAspect extends ExpressionAspect {
       it.setInstance(bernoulli);
     };
     return ObjectExtensions.<ObjectRefValue>operator_doubleArrow(_createObjectRefValue, _function);
+  }
+  
+  protected static Value _privk3_superiorMultPoss(final SuperiorAspectSuperiorAspectProperties _self_, final Superior _self, final State state, final IntegerValue x, final ObjectRefValue y, final boolean inverse) {
+    final int intVal = x.getValue();
+    final ObjectInstance yInstance = y.getInstance();
+    final Function1<FieldBinding, Boolean> _function = (FieldBinding it) -> {
+      String _name = it.getField().getName();
+      return Boolean.valueOf(Objects.equal(_name, "possibilities"));
+    };
+    Value _value = IterableExtensions.<FieldBinding>findFirst(yInstance.getFieldbindings(), _function).getValue();
+    final ArrayRefValue possibilities = ((ArrayRefValue) _value);
+    final ArrayInstance arrInstance = possibilities.getInstance();
+    double sum = 0;
+    for (int i = (intVal + 1); (i < arrInstance.getSize()); i++) {
+      {
+        Value _get = arrInstance.getValue().get(i);
+        final ObjectRefValue elmt = ((ObjectRefValue) _get);
+        final Function1<FieldBinding, Boolean> _function_1 = (FieldBinding it) -> {
+          String _name = it.getField().getName();
+          return Boolean.valueOf(Objects.equal(_name, "confidence"));
+        };
+        Value _value_1 = IterableExtensions.<FieldBinding>findFirst(elmt.getInstance().getFieldbindings(), _function_1).getValue();
+        final DoubleValue prob = ((DoubleValue) _value_1);
+        double _sum = sum;
+        double _value_2 = prob.getValue();
+        sum = (_sum + _value_2);
+      }
+    }
+    final ObjectInstance bernoulli = BernoulliBoolUtils.createBernoulliBool(state, sum, true, _self);
+    ObjectRefValue _createObjectRefValue = ExecutionFactory.eINSTANCE.createObjectRefValue();
+    final Procedure1<ObjectRefValue> _function_1 = (ObjectRefValue it) -> {
+      it.setInstance(bernoulli);
+    };
+    return ObjectExtensions.<ObjectRefValue>operator_doubleArrow(_createObjectRefValue, _function_1);
   }
   
   protected static BooleanValue _privk3_superior(final SuperiorAspectSuperiorAspectProperties _self_, final Superior _self, final LongValue x, final LongValue y, final boolean inverse) {

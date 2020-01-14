@@ -25,7 +25,10 @@ import org.apache.commons.math3.distribution.NormalDistribution
 import duc.uscript.execution.ObjectRefValue
 import duc.uscript.execution.interpreter.utils.GaussianDoubleUtils
 import duc.uscript.execution.interpreter.utils.BernoulliBoolUtils
-import java.util.concurrent.ExecutionException
+import static duc.uscript.typing.TypeConcordance.*
+import duc.uscript.uScript.Field
+import duc.uscript.execution.ArrayInstance
+import duc.uscript.execution.ArrayRefValue
 
 @Aspect(className=Superior)
 class SuperiorAspect extends ExpressionAspect {
@@ -306,7 +309,24 @@ class SuperiorAspect extends ExpressionAspect {
 	}
 	
 	private def Value superior(State state, IntegerValue x, ObjectRefValue y, boolean inverse) {
+		if(isGaussian(y.instance.type)) {
+			return superiorGauss(_self, state, x, y, inverse)
+		} else if(isMultPoss(y.instance.type)) {
+			return superiorMultPoss(_self, state, x, y, inverse)
+		} else {
+			val message = if(inverse) {
+				'''«y.instance.type» > «IntegerValue.name»'''
+			} else {
+				'''«IntegerValue.name» > «y.instance.type»'''
+			}
+			throw new RuntimeException('''«message» not yet implemented.''')
+		}
+	}
+	
+	private def Value superiorGauss(State state, IntegerValue x, ObjectRefValue y, boolean inverse) {
 		val intValue = x.value
+		
+		y.instance.type
 		
 		val meanGauss = GaussianDoubleUtils.getMean(y).value
 		val valueGauss = GaussianDoubleUtils.getValue(y).value
@@ -336,6 +356,28 @@ class SuperiorAspect extends ExpressionAspect {
 			instance = bernoulli
 		]		
 	}
+	
+	private def Value superiorMultPoss(State state, IntegerValue x, ObjectRefValue y, boolean inverse) {
+		val intVal = x.value
+		
+		val yInstance = y.instance
+		val possibilities = yInstance.fieldbindings.findFirst[it.field.name == "possibilities"].value as ArrayRefValue
+		val arrInstance = possibilities.instance
+		
+		var double sum = 0
+		
+		for(var i=intVal + 1; i<arrInstance.size; i++) {
+			val elmt = arrInstance.value.get(i) as ObjectRefValue
+			val prob = elmt.instance.fieldbindings.findFirst[it.field.name == "confidence"].value as DoubleValue
+			sum += prob.value
+		}
+		
+		val bernoulli = BernoulliBoolUtils.createBernoulliBool(state, sum, true, _self);		
+		
+		return ExecutionFactory::eINSTANCE.createObjectRefValue => [instance = bernoulli]
+		
+	}
+	
 	
 	private def BooleanValue superior(LongValue x, LongValue y, boolean inverse) {
 		return ExecutionFactory::eINSTANCE.createBooleanValue => [

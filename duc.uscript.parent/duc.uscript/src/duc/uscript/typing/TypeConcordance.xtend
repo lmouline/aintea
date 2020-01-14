@@ -38,6 +38,10 @@ class TypeConcordance {
 		return is(c, DIRAC_TYPE)
 	}
 	
+	def static boolean isMultPoss(Class c) {
+		return is(c, MULTPOSS_TYPE)
+	}
+	
 	def static boolean is(Class c, String parentFqnName) {
 		if (c.fullQualifiedNamed == parentFqnName) {
 			return true
