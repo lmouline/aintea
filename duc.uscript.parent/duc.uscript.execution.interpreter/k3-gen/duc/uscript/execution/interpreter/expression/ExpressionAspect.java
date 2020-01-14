@@ -46,6 +46,11 @@ public class ExpressionAspect {
     			result = duc.uscript.execution.interpreter.expression.MethodCall2Aspect.evaluateExpression((duc.uscript.uScript.MethodCall2)_self,state);
     		} else
     		// EndInjectInto duc.uscript.execution.interpreter.expression.ExpressionAspect#Value evaluateExpression(State) from duc.uscript.execution.interpreter.expression.MethodCall2Aspect
+    	// BeginInjectInto duc.uscript.execution.interpreter.expression.ExpressionAspect#Value evaluateExpression(State) from duc.uscript.execution.interpreter.expression.MethodCallAspect
+    		if (_self instanceof duc.uscript.uScript.MethodCall){
+    			result = duc.uscript.execution.interpreter.expression.MethodCallAspect.evaluateExpression((duc.uscript.uScript.MethodCall)_self,state);
+    		} else
+    		// EndInjectInto duc.uscript.execution.interpreter.expression.ExpressionAspect#Value evaluateExpression(State) from duc.uscript.execution.interpreter.expression.MethodCallAspect
     	// BeginInjectInto duc.uscript.execution.interpreter.expression.ExpressionAspect#Value evaluateExpression(State) from duc.uscript.execution.interpreter.expression.NegAspectImpl
     		if (_self instanceof duc.uscript.uScript.Neg){
     			result = duc.uscript.execution.interpreter.expression.NegAspectImpl.evaluateExpression((duc.uscript.uScript.Neg)_self,state);
@@ -71,6 +76,11 @@ public class ExpressionAspect {
     			result = duc.uscript.execution.interpreter.expression.SymbolRefAspect.evaluateExpression((duc.uscript.uScript.SymbolRef)_self,state);
     		} else
     		// EndInjectInto duc.uscript.execution.interpreter.expression.ExpressionAspect#Value evaluateExpression(State) from duc.uscript.execution.interpreter.expression.SymbolRefAspect
+    	// BeginInjectInto duc.uscript.execution.interpreter.expression.ExpressionAspect#Value evaluateExpression(State) from duc.uscript.execution.interpreter.expression.ThisAspect
+    		if (_self instanceof duc.uscript.uScript.This){
+    			result = duc.uscript.execution.interpreter.expression.ThisAspect.evaluateExpression((duc.uscript.uScript.This)_self,state);
+    		} else
+    		// EndInjectInto duc.uscript.execution.interpreter.expression.ExpressionAspect#Value evaluateExpression(State) from duc.uscript.execution.interpreter.expression.ThisAspect
     	// BeginInjectInto duc.uscript.execution.interpreter.expression.ExpressionAspect#Value evaluateExpression(State) from duc.uscript.execution.interpreter.expression.arithmetic.DivisionAspect
     		if (_self instanceof duc.uscript.uScript.Division){
     			result = duc.uscript.execution.interpreter.expression.arithmetic.DivisionAspect.evaluateExpression((duc.uscript.uScript.Division)_self,state);
@@ -186,6 +196,11 @@ public class ExpressionAspect {
     			result = duc.uscript.execution.interpreter.expression.MethodCall2Aspect.findDependentVariables((duc.uscript.uScript.MethodCall2)_self,state);
     		} else
     		// EndInjectInto duc.uscript.execution.interpreter.expression.ExpressionAspect#SymbolSet findDependentVariables(State) from duc.uscript.execution.interpreter.expression.MethodCall2Aspect
+    	// BeginInjectInto duc.uscript.execution.interpreter.expression.ExpressionAspect#SymbolSet findDependentVariables(State) from duc.uscript.execution.interpreter.expression.MethodCallAspect
+    		if (_self instanceof duc.uscript.uScript.MethodCall){
+    			result = duc.uscript.execution.interpreter.expression.MethodCallAspect.findDependentVariables((duc.uscript.uScript.MethodCall)_self,state);
+    		} else
+    		// EndInjectInto duc.uscript.execution.interpreter.expression.ExpressionAspect#SymbolSet findDependentVariables(State) from duc.uscript.execution.interpreter.expression.MethodCallAspect
     	// BeginInjectInto duc.uscript.execution.interpreter.expression.ExpressionAspect#SymbolSet findDependentVariables(State) from duc.uscript.execution.interpreter.expression.NewArrayAspect
     		if (_self instanceof duc.uscript.uScript.NewArray){
     			result = duc.uscript.execution.interpreter.expression.NewArrayAspect.findDependentVariables((duc.uscript.uScript.NewArray)_self,state);

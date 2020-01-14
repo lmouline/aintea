@@ -23,6 +23,7 @@ import duc.uscript.execution.ObjectRefValue
 import duc.uscript.uScript.ArrayAccess
 import duc.uscript.execution.ArrayRefValue
 import duc.uscript.execution.IntegerValue
+import duc.uscript.uScript.MethodCall
 
 @Aspect(className=Assignment)
 class AssigmentAspect extends AStatementAspect {
@@ -59,6 +60,9 @@ class AssigmentAspect extends AStatementAspect {
 				context.bindings.add(binding)
 			}
 			MethodCall2: {
+				assignee.evaluateExpression(state)
+			}
+			MethodCall: {
 				assignee.evaluateExpression(state)
 			}
 			FieldAccess: {

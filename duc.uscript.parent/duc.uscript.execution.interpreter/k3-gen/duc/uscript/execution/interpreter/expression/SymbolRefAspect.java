@@ -57,7 +57,10 @@ public class SymbolRefAspect extends ExpressionAspect {
   }
   
   protected static Value _privk3_evaluateExpression(final SymbolRefAspectSymbolRefAspectProperties _self_, final SymbolRef _self, final State state) {
-    return ValueAspect.copy(ContextAspect.findBinding(StateAspect.findCurrentContext(state), _self.getSymbol()).getValue());
+    final Context ctx = StateAspect.findCurrentContext(state);
+    final SymbolBindings bindings = ContextAspect.findBinding(ctx, _self.getSymbol());
+    final Value bindingVal = bindings.getValue();
+    return ValueAspect.copy(bindingVal);
   }
   
   private static SymbolSet super_findDependentVariables(final SymbolRef _self, final State state) {

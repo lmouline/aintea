@@ -7,6 +7,7 @@ import duc.uscript.uScript.NewObject
 import duc.uscript.uScript.MethodCall2
 import duc.uscript.utils.SymbolSet
 import duc.uscript.utils.Range
+import duc.uscript.uScript.MethodCall
 
 type SymbolSet wraps SymbolSet
 type Range wraps Range
@@ -97,6 +98,10 @@ class NewCall extends Call {
 
 class MethodCall3 extends Call {
 	refers MethodCall2[1] methodcall
+}
+
+class MethodCall4 extends Call {
+	refers MethodCall[1] methodCall
 }
 
 class ObjectInstance {

@@ -11,12 +11,20 @@ import static extension duc.uscript.execution.interpreter.modelstate.ContextAspe
 import static extension duc.uscript.execution.interpreter.modelstate.ValueAspect.*
 import duc.uscript.utils.SymbolSet
 import duc.uscript.utils.Range
+import duc.uscript.execution.Context
 
 @Aspect(className=SymbolRef)
 class SymbolRefAspect extends ExpressionAspect {
 	@OverrideAspectMethod
 	def Value evaluateExpression(State state) {
-		state.findCurrentContext.findBinding(_self.symbol).value.copy 
+		val Context ctx = state.findCurrentContext
+		val bindings = ctx.findBinding(_self.symbol)
+		val bindingVal = bindings.value
+		return bindingVal.copy
+		
+		
+		
+//		state.findCurrentContext.findBinding(_self.symbol).value.copy 
 	}
 	
 	@OverrideAspectMethod

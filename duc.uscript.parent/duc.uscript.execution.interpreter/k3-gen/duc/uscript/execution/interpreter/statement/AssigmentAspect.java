@@ -21,8 +21,10 @@ import duc.uscript.execution.interpreter.statement.AssigmentAspectAssignmentAspe
 import duc.uscript.uScript.ArrayAccess;
 import duc.uscript.uScript.Assignee;
 import duc.uscript.uScript.Assignment;
+import duc.uscript.uScript.Expression;
 import duc.uscript.uScript.Field;
 import duc.uscript.uScript.FieldAccess;
+import duc.uscript.uScript.MethodCall;
 import duc.uscript.uScript.MethodCall2;
 import duc.uscript.uScript.Symbol;
 import duc.uscript.uScript.SymbolRef;
@@ -92,6 +94,12 @@ public class AssigmentAspect extends AStatementAspect {
         if (assignee instanceof MethodCall2) {
           _matched=true;
           MethodCall2Aspect.evaluateExpression(((MethodCall2)assignee), state);
+        }
+      }
+      if (!_matched) {
+        if (assignee instanceof MethodCall) {
+          _matched=true;
+          ExpressionAspect.evaluateExpression(((Expression)assignee), state);
         }
       }
       if (!_matched) {
