@@ -5,6 +5,18 @@ import aintea.lang.*
 class City {
 	string name;
 	District[] districts;
+	
+	MultPossibilities<int> nbTrafficJams() {
+		District district = districts[0];
+		MultPossibilities<int> res = district.nbTrafficJams();
+		
+		for (int i=1; i<districts.length; i = i + 1) {
+			district = districts[i];
+			res = res + district.nbTrafficJams();
+		}
+		
+		return res;
+	}
 }
 
 class District {

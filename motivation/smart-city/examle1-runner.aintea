@@ -3,14 +3,18 @@ package sample.smartcity
 import sample.smartcity.*
 import aintea.lang.*
 
-void main() {
+City init() {
 	City city = new City();
 	city.name = "MyCity";
 	
+	District[] districts = new District[3];
+	city.districts = districts;
+	
 	District d1 = new District();
+	districts[0] = d1;
 	d1.name = "d1";
 	
-	TrafficJamDetector[] dtcsD1 = new TrafficJamDetector[3];
+	TrafficJamDetector[] dtcsD1 = new TrafficJamDetector[4];
 	d1.trafficJamDetectors = dtcsD1;
 	
 	TrafficJamDetector tjDtc1 = new TrafficJamDetector();
@@ -22,29 +26,69 @@ void main() {
 	dtcsD1[1] = tjDtc2;
 
 	TrafficJamDetector tjDtc3 = new TrafficJamDetector();
-	tjDtc3.isTrafficJam = new Bernoulli<bool>(true, 0.3);
+	tjDtc3.isTrafficJam = new Bernoulli<bool>(true, 0.9);
 	dtcsD1[2] = tjDtc3;
 	
-	MultPossibilities<int> nbTrafficJam = d1.nbTrafficJams();
-	IntPossibility[] poss = nbTrafficJam.possibilities;
-//	print(poss.length);
-	for(int i=0; i<poss.length; i = i + 1) {
-		print(poss[i]);
-	}
+	TrafficJamDetector tjDtc4 = new TrafficJamDetector();
+	tjDtc4.isTrafficJam = new Bernoulli<bool>(true, 0.9);
+	dtcsD1[3] = tjDtc4;
 	
+	
+	District d2 = new District();
+	districts[1] = d2;
+	d2.name = "d2";
+	
+	TrafficJamDetector[] dtcsD2 = new TrafficJamDetector[2];
+	d2.trafficJamDetectors = dtcsD2;
+	
+	TrafficJamDetector tjD2tc1 = new TrafficJamDetector();
+	tjD2tc1.isTrafficJam = new Bernoulli<bool>(true, 0.3);
+	dtcsD2[0] = tjD2tc1;
+
+	TrafficJamDetector tjD2tc2 = new TrafficJamDetector();
+	tjD2tc2.isTrafficJam = new Bernoulli<bool>(true, 0.7);
+	dtcsD2[1] = tjD2tc2;
+
+
+	
+	District d3 = new District();
+	districts[2] = d3;
+	d3.name = "d3";
+	
+	TrafficJamDetector[] dtcsD3 = new TrafficJamDetector[3];
+	d3.trafficJamDetectors = dtcsD3;
+	
+	TrafficJamDetector tjD3tc1 = new TrafficJamDetector();
+	tjD3tc1.isTrafficJam = new Bernoulli<bool>(true, 0.3);
+	dtcsD3[0] = tjD3tc1;
+
+	TrafficJamDetector tjD3tc2 = new TrafficJamDetector();
+	tjD3tc2.isTrafficJam = new Bernoulli<bool>(true, 0.7);
+	dtcsD3[1] = tjD3tc2;
+
+	TrafficJamDetector tjD3tc3 = new TrafficJamDetector();
+	tjD3tc3.isTrafficJam = new Bernoulli<bool>(true, 0.9);
+	dtcsD3[2] = tjD3tc3;
+	
+	return city;
+}
+
+
+void main() {
+	City city = init();
+	MultPossibilities<int> nbTrafficJam = city.nbTrafficJams();
+	// DEBUG
+//	IntPossibility[] poss = nbTrafficJam.possibilities;
+//	print(poss.length);
+//	for(int i=0; i<poss.length; i = i + 1) {
+//		print(poss[i]);
+//	}
 	if((nbTrafficJam > 2)[0.6]) {
 		print("ALERT! Situation is problematic, requires decision...");
 	} else {
 		print("Situation is normal.");
 	}
 	
-	print((nbTrafficJam > -1));
-	print((nbTrafficJam > 0));
-	print((nbTrafficJam > 1));
-	print((nbTrafficJam > 2));
-	print((nbTrafficJam > 3));
-	print((nbTrafficJam > 4));
-	print((nbTrafficJam > 5));
 	
 	
 	
