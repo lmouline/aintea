@@ -21,6 +21,13 @@ import duc.uscript.execution.BooleanValue
 import duc.uscript.execution.ObjectRefValue
 import duc.uscript.execution.interpreter.utils.GaussianDoubleUtils
 import duc.uscript.utils.SymbolSet
+import static duc.uscript.typing.TypeConcordance.*
+import static duc.uscript.execution.interpreter.utils.MultPossibilityUtils.*
+import static duc.aintea.lib.poissonbinomial.Computer.compute
+import com.google.inject.Injector
+import duc.uscript.UScriptStandaloneSetupGenerated
+import duc.uscript.typing.InternalTypeDcl
+import duc.uscript.uScript.Field
 
 @Aspect(className=Plus)
 class PlusAspect extends ExpressionAspect {
@@ -303,6 +310,17 @@ class PlusAspect extends ExpressionAspect {
 	}
 	
 	private def ObjectRefValue p(State state, ObjectRefValue x, ObjectRefValue y) {
+		if(isGaussian(y.instance.type)) {
+			return plusGauss(_self, state, x, y)
+		} else if(isMultPoss(y.instance.type)) {
+			return plusMultPoss(_self, state, x, y)
+		} else {
+			throw new RuntimeException('''«x.instance.type» + «y.instance.type» not yet implemented.''')
+		}
+	}
+	
+	
+	private def ObjectRefValue plusGauss(State state, ObjectRefValue x, ObjectRefValue y) {
 		val valX = GaussianDoubleUtils.getValue(x)
 		val valY = GaussianDoubleUtils.getValue(y)
 		
@@ -319,6 +337,77 @@ class PlusAspect extends ExpressionAspect {
 															  _self)
 		
 		return ExecutionFactory::eINSTANCE.createObjectRefValue => [instance = result]
+	}
+	
+	private def ObjectRefValue plusMultPoss(State state, ObjectRefValue x, ObjectRefValue y) {
+		val double[] probsX = extractProbs(x.instance)
+		val double[] probsY = extractProbs(y.instance)
+		
+		val double[] probsRes = newDoubleArrayOfSize(probsX.length + probsY.length)
+		System.arraycopy(probsX, 0, probsRes, 0, probsX.length)
+		System.arraycopy(probsY, 0, probsRes, probsX.length, probsY.length)
+		
+		val sum = compute(probsRes)
+		
+		val Injector injector = new UScriptStandaloneSetupGenerated().createInjector()
+		val internalTypeDcl = injector.getInstance(InternalTypeDcl)
+		
+		// Array of probs
+		val arrayProbs = ExecutionFactory::eINSTANCE.createArrayInstance => [
+			size = probsRes.length
+		]
+		state.arraysHeap.add(arrayProbs)
+		for(pRes: probsRes) {
+			arrayProbs.value.add(ExecutionFactory::eINSTANCE.createDoubleValue => [value = pRes])
+		}
+		
+		// Array of possibilities
+		val possibilitiesInstance = ExecutionFactory::eINSTANCE.createArrayInstance => [
+			size = sum.length
+		]
+		state.arraysHeap.add(possibilitiesInstance)
+		
+		val intPossType = internalTypeDcl.getIntPossibilityClass(_self)
+		val possType = internalTypeDcl.getPossibilityClass(_self)
+		for(var i=0; i< sum.length; i++) {
+			val probVal = ExecutionFactory::eINSTANCE.createObjectInstance => [
+				type = intPossType
+			]
+			state.objectsHeap.add(probVal)
+			
+			val p = sum.get(i)
+			val fi = i
+			probVal.fieldbindings.add(ExecutionFactory::eINSTANCE.createFieldBinding => [
+				field = possType.members.filter(Field).findFirst[ it.name == "confidence"]
+				value = ExecutionFactory::eINSTANCE.createDoubleValue => [value = p]
+			])
+			probVal.fieldbindings.add(ExecutionFactory::eINSTANCE.createFieldBinding => [
+				field = intPossType.members.filter(Field).findFirst[it.name == "value"]
+				value = ExecutionFactory::eINSTANCE.createIntegerValue => [value = fi]
+			])
+			possibilitiesInstance.value.add(ExecutionFactory::eINSTANCE.createObjectRefValue => [instance = probVal])
+		}
+		
+		
+		
+		// General obj
+		val dblMultPossObjType = internalTypeDcl.getMultChoiceDoubleClass(_self)
+		val multPossObjIns = ExecutionFactory::eINSTANCE.createObjectInstance => [
+			type = dblMultPossObjType
+		]
+		state.objectsHeap.add(multPossObjIns)
+		multPossObjIns.fieldbindings.add(ExecutionFactory::eINSTANCE.createFieldBinding => [
+			field = dblMultPossObjType.members.filter(Field).findFirst[it.name == "possibilities"]
+			value = ExecutionFactory::eINSTANCE.createArrayRefValue => [instance = possibilitiesInstance]
+		])
+		val multPossType = internalTypeDcl.getMultChoiceClass(_self)
+		multPossObjIns.fieldbindings.add(ExecutionFactory::eINSTANCE.createFieldBinding => [
+			field = multPossType.members.filter(Field).findFirst[it.name == "rootProbs"]
+			value = ExecutionFactory::eINSTANCE.createArrayRefValue => [instance = arrayProbs ]
+		])
+		
+		
+		return ExecutionFactory::eINSTANCE.createObjectRefValue => [instance = multPossObjIns];
 	}
 	
 	@OverrideAspectMethod

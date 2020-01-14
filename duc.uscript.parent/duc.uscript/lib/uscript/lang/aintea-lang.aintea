@@ -138,7 +138,9 @@ class DiracDeltaFunctionFloat extends DiracDeltaFunctionType {
 	float value;
 }
 
-class MultPossibilitiesType extends UncertainNumeric {}
+class MultPossibilitiesType extends UncertainNumeric {
+	double[] rootProbs;
+}
 
 class Possibility {
 	double confidence;

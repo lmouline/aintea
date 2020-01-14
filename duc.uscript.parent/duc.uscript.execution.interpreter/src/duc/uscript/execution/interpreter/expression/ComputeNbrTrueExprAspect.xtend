@@ -10,13 +10,13 @@ import duc.aintea.lib.poissonbinomial.Computer
 import duc.uscript.execution.ArrayRefValue
 import duc.uscript.execution.ObjectRefValue
 import duc.uscript.execution.interpreter.utils.BernoulliBoolUtils
-import java.util.Arrays
 import duc.uscript.execution.ExecutionFactory
 import com.google.inject.Injector
 import duc.uscript.UScriptStandaloneSetupGenerated
 import duc.uscript.typing.InternalTypeDcl
 import org.eclipse.emf.common.util.EList
 import duc.uscript.uScript.Field
+import duc.uscript.execution.ArrayInstance
 
 @Aspect(className=ComputeNbTrueExpr)
 class ComputeNbrTrueExprAspect extends ExpressionAspect {
@@ -37,6 +37,10 @@ class ComputeNbrTrueExprAspect extends ExpressionAspect {
 		
 		val Injector injector = new UScriptStandaloneSetupGenerated().createInjector()
 		val internalTypeDcl = injector.getInstance(InternalTypeDcl)
+		
+		// Array of probs
+		val arrayProbs = bernArrayToDoubleArray(_self, valueExpr as ArrayRefValue)
+		state.arraysHeap.add(arrayProbs)
 		
 		// Array of possibilities
 		val possibilitiesInstance = ExecutionFactory::eINSTANCE.createArrayInstance => [
@@ -65,20 +69,38 @@ class ComputeNbrTrueExprAspect extends ExpressionAspect {
 			possibilitiesInstance.value.add(ExecutionFactory::eINSTANCE.createObjectRefValue => [instance = probVal])
 		}
 		
-		
-		
 		// General obj
-		val multPossObjType = internalTypeDcl.getMultChoiceDoubleClass(_self)
+		val dblMultPossObjType = internalTypeDcl.getMultChoiceDoubleClass(_self)
 		val multPossObjIns = ExecutionFactory::eINSTANCE.createObjectInstance => [
-			type = multPossObjType
+			type = dblMultPossObjType
 		]
 		multPossObjIns.fieldbindings.add(ExecutionFactory::eINSTANCE.createFieldBinding => [
-			field = multPossObjType.members.filter(Field).findFirst[it.name == "possibilities"]
+			field = dblMultPossObjType.members.filter(Field).findFirst[it.name == "possibilities"]
 			value = ExecutionFactory::eINSTANCE.createArrayRefValue => [instance = possibilitiesInstance]
+		])
+		val multPossType = internalTypeDcl.getMultChoiceClass(_self)
+		multPossObjIns.fieldbindings.add(ExecutionFactory::eINSTANCE.createFieldBinding => [
+			field = multPossType.members.filter(Field).findFirst[it.name == "rootProbs"]
+			value = ExecutionFactory::eINSTANCE.createArrayRefValue => [instance = arrayProbs ]
 		])
 		
 		state.objectsHeap.add(multPossObjIns)
 		return ExecutionFactory::eINSTANCE.createObjectRefValue => [instance = multPossObjIns];
+	}
+	
+	private def ArrayInstance bernArrayToDoubleArray(ArrayRefValue bernArray) {
+		val EList<Value> array = bernArray.instance.value
+		
+		val result = ExecutionFactory::eINSTANCE.createArrayInstance => [
+			size = array.size
+		]
+		
+		for(var i=0; i<array.size; i++) {
+			val prob = BernoulliBoolUtils.getProbability(array.get(i) as ObjectRefValue).value
+			result.value.add(ExecutionFactory::eINSTANCE.createDoubleValue => [value = prob])
+		}
+		
+		return result
 	}
 	
 	private def double[] computePb(ArrayRefValue valueExpr) {

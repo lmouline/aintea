@@ -65,6 +65,7 @@ import duc.uscript.uScript.UScriptFactory
 import duc.uscript.uScript.UTypeRef
 import duc.uscript.uScript.MultPossibilitiesRef
 import duc.uscript.uScript.ComputeNbTrueExpr
+import static duc.uscript.UScriptModelHelper.*
 
 class TypeResolver {
 	@Inject extension InternalTypeDcl
@@ -190,6 +191,10 @@ class TypeResolver {
 			return left.getClassFromFqn(BINOMIAL_TYPE)
 		}
 		
+		if(is(left, MULTPOSS_TYPE) && is(right, MULTPOSS_TYPE)) {
+			return left.getClassFromFqn(MULTPOSS_TYPE)
+		}
+		
 		throw new RuntimeException('''Uncertain type unknown for arithmetic operation between «left.name» and «right.name»''')	
 	}
 	
@@ -214,7 +219,7 @@ class TypeResolver {
 		val leftClass = left.getClassFromFqn(getTypeFromUType(left))
 		val rightClass = left.getClassFromFqn(getTypeFromUType(right))
 		val uTypeName = uTypeArth(left, right).fullQualifiedNamed
-		val type = 	certainTypeArth(leftClass, rightClass)
+		val type = certainTypeArth(leftClass, rightClass)
 		
 		if(uTypeName == GAUSSIAN_TYPE) {
 			if(type == FLOAT_TYPE) {
@@ -224,9 +229,7 @@ class TypeResolver {
 			if(type == DOUBLE_TYPE) {
 				return left.gaussianDoubleClass
 			}
-		}
-		
-		if(uTypeName == RAYLEIGH_TYPE) {
+		} else if(uTypeName == RAYLEIGH_TYPE) {
 			if(type == FLOAT_TYPE) {
 				return left.rayleighFloatClass
 			}
@@ -234,7 +237,13 @@ class TypeResolver {
 			if(type == DOUBLE_TYPE) {
 				return left.rayleighDoubleClass
 			}
+		} else if(uTypeName == MULTPOSS_TYPE) {
+			if(type.fullQualifiedNamed ==  INT_TYPE) {
+				return left.multChoiceIntClass
+			}
 		}
+		
+		throw new RuntimeException('''Class typeArthExpr(Class, Class) not implemented for utype[«uTypeName»] and type «type» ''')
 	}
 	
 	def dispatch Class type(Plus plus) {

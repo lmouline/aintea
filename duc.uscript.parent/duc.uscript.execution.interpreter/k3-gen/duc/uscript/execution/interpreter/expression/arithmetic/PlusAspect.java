@@ -1,10 +1,18 @@
 package duc.uscript.execution.interpreter.expression.arithmetic;
 
+import com.google.common.base.Objects;
+import com.google.common.collect.Iterables;
+import com.google.inject.Injector;
+import duc.aintea.lib.poissonbinomial.Computer;
+import duc.uscript.UScriptStandaloneSetupGenerated;
+import duc.uscript.execution.ArrayInstance;
+import duc.uscript.execution.ArrayRefValue;
 import duc.uscript.execution.BooleanValue;
 import duc.uscript.execution.ByteValue;
 import duc.uscript.execution.CharValue;
 import duc.uscript.execution.DoubleValue;
 import duc.uscript.execution.ExecutionFactory;
+import duc.uscript.execution.FieldBinding;
 import duc.uscript.execution.FloatValue;
 import duc.uscript.execution.IntegerValue;
 import duc.uscript.execution.LongValue;
@@ -18,10 +26,18 @@ import duc.uscript.execution.interpreter.expression.ExpressionAspect;
 import duc.uscript.execution.interpreter.expression.arithmetic.PlusAspectPlusAspectProperties;
 import duc.uscript.execution.interpreter.modelstate.ValueAspect;
 import duc.uscript.execution.interpreter.utils.GaussianDoubleUtils;
+import duc.uscript.execution.interpreter.utils.MultPossibilityUtils;
+import duc.uscript.typing.InternalTypeDcl;
+import duc.uscript.typing.TypeConcordance;
+import duc.uscript.uScript.Field;
 import duc.uscript.uScript.Plus;
 import duc.uscript.utils.SymbolSet;
 import fr.inria.diverse.k3.al.annotationprocessor.Aspect;
 import fr.inria.diverse.k3.al.annotationprocessor.OverrideAspectMethod;
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.xtend2.lib.StringConcatenation;
+import org.eclipse.xtext.xbase.lib.Functions.Function1;
+import org.eclipse.xtext.xbase.lib.IterableExtensions;
 import org.eclipse.xtext.xbase.lib.ObjectExtensions;
 import org.eclipse.xtext.xbase.lib.Procedures.Procedure1;
 
@@ -385,6 +401,26 @@ public class PlusAspect extends ExpressionAspect {
     // #DispatchPointCut_before# ObjectRefValue p(State,ObjectRefValue,ObjectRefValue)
     if (_self instanceof duc.uscript.uScript.Plus){
     	result = duc.uscript.execution.interpreter.expression.arithmetic.PlusAspect._privk3_p(_self_, (duc.uscript.uScript.Plus)_self,state,x,y);
+    };
+    return (duc.uscript.execution.ObjectRefValue)result;
+  }
+  
+  private static ObjectRefValue plusGauss(final Plus _self, final State state, final ObjectRefValue x, final ObjectRefValue y) {
+    final duc.uscript.execution.interpreter.expression.arithmetic.PlusAspectPlusAspectProperties _self_ = duc.uscript.execution.interpreter.expression.arithmetic.PlusAspectPlusAspectContext.getSelf(_self);
+    Object result = null;
+    // #DispatchPointCut_before# ObjectRefValue plusGauss(State,ObjectRefValue,ObjectRefValue)
+    if (_self instanceof duc.uscript.uScript.Plus){
+    	result = duc.uscript.execution.interpreter.expression.arithmetic.PlusAspect._privk3_plusGauss(_self_, (duc.uscript.uScript.Plus)_self,state,x,y);
+    };
+    return (duc.uscript.execution.ObjectRefValue)result;
+  }
+  
+  private static ObjectRefValue plusMultPoss(final Plus _self, final State state, final ObjectRefValue x, final ObjectRefValue y) {
+    final duc.uscript.execution.interpreter.expression.arithmetic.PlusAspectPlusAspectProperties _self_ = duc.uscript.execution.interpreter.expression.arithmetic.PlusAspectPlusAspectContext.getSelf(_self);
+    Object result = null;
+    // #DispatchPointCut_before# ObjectRefValue plusMultPoss(State,ObjectRefValue,ObjectRefValue)
+    if (_self instanceof duc.uscript.uScript.Plus){
+    	result = duc.uscript.execution.interpreter.expression.arithmetic.PlusAspect._privk3_plusMultPoss(_self_, (duc.uscript.uScript.Plus)_self,state,x,y);
     };
     return (duc.uscript.execution.ObjectRefValue)result;
   }
@@ -1135,6 +1171,27 @@ public class PlusAspect extends ExpressionAspect {
   }
   
   protected static ObjectRefValue _privk3_p(final PlusAspectPlusAspectProperties _self_, final Plus _self, final State state, final ObjectRefValue x, final ObjectRefValue y) {
+    boolean _isGaussian = TypeConcordance.isGaussian(y.getInstance().getType());
+    if (_isGaussian) {
+      return PlusAspect.plusGauss(_self, state, x, y);
+    } else {
+      boolean _isMultPoss = TypeConcordance.isMultPoss(y.getInstance().getType());
+      if (_isMultPoss) {
+        return PlusAspect.plusMultPoss(_self, state, x, y);
+      } else {
+        StringConcatenation _builder = new StringConcatenation();
+        duc.uscript.uScript.Class _type = x.getInstance().getType();
+        _builder.append(_type);
+        _builder.append(" + ");
+        duc.uscript.uScript.Class _type_1 = y.getInstance().getType();
+        _builder.append(_type_1);
+        _builder.append(" not yet implemented.");
+        throw new RuntimeException(_builder.toString());
+      }
+    }
+  }
+  
+  protected static ObjectRefValue _privk3_plusGauss(final PlusAspectPlusAspectProperties _self_, final Plus _self, final State state, final ObjectRefValue x, final ObjectRefValue y) {
     final DoubleValue valX = GaussianDoubleUtils.getValue(x);
     final DoubleValue valY = GaussianDoubleUtils.getValue(y);
     final DoubleValue meanX = GaussianDoubleUtils.getMean(x);
@@ -1156,6 +1213,143 @@ public class PlusAspect extends ExpressionAspect {
       it.setInstance(result);
     };
     return ObjectExtensions.<ObjectRefValue>operator_doubleArrow(_createObjectRefValue, _function);
+  }
+  
+  protected static ObjectRefValue _privk3_plusMultPoss(final PlusAspectPlusAspectProperties _self_, final Plus _self, final State state, final ObjectRefValue x, final ObjectRefValue y) {
+    final double[] probsX = MultPossibilityUtils.extractProbs(x.getInstance());
+    final double[] probsY = MultPossibilityUtils.extractProbs(y.getInstance());
+    int _length = probsX.length;
+    int _length_1 = probsY.length;
+    int _plus = (_length + _length_1);
+    final double[] probsRes = new double[_plus];
+    System.arraycopy(probsX, 0, probsRes, 0, probsX.length);
+    System.arraycopy(probsY, 0, probsRes, probsX.length, probsY.length);
+    final double[] sum = Computer.compute(probsRes);
+    final Injector injector = new UScriptStandaloneSetupGenerated().createInjector();
+    final InternalTypeDcl internalTypeDcl = injector.<InternalTypeDcl>getInstance(InternalTypeDcl.class);
+    ArrayInstance _createArrayInstance = ExecutionFactory.eINSTANCE.createArrayInstance();
+    final Procedure1<ArrayInstance> _function = (ArrayInstance it) -> {
+      it.setSize(probsRes.length);
+    };
+    final ArrayInstance arrayProbs = ObjectExtensions.<ArrayInstance>operator_doubleArrow(_createArrayInstance, _function);
+    state.getArraysHeap().add(arrayProbs);
+    for (final double pRes : probsRes) {
+      EList<Value> _value = arrayProbs.getValue();
+      DoubleValue _createDoubleValue = ExecutionFactory.eINSTANCE.createDoubleValue();
+      final Procedure1<DoubleValue> _function_1 = (DoubleValue it) -> {
+        it.setValue(pRes);
+      };
+      DoubleValue _doubleArrow = ObjectExtensions.<DoubleValue>operator_doubleArrow(_createDoubleValue, _function_1);
+      _value.add(_doubleArrow);
+    }
+    ArrayInstance _createArrayInstance_1 = ExecutionFactory.eINSTANCE.createArrayInstance();
+    final Procedure1<ArrayInstance> _function_2 = (ArrayInstance it) -> {
+      it.setSize(sum.length);
+    };
+    final ArrayInstance possibilitiesInstance = ObjectExtensions.<ArrayInstance>operator_doubleArrow(_createArrayInstance_1, _function_2);
+    state.getArraysHeap().add(possibilitiesInstance);
+    final duc.uscript.uScript.Class intPossType = internalTypeDcl.getIntPossibilityClass(_self);
+    final duc.uscript.uScript.Class possType = internalTypeDcl.getPossibilityClass(_self);
+    for (int i = 0; (i < sum.length); i++) {
+      {
+        ObjectInstance _createObjectInstance = ExecutionFactory.eINSTANCE.createObjectInstance();
+        final Procedure1<ObjectInstance> _function_3 = (ObjectInstance it) -> {
+          it.setType(intPossType);
+        };
+        final ObjectInstance probVal = ObjectExtensions.<ObjectInstance>operator_doubleArrow(_createObjectInstance, _function_3);
+        state.getObjectsHeap().add(probVal);
+        final double p = sum[i];
+        final int fi = i;
+        EList<FieldBinding> _fieldbindings = probVal.getFieldbindings();
+        FieldBinding _createFieldBinding = ExecutionFactory.eINSTANCE.createFieldBinding();
+        final Procedure1<FieldBinding> _function_4 = (FieldBinding it) -> {
+          final Function1<Field, Boolean> _function_5 = (Field it_1) -> {
+            String _name = it_1.getName();
+            return Boolean.valueOf(Objects.equal(_name, "confidence"));
+          };
+          it.setField(IterableExtensions.<Field>findFirst(Iterables.<Field>filter(possType.getMembers(), Field.class), _function_5));
+          DoubleValue _createDoubleValue_1 = ExecutionFactory.eINSTANCE.createDoubleValue();
+          final Procedure1<DoubleValue> _function_6 = (DoubleValue it_1) -> {
+            it_1.setValue(p);
+          };
+          DoubleValue _doubleArrow_1 = ObjectExtensions.<DoubleValue>operator_doubleArrow(_createDoubleValue_1, _function_6);
+          it.setValue(_doubleArrow_1);
+        };
+        FieldBinding _doubleArrow_1 = ObjectExtensions.<FieldBinding>operator_doubleArrow(_createFieldBinding, _function_4);
+        _fieldbindings.add(_doubleArrow_1);
+        EList<FieldBinding> _fieldbindings_1 = probVal.getFieldbindings();
+        FieldBinding _createFieldBinding_1 = ExecutionFactory.eINSTANCE.createFieldBinding();
+        final Procedure1<FieldBinding> _function_5 = (FieldBinding it) -> {
+          final Function1<Field, Boolean> _function_6 = (Field it_1) -> {
+            String _name = it_1.getName();
+            return Boolean.valueOf(Objects.equal(_name, "value"));
+          };
+          it.setField(IterableExtensions.<Field>findFirst(Iterables.<Field>filter(intPossType.getMembers(), Field.class), _function_6));
+          IntegerValue _createIntegerValue = ExecutionFactory.eINSTANCE.createIntegerValue();
+          final Procedure1<IntegerValue> _function_7 = (IntegerValue it_1) -> {
+            it_1.setValue(fi);
+          };
+          IntegerValue _doubleArrow_2 = ObjectExtensions.<IntegerValue>operator_doubleArrow(_createIntegerValue, _function_7);
+          it.setValue(_doubleArrow_2);
+        };
+        FieldBinding _doubleArrow_2 = ObjectExtensions.<FieldBinding>operator_doubleArrow(_createFieldBinding_1, _function_5);
+        _fieldbindings_1.add(_doubleArrow_2);
+        EList<Value> _value_1 = possibilitiesInstance.getValue();
+        ObjectRefValue _createObjectRefValue = ExecutionFactory.eINSTANCE.createObjectRefValue();
+        final Procedure1<ObjectRefValue> _function_6 = (ObjectRefValue it) -> {
+          it.setInstance(probVal);
+        };
+        ObjectRefValue _doubleArrow_3 = ObjectExtensions.<ObjectRefValue>operator_doubleArrow(_createObjectRefValue, _function_6);
+        _value_1.add(_doubleArrow_3);
+      }
+    }
+    final duc.uscript.uScript.Class dblMultPossObjType = internalTypeDcl.getMultChoiceDoubleClass(_self);
+    ObjectInstance _createObjectInstance = ExecutionFactory.eINSTANCE.createObjectInstance();
+    final Procedure1<ObjectInstance> _function_3 = (ObjectInstance it) -> {
+      it.setType(dblMultPossObjType);
+    };
+    final ObjectInstance multPossObjIns = ObjectExtensions.<ObjectInstance>operator_doubleArrow(_createObjectInstance, _function_3);
+    state.getObjectsHeap().add(multPossObjIns);
+    EList<FieldBinding> _fieldbindings = multPossObjIns.getFieldbindings();
+    FieldBinding _createFieldBinding = ExecutionFactory.eINSTANCE.createFieldBinding();
+    final Procedure1<FieldBinding> _function_4 = (FieldBinding it) -> {
+      final Function1<Field, Boolean> _function_5 = (Field it_1) -> {
+        String _name = it_1.getName();
+        return Boolean.valueOf(Objects.equal(_name, "possibilities"));
+      };
+      it.setField(IterableExtensions.<Field>findFirst(Iterables.<Field>filter(dblMultPossObjType.getMembers(), Field.class), _function_5));
+      ArrayRefValue _createArrayRefValue = ExecutionFactory.eINSTANCE.createArrayRefValue();
+      final Procedure1<ArrayRefValue> _function_6 = (ArrayRefValue it_1) -> {
+        it_1.setInstance(possibilitiesInstance);
+      };
+      ArrayRefValue _doubleArrow_1 = ObjectExtensions.<ArrayRefValue>operator_doubleArrow(_createArrayRefValue, _function_6);
+      it.setValue(_doubleArrow_1);
+    };
+    FieldBinding _doubleArrow_1 = ObjectExtensions.<FieldBinding>operator_doubleArrow(_createFieldBinding, _function_4);
+    _fieldbindings.add(_doubleArrow_1);
+    final duc.uscript.uScript.Class multPossType = internalTypeDcl.getMultChoiceClass(_self);
+    EList<FieldBinding> _fieldbindings_1 = multPossObjIns.getFieldbindings();
+    FieldBinding _createFieldBinding_1 = ExecutionFactory.eINSTANCE.createFieldBinding();
+    final Procedure1<FieldBinding> _function_5 = (FieldBinding it) -> {
+      final Function1<Field, Boolean> _function_6 = (Field it_1) -> {
+        String _name = it_1.getName();
+        return Boolean.valueOf(Objects.equal(_name, "rootProbs"));
+      };
+      it.setField(IterableExtensions.<Field>findFirst(Iterables.<Field>filter(multPossType.getMembers(), Field.class), _function_6));
+      ArrayRefValue _createArrayRefValue = ExecutionFactory.eINSTANCE.createArrayRefValue();
+      final Procedure1<ArrayRefValue> _function_7 = (ArrayRefValue it_1) -> {
+        it_1.setInstance(arrayProbs);
+      };
+      ArrayRefValue _doubleArrow_2 = ObjectExtensions.<ArrayRefValue>operator_doubleArrow(_createArrayRefValue, _function_7);
+      it.setValue(_doubleArrow_2);
+    };
+    FieldBinding _doubleArrow_2 = ObjectExtensions.<FieldBinding>operator_doubleArrow(_createFieldBinding_1, _function_5);
+    _fieldbindings_1.add(_doubleArrow_2);
+    ObjectRefValue _createObjectRefValue = ExecutionFactory.eINSTANCE.createObjectRefValue();
+    final Procedure1<ObjectRefValue> _function_6 = (ObjectRefValue it) -> {
+      it.setInstance(multPossObjIns);
+    };
+    return ObjectExtensions.<ObjectRefValue>operator_doubleArrow(_createObjectRefValue, _function_6);
   }
   
   private static SymbolSet super_findDependentVariables(final Plus _self, final State state) {
