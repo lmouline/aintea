@@ -27,9 +27,25 @@ void main() {
 	
 	MultPossibilities<int> nbTrafficJam = d1.nbTrafficJams();
 	IntPossibility[] poss = nbTrafficJam.possibilities;
-	print(poss.length);
+//	print(poss.length);
 	for(int i=0; i<poss.length; i = i + 1) {
 		print(poss[i]);
 	}
+	
+	if((nbTrafficJam > 2)[0.6]) {
+		print("ALERT! Situation is problematic, requires decision...");
+	} else {
+		print("Situation is normal.");
+	}
+	
+	print((nbTrafficJam > -1));
+	print((nbTrafficJam > 0));
+	print((nbTrafficJam > 1));
+	print((nbTrafficJam > 2));
+	print((nbTrafficJam > 3));
+	print((nbTrafficJam > 4));
+	print((nbTrafficJam > 5));
+	
+	
 	
 }
