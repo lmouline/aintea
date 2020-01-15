@@ -6,9 +6,9 @@ branches:
   only:
   - master
 
-addons:
-  snaps:
-      - hugo
+# addons:
+#   snaps:
+#       - hugo
 
 jdk:
   - openjdk8
@@ -18,15 +18,15 @@ before_script:
   
 script:
   - mvn -P CI clean verify
-  - cd $TRAVIS_BUILD_DIR/website
-  - hugo
+  # - cd $TRAVIS_BUILD_DIR/website
+  # - hugo
 
-deploy:
-  provider: pages
-  skip-cleanup: true
-  github-token: $GITHUB_TOKEN
-  keep-history: true
-  target-branch: gh-pages
-  on:
-    branch: master
-  local-dir: website/public
+# deploy:
+#   provider: pages
+#   skip-cleanup: true
+#   github-token: $GITHUB_TOKEN
+#   keep-history: true
+#   target-branch: gh-pages
+#   on:
+#     branch: master
+#   local-dir: website/public
