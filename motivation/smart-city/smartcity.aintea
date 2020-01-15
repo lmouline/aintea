@@ -17,6 +17,26 @@ class City {
 		
 		return res;
 	}
+	
+	Gaussian<double> avgCO2() {
+		District d = districts[0];
+		Gaussian<double> sum = d.avgCO2();
+		for (int i=1; i<districts.length; i = i + 1) {
+			d = districts[i];
+			sum = sum + d.avgCO2();
+		}
+		return sum / districts.length;
+	}
+	
+	Gaussian<double> avgTemperature() {
+		District district = districts[0];
+		Gaussian<double> sum = district.avgTemperature();
+		for (int i=1; i<districts.length; i = i + 1) {
+			district = districts[i];
+			sum = sum + district.avgTemperature();
+		}
+		return sum / districts.length;
+	}
 }
 
 class District {
@@ -27,18 +47,20 @@ class District {
 	TrafficJamDetector[] trafficJamDetectors;
 	
 	Gaussian<double> avgCO2() {
-		Gaussian<double> sum = co2Sensors[0];
+		CO2Sensor sensor = co2Sensors[0];
+		Gaussian<double> sum = sensor.CO2;
 		for(int i=1;i<co2Sensors.length; i = i + 1) {
-			CO2Sensor s = co2Sensors[i];
-			sum = sum + s.CO2;
+			sensor = co2Sensors[i];
+			sum = sum + sensor.CO2;
 		}
 		return sum / co2Sensors.length;
 	}
 	
 	Gaussian<double> avgTemperature() {
-		Gaussian<double> sum = tempSensors[0];
+		TemperatureSensor s = tempSensors[0];
+		Gaussian<double> sum = s.temperature;
 		for(int i=1;i<tempSensors.length; i = i + 1) {
-			TemperatureSensor s = tempSensors[i];
+			s = tempSensors[i];
 			sum = sum + s.temperature;
 		}
 		return sum / tempSensors.length;

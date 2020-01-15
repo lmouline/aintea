@@ -13,62 +13,98 @@ City init() {
 	District d1 = new District();
 	districts[0] = d1;
 	d1.name = "d1";
+	{	// Traffic jam detectors
+		TrafficJamDetector[] dtcsD1 = new TrafficJamDetector[4];
+		d1.trafficJamDetectors = dtcsD1;
+		
+		TrafficJamDetector tjDtc1 = new TrafficJamDetector();
+		tjDtc1.isTrafficJam = new Bernoulli<bool>(true, 0.3);
+		dtcsD1[0] = tjDtc1;
 	
-	TrafficJamDetector[] dtcsD1 = new TrafficJamDetector[4];
-	d1.trafficJamDetectors = dtcsD1;
+		TrafficJamDetector tjDtc2 = new TrafficJamDetector();
+		tjDtc2.isTrafficJam = new Bernoulli<bool>(true, 0.7);
+		dtcsD1[1] = tjDtc2;
 	
-	TrafficJamDetector tjDtc1 = new TrafficJamDetector();
-	tjDtc1.isTrafficJam = new Bernoulli<bool>(true, 0.3);
-	dtcsD1[0] = tjDtc1;
-
-	TrafficJamDetector tjDtc2 = new TrafficJamDetector();
-	tjDtc2.isTrafficJam = new Bernoulli<bool>(true, 0.7);
-	dtcsD1[1] = tjDtc2;
-
-	TrafficJamDetector tjDtc3 = new TrafficJamDetector();
-	tjDtc3.isTrafficJam = new Bernoulli<bool>(true, 0.9);
-	dtcsD1[2] = tjDtc3;
-	
-	TrafficJamDetector tjDtc4 = new TrafficJamDetector();
-	tjDtc4.isTrafficJam = new Bernoulli<bool>(true, 0.9);
-	dtcsD1[3] = tjDtc4;
-	
+		TrafficJamDetector tjDtc3 = new TrafficJamDetector();
+		tjDtc3.isTrafficJam = new Bernoulli<bool>(true, 0.9);
+		dtcsD1[2] = tjDtc3;
+		
+		TrafficJamDetector tjDtc4 = new TrafficJamDetector();
+		tjDtc4.isTrafficJam = new Bernoulli<bool>(true, 0.9);
+		dtcsD1[3] = tjDtc4;
+	}
+	{	// CO2 sensors
+		CO2Sensor[] sensors = new CO2Sensor[1];
+		d1.co2Sensors = sensors;
+		
+		CO2Sensor s1 = new CO2Sensor();
+		s1.CO2 = new Gaussian<double>(5., 0.1);
+		sensors[0] = s1;
+	}
 	
 	District d2 = new District();
 	districts[1] = d2;
 	d2.name = "d2";
+	{ // Traffic jam detectors
+		TrafficJamDetector[] dtcsD2 = new TrafficJamDetector[2];
+		d2.trafficJamDetectors = dtcsD2;
+		
+		TrafficJamDetector tjD2tc1 = new TrafficJamDetector();
+		tjD2tc1.isTrafficJam = new Bernoulli<bool>(true, 0.3);
+		dtcsD2[0] = tjD2tc1;
 	
-	TrafficJamDetector[] dtcsD2 = new TrafficJamDetector[2];
-	d2.trafficJamDetectors = dtcsD2;
-	
-	TrafficJamDetector tjD2tc1 = new TrafficJamDetector();
-	tjD2tc1.isTrafficJam = new Bernoulli<bool>(true, 0.3);
-	dtcsD2[0] = tjD2tc1;
-
-	TrafficJamDetector tjD2tc2 = new TrafficJamDetector();
-	tjD2tc2.isTrafficJam = new Bernoulli<bool>(true, 0.7);
-	dtcsD2[1] = tjD2tc2;
-
-
+		TrafficJamDetector tjD2tc2 = new TrafficJamDetector();
+		tjD2tc2.isTrafficJam = new Bernoulli<bool>(true, 0.7);
+		dtcsD2[1] = tjD2tc2;
+	}
+	{	// CO2 sensors
+		CO2Sensor[] sensors = new CO2Sensor[2];
+		d2.co2Sensors = sensors;
+		
+		CO2Sensor s1 = new CO2Sensor();
+		s1.CO2 = new Gaussian<double>(14., 0.2);
+		sensors[0] = s1;
+		
+		CO2Sensor s2 = new CO2Sensor();
+		s2.CO2 = new Gaussian<double>(10., 0.1);
+		sensors[1] = s2;
+	}
 	
 	District d3 = new District();
 	districts[2] = d3;
 	d3.name = "d3";
+	{ // Traffic jam detectors
+		TrafficJamDetector[] dtcsD3 = new TrafficJamDetector[3];
+		d3.trafficJamDetectors = dtcsD3;
+		
+		TrafficJamDetector tjD3tc1 = new TrafficJamDetector();
+		tjD3tc1.isTrafficJam = new Bernoulli<bool>(true, 0.3);
+		dtcsD3[0] = tjD3tc1;
 	
-	TrafficJamDetector[] dtcsD3 = new TrafficJamDetector[3];
-	d3.trafficJamDetectors = dtcsD3;
+		TrafficJamDetector tjD3tc2 = new TrafficJamDetector();
+		tjD3tc2.isTrafficJam = new Bernoulli<bool>(true, 0.7);
+		dtcsD3[1] = tjD3tc2;
 	
-	TrafficJamDetector tjD3tc1 = new TrafficJamDetector();
-	tjD3tc1.isTrafficJam = new Bernoulli<bool>(true, 0.3);
-	dtcsD3[0] = tjD3tc1;
-
-	TrafficJamDetector tjD3tc2 = new TrafficJamDetector();
-	tjD3tc2.isTrafficJam = new Bernoulli<bool>(true, 0.7);
-	dtcsD3[1] = tjD3tc2;
-
-	TrafficJamDetector tjD3tc3 = new TrafficJamDetector();
-	tjD3tc3.isTrafficJam = new Bernoulli<bool>(true, 0.9);
-	dtcsD3[2] = tjD3tc3;
+		TrafficJamDetector tjD3tc3 = new TrafficJamDetector();
+		tjD3tc3.isTrafficJam = new Bernoulli<bool>(true, 0.9);
+		dtcsD3[2] = tjD3tc3;
+	}
+	{	// CO2 sensors
+		CO2Sensor[] sensors = new CO2Sensor[3];
+		d3.co2Sensors = sensors;
+		
+		CO2Sensor s1 = new CO2Sensor();
+		s1.CO2 = new Gaussian<double>(0.2, 0.2);
+		sensors[0] = s1;
+		
+		CO2Sensor s2 = new CO2Sensor();
+		s2.CO2 = new Gaussian<double>(0.5, 0.1);
+		sensors[1] = s2;
+		
+		CO2Sensor s3 = new CO2Sensor();
+		s3.CO2 = new Gaussian<double>(0.7, 0.1);
+		sensors[2] = s3;
+	}
 	
 	return city;
 }
@@ -77,19 +113,24 @@ City init() {
 void main() {
 	City city = init();
 	MultPossibilities<int> nbTrafficJam = city.nbTrafficJams();
-	// DEBUG
+//	// DEBUG
 //	IntPossibility[] poss = nbTrafficJam.possibilities;
 //	print(poss.length);
 //	for(int i=0; i<poss.length; i = i + 1) {
 //		print(poss[i]);
 //	}
 	if((nbTrafficJam > 2)[0.6]) {
-		print("ALERT! Situation is problematic, requires decision...");
+		print("[Traffic jam] ALERT! Situation is problematic, requires decision...");
 	} else {
-		print("Situation is normal.");
+		print("[Traffic jam] Situation is normal.");
 	}
 	
-	
-	
-	
+	Gaussian<double> avgCO2 = city.avgCO2();
+	// DEBUG
+//	print(avgCO2);
+	if((avgCO2 > 10)[0.9]) {
+		print("[CO2] ALERT! CO2 level is too high...");
+	} else {
+		print("[C02] Situation normal");
+	}
 }
