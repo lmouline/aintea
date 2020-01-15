@@ -6,9 +6,9 @@ class City {
 	string name;
 	District[] districts;
 	
-	MultPossibilities<int> nbTrafficJams() {
+	PoissonBinomial<int> nbTrafficJams() {
 		District district = districts[0];
-		MultPossibilities<int> res = district.nbTrafficJams();
+		PoissonBinomial<int> res = district.nbTrafficJams();
 		
 		for (int i=1; i<districts.length; i = i + 1) {
 			district = districts[i];
@@ -66,7 +66,7 @@ class District {
 		return sum / tempSensors.length;
 	}
 	
-	MultPossibilities<int> nbTrafficJams() {
+	PoissonBinomial<int> nbTrafficJams() {
 		Bernoulli<bool>[] situation = new Bernoulli<bool>[trafficJamDetectors.length];
 		for(int i=0; i < situation.length; i = i + 1) {
 			TrafficJamDetector dtc = trafficJamDetectors[i];

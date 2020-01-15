@@ -415,12 +415,12 @@ public class PlusAspect extends ExpressionAspect {
     return (duc.uscript.execution.ObjectRefValue)result;
   }
   
-  private static ObjectRefValue plusMultPoss(final Plus _self, final State state, final ObjectRefValue x, final ObjectRefValue y) {
+  private static ObjectRefValue plusPoissBin(final Plus _self, final State state, final ObjectRefValue x, final ObjectRefValue y) {
     final duc.uscript.execution.interpreter.expression.arithmetic.PlusAspectPlusAspectProperties _self_ = duc.uscript.execution.interpreter.expression.arithmetic.PlusAspectPlusAspectContext.getSelf(_self);
     Object result = null;
-    // #DispatchPointCut_before# ObjectRefValue plusMultPoss(State,ObjectRefValue,ObjectRefValue)
+    // #DispatchPointCut_before# ObjectRefValue plusPoissBin(State,ObjectRefValue,ObjectRefValue)
     if (_self instanceof duc.uscript.uScript.Plus){
-    	result = duc.uscript.execution.interpreter.expression.arithmetic.PlusAspect._privk3_plusMultPoss(_self_, (duc.uscript.uScript.Plus)_self,state,x,y);
+    	result = duc.uscript.execution.interpreter.expression.arithmetic.PlusAspect._privk3_plusPoissBin(_self_, (duc.uscript.uScript.Plus)_self,state,x,y);
     };
     return (duc.uscript.execution.ObjectRefValue)result;
   }
@@ -1175,9 +1175,9 @@ public class PlusAspect extends ExpressionAspect {
     if (_isGaussian) {
       return PlusAspect.plusGauss(_self, state, x, y);
     } else {
-      boolean _isMultPoss = TypeConcordance.isMultPoss(y.getInstance().getType());
-      if (_isMultPoss) {
-        return PlusAspect.plusMultPoss(_self, state, x, y);
+      boolean _isPoissonBinomial = TypeConcordance.isPoissonBinomial(y.getInstance().getType());
+      if (_isPoissonBinomial) {
+        return PlusAspect.plusPoissBin(_self, state, x, y);
       } else {
         StringConcatenation _builder = new StringConcatenation();
         duc.uscript.uScript.Class _type = x.getInstance().getType();
@@ -1215,7 +1215,7 @@ public class PlusAspect extends ExpressionAspect {
     return ObjectExtensions.<ObjectRefValue>operator_doubleArrow(_createObjectRefValue, _function);
   }
   
-  protected static ObjectRefValue _privk3_plusMultPoss(final PlusAspectPlusAspectProperties _self_, final Plus _self, final State state, final ObjectRefValue x, final ObjectRefValue y) {
+  protected static ObjectRefValue _privk3_plusPoissBin(final PlusAspectPlusAspectProperties _self_, final Plus _self, final State state, final ObjectRefValue x, final ObjectRefValue y) {
     final double[] probsX = MultPossibilityUtils.extractProbs(x.getInstance());
     final double[] probsY = MultPossibilityUtils.extractProbs(y.getInstance());
     int _length = probsX.length;
@@ -1224,132 +1224,134 @@ public class PlusAspect extends ExpressionAspect {
     final double[] probsRes = new double[_plus];
     System.arraycopy(probsX, 0, probsRes, 0, probsX.length);
     System.arraycopy(probsY, 0, probsRes, probsX.length, probsY.length);
-    final double[] sum = Computer.compute(probsRes);
+    final double[] plusRes = Computer.compute(probsRes);
     final Injector injector = new UScriptStandaloneSetupGenerated().createInjector();
     final InternalTypeDcl internalTypeDcl = injector.<InternalTypeDcl>getInstance(InternalTypeDcl.class);
     ArrayInstance _createArrayInstance = ExecutionFactory.eINSTANCE.createArrayInstance();
     final Procedure1<ArrayInstance> _function = (ArrayInstance it) -> {
       it.setSize(probsRes.length);
     };
-    final ArrayInstance arrayProbs = ObjectExtensions.<ArrayInstance>operator_doubleArrow(_createArrayInstance, _function);
-    state.getArraysHeap().add(arrayProbs);
+    final ArrayInstance initBernProbs = ObjectExtensions.<ArrayInstance>operator_doubleArrow(_createArrayInstance, _function);
+    state.getArraysHeap().add(initBernProbs);
+    double sum = 0;
     for (final double pRes : probsRes) {
-      EList<Value> _value = arrayProbs.getValue();
-      DoubleValue _createDoubleValue = ExecutionFactory.eINSTANCE.createDoubleValue();
-      final Procedure1<DoubleValue> _function_1 = (DoubleValue it) -> {
-        it.setValue(pRes);
-      };
-      DoubleValue _doubleArrow = ObjectExtensions.<DoubleValue>operator_doubleArrow(_createDoubleValue, _function_1);
-      _value.add(_doubleArrow);
-    }
-    ArrayInstance _createArrayInstance_1 = ExecutionFactory.eINSTANCE.createArrayInstance();
-    final Procedure1<ArrayInstance> _function_2 = (ArrayInstance it) -> {
-      it.setSize(sum.length);
-    };
-    final ArrayInstance possibilitiesInstance = ObjectExtensions.<ArrayInstance>operator_doubleArrow(_createArrayInstance_1, _function_2);
-    state.getArraysHeap().add(possibilitiesInstance);
-    final duc.uscript.uScript.Class intPossType = internalTypeDcl.getIntPossibilityClass(_self);
-    final duc.uscript.uScript.Class possType = internalTypeDcl.getPossibilityClass(_self);
-    for (int i = 0; (i < sum.length); i++) {
       {
-        ObjectInstance _createObjectInstance = ExecutionFactory.eINSTANCE.createObjectInstance();
-        final Procedure1<ObjectInstance> _function_3 = (ObjectInstance it) -> {
-          it.setType(intPossType);
+        EList<Value> _value = initBernProbs.getValue();
+        DoubleValue _createDoubleValue = ExecutionFactory.eINSTANCE.createDoubleValue();
+        final Procedure1<DoubleValue> _function_1 = (DoubleValue it) -> {
+          it.setValue(pRes);
         };
-        final ObjectInstance probVal = ObjectExtensions.<ObjectInstance>operator_doubleArrow(_createObjectInstance, _function_3);
-        state.getObjectsHeap().add(probVal);
-        final double p = sum[i];
-        final int fi = i;
-        EList<FieldBinding> _fieldbindings = probVal.getFieldbindings();
-        FieldBinding _createFieldBinding = ExecutionFactory.eINSTANCE.createFieldBinding();
-        final Procedure1<FieldBinding> _function_4 = (FieldBinding it) -> {
-          final Function1<Field, Boolean> _function_5 = (Field it_1) -> {
-            String _name = it_1.getName();
-            return Boolean.valueOf(Objects.equal(_name, "confidence"));
-          };
-          it.setField(IterableExtensions.<Field>findFirst(Iterables.<Field>filter(possType.getMembers(), Field.class), _function_5));
-          DoubleValue _createDoubleValue_1 = ExecutionFactory.eINSTANCE.createDoubleValue();
-          final Procedure1<DoubleValue> _function_6 = (DoubleValue it_1) -> {
-            it_1.setValue(p);
-          };
-          DoubleValue _doubleArrow_1 = ObjectExtensions.<DoubleValue>operator_doubleArrow(_createDoubleValue_1, _function_6);
-          it.setValue(_doubleArrow_1);
-        };
-        FieldBinding _doubleArrow_1 = ObjectExtensions.<FieldBinding>operator_doubleArrow(_createFieldBinding, _function_4);
-        _fieldbindings.add(_doubleArrow_1);
-        EList<FieldBinding> _fieldbindings_1 = probVal.getFieldbindings();
-        FieldBinding _createFieldBinding_1 = ExecutionFactory.eINSTANCE.createFieldBinding();
-        final Procedure1<FieldBinding> _function_5 = (FieldBinding it) -> {
-          final Function1<Field, Boolean> _function_6 = (Field it_1) -> {
-            String _name = it_1.getName();
-            return Boolean.valueOf(Objects.equal(_name, "value"));
-          };
-          it.setField(IterableExtensions.<Field>findFirst(Iterables.<Field>filter(intPossType.getMembers(), Field.class), _function_6));
-          IntegerValue _createIntegerValue = ExecutionFactory.eINSTANCE.createIntegerValue();
-          final Procedure1<IntegerValue> _function_7 = (IntegerValue it_1) -> {
-            it_1.setValue(fi);
-          };
-          IntegerValue _doubleArrow_2 = ObjectExtensions.<IntegerValue>operator_doubleArrow(_createIntegerValue, _function_7);
-          it.setValue(_doubleArrow_2);
-        };
-        FieldBinding _doubleArrow_2 = ObjectExtensions.<FieldBinding>operator_doubleArrow(_createFieldBinding_1, _function_5);
-        _fieldbindings_1.add(_doubleArrow_2);
-        EList<Value> _value_1 = possibilitiesInstance.getValue();
-        ObjectRefValue _createObjectRefValue = ExecutionFactory.eINSTANCE.createObjectRefValue();
-        final Procedure1<ObjectRefValue> _function_6 = (ObjectRefValue it) -> {
-          it.setInstance(probVal);
-        };
-        ObjectRefValue _doubleArrow_3 = ObjectExtensions.<ObjectRefValue>operator_doubleArrow(_createObjectRefValue, _function_6);
-        _value_1.add(_doubleArrow_3);
+        DoubleValue _doubleArrow = ObjectExtensions.<DoubleValue>operator_doubleArrow(_createDoubleValue, _function_1);
+        _value.add(_doubleArrow);
+        double _sum = sum;
+        sum = (_sum + pRes);
       }
     }
-    final duc.uscript.uScript.Class dblMultPossObjType = internalTypeDcl.getMultChoiceDoubleClass(_self);
+    ArrayInstance _createArrayInstance_1 = ExecutionFactory.eINSTANCE.createArrayInstance();
+    final Procedure1<ArrayInstance> _function_1 = (ArrayInstance it) -> {
+      it.setSize(plusRes.length);
+    };
+    final ArrayInstance probabilities = ObjectExtensions.<ArrayInstance>operator_doubleArrow(_createArrayInstance_1, _function_1);
+    state.getArraysHeap().add(probabilities);
+    for (final double p : plusRes) {
+      EList<Value> _value = probabilities.getValue();
+      DoubleValue _createDoubleValue = ExecutionFactory.eINSTANCE.createDoubleValue();
+      final Procedure1<DoubleValue> _function_2 = (DoubleValue it) -> {
+        it.setValue(p);
+      };
+      DoubleValue _doubleArrow = ObjectExtensions.<DoubleValue>operator_doubleArrow(_createDoubleValue, _function_2);
+      _value.add(_doubleArrow);
+    }
+    final duc.uscript.uScript.Class distType = internalTypeDcl.getPoissBinDistClass(_self);
     ObjectInstance _createObjectInstance = ExecutionFactory.eINSTANCE.createObjectInstance();
     final Procedure1<ObjectInstance> _function_3 = (ObjectInstance it) -> {
-      it.setType(dblMultPossObjType);
+      it.setType(distType);
     };
-    final ObjectInstance multPossObjIns = ObjectExtensions.<ObjectInstance>operator_doubleArrow(_createObjectInstance, _function_3);
-    state.getObjectsHeap().add(multPossObjIns);
-    EList<FieldBinding> _fieldbindings = multPossObjIns.getFieldbindings();
+    final ObjectInstance dist = ObjectExtensions.<ObjectInstance>operator_doubleArrow(_createObjectInstance, _function_3);
+    state.getObjectsHeap().add(dist);
+    EList<FieldBinding> _fieldbindings = dist.getFieldbindings();
     FieldBinding _createFieldBinding = ExecutionFactory.eINSTANCE.createFieldBinding();
     final Procedure1<FieldBinding> _function_4 = (FieldBinding it) -> {
       final Function1<Field, Boolean> _function_5 = (Field it_1) -> {
         String _name = it_1.getName();
-        return Boolean.valueOf(Objects.equal(_name, "possibilities"));
+        return Boolean.valueOf(Objects.equal(_name, "initBernProbs"));
       };
-      it.setField(IterableExtensions.<Field>findFirst(Iterables.<Field>filter(dblMultPossObjType.getMembers(), Field.class), _function_5));
+      it.setField(IterableExtensions.<Field>findFirst(Iterables.<Field>filter(distType.getMembers(), Field.class), _function_5));
       ArrayRefValue _createArrayRefValue = ExecutionFactory.eINSTANCE.createArrayRefValue();
       final Procedure1<ArrayRefValue> _function_6 = (ArrayRefValue it_1) -> {
-        it_1.setInstance(possibilitiesInstance);
+        it_1.setInstance(initBernProbs);
       };
       ArrayRefValue _doubleArrow_1 = ObjectExtensions.<ArrayRefValue>operator_doubleArrow(_createArrayRefValue, _function_6);
       it.setValue(_doubleArrow_1);
     };
     FieldBinding _doubleArrow_1 = ObjectExtensions.<FieldBinding>operator_doubleArrow(_createFieldBinding, _function_4);
     _fieldbindings.add(_doubleArrow_1);
-    final duc.uscript.uScript.Class multPossType = internalTypeDcl.getMultChoiceClass(_self);
-    EList<FieldBinding> _fieldbindings_1 = multPossObjIns.getFieldbindings();
+    EList<FieldBinding> _fieldbindings_1 = dist.getFieldbindings();
     FieldBinding _createFieldBinding_1 = ExecutionFactory.eINSTANCE.createFieldBinding();
     final Procedure1<FieldBinding> _function_5 = (FieldBinding it) -> {
       final Function1<Field, Boolean> _function_6 = (Field it_1) -> {
         String _name = it_1.getName();
-        return Boolean.valueOf(Objects.equal(_name, "rootProbs"));
+        return Boolean.valueOf(Objects.equal(_name, "probabilities"));
       };
-      it.setField(IterableExtensions.<Field>findFirst(Iterables.<Field>filter(multPossType.getMembers(), Field.class), _function_6));
+      it.setField(IterableExtensions.<Field>findFirst(Iterables.<Field>filter(distType.getMembers(), Field.class), _function_6));
       ArrayRefValue _createArrayRefValue = ExecutionFactory.eINSTANCE.createArrayRefValue();
       final Procedure1<ArrayRefValue> _function_7 = (ArrayRefValue it_1) -> {
-        it_1.setInstance(arrayProbs);
+        it_1.setInstance(probabilities);
       };
       ArrayRefValue _doubleArrow_2 = ObjectExtensions.<ArrayRefValue>operator_doubleArrow(_createArrayRefValue, _function_7);
       it.setValue(_doubleArrow_2);
     };
     FieldBinding _doubleArrow_2 = ObjectExtensions.<FieldBinding>operator_doubleArrow(_createFieldBinding_1, _function_5);
     _fieldbindings_1.add(_doubleArrow_2);
-    ObjectRefValue _createObjectRefValue = ExecutionFactory.eINSTANCE.createObjectRefValue();
-    final Procedure1<ObjectRefValue> _function_6 = (ObjectRefValue it) -> {
-      it.setInstance(multPossObjIns);
+    final duc.uscript.uScript.Class poissBinIntClass = internalTypeDcl.getPoissBinIntClass(_self);
+    final duc.uscript.uScript.Class poissBinTypeClass = internalTypeDcl.getPoissBinClass(_self);
+    ObjectInstance _createObjectInstance_1 = ExecutionFactory.eINSTANCE.createObjectInstance();
+    final Procedure1<ObjectInstance> _function_6 = (ObjectInstance it) -> {
+      it.setType(poissBinIntClass);
     };
-    return ObjectExtensions.<ObjectRefValue>operator_doubleArrow(_createObjectRefValue, _function_6);
+    final ObjectInstance poissBinInt = ObjectExtensions.<ObjectInstance>operator_doubleArrow(_createObjectInstance_1, _function_6);
+    final double fSum = sum;
+    state.getObjectsHeap().add(poissBinInt);
+    EList<FieldBinding> _fieldbindings_2 = poissBinInt.getFieldbindings();
+    FieldBinding _createFieldBinding_2 = ExecutionFactory.eINSTANCE.createFieldBinding();
+    final Procedure1<FieldBinding> _function_7 = (FieldBinding it) -> {
+      final Function1<Field, Boolean> _function_8 = (Field it_1) -> {
+        String _name = it_1.getName();
+        return Boolean.valueOf(Objects.equal(_name, "confidence"));
+      };
+      it.setField(IterableExtensions.<Field>findFirst(Iterables.<Field>filter(poissBinTypeClass.getMembers(), Field.class), _function_8));
+      ObjectRefValue _createObjectRefValue = ExecutionFactory.eINSTANCE.createObjectRefValue();
+      final Procedure1<ObjectRefValue> _function_9 = (ObjectRefValue it_1) -> {
+        it_1.setInstance(dist);
+      };
+      ObjectRefValue _doubleArrow_3 = ObjectExtensions.<ObjectRefValue>operator_doubleArrow(_createObjectRefValue, _function_9);
+      it.setValue(_doubleArrow_3);
+    };
+    FieldBinding _doubleArrow_3 = ObjectExtensions.<FieldBinding>operator_doubleArrow(_createFieldBinding_2, _function_7);
+    _fieldbindings_2.add(_doubleArrow_3);
+    EList<FieldBinding> _fieldbindings_3 = poissBinInt.getFieldbindings();
+    FieldBinding _createFieldBinding_3 = ExecutionFactory.eINSTANCE.createFieldBinding();
+    final Procedure1<FieldBinding> _function_8 = (FieldBinding it) -> {
+      final Function1<Field, Boolean> _function_9 = (Field it_1) -> {
+        String _name = it_1.getName();
+        return Boolean.valueOf(Objects.equal(_name, "value"));
+      };
+      it.setField(IterableExtensions.<Field>findFirst(Iterables.<Field>filter(poissBinIntClass.getMembers(), Field.class), _function_9));
+      IntegerValue _createIntegerValue = ExecutionFactory.eINSTANCE.createIntegerValue();
+      final Procedure1<IntegerValue> _function_10 = (IntegerValue it_1) -> {
+        long _round = Math.round(fSum);
+        it_1.setValue(((int) _round));
+      };
+      IntegerValue _doubleArrow_4 = ObjectExtensions.<IntegerValue>operator_doubleArrow(_createIntegerValue, _function_10);
+      it.setValue(_doubleArrow_4);
+    };
+    FieldBinding _doubleArrow_4 = ObjectExtensions.<FieldBinding>operator_doubleArrow(_createFieldBinding_3, _function_8);
+    _fieldbindings_3.add(_doubleArrow_4);
+    ObjectRefValue _createObjectRefValue = ExecutionFactory.eINSTANCE.createObjectRefValue();
+    final Procedure1<ObjectRefValue> _function_9 = (ObjectRefValue it) -> {
+      it.setInstance(poissBinInt);
+    };
+    return ObjectExtensions.<ObjectRefValue>operator_doubleArrow(_createObjectRefValue, _function_9);
   }
   
   private static SymbolSet super_findDependentVariables(final Plus _self, final State state) {

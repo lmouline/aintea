@@ -17,6 +17,7 @@ import duc.uscript.uScript.Multiplication
 import duc.uscript.uScript.Division
 import com.google.inject.Inject
 import duc.uscript.typing.TypeResolver
+import static extension duc.uscript.UScriptModelHelper.getFullQualifiedNamed
 
 class ArthTypeValidator extends AbstractUScriptValidator {
 	@Inject extension TypeResolver
@@ -43,7 +44,7 @@ class ArthTypeValidator extends AbstractUScriptValidator {
 		val leftType = type(plus.left)
 		val rightType = type(plus.right)
 		
-		if(!isNumber(leftType) && leftType != STRING_TYPE) {
+		if(!isNumber(leftType) && leftType.fullQualifiedNamed != STRING_TYPE) {
 			error(
 				'''Plus operation is only allowed between two numerical or string elements.«leftType.name»''', 
 				plus, 
@@ -51,7 +52,7 @@ class ArthTypeValidator extends AbstractUScriptValidator {
 			)
 		}
 		
-		if(!isNumber(rightType) && rightType != STRING_TYPE ) {
+		if(!isNumber(rightType) && rightType.fullQualifiedNamed != STRING_TYPE ) {
 			error(
 				'''Plus operation is only allowed between two numerical or string elements.«rightType.name»''', 
 				plus, 

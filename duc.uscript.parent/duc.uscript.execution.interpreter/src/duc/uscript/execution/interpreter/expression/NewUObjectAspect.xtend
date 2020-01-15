@@ -24,7 +24,8 @@ import duc.uscript.utils.SymbolSet
 import duc.uscript.uScript.Expression
 import duc.uscript.utils.Range
 import duc.uscript.utils.RangeFactory
-import duc.uscript.uScript.MultPossibilitiesRef
+//import duc.uscript.uScript.MultPossibilitiesRef
+import duc.uscript.uScript.PoissonBinomialRef
 
 @Aspect(className=NewUObject)
 class NewUObjectAspect extends ExpressionAspect{
@@ -42,7 +43,8 @@ class NewUObjectAspect extends ExpressionAspect{
 			BinomialRef: createDistNumeric(_self, state, internalTypeDcl, typeResolver)
 			DiracRef: createDistNumeric(_self, state, internalTypeDcl, typeResolver)
 			BernoulliRef: createDistBool(_self, state, internalTypeDcl, typeResolver)
-			MultPossibilitiesRef: createMultChoices(_self, state, internalTypeDcl, typeResolver)
+			PoissonBinomialRef: createPoissBin(_self, state, internalTypeDcl, typeResolver)
+//			MultPossibilitiesRef: createMultChoices(_self, state, internalTypeDcl, typeResolver)
 			default: throw new RuntimeException("Not yet implemented for " + _self.type.class.name)
 		}
 	}
@@ -99,14 +101,36 @@ class NewUObjectAspect extends ExpressionAspect{
 		return ExecutionFactory::eINSTANCE.createObjectRefValue => [instance = result]
 	}
 	
-	private def static Value createMultChoices(State state, InternalTypeDcl typeDcl, TypeResolver typeResolver) {
-		val res = ExecutionFactory::eINSTANCE.createObjectInstance => [
-			type = typeResolver.type(_self.type)
+//	private def static Value createMultChoices(State state, InternalTypeDcl typeDcl, TypeResolver typeResolver) {
+//		val res = ExecutionFactory::eINSTANCE.createObjectInstance => [
+//			type = typeResolver.type(_self.type)
+//		]
+//		state.objectsHeap.add(res)
+//		
+//		return ExecutionFactory::eINSTANCE.createObjectRefValue => [instance = res]
+//		
+//	}
+
+	private def static Value createPoissBin(State state, InternalTypeDcl typeDcl, TypeResolver typeResolver) {
+		
+		val distInsc = ExecutionFactory::eINSTANCE.createObjectInstance => [
+			type = typeDcl.getUType(_self.type)
 		]
-		state.objectsHeap.add(res)
+		state.objectsHeap.add(distInsc)
+		val distRef = ExecutionFactory::eINSTANCE.createObjectRefValue => [ instance = distInsc]
 		
-		return ExecutionFactory::eINSTANCE.createObjectRefValue => [instance = res]
+		// PoissonBinomialInt object
+		val finalType = typeResolver.type(_self.type)
+		val result = ExecutionFactory::eINSTANCE.createObjectInstance => [
+			type = finalType
+		]
+		state.objectsHeap.add(result)
+		result.fieldbindings.add(ExecutionFactory::eINSTANCE.createFieldBinding =>[
+			field= typeDcl.getPoissBinClass(_self).members.filter(Field).findFirst[it.name == "confidence"]
+			value=distRef
+		])
 		
+		return ExecutionFactory::eINSTANCE.createObjectRefValue => [instance = result]
 	}
 	
 	@OverrideAspectMethod

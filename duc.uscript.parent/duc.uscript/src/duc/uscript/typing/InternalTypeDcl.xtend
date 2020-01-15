@@ -10,6 +10,7 @@ import duc.uscript.uScript.RayleighRef
 import duc.uscript.uScript.BinomialRef
 import duc.uscript.uScript.DiracRef
 import duc.uscript.uScript.BernoulliRef
+import duc.uscript.uScript.PoissonBinomialRef
 
 class InternalTypeDcl {
 	@Inject extension UScriptIndex
@@ -47,6 +48,7 @@ class InternalTypeDcl {
 	public static final String RAYLEIGH_DIST_TYPE = LIB_PACK + ".RayleighDist"
 	public static final String BINOMIAL_DIST_TYPE = LIB_PACK + ".BinomialDist"
 	public static final String DIRAC_DIST_TYPE = LIB_PACK + ".DiracDeltaFunction"
+	public static final String POISS_BIN_DIST_TYPE = LIB_PACK + ".PoissonBinomialDist"
 	
 	public static final String UNCERTAIN_TYPE = LIB_PACK + ".UncertainType"
 	
@@ -77,21 +79,24 @@ class InternalTypeDcl {
 	public static final String DIRAC_DOUBLE_TYPE = LIB_PACK + ".DiracDeltaFunctionDouble"
 	public static final String DIRAC_FLOAT_TYPE = LIB_PACK + ".DiracDeltaFunctionFloat"
 	
-	public static final String MULTPOSS_TYPE = LIB_PACK + ".MultPossibilitiesType"
-	public static final String MULTPOSS_BYTE_TYPE = LIB_PACK + ".MultPossibilitiesByte"
-	public static final String MULTPOSS_SHORT_TYPE = LIB_PACK + ".MultPossibilitiesShort"
-	public static final String MULTPOSS_INT_TYPE = LIB_PACK + ".MultPossibilitiesInt"
-	public static final String MULTPOSS_LONG_TYPE = LIB_PACK + ".MultPossibilitiesLong"
-	public static final String MULTPOSS_FLOAT_TYPE = LIB_PACK + ".MultPossibilitiesFloat"
-	public static final String MULTPOSS_DOUBLE_TYPE = LIB_PACK + ".MultPossibilitiesDouble"
-
-	public static final String POSSIBILITY_TYPE = LIB_PACK + ".Possibility"
-	public static final String POSSIBILITY_BYTE_TYPE = LIB_PACK + ".BytePossibility"
-	public static final String POSSIBILITY_SHORT_TYPE = LIB_PACK + ".ShortPossibility"
-	public static final String POSSIBILITY_INT_TYPE = LIB_PACK + ".IntPossibility"
-	public static final String POSSIBILITY_LONG_TYPE = LIB_PACK + ".LongPossibility"
-	public static final String POSSIBILITY_FLOAT_TYPE = LIB_PACK + ".FloatPossibility"
-	public static final String POSSIBILITY_DOUBLE_TYPE = LIB_PACK + ".DoublePossibility"
+	public static final String POISSBIN_TYPE = LIB_PACK + ".PoissonBinomialType"
+	public static final String POISSBIN_INT_TYPE = LIB_PACK + ".PoissonBinomialInt"
+	
+//	public static final String MULTPOSS_TYPE = LIB_PACK + ".MultPossibilitiesType"
+//	public static final String MULTPOSS_BYTE_TYPE = LIB_PACK + ".MultPossibilitiesByte"
+//	public static final String MULTPOSS_SHORT_TYPE = LIB_PACK + ".MultPossibilitiesShort"
+//	public static final String MULTPOSS_INT_TYPE = LIB_PACK + ".MultPossibilitiesInt"
+//	public static final String MULTPOSS_LONG_TYPE = LIB_PACK + ".MultPossibilitiesLong"
+//	public static final String MULTPOSS_FLOAT_TYPE = LIB_PACK + ".MultPossibilitiesFloat"
+//	public static final String MULTPOSS_DOUBLE_TYPE = LIB_PACK + ".MultPossibilitiesDouble"
+//
+//	public static final String POSSIBILITY_TYPE = LIB_PACK + ".Possibility"
+//	public static final String POSSIBILITY_BYTE_TYPE = LIB_PACK + ".BytePossibility"
+//	public static final String POSSIBILITY_SHORT_TYPE = LIB_PACK + ".ShortPossibility"
+//	public static final String POSSIBILITY_INT_TYPE = LIB_PACK + ".IntPossibility"
+//	public static final String POSSIBILITY_LONG_TYPE = LIB_PACK + ".LongPossibility"
+//	public static final String POSSIBILITY_FLOAT_TYPE = LIB_PACK + ".FloatPossibility"
+//	public static final String POSSIBILITY_DOUBLE_TYPE = LIB_PACK + ".DoublePossibility"
 	
 	
 	
@@ -153,6 +158,10 @@ class InternalTypeDcl {
 	
 	def Class getRayleighDistClass(EObject ctx) {
 		return ctx.getClassFromFqn(RAYLEIGH_DIST_TYPE)
+	}
+	
+	def Class getPoissBinDistClass(EObject ctx) {
+		return ctx.getClassFromFqn(POISS_BIN_DIST_TYPE)
 	}
 	
 	def Class getBernoulliClass(EObject ctx) {
@@ -239,47 +248,56 @@ class InternalTypeDcl {
 		return ctx.getClassFromFqn(BINOMIAL_BYTE_TYPE)
 	}
 	
+	// Poisson binomial
+	def Class getPoissBinClass(EObject ctx) {
+		return ctx.getClassFromFqn(POISSBIN_TYPE)
+	}
+	
+	def Class getPoissBinIntClass(EObject ctx) {
+		return ctx.getClassFromFqn(POISSBIN_INT_TYPE)
+	}
+	
 	// Multiple possibilities
-	def Class getMultChoiceClass(EObject ctx) {
-		return ctx.getClassFromFqn(MULTPOSS_TYPE)
-	}
-	
-	def Class getMultChoiceByteClass(EObject ctx) {
-		return ctx.getClassFromFqn(MULTPOSS_BYTE_TYPE)
-	}
-	
-	def Class getMultChoiceShortClass(EObject ctx) {
-		return ctx.getClassFromFqn(MULTPOSS_SHORT_TYPE)
-	}
-	
-	def Class getMultChoiceIntClass(EObject ctx) {
-		return ctx.getClassFromFqn(MULTPOSS_INT_TYPE)
-	}
-	
-	def Class getMultChoiceLongClass(EObject ctx) {
-		return ctx.getClassFromFqn(MULTPOSS_LONG_TYPE)
-	}
-	
-	def Class getMultChoiceFloatClass(EObject ctx) {
-		return ctx.getClassFromFqn(MULTPOSS_FLOAT_TYPE)
-	}
-	
-	def Class getMultChoiceDoubleClass(EObject ctx) {
-		return ctx.getClassFromFqn(MULTPOSS_DOUBLE_TYPE)
-	}
-	
-	// Possibilities
-	def Class getPossibilityClass(EObject ctx) {
-		return ctx.getClassFromFqn(POSSIBILITY_TYPE)
-	}
-	
-	def Class getDoublePossibilityClass(EObject ctx) {
-		return ctx.getClassFromFqn(POSSIBILITY_DOUBLE_TYPE)
-	}
-	
-	def Class getIntPossibilityClass(EObject ctx) {
-		return ctx.getClassFromFqn(POSSIBILITY_INT_TYPE)
-	}
+//	def Class getMultChoiceClass(EObject ctx) {
+//		return ctx.getClassFromFqn(MULTPOSS_TYPE)
+//	}
+//	
+//	def Class getMultChoiceByteClass(EObject ctx) {
+//		return ctx.getClassFromFqn(MULTPOSS_BYTE_TYPE)
+//	}
+//	
+//	def Class getMultChoiceShortClass(EObject ctx) {
+//		return ctx.getClassFromFqn(MULTPOSS_SHORT_TYPE)
+//	}
+//	
+//	def Class getMultChoiceIntClass(EObject ctx) {
+//		return ctx.getClassFromFqn(MULTPOSS_INT_TYPE)
+//	}
+//	
+//	def Class getMultChoiceLongClass(EObject ctx) {
+//		return ctx.getClassFromFqn(MULTPOSS_LONG_TYPE)
+//	}
+//	
+//	def Class getMultChoiceFloatClass(EObject ctx) {
+//		return ctx.getClassFromFqn(MULTPOSS_FLOAT_TYPE)
+//	}
+//	
+//	def Class getMultChoiceDoubleClass(EObject ctx) {
+//		return ctx.getClassFromFqn(MULTPOSS_DOUBLE_TYPE)
+//	}
+//	
+//	// Possibilities
+//	def Class getPossibilityClass(EObject ctx) {
+//		return ctx.getClassFromFqn(POSSIBILITY_TYPE)
+//	}
+//	
+//	def Class getDoublePossibilityClass(EObject ctx) {
+//		return ctx.getClassFromFqn(POSSIBILITY_DOUBLE_TYPE)
+//	}
+//	
+//	def Class getIntPossibilityClass(EObject ctx) {
+//		return ctx.getClassFromFqn(POSSIBILITY_INT_TYPE)
+//	}
 	
 	//
 	
@@ -375,6 +393,10 @@ class InternalTypeDcl {
 	
 	def dispatch Class getUType(BernoulliRef uType) {
 		return uType.bernoulliClass
+	}
+	
+	def dispatch Class getUType(PoissonBinomialRef uType) {
+		return uType.poissBinClass
 	}
 				
 }

@@ -102,7 +102,7 @@ ClassRef:
 ;
 
 UTypeRef:
-	(GaussianRef | BernoulliRef | RayleighRef | BinomialRef | DiracRef | MultPossibilitiesRef) ('<' genericType=SingleTypeRef '>')?
+	(GaussianRef | BernoulliRef | RayleighRef | BinomialRef | DiracRef | PoissonBinomialRef) ('<' genericType=SingleTypeRef '>')?
 ;
 
 GaussianRef:
@@ -125,9 +125,13 @@ DiracRef:
 	{DiracRef} 'DiracDeltaFct'
 ;
 
-MultPossibilitiesRef:
-	{MultPossibilitiesRef} 'MultPossibilities'
+PoissonBinomialRef:
+	{PoissonBinomialRef} 'PoissonBinomial'
 ;
+
+//MultPossibilitiesRef:
+//	{MultPossibilitiesRef} 'MultPossibilities'
+//;
 
 VariableDeclaration:
 	typeRef=TypeRef name=ID

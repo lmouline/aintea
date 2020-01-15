@@ -112,13 +112,7 @@ City init() {
 
 void main() {
 	City city = init();
-	MultPossibilities<int> nbTrafficJam = city.nbTrafficJams();
-//	// DEBUG
-//	IntPossibility[] poss = nbTrafficJam.possibilities;
-//	print(poss.length);
-//	for(int i=0; i<poss.length; i = i + 1) {
-//		print(poss[i]);
-//	}
+	PoissonBinomial<int> nbTrafficJam = city.nbTrafficJams();
 	if((nbTrafficJam > 2)[0.6]) {
 		print("[Traffic jam] ALERT! Situation is problematic, requires decision...");
 	} else {

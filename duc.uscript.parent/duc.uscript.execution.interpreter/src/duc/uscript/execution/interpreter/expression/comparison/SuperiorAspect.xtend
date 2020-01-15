@@ -26,9 +26,7 @@ import duc.uscript.execution.ObjectRefValue
 import duc.uscript.execution.interpreter.utils.GaussianDoubleUtils
 import duc.uscript.execution.interpreter.utils.BernoulliBoolUtils
 import static duc.uscript.typing.TypeConcordance.*
-import duc.uscript.uScript.Field
-import duc.uscript.execution.ArrayInstance
-import duc.uscript.execution.ArrayRefValue
+import static duc.uscript.execution.interpreter.utils.MultPossibilityUtils.*
 
 @Aspect(className=Superior)
 class SuperiorAspect extends ExpressionAspect {
@@ -311,8 +309,8 @@ class SuperiorAspect extends ExpressionAspect {
 	private def Value superior(State state, IntegerValue x, ObjectRefValue y, boolean inverse) {
 		if(isGaussian(y.instance.type)) {
 			return superiorGauss(_self, state, x, y, inverse)
-		} else if(isMultPoss(y.instance.type)) {
-			return superiorMultPoss(_self, state, x, y, inverse)
+		} else if(isPoissonBinomial(y.instance.type)) {
+			return superiorPoissBin(_self, state, x, y, inverse)
 		} else {
 			val message = if(inverse) {
 				'''«y.instance.type» > «IntegerValue.name»'''
@@ -357,22 +355,34 @@ class SuperiorAspect extends ExpressionAspect {
 		]		
 	}
 	
-	private def Value superiorMultPoss(State state, IntegerValue x, ObjectRefValue y, boolean inverse) {
+	private def Value superiorPoissBin(State state, IntegerValue x, ObjectRefValue y, boolean inverse) {
 		val intVal = x.value
 		
-		val yInstance = y.instance
-		val possibilities = yInstance.fieldbindings.findFirst[it.field.name == "possibilities"].value as ArrayRefValue
-		val arrInstance = possibilities.instance
+//		val yInstance = y.instance
+//		val possibilities = yInstance.fieldbindings.findFirst[it.field.name == "possibilities"].value as ArrayRefValue
+//		val arrInstance = possibilities.instance
+
+		val double[] probabilities = extractProbs(y.instance)
+		val int yValue = extractValue(y.instance)
 		
 		var double sum = 0
 		
-		for(var i=intVal + 1; i<arrInstance.size; i++) {
-			val elmt = arrInstance.value.get(i) as ObjectRefValue
-			val prob = elmt.instance.fieldbindings.findFirst[it.field.name == "confidence"].value as DoubleValue
-			sum += prob.value
+//		for(var i=intVal + 1; i<arrInstance.size; i++) {
+//			val elmt = arrInstance.value.get(i) as ObjectRefValue
+//			val prob = elmt.instance.fieldbindings.findFirst[it.field.name == "confidence"].value as DoubleValue
+//			sum += prob.value
+//		}
+		for(var i=intVal + 1; i<probabilities.size; i++) {
+			sum += probabilities.get(i)
 		}
 		
-		val bernoulli = BernoulliBoolUtils.createBernoulliBool(state, sum, true, _self);		
+		val boolean value = if(inverse) {
+			yValue > intVal
+		} else {
+			intVal > yValue
+		}
+		
+		val bernoulli = BernoulliBoolUtils.createBernoulliBool(state, sum, value, _self);		
 		
 		return ExecutionFactory::eINSTANCE.createObjectRefValue => [instance = bernoulli]
 		

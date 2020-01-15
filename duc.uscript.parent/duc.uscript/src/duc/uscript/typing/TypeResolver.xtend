@@ -63,9 +63,8 @@ import java.util.HashMap
 import java.util.Map
 import duc.uscript.uScript.UScriptFactory
 import duc.uscript.uScript.UTypeRef
-import duc.uscript.uScript.MultPossibilitiesRef
 import duc.uscript.uScript.ComputeNbTrueExpr
-import static duc.uscript.UScriptModelHelper.*
+import duc.uscript.uScript.PoissonBinomialRef
 
 class TypeResolver {
 	@Inject extension InternalTypeDcl
@@ -191,8 +190,12 @@ class TypeResolver {
 			return left.getClassFromFqn(BINOMIAL_TYPE)
 		}
 		
-		if(is(left, MULTPOSS_TYPE) && is(right, MULTPOSS_TYPE)) {
-			return left.getClassFromFqn(MULTPOSS_TYPE)
+//		if(is(left, MULTPOSS_TYPE) && is(right, MULTPOSS_TYPE)) {
+//			return left.getClassFromFqn(MULTPOSS_TYPE)
+//		}
+
+		if(is(left, POISSBIN_TYPE) && is(right, POISSBIN_TYPE)) {
+			return left.getClassFromFqn(POISSBIN_TYPE)
 		}
 		
 		throw new RuntimeException('''Uncertain type unknown for arithmetic operation between «left.name» and «right.name»''')	
@@ -237,11 +240,16 @@ class TypeResolver {
 			if(type == DOUBLE_TYPE) {
 				return left.rayleighDoubleClass
 			}
-		} else if(uTypeName == MULTPOSS_TYPE) {
+		} /*else if(uTypeName == MULTPOSS_TYPE) {
 			if(type ==  INT_TYPE) {
 				return left.multChoiceIntClass
 			}
-		}
+		}*/
+			else if(uTypeName == POISSBIN_TYPE) {
+				if(type == INT_TYPE) {
+					return left.poissBinIntClass
+				}
+			}
 		
 		throw new RuntimeException('''Class typeArthExpr(Class, Class) not implemented for utype[«uTypeName»] and type «type» ''')
 	}
@@ -379,7 +387,7 @@ class TypeResolver {
 	}
 	
 	def dispatch Class type(ComputeNbTrueExpr compute) {
-		compute.multChoiceIntClass
+		compute.poissBinIntClass
 	}
 	
 	def dispatch Class type(VariableDeclaration varDcl) {
@@ -473,7 +481,7 @@ class TypeResolver {
 					default: r.bernoulliDistClass
 				}
 			}
-			MultPossibilitiesRef: {
+			/*MultPossibilitiesRef: {
 				switch r.genericType {
 					ByteTypeRef: r.multChoiceByteClass
 					ShortTypeRef: r.multChoiceShortClass
@@ -482,6 +490,12 @@ class TypeResolver {
 					DoubleTypeRef: r.multChoiceDoubleClass
 					FloatTypeRef: r.multChoiceFloatClass
 					default: r.multChoiceClass
+				}
+			}*/
+			PoissonBinomialRef: {
+				switch r.genericType {
+					IntegerTypeRef: r.poissBinIntClass
+					default: r.poissBinClass
 				}
 			}
 			default: throw new RuntimeException('''Type not implemented in [Class type(TypeRef r)] function: «r»''')

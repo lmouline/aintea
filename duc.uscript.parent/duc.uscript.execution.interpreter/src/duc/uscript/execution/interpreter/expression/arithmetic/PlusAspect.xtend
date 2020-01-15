@@ -312,8 +312,8 @@ class PlusAspect extends ExpressionAspect {
 	private def ObjectRefValue p(State state, ObjectRefValue x, ObjectRefValue y) {
 		if(isGaussian(y.instance.type)) {
 			return plusGauss(_self, state, x, y)
-		} else if(isMultPoss(y.instance.type)) {
-			return plusMultPoss(_self, state, x, y)
+		} else if(isPoissonBinomial(y.instance.type)) {
+			return plusPoissBin(_self, state, x, y)
 		} else {
 			throw new RuntimeException('''«x.instance.type» + «y.instance.type» not yet implemented.''')
 		}
@@ -339,7 +339,7 @@ class PlusAspect extends ExpressionAspect {
 		return ExecutionFactory::eINSTANCE.createObjectRefValue => [instance = result]
 	}
 	
-	private def ObjectRefValue plusMultPoss(State state, ObjectRefValue x, ObjectRefValue y) {
+	private def ObjectRefValue plusPoissBin(State state, ObjectRefValue x, ObjectRefValue y) {
 		val double[] probsX = extractProbs(x.instance)
 		val double[] probsY = extractProbs(y.instance)
 		
@@ -347,67 +347,120 @@ class PlusAspect extends ExpressionAspect {
 		System.arraycopy(probsX, 0, probsRes, 0, probsX.length)
 		System.arraycopy(probsY, 0, probsRes, probsX.length, probsY.length)
 		
-		val sum = compute(probsRes)
+		val double[] plusRes = compute(probsRes)
 		
 		val Injector injector = new UScriptStandaloneSetupGenerated().createInjector()
 		val internalTypeDcl = injector.getInstance(InternalTypeDcl)
 		
-		// Array of probs
-		val arrayProbs = ExecutionFactory::eINSTANCE.createArrayInstance => [
+		// PoissonBinomialDist
+		// double[] initBernProbs;
+		val initBernProbs = ExecutionFactory::eINSTANCE.createArrayInstance => [
 			size = probsRes.length
 		]
-		state.arraysHeap.add(arrayProbs)
+		state.arraysHeap.add(initBernProbs)
+		var double sum = 0;
 		for(pRes: probsRes) {
-			arrayProbs.value.add(ExecutionFactory::eINSTANCE.createDoubleValue => [value = pRes])
+			initBernProbs.value.add(ExecutionFactory::eINSTANCE.createDoubleValue => [value = pRes])
+			sum += pRes
 		}
 		
-		// Array of possibilities
-		val possibilitiesInstance = ExecutionFactory::eINSTANCE.createArrayInstance => [
-			size = sum.length
+		// double[] probabilities;
+		val probabilities = ExecutionFactory::eINSTANCE.createArrayInstance => [
+			size = plusRes.length
 		]
-		state.arraysHeap.add(possibilitiesInstance)
-		
-		val intPossType = internalTypeDcl.getIntPossibilityClass(_self)
-		val possType = internalTypeDcl.getPossibilityClass(_self)
-		for(var i=0; i< sum.length; i++) {
-			val probVal = ExecutionFactory::eINSTANCE.createObjectInstance => [
-				type = intPossType
-			]
-			state.objectsHeap.add(probVal)
-			
-			val p = sum.get(i)
-			val fi = i
-			probVal.fieldbindings.add(ExecutionFactory::eINSTANCE.createFieldBinding => [
-				field = possType.members.filter(Field).findFirst[ it.name == "confidence"]
-				value = ExecutionFactory::eINSTANCE.createDoubleValue => [value = p]
-			])
-			probVal.fieldbindings.add(ExecutionFactory::eINSTANCE.createFieldBinding => [
-				field = intPossType.members.filter(Field).findFirst[it.name == "value"]
-				value = ExecutionFactory::eINSTANCE.createIntegerValue => [value = fi]
-			])
-			possibilitiesInstance.value.add(ExecutionFactory::eINSTANCE.createObjectRefValue => [instance = probVal])
+		state.arraysHeap.add(probabilities)
+		for(p: plusRes) {
+			probabilities.value.add(ExecutionFactory::eINSTANCE.createDoubleValue => [value = p])
 		}
 		
-		
-		
-		// General obj
-		val dblMultPossObjType = internalTypeDcl.getMultChoiceDoubleClass(_self)
-		val multPossObjIns = ExecutionFactory::eINSTANCE.createObjectInstance => [
-			type = dblMultPossObjType
+		val distType = internalTypeDcl.getPoissBinDistClass(_self)
+		val dist = ExecutionFactory::eINSTANCE.createObjectInstance => [
+			type = distType
 		]
-		state.objectsHeap.add(multPossObjIns)
-		multPossObjIns.fieldbindings.add(ExecutionFactory::eINSTANCE.createFieldBinding => [
-			field = dblMultPossObjType.members.filter(Field).findFirst[it.name == "possibilities"]
-			value = ExecutionFactory::eINSTANCE.createArrayRefValue => [instance = possibilitiesInstance]
-		])
-		val multPossType = internalTypeDcl.getMultChoiceClass(_self)
-		multPossObjIns.fieldbindings.add(ExecutionFactory::eINSTANCE.createFieldBinding => [
-			field = multPossType.members.filter(Field).findFirst[it.name == "rootProbs"]
-			value = ExecutionFactory::eINSTANCE.createArrayRefValue => [instance = arrayProbs ]
+		state.objectsHeap.add(dist)
+		dist.fieldbindings.add(ExecutionFactory::eINSTANCE.createFieldBinding => [
+			field= distType.members.filter(Field).findFirst[it.name == "initBernProbs"]
+			value = ExecutionFactory::eINSTANCE.createArrayRefValue => [instance = initBernProbs]
 		])
 		
+		dist.fieldbindings.add(ExecutionFactory::eINSTANCE.createFieldBinding => [
+			field = distType.members.filter(Field).findFirst[it.name == "probabilities"]
+			value = ExecutionFactory::eINSTANCE.createArrayRefValue => [ instance = probabilities]
+		])
 		
-		return ExecutionFactory::eINSTANCE.createObjectRefValue => [instance = multPossObjIns];
+		// PoissonBinomialInt
+		val poissBinIntClass = internalTypeDcl.getPoissBinIntClass(_self)
+		val poissBinTypeClass = internalTypeDcl.getPoissBinClass(_self)
+		val poissBinInt = ExecutionFactory::eINSTANCE.createObjectInstance => [ type = poissBinIntClass]
+		val fSum = sum
+		state.objectsHeap.add(poissBinInt)
+		poissBinInt.fieldbindings.add(ExecutionFactory::eINSTANCE.createFieldBinding => [
+			field = poissBinTypeClass.members.filter(Field).findFirst[it.name == "confidence"]
+			value = ExecutionFactory::eINSTANCE.createObjectRefValue => [instance = dist]
+		])
+		poissBinInt.fieldbindings.add(ExecutionFactory::eINSTANCE.createFieldBinding => [
+			field = poissBinIntClass.members.filter(Field).findFirst[it.name == "value"]
+			value = ExecutionFactory::eINSTANCE.createIntegerValue => [value = Math.round(fSum) as int]
+		])
+		
+		return ExecutionFactory::eINSTANCE.createObjectRefValue => [instance = poissBinInt]
+		
+//		// Array of probs
+//		val arrayProbs = ExecutionFactory::eINSTANCE.createArrayInstance => [
+//			size = probsRes.length
+//		]
+//		state.arraysHeap.add(arrayProbs)
+//		for(pRes: probsRes) {
+//			arrayProbs.value.add(ExecutionFactory::eINSTANCE.createDoubleValue => [value = pRes])
+//		}
+//		
+//		// Array of possibilities
+//		val possibilitiesInstance = ExecutionFactory::eINSTANCE.createArrayInstance => [
+//			size = sum.length
+//		]
+//		state.arraysHeap.add(possibilitiesInstance)
+//		
+//		val intPossType = internalTypeDcl.getIntPossibilityClass(_self)
+//		val possType = internalTypeDcl.getPossibilityClass(_self)
+//		for(var i=0; i< sum.length; i++) {
+//			val probVal = ExecutionFactory::eINSTANCE.createObjectInstance => [
+//				type = intPossType
+//			]
+//			state.objectsHeap.add(probVal)
+//			
+//			val p = sum.get(i)
+//			val fi = i
+//			probVal.fieldbindings.add(ExecutionFactory::eINSTANCE.createFieldBinding => [
+//				field = possType.members.filter(Field).findFirst[ it.name == "confidence"]
+//				value = ExecutionFactory::eINSTANCE.createDoubleValue => [value = p]
+//			])
+//			probVal.fieldbindings.add(ExecutionFactory::eINSTANCE.createFieldBinding => [
+//				field = intPossType.members.filter(Field).findFirst[it.name == "value"]
+//				value = ExecutionFactory::eINSTANCE.createIntegerValue => [value = fi]
+//			])
+//			possibilitiesInstance.value.add(ExecutionFactory::eINSTANCE.createObjectRefValue => [instance = probVal])
+//		}
+//		
+//		
+//		
+//		// General obj
+//		val dblMultPossObjType = internalTypeDcl.getMultChoiceDoubleClass(_self)
+//		val multPossObjIns = ExecutionFactory::eINSTANCE.createObjectInstance => [
+//			type = dblMultPossObjType
+//		]
+//		state.objectsHeap.add(multPossObjIns)
+//		multPossObjIns.fieldbindings.add(ExecutionFactory::eINSTANCE.createFieldBinding => [
+//			field = dblMultPossObjType.members.filter(Field).findFirst[it.name == "possibilities"]
+//			value = ExecutionFactory::eINSTANCE.createArrayRefValue => [instance = possibilitiesInstance]
+//		])
+//		val multPossType = internalTypeDcl.getMultChoiceClass(_self)
+//		multPossObjIns.fieldbindings.add(ExecutionFactory::eINSTANCE.createFieldBinding => [
+//			field = multPossType.members.filter(Field).findFirst[it.name == "rootProbs"]
+//			value = ExecutionFactory::eINSTANCE.createArrayRefValue => [instance = arrayProbs ]
+//		])
+//		
+//		
+//		return ExecutionFactory::eINSTANCE.createObjectRefValue => [instance = multPossObjIns];
 	}
 	
 	@OverrideAspectMethod
