@@ -1,6 +1,6 @@
 package smartgrid.situation1
 
-import smartgrid.situation1.*
+import smartgrid.*
 import aintea.lang.*
 
 void computeLoad(Substation substation) {
