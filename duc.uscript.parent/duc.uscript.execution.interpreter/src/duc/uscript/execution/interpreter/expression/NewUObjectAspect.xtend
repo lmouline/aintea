@@ -24,8 +24,8 @@ import duc.uscript.utils.SymbolSet
 import duc.uscript.uScript.Expression
 import duc.uscript.utils.Range
 import duc.uscript.utils.RangeFactory
-//import duc.uscript.uScript.MultPossibilitiesRef
 import duc.uscript.uScript.PoissonBinomialRef
+import duc.uscript.uScript.MultPossibilitiesRef
 
 @Aspect(className=NewUObject)
 class NewUObjectAspect extends ExpressionAspect{
@@ -44,7 +44,7 @@ class NewUObjectAspect extends ExpressionAspect{
 			DiracRef: createDistNumeric(_self, state, internalTypeDcl, typeResolver)
 			BernoulliRef: createDistBool(_self, state, internalTypeDcl, typeResolver)
 			PoissonBinomialRef: createPoissBin(_self, state, internalTypeDcl, typeResolver)
-//			MultPossibilitiesRef: createMultChoices(_self, state, internalTypeDcl, typeResolver)
+			MultPossibilitiesRef: createMultChoices(_self, state, internalTypeDcl, typeResolver)
 			default: throw new RuntimeException("Not yet implemented for " + _self.type.class.name)
 		}
 	}
@@ -101,15 +101,14 @@ class NewUObjectAspect extends ExpressionAspect{
 		return ExecutionFactory::eINSTANCE.createObjectRefValue => [instance = result]
 	}
 	
-//	private def static Value createMultChoices(State state, InternalTypeDcl typeDcl, TypeResolver typeResolver) {
-//		val res = ExecutionFactory::eINSTANCE.createObjectInstance => [
-//			type = typeResolver.type(_self.type)
-//		]
-//		state.objectsHeap.add(res)
-//		
-//		return ExecutionFactory::eINSTANCE.createObjectRefValue => [instance = res]
-//		
-//	}
+	private def static Value createMultChoices(State state, InternalTypeDcl typeDcl, TypeResolver typeResolver) {
+		val res = ExecutionFactory::eINSTANCE.createObjectInstance => [
+			type= typeResolver.type(_self.type)
+		]
+		state.objectsHeap.add(res)
+
+		return ExecutionFactory::eINSTANCE.createObjectRefValue => [instance = res]	
+	}
 
 	private def static Value createPoissBin(State state, InternalTypeDcl typeDcl, TypeResolver typeResolver) {
 		

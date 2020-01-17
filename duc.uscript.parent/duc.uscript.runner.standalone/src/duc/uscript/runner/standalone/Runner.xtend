@@ -10,17 +10,17 @@ class Runner {
 //		execute("../../sample/tutorial/thesis/example/javaLike.aintea", System.out, null)
 		
 		
-//		execute("../../sample/tutorial/Simplest.aintea", System.out, null)
+		execute("../../sample/tutorial/Simplest.aintea", System.out, null)
 		
 		
 //		execute("../../sample/tutorial/creos/situation1/runner.aintea", 
 //				System.out,
 //				"../../sample/tutorial/creos/situation1")
 
-		execute("../../motivation/smart-city/examle1-runner.aintea", 
-				System.out, 
-				"../../motivation/smart-city"
-		)
+//		execute("../../motivation/smart-city/examle1-runner.aintea", 
+//				System.out, 
+//				"../../motivation/smart-city"
+//		)
 		
 		
 

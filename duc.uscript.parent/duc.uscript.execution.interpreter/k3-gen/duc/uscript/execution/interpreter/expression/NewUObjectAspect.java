@@ -24,6 +24,7 @@ import duc.uscript.uScript.DiracRef;
 import duc.uscript.uScript.Expression;
 import duc.uscript.uScript.Field;
 import duc.uscript.uScript.GaussianRef;
+import duc.uscript.uScript.MultPossibilitiesRef;
 import duc.uscript.uScript.NewUObject;
 import duc.uscript.uScript.PoissonBinomialRef;
 import duc.uscript.uScript.RayleighRef;
@@ -70,6 +71,16 @@ public class NewUObjectAspect extends ExpressionAspect {
     // #DispatchPointCut_before# Value createDistBool(State,InternalTypeDcl,TypeResolver)
     if (_self instanceof duc.uscript.uScript.NewUObject){
     	result = duc.uscript.execution.interpreter.expression.NewUObjectAspect._privk3_createDistBool(_self_, (duc.uscript.uScript.NewUObject)_self,state,typeDcl,typeResolver);
+    };
+    return (duc.uscript.execution.Value)result;
+  }
+  
+  private static Value createMultChoices(final NewUObject _self, final State state, final InternalTypeDcl typeDcl, final TypeResolver typeResolver) {
+    final duc.uscript.execution.interpreter.expression.NewUObjectAspectNewUObjectAspectProperties _self_ = duc.uscript.execution.interpreter.expression.NewUObjectAspectNewUObjectAspectContext.getSelf(_self);
+    Object result = null;
+    // #DispatchPointCut_before# Value createMultChoices(State,InternalTypeDcl,TypeResolver)
+    if (_self instanceof duc.uscript.uScript.NewUObject){
+    	result = duc.uscript.execution.interpreter.expression.NewUObjectAspect._privk3_createMultChoices(_self_, (duc.uscript.uScript.NewUObject)_self,state,typeDcl,typeResolver);
     };
     return (duc.uscript.execution.Value)result;
   }
@@ -153,6 +164,12 @@ public class NewUObjectAspect extends ExpressionAspect {
       }
     }
     if (!_matched) {
+      if (_type instanceof MultPossibilitiesRef) {
+        _matched=true;
+        _switchResult = NewUObjectAspect.createMultChoices(_self, state, internalTypeDcl, typeResolver);
+      }
+    }
+    if (!_matched) {
       String _name = _self.getType().getClass().getName();
       String _plus = ("Not yet implemented for " + _name);
       throw new RuntimeException(_plus);
@@ -171,7 +188,7 @@ public class NewUObjectAspect extends ExpressionAspect {
     EList<FieldBinding> _fieldbindings = dist.getFieldbindings();
     FieldBinding _createFieldBinding = ExecutionFactory.eINSTANCE.createFieldBinding();
     final Procedure1<FieldBinding> _function_1 = (FieldBinding it) -> {
-      it.setField(((Field[])Conversions.unwrapArray(Iterables.<Field>filter(dist.getType().getMembers(), Field.class), Field.class))[0]);
+      it.setField(((Field[])Conversions.unwrapArray((Iterables.<Field>filter(dist.getType().getMembers(), Field.class)), Field.class))[0]);
       it.setValue(mean);
     };
     FieldBinding _doubleArrow = ObjectExtensions.<FieldBinding>operator_doubleArrow(_createFieldBinding, _function_1);
@@ -179,7 +196,7 @@ public class NewUObjectAspect extends ExpressionAspect {
     EList<FieldBinding> _fieldbindings_1 = dist.getFieldbindings();
     FieldBinding _createFieldBinding_1 = ExecutionFactory.eINSTANCE.createFieldBinding();
     final Procedure1<FieldBinding> _function_2 = (FieldBinding it) -> {
-      it.setField(((Field[])Conversions.unwrapArray(Iterables.<Field>filter(dist.getType().getMembers(), Field.class), Field.class))[1]);
+      it.setField(((Field[])Conversions.unwrapArray((Iterables.<Field>filter(dist.getType().getMembers(), Field.class)), Field.class))[1]);
       it.setValue(variance);
     };
     FieldBinding _doubleArrow_1 = ObjectExtensions.<FieldBinding>operator_doubleArrow(_createFieldBinding_1, _function_2);
@@ -199,7 +216,7 @@ public class NewUObjectAspect extends ExpressionAspect {
     EList<FieldBinding> _fieldbindings_2 = result.getFieldbindings();
     FieldBinding _createFieldBinding_2 = ExecutionFactory.eINSTANCE.createFieldBinding();
     final Procedure1<FieldBinding> _function_5 = (FieldBinding it) -> {
-      it.setField(((Field[])Conversions.unwrapArray(Iterables.<Field>filter(typeDcl.getUType(_self.getType()).getMembers(), Field.class), Field.class))[0]);
+      it.setField(((Field[])Conversions.unwrapArray((Iterables.<Field>filter(typeDcl.getUType(_self.getType()).getMembers(), Field.class)), Field.class))[0]);
       it.setValue(refDist);
     };
     FieldBinding _doubleArrow_2 = ObjectExtensions.<FieldBinding>operator_doubleArrow(_createFieldBinding_2, _function_5);
@@ -207,7 +224,7 @@ public class NewUObjectAspect extends ExpressionAspect {
     EList<FieldBinding> _fieldbindings_3 = result.getFieldbindings();
     FieldBinding _createFieldBinding_3 = ExecutionFactory.eINSTANCE.createFieldBinding();
     final Procedure1<FieldBinding> _function_6 = (FieldBinding it) -> {
-      it.setField(((Field[])Conversions.unwrapArray(Iterables.<Field>filter(finalType.getMembers(), Field.class), Field.class))[0]);
+      it.setField(((Field[])Conversions.unwrapArray((Iterables.<Field>filter(finalType.getMembers(), Field.class)), Field.class))[0]);
       it.setValue(ValueAspect.copy(mean));
     };
     FieldBinding _doubleArrow_3 = ObjectExtensions.<FieldBinding>operator_doubleArrow(_createFieldBinding_3, _function_6);
@@ -238,6 +255,20 @@ public class NewUObjectAspect extends ExpressionAspect {
       it.setInstance(result);
     };
     return ObjectExtensions.<ObjectRefValue>operator_doubleArrow(_createObjectRefValue, _function);
+  }
+  
+  protected static Value _privk3_createMultChoices(final NewUObjectAspectNewUObjectAspectProperties _self_, final NewUObject _self, final State state, final InternalTypeDcl typeDcl, final TypeResolver typeResolver) {
+    ObjectInstance _createObjectInstance = ExecutionFactory.eINSTANCE.createObjectInstance();
+    final Procedure1<ObjectInstance> _function = (ObjectInstance it) -> {
+      it.setType(typeResolver.type(_self.getType()));
+    };
+    final ObjectInstance res = ObjectExtensions.<ObjectInstance>operator_doubleArrow(_createObjectInstance, _function);
+    state.getObjectsHeap().add(res);
+    ObjectRefValue _createObjectRefValue = ExecutionFactory.eINSTANCE.createObjectRefValue();
+    final Procedure1<ObjectRefValue> _function_1 = (ObjectRefValue it) -> {
+      it.setInstance(res);
+    };
+    return ObjectExtensions.<ObjectRefValue>operator_doubleArrow(_createObjectRefValue, _function_1);
   }
   
   protected static Value _privk3_createPoissBin(final NewUObjectAspectNewUObjectAspectProperties _self_, final NewUObject _self, final State state, final InternalTypeDcl typeDcl, final TypeResolver typeResolver) {

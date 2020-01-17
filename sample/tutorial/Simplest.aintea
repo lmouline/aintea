@@ -11,6 +11,6 @@ void main() {
 	DiracDeltaFct<double> c2 = new DiracDeltaFct<double>(12, 0.4);
 	possibilities[0] = c1;
 	possibilities[1] = c2;
-	
+		
 	print(load);
 }

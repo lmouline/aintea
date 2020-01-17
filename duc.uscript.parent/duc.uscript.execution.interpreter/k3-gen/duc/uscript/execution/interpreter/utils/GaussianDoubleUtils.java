@@ -119,7 +119,7 @@ public class GaussianDoubleUtils {
     EList<FieldBinding> _fieldbindings_2 = result.getFieldbindings();
     FieldBinding _createFieldBinding_2 = ExecutionFactory.eINSTANCE.createFieldBinding();
     final Procedure1<FieldBinding> _function_5 = (FieldBinding it) -> {
-      it.setField(((Field[])Conversions.unwrapArray(Iterables.<Field>filter(internalTypeDcl.getBernoulliClass(ctx).getMembers(), Field.class), Field.class))[0]);
+      it.setField(((Field[])Conversions.unwrapArray((Iterables.<Field>filter(internalTypeDcl.getBernoulliClass(ctx).getMembers(), Field.class)), Field.class))[0]);
       it.setValue(refDist);
     };
     FieldBinding _doubleArrow_2 = ObjectExtensions.<FieldBinding>operator_doubleArrow(_createFieldBinding_2, _function_5);
@@ -127,7 +127,7 @@ public class GaussianDoubleUtils {
     EList<FieldBinding> _fieldbindings_3 = result.getFieldbindings();
     FieldBinding _createFieldBinding_3 = ExecutionFactory.eINSTANCE.createFieldBinding();
     final Procedure1<FieldBinding> _function_6 = (FieldBinding it) -> {
-      it.setField(((Field[])Conversions.unwrapArray(Iterables.<Field>filter(finalType.getMembers(), Field.class), Field.class))[0]);
+      it.setField(((Field[])Conversions.unwrapArray((Iterables.<Field>filter(finalType.getMembers(), Field.class)), Field.class))[0]);
       DoubleValue _createDoubleValue = ExecutionFactory.eINSTANCE.createDoubleValue();
       final Procedure1<DoubleValue> _function_7 = (DoubleValue it_1) -> {
         it_1.setValue(doubleVal);

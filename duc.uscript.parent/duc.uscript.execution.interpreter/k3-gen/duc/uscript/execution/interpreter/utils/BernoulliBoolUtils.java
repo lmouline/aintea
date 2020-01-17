@@ -35,7 +35,7 @@ public class BernoulliBoolUtils {
     EList<FieldBinding> _fieldbindings = dist.getFieldbindings();
     FieldBinding _createFieldBinding = ExecutionFactory.eINSTANCE.createFieldBinding();
     final Procedure1<FieldBinding> _function_1 = (FieldBinding it) -> {
-      it.setField(((Field[])Conversions.unwrapArray(Iterables.<Field>filter(dist.getType().getMembers(), Field.class), Field.class))[0]);
+      it.setField(((Field[])Conversions.unwrapArray((Iterables.<Field>filter(dist.getType().getMembers(), Field.class)), Field.class))[0]);
       DoubleValue _createDoubleValue = ExecutionFactory.eINSTANCE.createDoubleValue();
       final Procedure1<DoubleValue> _function_2 = (DoubleValue it_1) -> {
         it_1.setValue(probValue);
@@ -60,7 +60,7 @@ public class BernoulliBoolUtils {
     EList<FieldBinding> _fieldbindings_1 = result.getFieldbindings();
     FieldBinding _createFieldBinding_1 = ExecutionFactory.eINSTANCE.createFieldBinding();
     final Procedure1<FieldBinding> _function_4 = (FieldBinding it) -> {
-      it.setField(((Field[])Conversions.unwrapArray(Iterables.<Field>filter(internalTypeDcl.getBernoulliClass(ctx).getMembers(), Field.class), Field.class))[0]);
+      it.setField(((Field[])Conversions.unwrapArray((Iterables.<Field>filter(internalTypeDcl.getBernoulliClass(ctx).getMembers(), Field.class)), Field.class))[0]);
       it.setValue(refDist);
     };
     FieldBinding _doubleArrow_1 = ObjectExtensions.<FieldBinding>operator_doubleArrow(_createFieldBinding_1, _function_4);
@@ -68,7 +68,7 @@ public class BernoulliBoolUtils {
     EList<FieldBinding> _fieldbindings_2 = result.getFieldbindings();
     FieldBinding _createFieldBinding_2 = ExecutionFactory.eINSTANCE.createFieldBinding();
     final Procedure1<FieldBinding> _function_5 = (FieldBinding it) -> {
-      it.setField(((Field[])Conversions.unwrapArray(Iterables.<Field>filter(finalType.getMembers(), Field.class), Field.class))[0]);
+      it.setField(((Field[])Conversions.unwrapArray((Iterables.<Field>filter(finalType.getMembers(), Field.class)), Field.class))[0]);
       BooleanValue _createBooleanValue = ExecutionFactory.eINSTANCE.createBooleanValue();
       final Procedure1<BooleanValue> _function_6 = (BooleanValue it_1) -> {
         it_1.setValue(boolVal);
