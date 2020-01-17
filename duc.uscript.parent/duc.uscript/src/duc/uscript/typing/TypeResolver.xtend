@@ -66,6 +66,7 @@ import duc.uscript.uScript.UTypeRef
 import duc.uscript.uScript.ComputeNbTrueExpr
 import duc.uscript.uScript.PoissonBinomialRef
 import duc.uscript.uScript.MultPossibilitiesRef
+import duc.uscript.uScript.UNumberRef
 
 class TypeResolver {
 	@Inject extension InternalTypeDcl
@@ -496,6 +497,16 @@ class TypeResolver {
 				switch r.genericType {
 					IntegerTypeRef: r.poissBinIntClass
 					default: r.poissBinClass
+				}
+			}
+			UNumberRef: {
+				switch r.genericType {
+					ByteTypeRef: r.uncertainNumericByteType
+					ShortTypeRef: r.uncertainNumericShortType
+					IntegerTypeRef: r.uncertainNumericIntType
+					FloatTypeRef: r.uncertainNumericFloatType
+					DoubleTypeRef: r.uncertainNumericDoubleType
+					default: r.uncertainNumericType
 				}
 			}
 			default: throw new RuntimeException('''Type not implemented in [Class type(TypeRef r)] function: «r»''')

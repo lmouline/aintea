@@ -3,14 +3,6 @@ package overview
 import aintea.lang.*
 
 void main() {
-	MultPossibilities<double> load = new MultPossibilities<double>();
-	
-	DiracDeltaFct<double>[] possibilities = new DiracDeltaFct<double>[2];
-	load.values = possibilities;
-	DiracDeltaFct<double> c1 = new DiracDeltaFct<double>(15, 0.6);
-	DiracDeltaFct<double> c2 = new DiracDeltaFct<double>(12, 0.4);
-	possibilities[0] = c1;
-	possibilities[1] = c2;
-		
-	print(load);
+	Gaussian<double> d = new Gaussian<double>(0., 0.);
+	UNumber<double> fdd = new DiracDeltaFct<double>(0.,0.);
 }

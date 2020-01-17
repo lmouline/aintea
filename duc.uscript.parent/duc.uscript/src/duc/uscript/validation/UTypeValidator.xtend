@@ -26,12 +26,14 @@ import com.google.inject.Inject
 import static extension duc.uscript.UScriptModelHelper.getFullQualifiedNamed
 import duc.uscript.uScript.PoissonBinomialRef
 import duc.uscript.uScript.MultPossibilitiesRef
+import duc.uscript.uScript.UNumberRef
 
 class UTypeValidator extends AbstractUScriptValidator{
 	@Inject extension TypeResolver
 	
 	public static val WRONG_UTYPE = "wrongUType"
 	public static val WRONG_UTYPE_CONSTRUCTOR = "wrongUTypeConstructor"
+	
 	
 	@Check
 	def checkBernoulliBool(BernoulliRef ber) {
@@ -193,6 +195,15 @@ class UTypeValidator extends AbstractUScriptValidator{
 	
 	private def dispatch checkUTypeCreation(PoissonBinomialRef type, NewUObject newUT) {
 		checkNbParam(newUT, "PoissonBinomial", 0)
+	}
+	
+	private def dispatch checkUTypeCreation(UNumberRef type, NewUObject newUT) {
+		error(
+			'''«type.syntax»<?> cannot be instanciated.''',
+			newUT,
+			UScriptPackage.Literals.NEW_UOBJECT__TYPE,
+			WRONG_UTYPE_CONSTRUCTOR
+			)
 	}
 	
 	private def boolean checkDiscreteNumParam(NewUObject newUT, int paramIdx, String distName) {

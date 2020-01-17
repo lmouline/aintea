@@ -70,6 +70,12 @@ class BernoulliBool extends BernoulliType {
 }
 
 class UncertainNumeric extends UncertainType{}
+class UncertainNumericFloat extends UncertainNumeric{}
+class UncertainNumericDouble extends UncertainNumeric{}
+class UncertainNumericShort extends UncertainNumeric{}
+class UncertainNumericByte extends UncertainNumeric{}
+class UncertainNumericInt extends UncertainNumeric{}
+class UncertainNumericLong extends UncertainNumeric{}
 
 class GaussianType extends UncertainNumeric {
 	GaussianDist confidence;
@@ -176,6 +182,3 @@ class MultPossibilitiesFloat extends MultPossibilitiesType {
 class MultPossibilitiesDouble extends MultPossibilitiesType {
 	DiracDeltaFct<double>[] values;
 }
-
-
-

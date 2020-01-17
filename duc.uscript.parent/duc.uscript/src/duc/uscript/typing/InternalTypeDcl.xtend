@@ -56,6 +56,12 @@ class InternalTypeDcl {
 	public static final String BERNOULLI_BOOL_TYPE = LIB_PACK + ".BernoulliBool"
 	
 	public static final String UNCERTAIN_NUMERIC_TYPE = LIB_PACK + ".UncertainNumeric"
+	public static final String UNCERTAIN_NUMERIC_SHORT_TYPE = LIB_PACK + ".UncertainNumericShort"
+	public static final String UNCERTAIN_NUMERIC_BYTE_TYPE = LIB_PACK + ".UncertainNumericByte"
+	public static final String UNCERTAIN_NUMERIC_INT_TYPE = LIB_PACK + ".UncertainNumericInt"
+	public static final String UNCERTAIN_NUMERIC_LONG_TYPE = LIB_PACK + ".UncertainNumericLong"
+	public static final String UNCERTAIN_NUMERIC_FLOAT_TYPE = LIB_PACK + ".UncertainNumericFloat"
+	public static final String UNCERTAIN_NUMERIC_DOUBLE_TYPE = LIB_PACK + ".UncertainNumericDouble"
 	
 	public static final String GAUSSIAN_TYPE = LIB_PACK + ".GaussianType"
 	public static final String GAUSSIAN_DOUBLE_TYPE = LIB_PACK + ".GaussianDouble"
@@ -89,8 +95,6 @@ class InternalTypeDcl {
 	public static final String MULTPOSS_LONG_TYPE = LIB_PACK + ".MultPossibilitiesLong"
 	public static final String MULTPOSS_FLOAT_TYPE = LIB_PACK + ".MultPossibilitiesFloat"
 	public static final String MULTPOSS_DOUBLE_TYPE = LIB_PACK + ".MultPossibilitiesDouble"
-
-	
 	
 	def Class getStringClass(EObject ctx) {
 		return ctx.getClassFromFqn(STRING_TYPE)
@@ -278,7 +282,35 @@ class InternalTypeDcl {
 		return ctx.getClassFromFqn(MULTPOSS_DOUBLE_TYPE)
 	}
 		
-	//
+	// UNumber
+	def Class getUncertainNumericType(EObject ctx) {
+		return ctx.getClassFromFqn(UNCERTAIN_NUMERIC_TYPE)
+	}
+	
+	def Class getUncertainNumericShortType(EObject ctx) {
+		return ctx.getClassFromFqn(UNCERTAIN_NUMERIC_SHORT_TYPE)
+	}
+	
+	def Class getUncertainNumericByteType(EObject ctx) {
+		return ctx.getClassFromFqn(UNCERTAIN_NUMERIC_BYTE_TYPE)
+	}
+	
+	def Class getUncertainNumericIntType(EObject ctx) {
+		return ctx.getClassFromFqn(UNCERTAIN_NUMERIC_INT_TYPE)
+	}
+	
+	def Class getUncertainNumericLongType(EObject ctx) {
+		return ctx.getClassFromFqn(UNCERTAIN_NUMERIC_LONG_TYPE)
+	}
+	
+	def Class getUncertainNumericFloatType(EObject ctx) {
+		return ctx.getClassFromFqn(UNCERTAIN_NUMERIC_FLOAT_TYPE)
+	}
+	
+	def Class getUncertainNumericDoubleType(EObject ctx) {
+		return ctx.getClassFromFqn(UNCERTAIN_NUMERIC_DOUBLE_TYPE)
+	}
+	
 	
 	def Class getArrayClass(EObject ctx) {
 		return ctx.getClassFromFqn(ARRAY_TYPE)

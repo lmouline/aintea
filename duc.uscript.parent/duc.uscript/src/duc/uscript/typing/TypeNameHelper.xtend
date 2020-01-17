@@ -18,6 +18,7 @@ import duc.uscript.uScript.BinomialRef
 import duc.uscript.uScript.DiracRef
 import duc.uscript.uScript.ClassRef
 import duc.uscript.uScript.ArrayTypeRef
+import duc.uscript.uScript.UNumberRef
 
 class TypeNameHelper {
 	static def dispatch String getSyntax(TypeRef type) {
@@ -86,6 +87,10 @@ class TypeNameHelper {
 	
 	static def dispatch String getSyntax(DiracRef type) {
 		return "DiracDeltaFct"
+	}
+	
+	static def dispatch String getSyntax(UNumberRef type) {
+		return "UNumber"
 	}
 	
 	static def dispatch String getSyntax(ClassRef type) {
