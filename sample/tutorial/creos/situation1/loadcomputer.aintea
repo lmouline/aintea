@@ -1,51 +1,57 @@
-package smartgrid.situation1
-
-import smartgrid.*
-import aintea.lang.*
-
-void computeLoad(Substation substation) {
-	Fuse[] subs_fuses = substation.fuses;
-	Fuse fuse = subs_fuses[0];
-	
-	Cable cable = fuse.cable;
-	
-	if(exist(fuse.isClosed, 1.) && !(fuse.isClosed[1])) { //confident that the fuse is open
-		substation.load = new Gaussian<double>(0., 0.0001);
-		cable.load = new Gaussian<double>(0., 0.0001);
-	} else {
-		Customer[] customers = cable.customers;
-		if(customers.length == 0) {
-			substation.load = new Gaussian<double>(0., 0.0001);
-			cable.load = new Gaussian<double>(0., 0.0001);
-		} else {
-			Customer c = customers[0];
-			cable.load = c.consumption;
-			
-			for(int i=1; i<customers.length; i=i+1) {
-				Customer c = customers[i];
-				cable.load = cable.load + c.consumption;
-			}
-			
-			Bernoulli<bool> isClosed = fuse.isClosed;
-			Bernoulli bern_isClosed = isClosed.confidence;
-			double prob_isClosed = bern_isClosed.probability;
-			
-			Gaussian<double> load = cable.load;
-			Gaussian gauss_load = load.confidence;
-			
-			// Way to propagate uncertainty from boolean to numbers
-			// This choice is arbitrary
-			// With the division, we increase the variance and so the range of values
-			// on which we have a confidence
-			gauss_load.variance = gauss_load.variance / prob_isClosed;
-		
-			substation.load = new Gaussian<double>(gauss_load.mean, gauss_load.variance);
-		}
-	}
-	
-	Fuse endFuse = cable.end;
-	Entity endEntity = endFuse.entity;
-	endEntity.load = new Gaussian<double>(0., 0.0001);
-	
-	
-}
+//package smartgrid.situation1
+//
+//import smartgrid.*
+//import aintea.lang.*
+//
+//void computeLoad(Substation substation) {
+//	Fuse[] subs_fuses = substation.fuses;
+//	Fuse fuse = subs_fuses[0];
+//	
+//	Cable cable = fuse.cable;
+//	
+//	if(exist(fuse.isClosed, 1.) && !(fuse.isClosed[1])) { //confident that the fuse is open
+//		substation.load = new DiracDeltaFct<double>(0., 1.);
+//		cable.load = new DiracDeltaFct<double>(0., 1.);
+//	} else {
+//		Customer[] customers = cable.customers;
+//		if(customers.length == 0) {
+//			substation.load = new DiracDeltaFct<double>(0., 1.);
+//			cable.load = new DiracDeltaFct<double>(0., 1.);
+//		} else {
+//			Customer c = customers[0];
+//			cable.load = c.consumption;
+//			
+//			for(int i=1; i<customers.length; i=i+1) {
+//				Customer c = customers[i];
+//				cable.load = cable.load + c.consumption;
+//			}
+//			
+////			Bernoulli<bool> isClosed = fuse.isClosed;
+////			Bernoulli bern_isClosed = isClosed.confidence;
+////			double prob_isClosed = bern_isClosed.probability;
+////			
+////			MultPossibilities<double> load = new MultPossibilities<double>();
+////			DiracDeltaFct<double>[] possibilities = new DiracDeltaFct<double>[2];
+////			load.possibilities = possibilities;
+////			
+////			DiracDeltaFct<double> closed = new DiracDeltaFct<double>();
+////			
+////			Gaussian<double> load = cable.load;
+////			Gaussian gauss_load = load.confidence;
+////			
+////			// Way to propagate uncertainty from boolean to numbers
+////			// This choice is arbitrary
+////			// With the division, we increase the variance and so the range of values
+////			// on which we have a confidence
+////			gauss_load.variance = gauss_load.variance / prob_isClosed;
+////		
+////			substation.load = new Gaussian<double>(gauss_load.mean, gauss_load.variance);
+//		}
+//	}
+//	
+//	Fuse endFuse = cable.end;
+//	Entity endEntity = endFuse.entity;
+//	endEntity.load = new Gaussian<double>(0., 0.0001);
+//	
+//	
+//}

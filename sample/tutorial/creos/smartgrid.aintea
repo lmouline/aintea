@@ -4,7 +4,7 @@ import aintea.lang.*
 
 class Entity {
 	Fuse[] fuses;
-	Gaussian<double> load;
+	UncertainNumeric load;
 }
 
 class Substation extends Entity {}
@@ -18,7 +18,7 @@ class Fuse {
 }
 
 class Cable{
-	Gaussian<double> load;
+	UncertainNumeric load;
 	Fuse start;
 	Fuse end;
 	Customer[] customers;

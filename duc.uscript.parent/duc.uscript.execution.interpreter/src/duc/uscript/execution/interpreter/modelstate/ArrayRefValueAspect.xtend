@@ -5,7 +5,6 @@ import duc.uscript.execution.ArrayRefValue
 import fr.inria.diverse.k3.al.annotationprocessor.OverrideAspectMethod
 import duc.uscript.execution.Value
 import duc.uscript.execution.ExecutionFactory
-import org.eclipse.emf.common.util.EList
 
 @Aspect(className=ArrayRefValue)
 class ArrayRefValueAspect extends ValueAspect{

@@ -54,6 +54,11 @@ class DiracDeltaFunction {
 	double confidence;
 }
 
+class PoissonBinomialDist {
+	double[] initBernProbs;
+	double[] probabilities;
+}
+
 class UncertainType {}
 
 class BernoulliType extends UncertainType {
@@ -138,52 +143,39 @@ class DiracDeltaFunctionFloat extends DiracDeltaFunctionType {
 	float value;
 }
 
-class MultPossibilitiesType extends UncertainNumeric {
-	double[] rootProbs;
+class PoissonBinomialType extends UncertainNumeric {
+	PoissonBinomialDist confidence;
 }
 
-class Possibility {
-	double confidence;
+class PoissonBinomialInt extends PoissonBinomialType {
+	int value;
 }
 
-class BytePossibility extends Possibility {
-	byte value;	
-}
-class MultPossibilitiesByte extends MultPossibilitiesType {
-	BytePossibility[] possibilities; 
-}
+class MultPossibilitiesType extends UncertainNumeric {}
 
-class ShortPossibility extends Possibility {
-	short value;	
-}
 class MultPossibilitiesShort extends MultPossibilitiesType {
-	ShortPossibility[] possibilities; 
+	DiracDeltaFct<short>[] values;
 }
 
-class IntPossibility extends Possibility {
-	int value;	
+class MultPossibilitiesByte extends MultPossibilitiesType {
+	DiracDeltaFct<byte>[] values;
 }
+
 class MultPossibilitiesInt extends MultPossibilitiesType {
-	IntPossibility[] possibilities; 
+	DiracDeltaFct<int>[] values;
 }
 
-class LongPossibility extends Possibility {
-	long value;	
-}
 class MultPossibilitiesLong extends MultPossibilitiesType {
-	LongPossibility[] possibilities; 
+	DiracDeltaFct<long>[] values;
 }
 
-class FloatPossibility extends Possibility {
-	float value;	
-}
 class MultPossibilitiesFloat extends MultPossibilitiesType {
-	FloatPossibility[] possibilities; 
+	DiracDeltaFct<float>[] values;
 }
 
-class DoublePossibility extends Possibility {
-	double value;	
-}
 class MultPossibilitiesDouble extends MultPossibilitiesType {
-	DoublePossibility[] possibilities; 
+	DiracDeltaFct<double>[] values;
 }
+
+
+

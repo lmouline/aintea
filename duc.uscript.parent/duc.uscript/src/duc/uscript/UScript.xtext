@@ -102,7 +102,7 @@ ClassRef:
 ;
 
 UTypeRef:
-	(GaussianRef | BernoulliRef | RayleighRef | BinomialRef | DiracRef | PoissonBinomialRef) ('<' genericType=SingleTypeRef '>')?
+	(GaussianRef | BernoulliRef | RayleighRef | BinomialRef | DiracRef | PoissonBinomialRef | MultPossibilitiesRef) ('<' genericType=SingleTypeRef '>')?
 ;
 
 GaussianRef:
@@ -129,9 +129,9 @@ PoissonBinomialRef:
 	{PoissonBinomialRef} 'PoissonBinomial'
 ;
 
-//MultPossibilitiesRef:
-//	{MultPossibilitiesRef} 'MultPossibilities'
-//;
+MultPossibilitiesRef:
+	{MultPossibilitiesRef} 'MultPossibilities'
+;
 
 VariableDeclaration:
 	typeRef=TypeRef name=ID

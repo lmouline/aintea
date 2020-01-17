@@ -11,7 +11,6 @@ import duc.uscript.execution.ObjectRefValue
 import duc.uscript.execution.ExecutionFactory
 import static extension duc.uscript.execution.interpreter.modelstate.StateAspect.*
 import static extension duc.uscript.execution.interpreter.expression.MethodAspect.*
-import static extension duc.uscript.execution.interpreter.modelstate.ValueAspect.copy
 
 @Aspect(className=MethodCall)
 class MethodCallAspect extends ExpressionAspect {

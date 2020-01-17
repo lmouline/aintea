@@ -3,27 +3,14 @@ package overview
 import aintea.lang.*
 
 void main() {
-	MultPossibilities<double> multInt = new MultPossibilities<double>();
-	multInt.possibilities = new DoublePossibility[3];
-	DoublePossibility[] intPoss = multInt.possibilities;
+	MultPossibilities<double> load = new MultPossibilities<double>();
 	
-	DoublePossibility i1 = new DoublePossibility();
-	i1.value = 14;
-	i1.confidence = 0.5;
-	intPoss[0] = i1;
+	DiracDeltaFct<double>[] possibilities = new DiracDeltaFct<double>[2];
+	load.values = possibilities;
+	DiracDeltaFct<double> c1 = new DiracDeltaFct<double>(15, 0.6);
+	DiracDeltaFct<double> c2 = new DiracDeltaFct<double>(12, 0.4);
+	possibilities[0] = c1;
+	possibilities[1] = c2;
 	
-	DoublePossibility i2 = new DoublePossibility();
-	i2.value = 24.5;
-	i2.confidence = 0.2;
-	intPoss[1] = i2;
-	
-	DoublePossibility i3 = new DoublePossibility();
-	i3.value = 25;
-	i3.confidence = 0.3;
-	intPoss[2] = i3;
-	
-	DoublePossibility[] intPoss2 = multInt.possibilities;
-	for(int i=0; i<intPoss2.length; i = i + 1) {
-		print(intPoss2[i]);
-	}
+	print(load);
 }

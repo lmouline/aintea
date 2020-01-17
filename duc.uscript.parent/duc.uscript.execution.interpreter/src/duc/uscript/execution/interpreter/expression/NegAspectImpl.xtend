@@ -9,7 +9,6 @@ import duc.uscript.execution.LongValue
 import duc.uscript.execution.IntegerValue
 import duc.uscript.execution.ByteValue
 import duc.uscript.execution.DoubleValue
-import javax.sound.sampled.FloatControl.Type
 import duc.uscript.execution.FloatValue
 
 @Aspect(className=Neg)

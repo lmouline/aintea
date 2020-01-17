@@ -24,3 +24,4 @@ Export-Package: duc.uscript.execution.interpreter,
  duc.uscript.execution.interpreter.expression,
  duc.uscript.execution.interpreter.modelstate,
  duc.uscript.execution.interpreter.statement
+Automatic-Module-Name: duc.uscript.execution.interpreter

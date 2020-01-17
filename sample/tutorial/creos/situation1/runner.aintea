@@ -1,51 +1,51 @@
-package smartgrid.situation1
-
-import smartgrid.*
-import smartgrid.situation1.*
-import aintea.lang.*
-
-void main() {
-	Substation subs = new Substation();
-	DeadEndCabinet end = new DeadEndCabinet();
-	
-	Cable cable = new Cable();
-	
-	Fuse fuse_subs = new Fuse();
-	fuse_subs.cable = cable;
-	fuse_subs.entity = subs;
-	fuse_subs.isClosed = new Bernoulli<bool>(true, 0.8);
-	cable.start = fuse_subs;
-	
-	Fuse[] subs_fuses = new Fuse[1];
-	subs_fuses[0] = fuse_subs;
-	subs.fuses = subs_fuses;
-	
-	
-	Fuse fuse_end = new Fuse();
-	fuse_end.cable = cable;
-	fuse_end.entity = end;
-	fuse_end.isClosed = new Bernoulli<bool>(true, 1.);
-	cable.end = fuse_end;
-	
-	Fuse[] end_fuses = new Fuse[1];
-	end_fuses[0] = fuse_end;
-	
-	Customer[] customers = new Customer[2];
-	cable.customers = customers;
-	Customer c = new Customer();
-	c.consumption = new Gaussian<double>(110., 12.);
-	customers[0] = c;
-	Customer c1 = new Customer();
-	c1.consumption = new Gaussian<double>(110., 12.);
-	customers[1] = c1;
-	
-	computeLoad(subs);
-	print(subs);
-	
-	Fuse[] fuses = subs.fuses;
-	Fuse f = fuses[0];
-	Cable cable1 = f.cable;
-	Fuse f2 = cable1.end;
-	print(f2.entity);
-	
-}
+//package smartgrid.situation1
+//
+//import smartgrid.*
+//import smartgrid.situation1.*
+//import aintea.lang.*
+//
+//void main() {
+//	Substation subs = new Substation();
+//	DeadEndCabinet end = new DeadEndCabinet();
+//	
+//	Cable cable = new Cable();
+//	
+//	Fuse fuse_subs = new Fuse();
+//	fuse_subs.cable = cable;
+//	fuse_subs.entity = subs;
+//	fuse_subs.isClosed = new Bernoulli<bool>(true, 0.8);
+//	cable.start = fuse_subs;
+//	
+//	Fuse[] subs_fuses = new Fuse[1];
+//	subs_fuses[0] = fuse_subs;
+//	subs.fuses = subs_fuses;
+//	
+//	
+//	Fuse fuse_end = new Fuse();
+//	fuse_end.cable = cable;
+//	fuse_end.entity = end;
+//	fuse_end.isClosed = new Bernoulli<bool>(true, 1.);
+//	cable.end = fuse_end;
+//	
+//	Fuse[] end_fuses = new Fuse[1];
+//	end_fuses[0] = fuse_end;
+//	
+//	Customer[] customers = new Customer[2];
+//	cable.customers = customers;
+//	Customer c = new Customer();
+//	c.consumption = new Gaussian<double>(110., 12.);
+//	customers[0] = c;
+//	Customer c1 = new Customer();
+//	c1.consumption = new Gaussian<double>(110., 12.);
+//	customers[1] = c1;
+//	
+//	computeLoad(subs);
+//	print(subs);
+//	
+//	Fuse[] fuses = subs.fuses;
+//	Fuse f = fuses[0];
+//	Cable cable1 = f.cable;
+//	Fuse f2 = cable1.end;
+//	print(f2.entity);
+//	
+//}

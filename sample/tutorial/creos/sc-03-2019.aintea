@@ -1,4 +1,4 @@
-// A simple example that compute add the consumption of two persons.
+// A simple example that adds the consumption of two persons.
 package smartgrid
 
 import uscript.lang.*

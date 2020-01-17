@@ -65,6 +65,7 @@ import duc.uscript.uScript.UScriptFactory
 import duc.uscript.uScript.UTypeRef
 import duc.uscript.uScript.ComputeNbTrueExpr
 import duc.uscript.uScript.PoissonBinomialRef
+import duc.uscript.uScript.MultPossibilitiesRef
 
 class TypeResolver {
 	@Inject extension InternalTypeDcl
@@ -395,7 +396,6 @@ class TypeResolver {
 	}
 	
 	def dispatch Class type(NewArray newArray) {
-//		newArray.getType.type
 		switch (newArray.getType) {
 			ByteTypeRef: newArray.byteArrayClass
 			ShortTypeRef: newArray.shortArrayClass
@@ -481,7 +481,7 @@ class TypeResolver {
 					default: r.bernoulliDistClass
 				}
 			}
-			/*MultPossibilitiesRef: {
+			MultPossibilitiesRef: {
 				switch r.genericType {
 					ByteTypeRef: r.multChoiceByteClass
 					ShortTypeRef: r.multChoiceShortClass
@@ -491,7 +491,7 @@ class TypeResolver {
 					FloatTypeRef: r.multChoiceFloatClass
 					default: r.multChoiceClass
 				}
-			}*/
+			}
 			PoissonBinomialRef: {
 				switch r.genericType {
 					IntegerTypeRef: r.poissBinIntClass
@@ -523,7 +523,18 @@ class TypeResolver {
 			BernoulliRef: {
 				switch(utypeRef.genericType) {
 					BooleanTypeRef: utypeRef.bernoulliBoolClass
-					default: throw new RuntimeException('''getOrCreateUClassRefType(UTypeRef utypeRef) not yet implemented for (Gaussian<«utypeRef.genericType»>)''')
+					default: throw new RuntimeException('''getOrCreateUClassRefType(UTypeRef utypeRef) not yet implemented for (Bernoulli<«utypeRef.genericType»>)''')
+				}
+			}
+			DiracRef: {
+				switch(utypeRef.genericType) {
+					ShortTypeRef: utypeRef.diracShortClass
+					ByteTypeRef: utypeRef.diracByteClass
+					IntegerTypeRef: utypeRef.diracIntClass
+					LongTypeRef: utypeRef.diracIntClass
+					FloatTypeRef: utypeRef.diracLongClass
+					DoubleTypeRef: utypeRef.diracDoubleClass
+					default: throw new RuntimeException('''getOrCreateUClassRefType(UTypeRef utypeRef) not yet implemented for (DiracDeltaFct<«utypeRef.genericType»>)''')
 				}
 			}
 			default: throw new RuntimeException('''getOrCreateUClassRefType(UTypeRef utypeRef) not yet implemented for («utypeRef»)''')

@@ -25,6 +25,7 @@ import duc.uscript.uScript.Class
 import com.google.inject.Inject
 import static extension duc.uscript.UScriptModelHelper.getFullQualifiedNamed
 import duc.uscript.uScript.PoissonBinomialRef
+import duc.uscript.uScript.MultPossibilitiesRef
 
 class UTypeValidator extends AbstractUScriptValidator{
 	@Inject extension TypeResolver
@@ -88,16 +89,25 @@ class UTypeValidator extends AbstractUScriptValidator{
 	}
 	
 	@Check
-	def checkDiracNbr(DiracRef bin) {
-		val genType = bin.genericType
+	def checkDiracNbr(DiracRef dirac) {
+		allNumType(dirac);
+	}
+	
+	@Check
+	def checkMultChoicesNbr(MultPossibilitiesRef mlt) {
+		allNumType(mlt);
+	}
+	
+	private def allNumType(UTypeRef typeRef) {
+		val genType = typeRef.genericType
 		
 		if(genType !== null) {
 			if(!(genType instanceof ShortTypeRef || genType instanceof IntegerTypeRef || genType instanceof LongTypeRef ||
 				genType instanceof FloatTypeRef || genType instanceof DoubleTypeRef || genType instanceof ByteTypeRef)) {
 					
 				error(
-					'''Dirac delta function distribution can only be applied on (short, int, long, float, double, byte). Actual: «genType.syntax»''',
-					bin,
+					'''MultipleChoice can only be applied on (short, int, long, float, double, byte). Actual: «genType.syntax»''',
+					typeRef,
 					UScriptPackage.Literals.UTYPE_REF__GENERIC_TYPE,
 					WRONG_UTYPE
 				)
@@ -105,23 +115,7 @@ class UTypeValidator extends AbstractUScriptValidator{
 		}
 	}
 	
-//	@Check
-//	def checkMultChoicesNbr(MultPossibilitiesRef mlt) {
-//		val genType = mlt.genericType
-//		
-//		if(genType !== null) {
-//			if(!(genType instanceof ShortTypeRef || genType instanceof IntegerTypeRef || genType instanceof LongTypeRef ||
-//				genType instanceof FloatTypeRef || genType instanceof DoubleTypeRef || genType instanceof ByteTypeRef)) {
-//					
-//				error(
-//					'''MultipleChoice can only be applied on (short, int, long, float, double, byte). Actual: «genType.syntax»''',
-//					mlt,
-//					UScriptPackage.Literals.UTYPE_REF__GENERIC_TYPE,
-//					WRONG_UTYPE
-//				)
-//			}
-//		}
-//	}
+	
 	@Check
 	def checkPoissBinNbr(PoissonBinomialRef bin) {
 		val genType = bin.genericType
@@ -193,9 +187,9 @@ class UTypeValidator extends AbstractUScriptValidator{
 		}
 	}
 	
-//	private def dispatch checkUTypeCreation(MultPossibilitiesRef type, NewUObject newUT) {
-//		checkNbParam(newUT, "MultipleChoice", 0)
-//	}
+	private def dispatch checkUTypeCreation(MultPossibilitiesRef type, NewUObject newUT) {
+		checkNbParam(newUT, "MultipleChoice", 0)
+	}
 	
 	private def dispatch checkUTypeCreation(PoissonBinomialRef type, NewUObject newUT) {
 		checkNbParam(newUT, "PoissonBinomial", 0)
