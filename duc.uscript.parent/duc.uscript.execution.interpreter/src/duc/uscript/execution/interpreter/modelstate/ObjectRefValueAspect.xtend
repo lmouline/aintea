@@ -24,12 +24,12 @@ class ObjectRefValueAspect extends ValueAspect {
 			val FieldBinding fBdg = fields.get(i)
 			val fieldName = fBdg.field.name
 			var String value;
-//			if(fBdg.value instanceof ObjectRefValue) {
-//				val ObjectRefValue casted = fBdg.value as ObjectRefValue
-//				value = casted.instance.type.name
-//			} else {
+			if(fBdg.value instanceof ObjectRefValue) {
+				val ObjectRefValue casted = fBdg.value as ObjectRefValue
+				value = casted.instance.type.name
+			} else {
 				value = fBdg.value.convertToString
-//			}
+			}
 			builder.append(fieldName + ":" + value)
 			
 			if(i<fields.size - 1) {

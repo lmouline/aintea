@@ -54,7 +54,14 @@ public class ObjectRefValueAspect extends ValueAspect {
         final FieldBinding fBdg = fields.get(i);
         final String fieldName = fBdg.getField().getName();
         String value = null;
-        value = ValueAspect.convertToString(fBdg.getValue());
+        Value _value = fBdg.getValue();
+        if ((_value instanceof ObjectRefValue)) {
+          Value _value_1 = fBdg.getValue();
+          final ObjectRefValue casted = ((ObjectRefValue) _value_1);
+          value = casted.getInstance().getType().getName();
+        } else {
+          value = ValueAspect.convertToString(fBdg.getValue());
+        }
         builder.append(((fieldName + ":") + value));
         int _size = fields.size();
         int _minus = (_size - 1);

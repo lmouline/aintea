@@ -96,6 +96,15 @@ class InternalTypeDcl {
 	public static final String MULTPOSS_FLOAT_TYPE = LIB_PACK + ".MultPossibilitiesFloat"
 	public static final String MULTPOSS_DOUBLE_TYPE = LIB_PACK + ".MultPossibilitiesDouble"
 	
+	public static final String POSSIBILITY_TYPE = LIB_PACK + ".Possibility"
+	public static final String POSSIBILITY_SHORT_TYPE = LIB_PACK + ".PossibilityShort";
+	public static final String POSSIBILITY_BYTE_TYPE = LIB_PACK + ".PossibilityByte";
+	public static final String POSSIBILITY_INT_TYPE = LIB_PACK + ".PossibilityInt";
+	public static final String POSSIBILITY_LONG_TYPE = LIB_PACK + ".PossibilityLong";
+	public static final String POSSIBILITY_FLOAT_TYPE = LIB_PACK + ".PossibilityFloat";
+	public static final String POSSIBILITY_DOUBLE_TYPE = LIB_PACK + ".PossibilityDouble";
+	
+	
 	def Class getStringClass(EObject ctx) {
 		return ctx.getClassFromFqn(STRING_TYPE)
 	}
@@ -311,6 +320,34 @@ class InternalTypeDcl {
 		return ctx.getClassFromFqn(UNCERTAIN_NUMERIC_DOUBLE_TYPE)
 	}
 	
+	// Possibility
+	def Class getPossibilityType(EObject ctx) {
+		return ctx.getClassFromFqn(POSSIBILITY_TYPE)
+	}
+	
+	def Class getPossibilityShortType(EObject ctx) {
+		return ctx.getClassFromFqn(POSSIBILITY_SHORT_TYPE)
+	}
+	
+	def Class getPossibilityByteType(EObject ctx) {
+		return ctx.getClassFromFqn(POSSIBILITY_BYTE_TYPE)
+	}
+	
+	def Class getPossibilityIntType(EObject ctx) {
+		return ctx.getClassFromFqn(POSSIBILITY_INT_TYPE)
+	}
+	
+	def Class getPossibilityLongType(EObject ctx) {
+		return ctx.getClassFromFqn(POSSIBILITY_LONG_TYPE)
+	}
+	
+	def Class getPossibilityFloatType(EObject ctx) {
+		return ctx.getClassFromFqn(POSSIBILITY_FLOAT_TYPE)
+	}
+	
+	def Class getPossibilityDoubleType(EObject ctx) {
+		return ctx.getClassFromFqn(POSSIBILITY_DOUBLE_TYPE)
+	}
 	
 	def Class getArrayClass(EObject ctx) {
 		return ctx.getClassFromFqn(ARRAY_TYPE)

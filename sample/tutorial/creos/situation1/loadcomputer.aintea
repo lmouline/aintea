@@ -19,11 +19,11 @@ void computeLoad(Substation substation) {
 			cable.load = new DiracDeltaFct<double>(0., 1.);
 		} else {
 			Customer c = customers[0];
-			cable.load = c.consumption;
+			Gaussian<double> gauss_sum = c.consumption;
 			
 			for(int i=1; i<customers.length; i=i+1) {
 				Customer c = customers[i];
-				cable.load = cable.load + c.consumption;
+				gauss_sum = gauss_sum + c.consumption;
 			}
 			
 			Bernoulli<bool> isClosed = fuse.isClosed;
@@ -31,30 +31,27 @@ void computeLoad(Substation substation) {
 			double prob_isClosed = bern_isClosed.probability;
 			
 			MultPossibilities<double> load = new MultPossibilities<double>();
-			DiracDeltaFct<double>[] possibilities = new DiracDeltaFct<double>[2];
+			PossibilityDouble[] possibilities = new PossibilityDouble[2];
 			load.values = possibilities;
 			
-//			Gaussian<double> load = cable.load;
+			PossibilityDouble p1 = new PossibilityDouble();//open
+			p1.value = new DiracDeltaFct<double>(0, 1); 
+			p1.confidence = 1-prob_isClosed;
+			possibilities[0] = p1;
 			
-			possibilities[0] = new DiracDeltaFct<double>(0, 1-prob_isClosed); //open
-			possibilities[1] = new DiracDeltaFct<double>(10, prob_isClosed); //closed
-//			
-//			Gaussian<double> load = cable.load;
-//			Gaussian gauss_load = load.confidence;
-//			
-//			// Way to propagate uncertainty from boolean to numbers
-//			// This choice is arbitrary
-//			// With the division, we increase the variance and so the range of values
-//			// on which we have a confidence
-//			gauss_load.variance = gauss_load.variance / prob_isClosed;
-//		
-//			substation.load = new Gaussian<double>(gauss_load.mean, gauss_load.variance);
+			PossibilityDouble p2 = new PossibilityDouble();//closed
+			p2.value = gauss_sum;
+			p2.confidence = prob_isClosed;
+			possibilities[1] = p2;
+			
+			cable.load = load;
+			substation.load = load;
 		}
 	}
 	
 	Fuse endFuse = cable.end;
 	Entity endEntity = endFuse.entity;
-	endEntity.load = new Gaussian<double>(0., 0.0001);
+	endEntity.load = new Gaussian<double>(0., 0);
 	
 	
 }
