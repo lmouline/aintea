@@ -83,61 +83,6 @@ class ComputeNbrTrueExprAspect extends ExpressionAspect {
 		])
 		
 		return ExecutionFactory::eINSTANCE.createObjectRefValue => [instance = poissBinInt]
-
-//		val multPossObjIns = ExecutionFactory::eINSTANCE.createObjectInstance => [
-//			type = dblMultPossObjType
-//		]
-//		multPossObjIns.fieldbindings.add(ExecutionFactory::eINSTANCE.createFieldBinding => [
-//			field = dblMultPossObjType.members.filter(Field).findFirst[it.name == "possibilities"]
-//			value = ExecutionFactory::eINSTANCE.createArrayRefValue => [instance = possibilitiesInstance]
-//		])
-//		val multPossType = internalTypeDcl.getMultChoiceClass(_self)
-//		multPossObjIns.fieldbindings.add(ExecutionFactory::eINSTANCE.createFieldBinding => [
-//			field = multPossType.members.filter(Field).findFirst[it.name == "rootProbs"]
-//			value = ExecutionFactory::eINSTANCE.createArrayRefValue => [instance = arrayProbs ]
-//		])
-//		
-//		state.objectsHeap.add(multPossObjIns)
-//		return ExecutionFactory::eINSTANCE.createObjectRefValue => [instance = multPossObjIns];
-		
-//		val intPossType = internalTypeDcl.getIntPossibilityClass(_self)
-//		val possType = internalTypeDcl.getPossibilityClass(_self)
-//		for(var i=0; i< probs.length; i++) {
-//			val probVal = ExecutionFactory::eINSTANCE.createObjectInstance => [
-//				type = intPossType
-//			]
-//			state.objectsHeap.add(probVal)
-//			
-//			val p = probs.get(i)
-//			val fi = i
-//			probVal.fieldbindings.add(ExecutionFactory::eINSTANCE.createFieldBinding => [
-//				field = possType.members.filter(Field).findFirst[ it.name == "confidence"]
-//				value = ExecutionFactory::eINSTANCE.createDoubleValue => [value = p]
-//			])
-//			probVal.fieldbindings.add(ExecutionFactory::eINSTANCE.createFieldBinding => [
-//				field = intPossType.members.filter(Field).findFirst[it.name == "value"]
-//				value = ExecutionFactory::eINSTANCE.createIntegerValue => [value = fi]
-//			])
-//			possibilitiesInstance.value.add(ExecutionFactory::eINSTANCE.createObjectRefValue => [instance = probVal])
-//		}
-		
-		// General obj
-//		val dblMultPossObjType = internalTypeDcl.getMultChoiceDoubleClass(_self)
-//		val multPossObjIns = ExecutionFactory::eINSTANCE.createObjectInstance => [
-//			type = dblMultPossObjType
-//		]
-//		multPossObjIns.fieldbindings.add(ExecutionFactory::eINSTANCE.createFieldBinding => [
-//			field = dblMultPossObjType.members.filter(Field).findFirst[it.name == "possibilities"]
-//			value = ExecutionFactory::eINSTANCE.createArrayRefValue => [instance = possibilitiesInstance]
-//		])
-//		val multPossType = internalTypeDcl.getMultChoiceClass(_self)
-//		multPossObjIns.fieldbindings.add(ExecutionFactory::eINSTANCE.createFieldBinding => [
-//			field = multPossType.members.filter(Field).findFirst[it.name == "rootProbs"]
-//			value = ExecutionFactory::eINSTANCE.createArrayRefValue => [instance = arrayProbs ]
-//		])
-//		
-//		state.objectsHeap.add(multPossObjIns)
-//		return ExecutionFactory::eINSTANCE.createObjectRefValue => [instance = multPossObjIns];
 	}
 	
 	private def ArrayInstance bernArrayToDoubleArray(ArrayRefValue bernArray, int[] sum) {
