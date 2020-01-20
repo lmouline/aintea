@@ -92,15 +92,15 @@ class UTypeValidator extends AbstractUScriptValidator{
 	
 	@Check
 	def checkDiracNbr(DiracRef dirac) {
-		allNumType(dirac);
+		allNumType(dirac, "Dirac delta function distribution");
 	}
 	
 	@Check
 	def checkMultChoicesNbr(MultPossibilitiesRef mlt) {
-		allNumType(mlt);
+		allNumType(mlt, "MultipleChoice");
 	}
 	
-	private def allNumType(UTypeRef typeRef) {
+	private def allNumType(UTypeRef typeRef, String distName) {
 		val genType = typeRef.genericType
 		
 		if(genType !== null) {
@@ -108,7 +108,7 @@ class UTypeValidator extends AbstractUScriptValidator{
 				genType instanceof FloatTypeRef || genType instanceof DoubleTypeRef || genType instanceof ByteTypeRef)) {
 					
 				error(
-					'''MultipleChoice can only be applied on (short, int, long, float, double, byte). Actual: «genType.syntax»''',
+					'''«distName» can only be applied on (short, int, long, float, double, byte). Actual: «genType.syntax»''',
 					typeRef,
 					UScriptPackage.Literals.UTYPE_REF__GENERIC_TYPE,
 					WRONG_UTYPE
