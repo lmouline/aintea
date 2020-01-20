@@ -42,7 +42,7 @@ class TestNewUObject {
 		
 		script.initialize(MOCK_OUT)
 		val state = script.execute
-		val expected = '''«distTypeName»«type.toFirstUpper»(confidence:«distName»(«paramName1»:5, «paramName2»:0.5), value:5)'''
+		val expected = '''«distTypeName»«type.toFirstUpper»(confidence:«distName», value:5)'''
 		assertArrayEquals(#[expected],state.outputStream.stream.toArray)
 	}
 	
@@ -96,8 +96,8 @@ class TestNewUObject {
 		
 		script.initialize(MOCK_OUT)
 		val state = script.execute
-		val expected1 = '''BernoulliBool(confidence:BernoulliDist(probability:0.6), value:true)'''
-		val expected2 = '''BernoulliBool(confidence:BernoulliDist(probability:0.4), value:false)'''
+		val expected1 = '''BernoulliBool(confidence:BernoulliDist, value:true)'''
+		val expected2 = '''BernoulliBool(confidence:BernoulliDist, value:false)'''
 		assertArrayEquals(#[expected1, expected2],state.outputStream.stream.toArray)
 	}
 }

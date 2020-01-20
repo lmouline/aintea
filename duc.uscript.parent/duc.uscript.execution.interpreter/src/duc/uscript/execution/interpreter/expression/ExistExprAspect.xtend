@@ -26,12 +26,6 @@ class ExistExprAspect extends ExpressionAspect {
 		
 		return exist(_self, uData, confidence.value)
 		
-//		val String name = uData.instance.type
-//		
-//		switch(name) {
-//			case InternalTypeDcl.BERNOULLI_BOOL_TYPE: return exist(_self, uData, confidence.value)
-//			default: throw new RuntimeException("ExistExprAspect.evaluateExpression not implemented for " + name)
-//		}
 	}
 	
 	private static def BooleanValue exist(ObjectRefValue bernRef, double conf) {

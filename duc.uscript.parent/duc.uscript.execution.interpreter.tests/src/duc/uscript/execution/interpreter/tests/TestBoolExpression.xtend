@@ -133,15 +133,15 @@ class TestBoolExpression {
 		script.initialize(DEFAULT_OUT)
 		val State state = script.execute
 		
-		val String trueTrue = '''BernoulliBool(confidence:BernoulliDist(probability:«expected1.get(0)»), value:«expectedBool.get(0)»)'''
-		val String trueFalse = '''BernoulliBool(confidence:BernoulliDist(probability:«expected1.get(1)»), value:«expectedBool.get(1)»)'''
-		val String falseTrue = '''BernoulliBool(confidence:BernoulliDist(probability:«expected1.get(2)»), value:«expectedBool.get(2)»)'''
-		val String falseFalse = '''BernoulliBool(confidence:BernoulliDist(probability:«expected1.get(3)»), value:«expectedBool.get(3)»)'''
+		val String trueTrue = '''BernoulliBool(confidence:BernoulliDist, value:«expectedBool.get(0)»)'''
+		val String trueFalse = '''BernoulliBool(confidence:BernoulliDist, value:«expectedBool.get(1)»)'''
+		val String falseTrue = '''BernoulliBool(confidence:BernoulliDist, value:«expectedBool.get(2)»)'''
+		val String falseFalse = '''BernoulliBool(confidence:BernoulliDist, value:«expectedBool.get(3)»)'''
 		
-		val String trueTrue1 = '''BernoulliBool(confidence:BernoulliDist(probability:«expected2.get(0)»), value:«expectedBool.get(0)»)'''
-		val String trueFalse1 = '''BernoulliBool(confidence:BernoulliDist(probability:«expected2.get(1)»), value:«expectedBool.get(1)»)'''
-		val String falseTrue1 = '''BernoulliBool(confidence:BernoulliDist(probability:«expected2.get(2)»), value:«expectedBool.get(2)»)'''
-		val String falseFalse1 = '''BernoulliBool(confidence:BernoulliDist(probability:«expected2.get(3)»), value:«expectedBool.get(3)»)'''
+		val String trueTrue1 = '''BernoulliBool(confidence:BernoulliDist, value:«expectedBool.get(0)»)'''
+		val String trueFalse1 = '''BernoulliBool(confidence:BernoulliDist, value:«expectedBool.get(1)»)'''
+		val String falseTrue1 = '''BernoulliBool(confidence:BernoulliDist, value:«expectedBool.get(2)»)'''
+		val String falseFalse1 = '''BernoulliBool(confidence:BernoulliDist, value:«expectedBool.get(3)»)'''
 		
 		assertArrayEquals(#[trueTrue, trueFalse, falseTrue, falseFalse,
 							trueTrue1, trueFalse1, falseTrue1, falseFalse1,
@@ -196,8 +196,8 @@ class TestBoolExpression {
 		script.initialize(DEFAULT_OUT)
 		val State state = script.execute
 		assertArrayEquals(
-			#["BernoulliBool(confidence:BernoulliDist(probability:0.6), value:false)", 
-				"BernoulliBool(confidence:BernoulliDist(probability:0.8), value:true)"], 
+			#["BernoulliBool(confidence:BernoulliDist, value:false)", 
+				"BernoulliBool(confidence:BernoulliDist, value:true)"], 
 			state.outputStream.stream.toArray
 		)
 	}

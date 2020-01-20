@@ -64,6 +64,16 @@ public class AndAspect extends ExpressionAspect {
     return (duc.uscript.execution.ObjectRefValue)result;
   }
   
+  private static BooleanValue private_and(final And _self, final BooleanValue x, final BooleanValue y) {
+    final duc.uscript.execution.interpreter.expression.bool.AndAspectAndAspectProperties _self_ = duc.uscript.execution.interpreter.expression.bool.AndAspectAndAspectContext.getSelf(_self);
+    Object result = null;
+    // #DispatchPointCut_before# BooleanValue private_and(BooleanValue,BooleanValue)
+    if (_self instanceof duc.uscript.uScript.And){
+    	result = duc.uscript.execution.interpreter.expression.bool.AndAspect._privk3_private_and(_self_, (duc.uscript.uScript.And)_self,x,y);
+    };
+    return (duc.uscript.execution.BooleanValue)result;
+  }
+  
   private static ObjectRefValue private_and(final And _self, final ObjectRefValue x, final ObjectRefValue y, final State state) {
     final duc.uscript.execution.interpreter.expression.bool.AndAspectAndAspectProperties _self_ = duc.uscript.execution.interpreter.expression.bool.AndAspectAndAspectContext.getSelf(_self);
     Object result = null;
@@ -133,37 +143,17 @@ public class AndAspect extends ExpressionAspect {
   
   protected static Value _privk3_evaluateExpression(final AndAspectAndAspectProperties _self_, final And _self, final State state) {
     final Value left = ExpressionAspect.evaluateExpression(_self.getLeft(), state);
+    final Value right = ExpressionAspect.evaluateExpression(_self.getRight(), state);
     Value _switchResult = null;
     boolean _matched = false;
     if (left instanceof BooleanValue) {
       _matched=true;
-      Value _xifexpression = null;
-      boolean _isValue = ((BooleanValue)left).isValue();
-      if (_isValue) {
-        Value _xblockexpression = null;
-        {
-          final Value right = ExpressionAspect.evaluateExpression(_self.getRight(), state);
-          _xblockexpression = AndAspect.rightDispatch(_self, ((BooleanValue)left), right, state);
-        }
-        _xifexpression = _xblockexpression;
-      } else {
-        BooleanValue _createBooleanValue = ExecutionFactory.eINSTANCE.createBooleanValue();
-        final Procedure1<BooleanValue> _function = (BooleanValue it) -> {
-          it.setValue(false);
-        };
-        _xifexpression = ObjectExtensions.<BooleanValue>operator_doubleArrow(_createBooleanValue, _function);
-      }
-      _switchResult = _xifexpression;
+      _switchResult = AndAspect.rightDispatch(_self, ((BooleanValue)left), right, state);
     }
     if (!_matched) {
       if (left instanceof ObjectRefValue) {
         _matched=true;
-        ObjectRefValue _xblockexpression = null;
-        {
-          final Value right = ExpressionAspect.evaluateExpression(_self.getRight(), state);
-          _xblockexpression = AndAspect.rightDispatch(_self, ((ObjectRefValue)left), right, state);
-        }
-        _switchResult = _xblockexpression;
+        _switchResult = AndAspect.rightDispatch(_self, ((ObjectRefValue)left), right, state);
       }
     }
     if (!_matched) {
@@ -179,11 +169,7 @@ public class AndAspect extends ExpressionAspect {
     boolean _matched = false;
     if (right instanceof BooleanValue) {
       _matched=true;
-      BooleanValue _createBooleanValue = ExecutionFactory.eINSTANCE.createBooleanValue();
-      final Procedure1<BooleanValue> _function = (BooleanValue it) -> {
-        it.setValue(((BooleanValue)right).isValue());
-      };
-      _switchResult = ObjectExtensions.<BooleanValue>operator_doubleArrow(_createBooleanValue, _function);
+      _switchResult = AndAspect.private_and(_self, ((BooleanValue)right), left);
     }
     if (!_matched) {
       if (right instanceof ObjectRefValue) {
@@ -218,6 +204,14 @@ public class AndAspect extends ExpressionAspect {
       throw new RuntimeException(_plus);
     }
     return _switchResult;
+  }
+  
+  protected static BooleanValue _privk3_private_and(final AndAspectAndAspectProperties _self_, final And _self, final BooleanValue x, final BooleanValue y) {
+    BooleanValue _createBooleanValue = ExecutionFactory.eINSTANCE.createBooleanValue();
+    final Procedure1<BooleanValue> _function = (BooleanValue it) -> {
+      it.setValue((x.isValue() && y.isValue()));
+    };
+    return ObjectExtensions.<BooleanValue>operator_doubleArrow(_createBooleanValue, _function);
   }
   
   protected static ObjectRefValue _privk3_private_and(final AndAspectAndAspectProperties _self_, final And _self, final ObjectRefValue x, final ObjectRefValue y, final State state) {
