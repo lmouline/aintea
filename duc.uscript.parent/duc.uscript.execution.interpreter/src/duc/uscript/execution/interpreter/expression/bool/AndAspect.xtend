@@ -28,12 +28,21 @@ class AndAspect extends ExpressionAspect{
 	@OverrideAspectMethod
 	def Value evaluateExpression(State state) {
 		val Value left = _self.left.evaluateExpression(state)
-		val Value right = _self.right.evaluateExpression(state)
 		
 		//Left dispatch		
 		return switch(left) {
-			BooleanValue: rightDispatch(_self, left, right, state)
-			ObjectRefValue: rightDispatch(_self, left, right, state)
+			BooleanValue: {
+				if(left.value) {
+					val Value right = _self.right.evaluateExpression(state)
+					rightDispatch(_self, left, right, state)
+				} else {
+					ExecutionFactory::eINSTANCE.createBooleanValue => [value = false]
+				}
+			}
+			ObjectRefValue: {
+				val Value right = _self.right.evaluateExpression(state)
+				rightDispatch(_self, left, right, state)
+			}
 			default: throw new RuntimeException("Not yet implemented for " + left.class.name)
 		}
 	}
@@ -41,7 +50,7 @@ class AndAspect extends ExpressionAspect{
 	//Right dispatch
 	private static def Value rightDispatch(BooleanValue left, Value right, State state) {
 		return switch(right) {
-			BooleanValue: private_and(_self, left, right)
+			BooleanValue: ExecutionFactory::eINSTANCE.createBooleanValue => [value = right.value]
 			ObjectRefValue: private_and(_self, right, left, state)
 			default: throw new RuntimeException("Not yet implemented for " + right.class.name)
 		}
@@ -56,11 +65,11 @@ class AndAspect extends ExpressionAspect{
 	}
 	
 	// All possible combination
-	private static def BooleanValue private_and(BooleanValue x, BooleanValue y) {
-		return ExecutionFactory::eINSTANCE.createBooleanValue => [
-			value = x.value && y.value
-		]
-	}
+//	private static def BooleanValue private_and(BooleanValue x, BooleanValue y) {
+//		return ExecutionFactory::eINSTANCE.createBooleanValue => [
+//			value = x.value && y.value
+//		]
+//	}
 	
 	private static def ObjectRefValue private_and(ObjectRefValue x, ObjectRefValue y, State state) {
 		val valX = getValue(x)
